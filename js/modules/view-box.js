@@ -1,6 +1,9 @@
+/*jslint es6: true */
+/*jshint esversion: 6 */
 /**
  * See LICENSE.md file for further details.
  */
+
 import { config } from "./config";
 
 const minHeight = 500;

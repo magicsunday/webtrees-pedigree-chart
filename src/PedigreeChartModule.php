@@ -189,7 +189,7 @@ class PedigreeChartModule extends AbstractModule implements ModuleChartInterface
         ];
 
         return $this->viewResponse(
-            'pedigree-chart',
+            'webtrees-pedigree-chart',
             [
                 'rtl'         => I18N::direction() === 'rtl',
                 'title'       => $title,
@@ -242,6 +242,12 @@ class PedigreeChartModule extends AbstractModule implements ModuleChartInterface
         $fullName        = $this->unescapedHtml($individual->getFullName());
         $alternativeName = $this->unescapedHtml($individual->getAddName());
 
+        if ($individual->canShow() && $individual->getTree()->getPreference('SHOW_HIGHLIGHT_IMAGES')) {
+            $thumbnail = $individual->displayImage(40, 50, 'crop', []);
+        } else {
+            $thumbnail = '';
+        }
+
         return [
             'id'              => 0,
             'xref'            => $individual->getXref(),
@@ -249,6 +255,7 @@ class PedigreeChartModule extends AbstractModule implements ModuleChartInterface
             'name'            => $fullName,
             'alternativeName' => $alternativeName,
             'isAltRtl'        => $this->isRtl($alternativeName),
+            'thumbnail'       => $thumbnail,
             'sex'             => $individual->getSex(),
             'born'            => $this->unescapedHtml($individual->getBirthDate()->display()),
             'died'            => $this->unescapedHtml($individual->getDeathDate()->display()),

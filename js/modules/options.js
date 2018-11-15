@@ -1,16 +1,32 @@
+/*jslint es6: true */
+/*jshint esversion: 6 */
 /**
  * See LICENSE.md file for further details.
  */
-import * as d3 from './d3'
 
-export class Options {
+/**
+ * Option class.
+ */
+export class Options
+{
+    /**
+     * Constructor.
+     *
+     * @param individualUrl
+     * @param updateUrl
+     * @param labels
+     * @param generations
+     * @param defaultColor
+     * @param fontColor
+     * @param rtl
+     */
     constructor(
         individualUrl,
         updateUrl,
         labels,
         generations  = 3,
-        defaultColor = '#eee',
-        fontColor    = '#000',
+        defaultColor = "#eee",
+        fontColor    = "#000",
         rtl          = false
     ) {
         this.data = null;

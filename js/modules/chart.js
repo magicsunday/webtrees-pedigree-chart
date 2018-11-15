@@ -1,18 +1,24 @@
+/*jslint es6: true */
+/*jshint esversion: 6 */
 /**
  * See LICENSE.md file for further details.
  */
+
 import { config } from "./config";
 import { Tree } from "./tree";
+import initZoom from "./zoom";
 import * as d3 from "./d3";
 
 /**
  * Initialize the chart.
  *
+ * @param {Array} data The ancestor data to display
+ *
  * @public
  */
 export function initChart(data)
 {
-    let margin = { top: 20, right: 90, bottom: 30, left: 90 },
+    let margin = { top: 20, right: 20, bottom: 20, left: 20 },
         width  = 960 - margin.left - margin.right,
         height = 960 - margin.top - margin.bottom;
 
@@ -37,20 +43,11 @@ export function initChart(data)
         .call(zoom)
 
         .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        .attr("transform", "translate(" + 150 + "," + (height / 2) + ")");
 
-    var ancestorTree = new Tree(config.svg, "ancestor", 1, width, height, data);
+    let ancestorTree = new Tree(config.svg, 1, data);
 
     // Draw the tree
     ancestorTree.draw();
 }
 
-function initZoom()
-{
-    // Setup zoom and pan
-    return d3.zoom()
-        .scaleExtent([0.1, 10.0])
-        .on("zoom", function() {
-            config.svg.attr("transform", d3.event.transform);
-        });
-}

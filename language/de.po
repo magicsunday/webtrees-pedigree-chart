@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Pedigree chart\n"
+"POT-Creation-Date: 2018-11-16 20:00+0100\n"
+"PO-Revision-Date: 2018-11-16 20:01+0100\n"
+"Last-Translator: Rico Sonntag <mail@ricosonntag.de>\n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.5\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: translate;doShowTooltipOverlay\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: node_modules\n"
+"X-Poedit-SearchPathExcluded-1: .git\n"
+"X-Poedit-SearchPathExcluded-2: css\n"
+"X-Poedit-SearchPathExcluded-3: language\n"
+
+#: src/PedigreeChartModule.php:87 src/PedigreeChartModule.php:164
+msgid "Pedigree chart"
+msgstr "Ahnentafel"
+
+#: src/PedigreeChartModule.php:97
+msgid "A pedigree chart of an individual."
+msgstr "Eine Ahnentafel einer Person."
+
+#: src/PedigreeChartModule.php:167
+#, php-format
+msgid "Pedigree chart of %s"
+msgstr "Ahnentafel von %s"
+
+#: src/PedigreeChartModule.php:186
+msgid "Use Ctrl + scroll to zoom in the view"
+msgstr "Verwende Strg+Scrollen zum Zoomen der Ansicht"
+
+#: src/PedigreeChartModule.php:187
+msgid "Move the view with two fingers"
+msgstr "Verschieben der Ansicht mit zwei Fingern"
+
+#: resources/views/webtrees-pedigree-chart.phtml:27
+msgid "Individual"
+msgstr "Person"
+
+#: resources/views/webtrees-pedigree-chart.phtml:38
+msgid "Generations"
+msgstr "Generationen"
+
+#: resources/views/webtrees-pedigree-chart.phtml:59
+msgid "view"
+msgstr "Anzeigen"
+
+#: resources/views/webtrees-pedigree-chart.phtml:60
+msgid "reset"
+msgstr "Zurücksetzen"
