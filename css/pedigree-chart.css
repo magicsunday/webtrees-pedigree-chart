@@ -1,0 +1,135 @@
+#page-pedigree #pedigree_chart {
+	position: relative;
+/*
+	font-family: Verdana,sans-serif;
+*/
+}
+
+#page-pedigree svg {
+	display: block;
+	margin: auto;
+	cursor: grab;
+	cursor: -webkit-grab;
+/*
+	-webkit-filter: drop-shadow(3px 1px 3px rgba(0, 0, 0, 0.4));
+	filter: drop-shadow(3px 1px 3px rgba(0, 0, 0, 0.4));
+*/
+}
+
+.person rect {
+	fill: #fff;
+	stroke: steelblue;
+	stroke-width: 1px;
+}
+.person {
+	font: 14px sans-serif;
+}
+
+.link {
+	fill: none;
+	stroke: red;
+	stroke-width: 1.5px;
+}
+
+#page-pedigree svg rect {
+	fill: none;
+	stroke-width: 1.5px;
+	stroke: #636363;
+}
+
+#page-pedigree .rtl {
+    direction: rtl !important;
+    unicode-bidi: bidi-override !important;
+}
+
+#page-pedigree svg:active {
+	cursor: grabbing;
+	cursor: -webkit-grabbing;
+}
+
+#page-pedigree svg text {
+	font-weight: bold;
+}
+
+/* Unset any style from our transition helper classes */
+#page-pedigree svg .new,
+#page-pedigree svg .remove,
+#page-pedigree svg .update,
+#page-pedigree svg .old {
+	all: unset;
+}
+
+#page-pedigree svg .person.available {
+	cursor: pointer;
+}
+
+#page-pedigree svg .person .arc path {
+	fill: rgb(240, 240, 240);
+	stroke: rgb(225, 225, 225);
+	stroke-width: 2px;
+}
+
+#page-pedigree svg .person.hover .arc path {
+	fill: rgb(250, 250, 250);
+}
+
+#page-pedigree svg .person.available .arc path {
+	fill: rgb(250, 250, 250);
+}
+
+#page-pedigree svg .person.available.hover .arc path {
+	fill: rgb(240, 240, 240);
+}
+
+#page-pedigree svg .label {
+	font-weight: normal;
+}
+
+#page-pedigree svg .label .alternativeName {
+    fill: #7f7f7f;
+    font-weight: normal;
+    direction: ltr;
+    unicode-bidi: normal;
+}
+
+#page-pedigree svg .label .date {
+    fill: #7f7f7f;
+    font-weight: normal;
+    direction: ltr;
+    unicode-bidi: plaintext;
+}
+
+#page-pedigree svg rect.background {
+	fill: none;
+	pointer-events: all;
+}
+
+#page-pedigree div.overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	text-align: center;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font: 10px sans-serif;
+	background: rgba(0, 0, 0, 0.5);
+	pointer-events: none;
+	transition: opacity ease-in-out;
+	transition-duration: 0s;
+}
+
+#page-pedigree div.overlay .tooltip {
+	font-size: 22px;
+	color: white;
+	position: relative;
+	margin: 0;
+	top: 50%;
+	-webkit-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+	opacity: 1;
+	text-align: center;
+}

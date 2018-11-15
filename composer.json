@@ -1,0 +1,31 @@
+{
+    "name": "magicsunday/webtrees-pedigree-chart",
+    "description": "This modules provides an SVG pedigree chart for the [webtrees](https://www.webtrees.net) genealogy application.",
+    "license": "GPL-3.0-or-later",
+    "type": "webtrees-module",
+    "keywords": [
+        "webtrees",
+        "module",
+        "pedigree",
+        "chart"
+    ],
+    "authors": [
+        {
+            "name": "Rico Sonntag",
+            "email": "mail@ricosonntag.de",
+            "homepage": "https://ricosonntag.de",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "MagicSunday\\Webtrees\\": "src/"
+        }
+    },
+    "require": {
+        "php": "~7.0",
+        "ext-json": "*",
+        "fisharebest/webtrees": "~2.0 || dev-master",
+        "magicsunday/webtrees-module-installer-plugin": "~1.0"
+    }
+}
