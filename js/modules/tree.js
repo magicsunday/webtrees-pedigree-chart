@@ -166,6 +166,13 @@ export class Tree
      */
     getName(data)
     {
+        let splitted = data.data.name.split(" ");
+        let length   = splitted.length;
+
+        splitted[0] = splitted[0].substring(0, 1) + ".";
+
+        return splitted.join(" ");
+
         return data.data.name;
     }
 
