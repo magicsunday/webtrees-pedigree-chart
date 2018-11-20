@@ -71,13 +71,6 @@ class PedigreeChartModule extends AbstractModule implements ModuleChartInterface
     private $tree;
 
     /**
-     * Number of generations to display.
-     *
-     * @var int
-     */
-    private $generations = 3;
-
-    /**
      * How should this module be labelled on tabs, menus, etc.?
      *
      * @return string
@@ -167,21 +160,15 @@ class PedigreeChartModule extends AbstractModule implements ModuleChartInterface
             $title = I18N::translate('Pedigree chart of %s', $individual->getFullName());
         }
 
-        // Get default number of generations to display
-        $defaultGenerations = $this->tree->getPreference('DEFAULT_PEDIGREE_GENERATIONS');
-
-        // Extract the request parameters
-        $this->generations = (int) $request->get('generations', $defaultGenerations);
-        $this->generations = min($this->generations, self::MAX_GENERATIONS);
-        $this->generations = max($this->generations, self::MIN_GENERATIONS);
+        $generations = $this->getGeneration($request);
 
         $chartParams = [
             'rtl'           => I18N::direction() === 'rtl',
-            'generations'   => $this->generations,
+            'generations'   => $generations,
             'defaultColor'  => $this->getColor(),
             'fontColor'     => $this->getChartFontColor(),
             'individualUrl' => $this->getIndividualRoute(),
-            'data'          => $this->buildJsonTree($individual),
+            'data'          => $this->buildJsonTree(1, $generations, $individual),
             'labels'        => [
                 'zoom' => I18N::translate('Use Ctrl + scroll to zoom in the view'),
                 'move' => I18N::translate('Move the view with two fingers'),
@@ -195,10 +182,26 @@ class PedigreeChartModule extends AbstractModule implements ModuleChartInterface
                 'title'       => $title,
                 'individual'  => $individual,
                 'tree'        => $this->tree,
-                'generations' => $this->generations,
+                'generations' => $generations,
                 'chartParams' => json_encode($chartParams),
             ]
         );
+    }
+
+    /**
+     * Returns the current generation.
+     *
+     * @param Request $request The request
+     *
+     * @return int
+     */
+    private function getGeneration(Request $request)
+    {
+        // Get default number of generations to display
+        $default     = $this->tree->getPreference('DEFAULT_PEDIGREE_GENERATIONS');
+        $generations = (int) $request->get('generations', $default);
+
+        return max(min($generations, self::MAX_GENERATIONS), self::MIN_GENERATIONS);
     }
 
     /**
@@ -257,8 +260,8 @@ class PedigreeChartModule extends AbstractModule implements ModuleChartInterface
             'isAltRtl'        => $this->isRtl($alternativeName),
             'thumbnail'       => $thumbnail,
             'sex'             => $individual->getSex(),
-            'born'            => $this->unescapedHtml($individual->getBirthDate()->display()),
-            'died'            => $this->unescapedHtml($individual->getDeathDate()->display()),
+            'born'            => $individual->getBirthDate()->minimumDate()->format('%d.%m.%Y'),
+            'died'            => $individual->getDeathDate()->minimumDate()->format('%d.%m.%Y'),
             'color'           => $this->getColor($individual),
             'colors'          => [[], []],
         ];
@@ -267,15 +270,16 @@ class PedigreeChartModule extends AbstractModule implements ModuleChartInterface
     /**
      * Recursively build the data array of the individual ancestors.
      *
-     * @param null|Individual $individual The start person
-     * @param int             $generation The current generation
+     * @param int             $generation    The current generation
+     * @param int             $maxGeneration Limits the number of generations in the tree to this number
+     * @param null|Individual $individual    The start person
      *
      * @return array
      */
-    private function buildJsonTree(Individual $individual = null, int $generation = 1): array
+    private function buildJsonTree(int $generation, int $maxGeneration, Individual $individual = null): array
     {
         // Maximum generation reached
-        if (($generation > $this->generations) || ($individual === null)) {
+        if (($generation > $maxGeneration) || ($individual === null)) {
             return [];
         }
 
@@ -287,8 +291,8 @@ class PedigreeChartModule extends AbstractModule implements ModuleChartInterface
         }
 
         // Recursively call the method for the parents of the individual
-        $fatherTree = $this->buildJsonTree($family->getHusband(), $generation + 1);
-        $motherTree = $this->buildJsonTree($family->getWife(), $generation + 1);
+        $fatherTree = $this->buildJsonTree($generation + 1, $maxGeneration, $family->getHusband());
+        $motherTree = $this->buildJsonTree($generation + 1, $maxGeneration, $family->getWife());
 
         // Add array of child nodes
         if ($fatherTree) {

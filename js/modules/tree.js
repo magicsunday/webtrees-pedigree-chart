@@ -25,7 +25,7 @@ export class Tree
      */
     constructor(svg, direction, data)
     {
-        this.boxWidth   = 250;
+        this.boxWidth   = 260;
         this.boxHeight  = 80;
         this.nodeWidth  = 200;
         this.nodeHeight = 0;
@@ -118,45 +118,59 @@ export class Tree
             .attr("dy", "-12px")
             .attr("text-anchor", "start")
             .attr("class", "name")
-            .text(d => self.getName(d));
+            .text(d => this.getName(d));
 
         // Birth date
-        nodeEnter.append("text")
-            .attr("dx", -(self.boxWidth / 2) + 81)
-            .attr("dy", "4px")
-            .attr("text-anchor", "start")
-            .attr("class", "born")
-            .text(d => {
-                return "\u204E";
-            });
+        // nodeEnter.append("text")
+        //     .attr("dx", -(self.boxWidth / 2) + 81)
+        //     .attr("dy", "4px")
+        //     .attr("text-anchor", "start")
+        //     .attr("class", "born")
+        //     .text(d => {
+        //         return "\u2217 \u2736 \uFF0A";
+        //     });
 
         nodeEnter.append("text")
-            .attr("dx", -(self.boxWidth / 2) + 90)
+            .attr("dx", -(self.boxWidth / 2) + 80)
             .attr("dy", "4px")
             .attr("text-anchor", "start")
             .attr("class", "born")
-            .text(d => {
-                return d.data.born;
-            });
+            .text(d => this.getTimeSpan(d));
 
         // Death date
-        nodeEnter.append("text")
-            .attr("dx", -(self.boxWidth / 2) + 80 + 0.3)
-            .attr("dy", "18px")
-            .attr("text-anchor", "start")
-            .attr("class", "died")
-            .text(d => {
-                return "\u271D";
-            });
+        // nodeEnter.append("text")
+        //     .attr("dx", -(self.boxWidth / 2) + 80 + 0.3)
+        //     .attr("dy", "18px")
+        //     .attr("text-anchor", "start")
+        //     .attr("class", "died")
+        //     .text(d => {
+        //         return "\u2020 \u2720";
+        //     });
 
-        nodeEnter.append("text")
-            .attr("dx", -(self.boxWidth / 2) + 90)
-            .attr("dy", "18px")
-            .attr("text-anchor", "start")
-            .attr("class", "died")
-            .text(d => {
-                return d.data.died;
-            });
+        // nodeEnter.append("text")
+        //     .attr("dx", -(self.boxWidth / 2) + 75)
+        //     .attr("dy", "18px")
+        //     .attr("text-anchor", "start")
+        //     .attr("class", "died")
+        //     .text(d => {
+        //         return d.data.died;
+        //     });
+    }
+
+    /**
+     * Get the time span label of an person. Returns null if label
+     * should not be displayed due empty data.
+     *
+     * @param {object} data D3 data object
+     *
+     * @return {null|string}
+     */
+    getTimeSpan(data) {
+        if (data.data.born || data.data.died) {
+            return data.data.born + ' - ' + data.data.died;
+        }
+
+        return null;
     }
 
     /**
@@ -183,11 +197,11 @@ export class Tree
      */
     addImage(node)
     {
-        // let border = node.append("circle")
-        //     .attr("cx", -(this.boxWidth / 2) + 40)
-        //     .attr("cy", -(this.boxHeight / 2) + 40)
-        //     .attr("r", 25)
-        //     .attr("fill", d => "#fff");
+        let border = node.append("circle")
+            .attr("cx", -(this.boxWidth / 2) + 40)
+            .attr("cy", -(this.boxHeight / 2) + 40)
+            .attr("r", 35)
+            .attr("fill", d => "#fff");
 
         let image = node.append("svg:image")
             .attr("xlink:href", d => {
@@ -201,20 +215,45 @@ export class Tree
 
                 return "modules_v3/webtrees-pedigree-chart/images/silhouette_unknown.png";
             })//d.data.thumbnail)
-            .attr("x", -(this.boxWidth / 2) + 5)
-            .attr("y", -(this.boxHeight / 2) + 5)
+            .attr("x", -(this.boxWidth / 2) + 10)
+            .attr("y", -(this.boxHeight / 2) + 10)
             .attr("height", 70)
             .attr("width", 70);
 
-        let border = node.append("rect")
-            .classed("image", true)
-            .attr("rx", 35)
-            .attr("ry", 35)
-            .attr("x", -(this.boxWidth / 2) + 5)
-            .attr("y", -(this.boxHeight / 2) + 5)
-            .attr("width", 70)
-            .attr("height", 70)
-            .attr("fill", "none");
+        // node
+        //     .append("defs")
+        //     .append("pattern")
+        //     .attr("id", "thumbnail")
+        //     .attr("patternUnits", "objectBoundingBox")
+        //     .attr("height", 60)
+        //     .attr("width", 60)
+        //     .append("image")
+        //     .attr("x", 0)
+        //     .attr("y", 0)
+        //     .attr("height", 60)
+        //     .attr("width", 60)
+        //     .attr("xlink:href", d => {
+        //         if (d.data.sex === SEX_FEMALE) {
+        //             return "modules_v3/webtrees-pedigree-chart/images/silhouette_female.png";
+        //         }
+        //
+        //         if (d.data.sex === SEX_MALE) {
+        //             return "modules_v3/webtrees-pedigree-chart/images/silhouette_male.png";
+        //         }
+        //
+        //         return "modules_v3/webtrees-pedigree-chart/images/silhouette_unknown.png";
+        //     });
+
+        // let border = node.append("rect")
+        //     .classed("image", true)
+        //     .attr("rx", 30)
+        //     .attr("ry", 30)
+        //     .attr("x", -(this.boxWidth / 2) + 10)
+        //     .attr("y", -(this.boxHeight / 2) + 10)
+        //     .attr("width", 60)
+        //     .attr("height", 60)
+        //     .attr("fill", "none");
+        //     // .attr("fill", "url(#thumbnail)");
 
         // let fo = border.append("foreignObject")
         //     .attr("x", -(this.boxWidth / 2) + 5)

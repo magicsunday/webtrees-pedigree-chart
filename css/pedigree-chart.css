@@ -1,8 +1,7 @@
 #page-pedigree #pedigree_chart {
     position: relative;
-/*
-    font-family: Verdana,sans-serif;
-*/
+    /*font-family: Helvetica,Arial,sans-serif;*/
+    font-size: 12px;
 }
 
 #page-pedigree svg {
@@ -16,41 +15,42 @@
 */
 }
 
-.person rect {
+#page-pedigree .person rect {
     stroke: #edf7f9;
     stroke-width: 1.5px;
 }
 
-.person rect.female {
+#page-pedigree .person rect.female {
     stroke: #ff2080;
 }
 
-.person rect.male {
+#page-pedigree .person rect.male {
     stroke: #81a9cb;
 }
 
-.person {
-    font: 12px sans-serif;
+#page-pedigree .person {
 }
 
-.person rect.image {
+#page-pedigree .person rect.image {
     stroke: rgb(225, 225, 225);
 }
 
-.link {
+#page-pedigree .link {
     fill: none;
     stroke: rgb(225, 225, 225);
     stroke-width: 1.5px;
 }
 
-.person a.gallery img,
-.person a.gallery {
+#page-pedigree .person a.gallery img,
+#page-pedigree .person a.gallery {
     float: left;
     height: 50px;
     margin: 0 2px 0 0;
     max-width: 80px;
     width: auto;
 }
+
+
 
 #page-pedigree .rtl {
     direction: rtl !important;
