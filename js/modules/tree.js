@@ -269,13 +269,15 @@ export class Tree
      */
     addImage(node)
     {
-        let border = node.append("circle")
+        // Background (only required of thumbnail has transparency (like the silhouettes))
+        node.append("circle")
             .attr("cx", -(this.boxWidth / 2) + 40)
             .attr("cy", -(this.boxHeight / 2) + 40)
             .attr("r", 35)
-            .attr("fill", d => "#fff");
+            .attr("fill", "#fff");
 
-        let image = node.append("svg:image")
+        // The individual image
+        node.append("svg:image")
             .attr("xlink:href", d => {
                 if (d.data.thumbnail) {
                     return d.data.thumbnail;
@@ -290,55 +292,21 @@ export class Tree
                 }
 
                 return "modules_v3/webtrees-pedigree-chart/images/silhouette_unknown.png";
-            })//d.data.thumbnail)
-            .attr("x", -(this.boxWidth / 2) + 10)
-            .attr("y", -(this.boxHeight / 2) + 10)
+            })
+            .attr("x", -(this.boxWidth / 2) + 5)
+            .attr("y", -(this.boxHeight / 2) + 5)
             .attr("height", 70)
-            .attr("width", 70);
+            .attr("width", 70)
+            .attr("clip-path", "url(#clip-circle)");
 
-        // node
-        //     .append("defs")
-        //     .append("pattern")
-        //     .attr("id", "thumbnail")
-        //     .attr("patternUnits", "objectBoundingBox")
-        //     .attr("height", 60)
-        //     .attr("width", 60)
-        //     .append("image")
-        //     .attr("x", 0)
-        //     .attr("y", 0)
-        //     .attr("height", 60)
-        //     .attr("width", 60)
-        //     .attr("xlink:href", d => {
-        //         if (d.data.sex === SEX_FEMALE) {
-        //             return "modules_v3/webtrees-pedigree-chart/images/silhouette_female.png";
-        //         }
-        //
-        //         if (d.data.sex === SEX_MALE) {
-        //             return "modules_v3/webtrees-pedigree-chart/images/silhouette_male.png";
-        //         }
-        //
-        //         return "modules_v3/webtrees-pedigree-chart/images/silhouette_unknown.png";
-        //     });
-
-        // let border = node.append("rect")
-        //     .classed("image", true)
-        //     .attr("rx", 30)
-        //     .attr("ry", 30)
-        //     .attr("x", -(this.boxWidth / 2) + 10)
-        //     .attr("y", -(this.boxHeight / 2) + 10)
-        //     .attr("width", 60)
-        //     .attr("height", 60)
-        //     .attr("fill", "none");
-        //     // .attr("fill", "url(#thumbnail)");
-
-        // let fo = border.append("foreignObject")
-        //     .attr("x", -(this.boxWidth / 2) + 5)
-        //     .attr("y", "-37px")
-        //     .attr("width", "40px")
-        //     .attr("height", "50px");
-        //
-        // fo.append("xhtml:body")
-        //     .html(d => d.data.thumbnail);
+        // Border
+        node.append("circle")
+            .attr("cx", -(this.boxWidth / 2) + 40)
+            .attr("cy", -(this.boxHeight / 2) + 40)
+            .attr("r", 35)
+            .attr("fill", "none")
+            .attr("stroke", "rgb(200, 200, 200)")
+            .attr("stroke-width", "1.5");
     }
 
     /**

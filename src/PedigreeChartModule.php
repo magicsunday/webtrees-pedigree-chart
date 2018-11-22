@@ -251,7 +251,7 @@ class PedigreeChartModule extends AbstractModule implements ModuleChartInterface
             $mediaFile = $individual->findHighlightedMediaFile();
 
             if ($mediaFile !== null) {
-                return $mediaFile->imageUrl(70, 70, 'contain');
+                return $mediaFile->imageUrl(250, 250, 'crop');
             }
         }
 

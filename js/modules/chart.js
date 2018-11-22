@@ -52,6 +52,18 @@ export function initChart(data)
     d3.select("#resetButton")
         .on("click", doReset);
 
+    let defs = config.svg
+        .append("defs")
+        .attr("id", "imgdefs");
+
+    let clipPath = defs
+        .append('clipPath')
+        .attr('id', 'clip-circle')
+        .append("circle")
+        .attr("r", 35)
+        .attr("cx", -90)
+        .attr("cy", 0);
+
     let ancestorTree = new Tree(config.visual, 1, data);
 
     // Draw the tree
