@@ -38,10 +38,67 @@ export class Tree
             .nodeSize([this.nodeWidth, this.nodeHeight])
             .separation(d => this.separation);
 
-        this.root = d3.hierarchy(data);
+        let self = this;
+
+        // Get the greatest depth
+        const getDepth = ({ children }) => 1 + (children ? Math.max(...children.map(getDepth)) : 0);
+
+        const maxGenerations = getDepth(data);
+
+        this.root = d3.hierarchy(
+            data,
+            d => {
+                if (!rso.options.showEmptyBoxes) {
+                    return d.children;
+                }
+
+                // Fill up the missing children to the requested number of generations
+                if (!d.children && (d.generation < maxGenerations)) {
+                    return [
+                        self.createEmptyNode(d.generation + 1),
+                        self.createEmptyNode(d.generation + 1)
+                    ];
+                }
+
+                // Add missing parent record if we got only one
+                if (d.children && (d.children.length < 2)) {
+                    if (d.children[0].sex === SEX_MALE) {
+                        // Append empty node if we got an father
+                        d.children.push(self.createEmptyNode(d.generation + 1));
+                    } else {
+                        // Else prepend empty node
+                        d.children.unshift(self.createEmptyNode(d.generation + 1));
+                    }
+                }
+
+                return d.children;
+            }
+        );
+
 
         // maps the node data to the tree layout
         this.treeNodes = treeLayout(this.root);
+    }
+
+    /**
+     * Create an empty child node object.
+     *
+     * @param {Number} generation Generation of the node
+     *
+     * @return {Object}
+     *
+     * @private
+     */
+    createEmptyNode(generation) {
+        return {
+            id         : 0,
+            xref       : "",
+            sex        : "",
+            // name       : "",
+            generation : generation,
+            color      : rso.options.defaultColor,
+            // colors     : [[], []]
+        };
     }
 
     /**
@@ -88,18 +145,14 @@ export class Tree
             .attr("class", "person")
             .attr("transform", d => `translate(${d.y}, ${d.x})`);
 
-        nodeEnter.append("title")
-            .text(d => d.data.name);
+        nodeEnter
+            .filter(d => (d.data.xref !== ""))
+            .append("title")
+            .text(d => d.data.xref !== "" ? d.data.name : this.remove());
 
         nodeEnter.append("rect")
             .attr("class", d => {
-                if (d.data.sex === SEX_FEMALE) {
-                    return "female";
-                }
-
-                if (d.data.sex === SEX_MALE) {
-                    return "male";
-                }
+                return (d.data.sex === SEX_FEMALE) ? "female" : (d.data.sex === SEX_MALE) ? "male" : "";
             })
             .attr("rx", 40)
             .attr("ry", 40)
@@ -113,7 +166,9 @@ export class Tree
         this.addImage(nodeEnter);
 
         // Name
-        nodeEnter.append("text")
+        nodeEnter
+            .filter(d => (d.data.xref !== ""))
+            .append("text")
             .attr("dx", -(self.boxWidth / 2) + 80)
             .attr("dy", "-12px")
             .attr("text-anchor", "start")
@@ -130,7 +185,9 @@ export class Tree
         //         return "\u2217 \u2736 \uFF0A";
         //     });
 
-        nodeEnter.append("text")
+        nodeEnter
+            .filter(d => (d.data.xref !== ""))
+            .append("text")
             .attr("dx", -(self.boxWidth / 2) + 80)
             .attr("dy", "4px")
             .attr("text-anchor", "start")
@@ -161,13 +218,17 @@ export class Tree
      * Get the time span label of an person. Returns null if label
      * should not be displayed due empty data.
      *
-     * @param {object} data D3 data object
+     * @param {Object} data D3 data object
      *
-     * @return {null|string}
+     * @return {null|String}
      */
     getTimeSpan(data) {
+        if (data.data.xref === "") {
+            return null;
+        }
+
         if (data.data.born || data.data.died) {
-            return data.data.born + ' - ' + data.data.died;
+            return data.data.born + " - " + data.data.died;
         }
 
         return null;
@@ -177,9 +238,15 @@ export class Tree
      * Returns the name of the individual.
      *
      * @param {Object} data D3 data object
+     *
+     * @return {null|String}
      */
     getName(data)
     {
+        if (data.data.xref === "") {
+            return null;
+        }
+
         let splitted = data.data.name.split(" ");
         let length   = splitted.length;
 
@@ -187,7 +254,7 @@ export class Tree
 
         return splitted.join(" ");
 
-        return data.data.name;
+        // return data.data.name;
     }
 
     /**

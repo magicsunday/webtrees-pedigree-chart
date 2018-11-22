@@ -16,16 +16,19 @@
 }
 
 #page-pedigree .person rect {
-    stroke: #edf7f9;
+    stroke: rgb(225, 225, 225);
+    stroke-dasharray: 5;
     stroke-width: 1.5px;
 }
 
 #page-pedigree .person rect.female {
-    stroke: #ff2080;
+    stroke: rgb(255, 32, 128);
+    stroke-dasharray: none;
 }
 
 #page-pedigree .person rect.male {
-    stroke: #81a9cb;
+    stroke: rgb(129, 169, 203);
+    stroke-dasharray: none;
 }
 
 #page-pedigree .person {

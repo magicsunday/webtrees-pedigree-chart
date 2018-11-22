@@ -24,10 +24,11 @@ export class Options
         individualUrl,
         updateUrl,
         labels,
-        generations  = 3,
-        defaultColor = "#eee",
-        fontColor    = "#000",
-        rtl          = false
+        generations   = 3,
+        defaultColor  = "#eee",
+        fontColor     = "#000",
+        rtl           = false,
+        showEmptyBoxes = false
     ) {
         this.data = null;
 
@@ -45,5 +46,7 @@ export class Options
         this.fontColor = fontColor;
 
         this.individualUrl = individualUrl;
+
+        this.showEmptyBoxes = showEmptyBoxes;
     }
 }

@@ -54,6 +54,27 @@ use MagicSunday\Webtrees\PedigreeChartModule;
 
         <fieldset class="form-group">
             <div class="row">
+                <label class="col-form-label col-sm-3 wt-page-options-label">
+                    <?= I18N::translate('Layout'); ?>
+                </label>
+                <div class="col-sm-9 wt-page-options-value">
+                    <?=
+                    Bootstrap4::checkbox(
+                        I18N::translate('Show empty boxes for missing individuals. Caution: May slow down you system'),
+                        false,
+                        [
+                            'id'      => 'showEmptyBoxes',
+                            'name'    => 'showEmptyBoxes',
+                            'checked' => $showEmptyBoxes,
+                        ]
+                    );
+                    ?>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset class="form-group">
+            <div class="row">
                 <div class="col-sm-3 wt-page-options-label"></div>
                 <div class="col-sm-9 wt-page-options-value">
                     <input class="btn btn-primary" type="submit" value="<?= I18N::translate('view') ?>">
@@ -87,7 +108,8 @@ function PedigreeChart(data)
         data.generations,
         data.defaultColor,
         data.fontColor,
-        data.rtl
+        data.rtl,
+        data.showEmptyBoxes
     );
 
 // console.log(rso.options);

@@ -162,14 +162,17 @@ class PedigreeChartModule extends AbstractModule implements ModuleChartInterface
 
         $generations = $this->getGeneration($request);
 
+        $showEmptyBoxes = (bool) $request->get('showEmptyBoxes');
+
         $chartParams = [
-            'rtl'           => I18N::direction() === 'rtl',
-            'generations'   => $generations,
-            'defaultColor'  => $this->getColor(),
-            'fontColor'     => $this->getChartFontColor(),
-            'individualUrl' => $this->getIndividualRoute(),
-            'data'          => $this->buildJsonTree(1, $generations, $individual),
-            'labels'        => [
+            'rtl'            => I18N::direction() === 'rtl',
+            'generations'    => $generations,
+            'showEmptyBoxes' => $showEmptyBoxes,
+            'defaultColor'   => $this->getColor(),
+            'fontColor'      => $this->getChartFontColor(),
+            'individualUrl'  => $this->getIndividualRoute(),
+            'data'           => $this->buildJsonTree(1, $generations, $individual),
+            'labels'         => [
                 'zoom' => I18N::translate('Use Ctrl + scroll to zoom in the view'),
                 'move' => I18N::translate('Move the view with two fingers'),
             ],
@@ -178,12 +181,13 @@ class PedigreeChartModule extends AbstractModule implements ModuleChartInterface
         return $this->viewResponse(
             'webtrees-pedigree-chart',
             [
-                'rtl'         => I18N::direction() === 'rtl',
-                'title'       => $title,
-                'individual'  => $individual,
-                'tree'        => $this->tree,
-                'generations' => $generations,
-                'chartParams' => json_encode($chartParams),
+                'rtl'            => I18N::direction() === 'rtl',
+                'title'          => $title,
+                'individual'     => $individual,
+                'tree'           => $this->tree,
+                'generations'    => $generations,
+                'chartParams'    => json_encode($chartParams),
+                'showEmptyBoxes' => $showEmptyBoxes,
             ]
         );
     }

@@ -8,7 +8,7 @@ import { config } from "./config";
 import * as d3 from "./d3";
 
 export default function initZoom() {
-    const MIN_ZOOM = 0.1;
+    const MIN_ZOOM = 0.01;
     const MAX_ZOOM = 10.0;
 
     // Setup zoom and pan
