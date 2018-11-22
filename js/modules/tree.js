@@ -219,25 +219,25 @@ export class Tree
         //     });
     }
 
-    /**
-     * Get the time span label of an person. Returns null if label
-     * should not be displayed due empty data.
-     *
-     * @param {Object} data D3 data object
-     *
-     * @return {null|String}
-     */
-    getTimeSpan(data) {
-        if (data.data.xref === "") {
-            return null;
-        }
-
-        if (data.data.born || data.data.died) {
-            return data.data.born + " - " + data.data.died;
-        }
-
-        return null;
-    }
+    // /**
+    //  * Get the time span label of an person. Returns null if label
+    //  * should not be displayed due empty data.
+    //  *
+    //  * @param {Object} data D3 data object
+    //  *
+    //  * @return {null|String}
+    //  */
+    // getTimeSpan(data) {
+    //     if (data.data.xref === "") {
+    //         return null;
+    //     }
+    //
+    //     if (data.data.born || data.data.died) {
+    //         return data.data.born + " - " + data.data.died;
+    //     }
+    //
+    //     return null;
+    // }
 
     /**
      * Returns the name of the individual.
@@ -277,6 +277,10 @@ export class Tree
 
         let image = node.append("svg:image")
             .attr("xlink:href", d => {
+                if (d.data.thumbnail) {
+                    return d.data.thumbnail;
+                }
+
                 if (d.data.sex === SEX_FEMALE) {
                     return "modules_v3/webtrees-pedigree-chart/images/silhouette_female.png";
                 }
@@ -353,7 +357,7 @@ export class Tree
         link.enter()
             .append("path")
             .classed("link", true)
-            .attr("d", data => this.elbow(data));
+            .attr("d", d => this.elbow(d));
     }
 
     /**

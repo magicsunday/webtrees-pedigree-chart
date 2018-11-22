@@ -54,7 +54,7 @@ class PedigreeChartModule extends AbstractModule implements ModuleChartInterface
      *
      * @var int
      */
-    const MAX_GENERATIONS = 99;
+    const MAX_GENERATIONS = 25;
 
     /**
      * The current theme instance.
@@ -237,6 +237,28 @@ class PedigreeChartModule extends AbstractModule implements ModuleChartInterface
     }
 
     /**
+     * Returns the URL of the highlight image of an individual.
+     *
+     * @param Individual $individual The current individual
+     *
+     * @return string
+     */
+    private function getIndividualImage(Individual $individual): string
+    {
+        if ($individual->canShow()
+            && $individual->getTree()->getPreference('SHOW_HIGHLIGHT_IMAGES')
+        ) {
+            $mediaFile = $individual->findHighlightedMediaFile();
+
+            if ($mediaFile !== null) {
+                return $mediaFile->imageUrl(70, 70, 'contain');
+            }
+        }
+
+        return '';
+    }
+
+    /**
      * Get the individual data required for display the chart.
      *
      * @param Individual $individual The start person
@@ -249,12 +271,6 @@ class PedigreeChartModule extends AbstractModule implements ModuleChartInterface
         $fullName        = $this->unescapedHtml($individual->getFullName());
         $alternativeName = $this->unescapedHtml($individual->getAddName());
 
-        if ($individual->canShow() && $individual->getTree()->getPreference('SHOW_HIGHLIGHT_IMAGES')) {
-            $thumbnail = $individual->displayImage(40, 50, 'crop', []);
-        } else {
-            $thumbnail = '';
-        }
-
         return [
             'id'              => 0,
             'xref'            => $individual->getXref(),
@@ -262,7 +278,7 @@ class PedigreeChartModule extends AbstractModule implements ModuleChartInterface
             'name'            => $fullName,
             'alternativeName' => $alternativeName,
             'isAltRtl'        => $this->isRtl($alternativeName),
-            'thumbnail'       => $thumbnail,
+            'thumbnail'       => $this->getIndividualImage($individual),
             'sex'             => $individual->getSex(),
             'born'            => $individual->getBirthDate()->minimumDate()->format('%d.%m.%Y'),
             'died'            => $individual->getDeathDate()->minimumDate()->format('%d.%m.%Y'),
