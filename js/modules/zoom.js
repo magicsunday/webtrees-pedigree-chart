@@ -8,13 +8,13 @@ import { config } from "./config";
 import * as d3 from "./d3";
 
 export default function initZoom() {
-    const MIN_ZOOM = 0.01;
-    const MAX_ZOOM = 10.0;
+    const MIN_ZOOM = 0.1;
+    const MAX_ZOOM = 3.0;
 
     // Setup zoom and pan
     return d3.zoom()
         .scaleExtent([MIN_ZOOM, MAX_ZOOM])
         .on("zoom", function () {
-            config.svg.attr("transform", d3.event.transform);
+            config.visual.attr("transform", d3.event.transform);
         });
 };

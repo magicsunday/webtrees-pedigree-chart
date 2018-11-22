@@ -94,10 +94,8 @@ export class Tree
             id         : 0,
             xref       : "",
             sex        : "",
-            // name       : "",
             generation : generation,
             color      : rso.options.defaultColor,
-            // colors     : [[], []]
         };
     }
 
@@ -148,12 +146,10 @@ export class Tree
         nodeEnter
             .filter(d => (d.data.xref !== ""))
             .append("title")
-            .text(d => d.data.xref !== "" ? d.data.name : this.remove());
+            .text(d => d.data.name);
 
         nodeEnter.append("rect")
-            .attr("class", d => {
-                return (d.data.sex === SEX_FEMALE) ? "female" : (d.data.sex === SEX_MALE) ? "male" : "";
-            })
+            .attr("class", d => (d.data.sex === SEX_FEMALE) ? "female" : (d.data.sex === SEX_MALE) ? "male" : "")
             .attr("rx", 40)
             .attr("ry", 40)
             .attr("x", -(self.boxWidth / 2))
@@ -192,7 +188,16 @@ export class Tree
             .attr("dy", "4px")
             .attr("text-anchor", "start")
             .attr("class", "born")
-            .text(d => this.getTimeSpan(d));
+            .text(d => d.data.born);
+
+        nodeEnter
+            .filter(d => (d.data.xref !== ""))
+            .append("text")
+            .attr("dx", -(self.boxWidth / 2) + 80)
+            .attr("dy", "17px")
+            .attr("text-anchor", "start")
+            .attr("class", "born")
+            .text(d => d.data.died);
 
         // Death date
         // nodeEnter.append("text")

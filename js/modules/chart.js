@@ -22,10 +22,13 @@ export function initChart(data)
         width  = 960 - margin.left - margin.right,
         height = 960 - margin.top - margin.bottom;
 
+    config.translateX = 150;
+    config.translateY = height / 2;
+
     // Parent container
     config.parent = d3.select("#pedigree_chart");
 
-    const zoom = initZoom();
+    config.zoom = initZoom();
 
     // Add SVG element
     config.svg = config.parent
@@ -39,15 +42,31 @@ export function initChart(data)
         // .attr("height", "100%")
         .attr("text-rendering", "geometricPrecision")
         .attr("text-anchor", "middle")
+        .call(config.zoom);
 
-        .call(zoom)
-
+    config.visual = config.svg
         .append("g")
-        .attr("transform", "translate(" + 150 + "," + (height / 2) + ")");
+        .attr("transform", d => `translate(${config.translateX}, ${config.translateY})`);
 
-    let ancestorTree = new Tree(config.svg, 1, data);
+    // Bind click event on reset button
+    d3.select("#resetButton")
+        .on("click", doReset);
+
+    let ancestorTree = new Tree(config.visual, 1, data);
 
     // Draw the tree
     ancestorTree.draw();
 }
 
+/**
+ * Reset chart to initial zoom level and position.
+ *
+ * @private
+ */
+function doReset()
+{
+    config.svg
+        .transition()
+        .duration(750)
+        .call(config.zoom.transform, d3.zoomIdentity.translate(config.translateX, config.translateY));
+}
