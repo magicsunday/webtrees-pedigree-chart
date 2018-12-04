@@ -75,8 +75,7 @@ export class Tree
             }
         );
 
-
-        // maps the node data to the tree layout
+        // Map the node data to the tree layout
         this.treeNodes = treeLayout(this.root);
     }
 

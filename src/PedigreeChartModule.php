@@ -102,8 +102,8 @@ class PedigreeChartModule extends AbstractModule implements ModuleChartInterface
         $link = route('module', [
             'module' => $this->getName(),
             'action' => 'PedigreeChart',
-            'xref'   => $individual->getXref(),
-            'ged'    => $individual->getTree()->getName(),
+            'xref'   => $individual->xref(),
+            'ged'    => $individual->tree()->name(),
         ]);
 
         return new Menu(
@@ -246,7 +246,7 @@ class PedigreeChartModule extends AbstractModule implements ModuleChartInterface
     private function getIndividualImage(Individual $individual): string
     {
         if ($individual->canShow()
-            && $individual->getTree()->getPreference('SHOW_HIGHLIGHT_IMAGES')
+            && $individual->tree()->getPreference('SHOW_HIGHLIGHT_IMAGES')
         ) {
             $mediaFile = $individual->findHighlightedMediaFile();
 
@@ -273,7 +273,7 @@ class PedigreeChartModule extends AbstractModule implements ModuleChartInterface
 
         return [
             'id'              => 0,
-            'xref'            => $individual->getXref(),
+            'xref'            => $individual->xref(),
             'generation'      => $generation,
             'name'            => $fullName,
             'alternativeName' => $alternativeName,
