@@ -6,15 +6,16 @@ declare(strict_types=1);
 
 namespace MagicSunday\Webtrees;
 
+use Fisharebest\Webtrees\Auth;
+use Fisharebest\Webtrees\Contracts\UserInterface;
 use Fisharebest\Webtrees\Exceptions\IndividualAccessDeniedException;
 use Fisharebest\Webtrees\Exceptions\IndividualNotFoundException;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
-use Fisharebest\Webtrees\Menu;
-use Fisharebest\Webtrees\Module\AbstractModule;
-use Fisharebest\Webtrees\Module\ModuleChartInterface;
-use Fisharebest\Webtrees\Theme;
-use Fisharebest\Webtrees\Theme\ThemeInterface;
+use Fisharebest\Webtrees\Module\ModuleCustomInterface;
+use Fisharebest\Webtrees\Module\ModuleThemeInterface;
+use Fisharebest\Webtrees\Module\PedigreeChartModule as WebtreesPedigreeChartModule;
+use Fisharebest\Webtrees\Services\ChartService;
 use Fisharebest\Webtrees\Tree;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,40 +27,40 @@ use Symfony\Component\HttpFoundation\Response;
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
  * @link    https://github.com/magicsunday/ancestral-fan-chart/
  */
-class PedigreeChartModule extends AbstractModule implements ModuleChartInterface
+class PedigreeChartModule extends WebtreesPedigreeChartModule implements ModuleCustomInterface
 {
     /**
      * For custom modules - optional (recommended) version number
      *
      * @var string
      */
-    const CUSTOM_VERSION = '1.0';
+    public const CUSTOM_VERSION = '1.0';
 
     /**
      * For custom modules - link for support, upgrades, etc.
      *
      * @var string
      */
-    const CUSTOM_WEBSITE = 'https://github.com/magicsunday/webtrees-pedigree-chart';
+    public const CUSTOM_WEBSITE = 'https://github.com/magicsunday/webtrees-pedigree-chart';
 
     /**
      * Minimum number of displayable generations.
      *
      * @var int
      */
-    const MIN_GENERATIONS = 2;
+    public const MIN_GENERATIONS = 2;
 
     /**
      * Maximum number of displayable generations.
      *
      * @var int
      */
-    const MAX_GENERATIONS = 25;
+    public const MAX_GENERATIONS = 25;
 
     /**
      * The current theme instance.
      *
-     * @var ThemeInterface
+     * @var ModuleThemeInterface
      */
     private $theme;
 
@@ -71,92 +72,61 @@ class PedigreeChartModule extends AbstractModule implements ModuleChartInterface
     private $tree;
 
     /**
-     * How should this module be labelled on tabs, menus, etc.?
-     *
-     * @return string
+     * @inheritDoc
      */
-    public function getTitle(): string
+    public function customModuleAuthorName(): string
     {
-        return I18N::translate('Pedigree chart');
+        return 'Rico Sonntag';
     }
 
     /**
-     * A sentence describing what this module does.
-     *
-     * @return string
+     * @inheritDoc
      */
-    public function getDescription(): string
+    public function customModuleVersion(): string
     {
-        return I18N::translate('A pedigree chart of an individual.');
+        return self::CUSTOM_VERSION;
     }
 
     /**
-     * Return a menu item for this chart.
-     *
-     * @param Individual $individual Current individual instance
-     *
-     * @return Menu
+     * @inheritDoc
      */
-    public function getChartMenu(Individual $individual): Menu
+    public function customModuleLatestVersionUrl(): string
     {
-        $link = route('module', [
-            'module' => $this->getName(),
-            'action' => 'PedigreeChart',
-            'xref'   => $individual->xref(),
-            'ged'    => $individual->tree()->name(),
-        ]);
-
-        return new Menu(
-            $this->getTitle(),
-            $link,
-            'menu-chart-pedigree',
-            [
-                'rel' => 'nofollow',
-            ]
-        );
+        return self::CUSTOM_WEBSITE;
     }
 
     /**
-     * Return a menu item for this chart - for use in individual boxes.
-     *
-     * @param Individual $individual Current individual instance
-     *
-     * @return Menu
+     * @inheritDoc
      */
-    public function getBoxChartMenu(Individual $individual): Menu
+    public function customModuleSupportUrl(): string
     {
-        return $this->getChartMenu($individual);
+        return self::CUSTOM_WEBSITE;
     }
 
     /**
-     * Entry point action. Creates the form to configure the chart.
+     * @inheritDoc
      *
-     * @param Request $request The current HTTP request
-     * @param Tree    $tree    The current tree
-     *
-     * @return Response
-     *
-     * @throws \Exception
+     * @throws IndividualNotFoundException
+     * @throws IndividualAccessDeniedException
      */
-    public function getPedigreeChartAction(Request $request, Tree $tree): Response
-    {
-        $this->theme = Theme::theme();
+    public function getChartAction(
+        Request $request,
+        Tree $tree,
+        UserInterface $user,
+        ChartService $chart_service
+    ): Response {
+        $this->theme = app()->make(ModuleThemeInterface::class);
         $this->tree  = $tree;
 
         $xref       = $request->get('xref');
         $individual = Individual::getInstance($xref, $this->tree);
 
-        if ($individual === null) {
-            throw new IndividualNotFoundException();
-        }
-
-        if (!$individual->canShow()) {
-            throw new IndividualAccessDeniedException();
-        }
+        Auth::checkIndividualAccess($individual);
+        Auth::checkComponentAccess($this, 'chart', $tree, $user);
 
         $title = I18N::translate('Pedigree chart');
 
-        if ($individual->canShowName()) {
+        if ($individual && $individual->canShowName()) {
             $title = I18N::translate('Pedigree chart of %s', $individual->getFullName());
         }
 
@@ -183,6 +153,7 @@ class PedigreeChartModule extends AbstractModule implements ModuleChartInterface
             [
                 'rtl'            => I18N::direction() === 'rtl',
                 'title'          => $title,
+                'moduleName'     => $this->name(),
                 'individual'     => $individual,
                 'tree'           => $this->tree,
                 'generations'    => $generations,
@@ -199,7 +170,7 @@ class PedigreeChartModule extends AbstractModule implements ModuleChartInterface
      *
      * @return int
      */
-    private function getGeneration(Request $request)
+    private function getGeneration(Request $request): int
     {
         // Get default number of generations to display
         $default     = $this->tree->getPreference('DEFAULT_PEDIGREE_GENERATIONS');
@@ -215,7 +186,7 @@ class PedigreeChartModule extends AbstractModule implements ModuleChartInterface
      *
      * @return null|string
      */
-    private function unescapedHtml(string $value = null)
+    private function unescapedHtml(string $value = null): ?string
     {
         if ($value === null) {
             return $value;
@@ -346,17 +317,8 @@ class PedigreeChartModule extends AbstractModule implements ModuleChartInterface
      */
     private function getColor(Individual $individual = null): string
     {
-        if ($individual !== null) {
-            if ($individual->getSex() === 'M') {
-                return '#' . $this->theme->parameter('chart-background-m');
-            }
-
-            if ($individual->getSex() === 'F') {
-                return '#' . $this->theme->parameter('chart-background-f');
-            }
-        }
-
-        return '#' . $this->theme->parameter('chart-background-u');
+        $genderLower = ($individual === null) ? 'u' : strtolower($individual->getSex());
+        return '#' . $this->theme->parameter('chart-background-' . $genderLower);
     }
 
     /**

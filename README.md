@@ -17,7 +17,7 @@ at the root directory of your webtrees installation.
 composer require magicsunday/webtrees-pedigree-chart --update-no-dev
 ```
 
-The module will automatically installed into the ``modules_v3`` directory of your webtrees installation.
+The module will automatically installed into the ``modules_v4`` directory of your webtrees installation.
 
 To remove the module run:
 ```
@@ -25,11 +25,11 @@ composer remove magicsunday/webtrees-pedigree-chart --update-no-dev
 ```
 
 ### Using Git
-If you are using ``git``, you could also clone the current master branch directly into your ``modules_v3`` directory 
+If you are using ``git``, you could also clone the current master branch directly into your ``modules_v4`` directory 
 by calling:
 
 ```
-git clone https://github.com/magicsunday/webtrees-pedigree-chart.git modules_v3/webtrees-pedigree-chart
+git clone https://github.com/magicsunday/webtrees-pedigree-chart.git modules_v4/webtrees-pedigree-chart
 ```
 
 ### Manual installation
@@ -37,7 +37,7 @@ To manually install the module, perform the following steps:
 
 1. Download the [latest release](https://github.com/magicsunday/webtrees-pedigree-chart/releases/latest).
 2. Upload the downloaded file to your web server.
-3. Unzip the package into your ``modules_v3`` directory.
+3. Unzip the package into your ``modules_v4`` directory.
 4. Rename the folder to ``webtrees-pedigree-chart``
 
 ## Enable module
