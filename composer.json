@@ -3,6 +3,7 @@
     "description": "This modules provides an SVG pedigree chart for the [webtrees](https://www.webtrees.net) genealogy application.",
     "license": "GPL-3.0-or-later",
     "type": "webtrees-module",
+    "version": "1.0",
     "keywords": [
         "webtrees",
         "module",
@@ -23,9 +24,9 @@
         }
     },
     "require": {
-        "php": "~7.0",
+        "php": "~7.1",
         "ext-json": "*",
         "fisharebest/webtrees": "~2.0 || dev-master",
-        "magicsunday/webtrees-module-installer-plugin": "~1.0"
+        "magicsunday/webtrees-module-installer-plugin": "~1.2"
     }
 }
