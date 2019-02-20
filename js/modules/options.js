@@ -1,34 +1,37 @@
-/*jslint es6: true */
-/*jshint esversion: 6 */
 /**
  * See LICENSE.md file for further details.
  */
 
 /**
- * Option class.
+ * This class handles the options passed from outside to the application.
+ *
+ * @author  Rico Sonntag <mail@ricosonntag.de>
+ * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
+ * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
-export class Options
+export default class Options
 {
     /**
      * Constructor.
      *
      * @param individualUrl
-     * @param updateUrl
      * @param labels
      * @param generations
      * @param defaultColor
      * @param fontColor
      * @param rtl
+     * @param showEmptyBoxes
+     * @param direction
      */
     constructor(
         individualUrl,
-        updateUrl,
         labels,
-        generations   = 3,
-        defaultColor  = "#eee",
-        fontColor     = "#000",
-        rtl           = false,
-        showEmptyBoxes = false
+        generations    = 3,
+        defaultColor   = "#eee",
+        fontColor      = "#000",
+        rtl            = false,
+        showEmptyBoxes = false,
+        direction      = 1
     ) {
         this.data = null;
 
@@ -48,5 +51,11 @@ export class Options
         this.individualUrl = individualUrl;
 
         this.showEmptyBoxes = showEmptyBoxes;
+
+        this.rtl    = rtl;
+        this.labels = labels;
+
+        // direction` is either 1 (forward) or -1 (backward)
+        this.direction = direction;
     }
 }

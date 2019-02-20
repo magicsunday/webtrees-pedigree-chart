@@ -1,10 +1,10 @@
 <?php
+declare(strict_types=1);
+
 /**
  * See LICENSE.md file for further details.
  */
-declare(strict_types=1);
-
-namespace MagicSunday\Webtrees;
+namespace MagicSunday\Webtrees\PedigreeChart;
 
 use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\Contracts\UserInterface;
@@ -17,6 +17,7 @@ use Fisharebest\Webtrees\Module\ModuleThemeInterface;
 use Fisharebest\Webtrees\Module\PedigreeChartModule as WebtreesPedigreeChartModule;
 use Fisharebest\Webtrees\Services\ChartService;
 use Fisharebest\Webtrees\Tree;
+use Fisharebest\Webtrees\View;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -30,32 +31,14 @@ use Symfony\Component\HttpFoundation\Response;
 class PedigreeChartModule extends WebtreesPedigreeChartModule implements ModuleCustomInterface
 {
     /**
-     * For custom modules - optional (recommended) version number
-     *
      * @var string
      */
     public const CUSTOM_VERSION = '1.0';
 
     /**
-     * For custom modules - link for support, upgrades, etc.
-     *
      * @var string
      */
     public const CUSTOM_WEBSITE = 'https://github.com/magicsunday/webtrees-pedigree-chart';
-
-    /**
-     * Minimum number of displayable generations.
-     *
-     * @var int
-     */
-    public const MIN_GENERATIONS = 2;
-
-    /**
-     * Maximum number of displayable generations.
-     *
-     * @var int
-     */
-    public const MAX_GENERATIONS = 25;
 
     /**
      * The current theme instance.
@@ -70,6 +53,49 @@ class PedigreeChartModule extends WebtreesPedigreeChartModule implements ModuleC
      * @var Tree
      */
     private $tree;
+
+    /**
+     * The configuration instance.
+     *
+     * @var Config
+     */
+    private $config;
+
+    /**
+     * The module base directory.
+     *
+     * @var string
+     */
+    private $moduleDirecotry;
+
+    /**
+     * Constructor.
+     *
+     * @param string $moduleDirectory The module base directory
+     */
+    public function __construct(string $moduleDirectory)
+    {
+        $this->moduleDirecotry = $moduleDirectory;
+    }
+
+    /**
+     * Boostrap.
+     *
+     * @param UserInterface $user A user (or visitor) object.
+     * @param Tree|null     $tree Note that $tree can be null (if all trees are private).
+     */
+    public function boot(UserInterface $user, ?Tree $tree): void
+    {
+        // The boot() function is called after the framework has been booted.
+        if (($tree !== null) && !Auth::isAdmin($user)) {
+            return;
+        }
+
+        // Here is also a good place to register any views (templates) used by the module.
+        // This command allows the module to use: view($this->name() . '::', 'fish')
+        // to access the file ./resources/views/fish.phtml
+        View::registerNamespace($this->name(), $this->moduleDirecotry . '/resources/views/');
+    }
 
     /**
      * @inheritDoc
@@ -115,8 +141,9 @@ class PedigreeChartModule extends WebtreesPedigreeChartModule implements ModuleC
         UserInterface $user,
         ChartService $chart_service
     ): Response {
-        $this->theme = app()->make(ModuleThemeInterface::class);
-        $this->tree  = $tree;
+        $this->config = new Config($request, $tree);
+        $this->theme  = app()->make(ModuleThemeInterface::class);
+        $this->tree   = $tree;
 
         $xref       = $request->get('xref');
         $individual = Individual::getInstance($xref, $this->tree);
@@ -127,21 +154,17 @@ class PedigreeChartModule extends WebtreesPedigreeChartModule implements ModuleC
         $title = I18N::translate('Pedigree chart');
 
         if ($individual && $individual->canShowName()) {
-            $title = I18N::translate('Pedigree chart of %s', $individual->getFullName());
+            $title = I18N::translate('Pedigree chart of %s', $individual->fullName());
         }
-
-        $generations = $this->getGeneration($request);
-
-        $showEmptyBoxes = (bool) $request->get('showEmptyBoxes');
 
         $chartParams = [
             'rtl'            => I18N::direction() === 'rtl',
-            'generations'    => $generations,
-            'showEmptyBoxes' => $showEmptyBoxes,
             'defaultColor'   => $this->getColor(),
             'fontColor'      => $this->getChartFontColor(),
+            'generations'    => $this->config->getGenerations(),
+            'showEmptyBoxes' => $this->config->getShowEmptyBoxes(),
             'individualUrl'  => $this->getIndividualRoute(),
-            'data'           => $this->buildJsonTree(1, $generations, $individual),
+            'data'           => $this->buildJsonTree($individual),
             'labels'         => [
                 'zoom' => I18N::translate('Use Ctrl + scroll to zoom in the view'),
                 'move' => I18N::translate('Move the view with two fingers'),
@@ -149,16 +172,15 @@ class PedigreeChartModule extends WebtreesPedigreeChartModule implements ModuleC
         ];
 
         return $this->viewResponse(
-            'webtrees-pedigree-chart',
+            $this->name() . '::chart',
             [
-                'rtl'            => I18N::direction() === 'rtl',
-                'title'          => $title,
-                'moduleName'     => $this->name(),
-                'individual'     => $individual,
-                'tree'           => $this->tree,
-                'generations'    => $generations,
-                'chartParams'    => json_encode($chartParams),
-                'showEmptyBoxes' => $showEmptyBoxes,
+                'rtl'         => I18N::direction() === 'rtl',
+                'title'       => $title,
+                'moduleName'  => $this->name(),
+                'individual'  => $individual,
+                'tree'        => $this->tree,
+                'config'      => $this->config,
+                'chartParams' => json_encode($chartParams),
             ]
         );
     }
@@ -239,8 +261,8 @@ class PedigreeChartModule extends WebtreesPedigreeChartModule implements ModuleC
      */
     private function getIndividualData(Individual $individual, int $generation): array
     {
-        $fullName        = $this->unescapedHtml($individual->getFullName());
-        $alternativeName = $this->unescapedHtml($individual->getAddName());
+        $fullName        = $this->unescapedHtml($individual->fullName());
+        $alternativeName = $this->unescapedHtml($individual->alternateName());
 
         return [
             'id'              => 0,
@@ -250,7 +272,7 @@ class PedigreeChartModule extends WebtreesPedigreeChartModule implements ModuleC
             'alternativeName' => $alternativeName,
             'isAltRtl'        => $this->isRtl($alternativeName),
             'thumbnail'       => $this->getIndividualImage($individual),
-            'sex'             => $individual->getSex(),
+            'sex'             => $individual->sex(),
             'born'            => $individual->getBirthDate()->minimumDate()->format('%d.%m.%Y'),
             'died'            => $individual->getDeathDate()->minimumDate()->format('%d.%m.%Y'),
             'color'           => $this->getColor($individual),
@@ -261,29 +283,28 @@ class PedigreeChartModule extends WebtreesPedigreeChartModule implements ModuleC
     /**
      * Recursively build the data array of the individual ancestors.
      *
-     * @param int             $generation    The current generation
-     * @param int             $maxGeneration Limits the number of generations in the tree to this number
-     * @param null|Individual $individual    The start person
+     * @param null|Individual $individual The start person
+     * @param int             $generation The current generation
      *
      * @return array
      */
-    private function buildJsonTree(int $generation, int $maxGeneration, Individual $individual = null): array
+    private function buildJsonTree(Individual $individual = null, int $generation = 1): array
     {
         // Maximum generation reached
-        if (($generation > $maxGeneration) || ($individual === null)) {
+        if (($individual === null) || ($generation > $this->config->getGenerations())) {
             return [];
         }
 
         $data   = $this->getIndividualData($individual, $generation);
-        $family = $individual->getPrimaryChildFamily();
+        $family = $individual->primaryChildFamily();
 
         if ($family === null) {
             return $data;
         }
 
         // Recursively call the method for the parents of the individual
-        $fatherTree = $this->buildJsonTree($generation + 1, $maxGeneration, $family->getHusband());
-        $motherTree = $this->buildJsonTree($generation + 1, $maxGeneration, $family->getWife());
+        $fatherTree = $this->buildJsonTree($family->husband(), $generation + 1);
+        $motherTree = $this->buildJsonTree($family->wife(), $generation + 1);
 
         // Add array of child nodes
         if ($fatherTree) {
@@ -317,7 +338,7 @@ class PedigreeChartModule extends WebtreesPedigreeChartModule implements ModuleC
      */
     private function getColor(Individual $individual = null): string
     {
-        $genderLower = ($individual === null) ? 'u' : strtolower($individual->getSex());
+        $genderLower = ($individual === null) ? 'u' : strtolower($individual->sex());
         return '#' . $this->theme->parameter('chart-background-' . $genderLower);
     }
 

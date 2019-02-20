@@ -1,101 +1,35 @@
-/*jslint es6: true */
-/*jshint esversion: 6 */
 /**
  * See LICENSE.md file for further details.
  */
 
-import * as d3 from "./d3"
-
-const SEX_MALE   = "M";
-const SEX_FEMALE = "F";
+import {SEX_FEMALE, SEX_MALE} from "./hierarchy";
 
 /**
- * Shared code for drawing ancestors or descendants.
+ * The class handles the creation of the tree.
  *
- * `direction` is either 1 (forward) or -1 (backward).
+ * @author  Rico Sonntag <mail@ricosonntag.de>
+ * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
+ * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
-export class Tree
+export default class Tree
 {
     /**
      * Constructor.
      *
-     * @param {Object} svg       The SVG object instance
-     * @param {Number} direction The direction to draw (1 = right-left, 0 = left-right)
-     * @param {Array}  data      The ancestor data to display
+     * @param {Config}    config    The configuration
+     * @param {Options}   options   The options
+     * @param {Hierarchy} hierarchy The hierarchiecal data
      */
-    constructor(svg, direction, data)
+    constructor(config, options, hierarchy)
     {
-        this.boxWidth   = 260;
-        this.boxHeight  = 80;
-        this.nodeWidth  = 200;
-        this.nodeHeight = 0;
-        this.separation = 0.5;
-        this.svg        = svg;
-        this.direction  = direction;
+        this.boxWidth  = 260;
+        this.boxHeight = 80;
 
-        // Declares a tree layout and assigns the size
-        const treeLayout = d3.tree()
-            .nodeSize([this.nodeWidth, this.nodeHeight])
-            .separation(d => this.separation);
+        this._config    = config;
+        this._options   = options;
+        this._hierarchy = hierarchy;
 
-        let self = this;
-
-        // Get the greatest depth
-        const getDepth = ({ children }) => 1 + (children ? Math.max(...children.map(getDepth)) : 0);
-
-        const maxGenerations = getDepth(data);
-
-        this.root = d3.hierarchy(
-            data,
-            d => {
-                if (!rso.options.showEmptyBoxes) {
-                    return d.children;
-                }
-
-                // Fill up the missing children to the requested number of generations
-                if (!d.children && (d.generation < maxGenerations)) {
-                    return [
-                        self.createEmptyNode(d.generation + 1),
-                        self.createEmptyNode(d.generation + 1)
-                    ];
-                }
-
-                // Add missing parent record if we got only one
-                if (d.children && (d.children.length < 2)) {
-                    if (d.children[0].sex === SEX_MALE) {
-                        // Append empty node if we got an father
-                        d.children.push(self.createEmptyNode(d.generation + 1));
-                    } else {
-                        // Else prepend empty node
-                        d.children.unshift(self.createEmptyNode(d.generation + 1));
-                    }
-                }
-
-                return d.children;
-            }
-        );
-
-        // Map the node data to the tree layout
-        this.treeNodes = treeLayout(this.root);
-    }
-
-    /**
-     * Create an empty child node object.
-     *
-     * @param {Number} generation Generation of the node
-     *
-     * @return {Object}
-     *
-     * @private
-     */
-    createEmptyNode(generation) {
-        return {
-            id         : 0,
-            xref       : "",
-            sex        : "",
-            generation : generation,
-            color      : rso.options.defaultColor,
-        };
+        this.draw();
     }
 
     /**
@@ -105,18 +39,18 @@ export class Tree
      */
     draw()
     {
-        if (this.root) {
-            let nodes = this.treeNodes.descendants();
-            let links = this.treeNodes.links();
+        // if (this._hierarchy.root) {
+            let nodes = this._hierarchy.nodes.descendants();
+            let links = this._hierarchy.nodes.links();
 
             // Normalize for fixed-depth.
             nodes.forEach(function (d) { d.y = d.depth * 300; });
 
             this.drawLinks(links);
             this.drawNodes(nodes);
-        } else {
-            throw new Error("Missing root");
-        }
+        // } else {
+        //     throw new Error("Missing root");
+        // }
 
         return this;
     }
@@ -132,7 +66,7 @@ export class Tree
     {
         let self = this;
 
-        let node = self.svg
+        let node = this._config.visual
             .selectAll("g.person")
             .data(nodes);
 
@@ -151,10 +85,10 @@ export class Tree
             .attr("class", d => (d.data.sex === SEX_FEMALE) ? "female" : (d.data.sex === SEX_MALE) ? "male" : "")
             .attr("rx", 40)
             .attr("ry", 40)
-            .attr("x", -(self.boxWidth / 2))
-            .attr("y", -(self.boxHeight / 2))
-            .attr("width", self.boxWidth)
-            .attr("height", self.boxHeight)
+            .attr("x", -(this.boxWidth / 2))
+            .attr("y", -(this.boxHeight / 2))
+            .attr("width", this.boxWidth)
+            .attr("height", this.boxHeight)
             .attr("fill-opacity", "0.5")
             .attr("fill", d => d.data.color);
 
@@ -164,7 +98,7 @@ export class Tree
         nodeEnter
             .filter(d => (d.data.xref !== ""))
             .append("text")
-            .attr("dx", -(self.boxWidth / 2) + 80)
+            .attr("dx", -(this.boxWidth / 2) + 80)
             .attr("dy", "-12px")
             .attr("text-anchor", "start")
             .attr("class", "name")
@@ -172,7 +106,7 @@ export class Tree
 
         // Birth date
         // nodeEnter.append("text")
-        //     .attr("dx", -(self.boxWidth / 2) + 81)
+        //     .attr("dx", -(this.boxWidth / 2) + 81)
         //     .attr("dy", "4px")
         //     .attr("text-anchor", "start")
         //     .attr("class", "born")
@@ -183,7 +117,7 @@ export class Tree
         nodeEnter
             .filter(d => (d.data.xref !== ""))
             .append("text")
-            .attr("dx", -(self.boxWidth / 2) + 80)
+            .attr("dx", -(this.boxWidth / 2) + 80)
             .attr("dy", "4px")
             .attr("text-anchor", "start")
             .attr("class", "born")
@@ -192,7 +126,7 @@ export class Tree
         nodeEnter
             .filter(d => (d.data.xref !== ""))
             .append("text")
-            .attr("dx", -(self.boxWidth / 2) + 80)
+            .attr("dx", -(this.boxWidth / 2) + 80)
             .attr("dy", "17px")
             .attr("text-anchor", "start")
             .attr("class", "born")
@@ -200,7 +134,7 @@ export class Tree
 
         // Death date
         // nodeEnter.append("text")
-        //     .attr("dx", -(self.boxWidth / 2) + 80 + 0.3)
+        //     .attr("dx", -(this.boxWidth / 2) + 80 + 0.3)
         //     .attr("dy", "18px")
         //     .attr("text-anchor", "start")
         //     .attr("class", "died")
@@ -209,7 +143,7 @@ export class Tree
         //     });
 
         // nodeEnter.append("text")
-        //     .attr("dx", -(self.boxWidth / 2) + 75)
+        //     .attr("dx", -(this.boxWidth / 2) + 75)
         //     .attr("dy", "18px")
         //     .attr("text-anchor", "start")
         //     .attr("class", "died")
@@ -317,7 +251,7 @@ export class Tree
      */
     drawLinks(links)
     {
-        let link = this.svg
+        let link = this._config.visual
             .selectAll("path.link")
             .data(links);
 
@@ -341,9 +275,9 @@ export class Tree
             targetX = data.target.x,
             targetY = data.target.y - (this.boxWidth / 2);
 
-        return "M" + (this.direction * sourceY) + "," + sourceX +
-            "H" + (this.direction * (sourceY + (targetY - sourceY) / 2)) +
+        return "M" + (this._options.direction * sourceY) + "," + sourceX +
+            "H" + (this._options.direction * (sourceY + (targetY - sourceY) / 2)) +
             "V" + targetX +
-            "H" + (this.direction * targetY);
+            "H" + (this._options.direction * targetY);
     }
 }

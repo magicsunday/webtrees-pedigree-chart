@@ -2,21 +2,23 @@
     position: relative;
     /*font-family: Helvetica,Arial,sans-serif;*/
     font-size: 12px;
+    /*display: flex;*/
+    /*flex: auto;*/
 }
 
 #page-pedigree svg {
     display: block;
     margin: auto;
-    cursor: grab;
+    cursor: move;
     cursor: -webkit-grab;
-/*
-    -webkit-filter: drop-shadow(3px 1px 3px rgba(0, 0, 0, 0.4));
-    filter: drop-shadow(3px 1px 3px rgba(0, 0, 0, 0.4));
-*/
+    cursor: -moz-grab;
+    cursor: grab;
+    /*-webkit-filter: drop-shadow(3px 1px 3px rgba(0, 0, 0, 0.4));*/
+    /*filter: drop-shadow(3px 1px 3px rgba(0, 0, 0, 0.4));*/
 }
 
 #page-pedigree .person rect {
-    stroke: rgb(225, 225, 225);
+    stroke: rgb(175, 175, 175);
     stroke-dasharray: 5;
     stroke-width: 1.5px;
 }
@@ -35,12 +37,12 @@
 }
 
 #page-pedigree .person rect.image {
-    stroke: rgb(225, 225, 225);
+    stroke: rgb(175, 175, 175);
 }
 
 #page-pedigree .link {
     fill: none;
-    stroke: rgb(225, 225, 225);
+    stroke: rgb(175, 175, 175);
     stroke-width: 1.5px;
 }
 
@@ -83,7 +85,7 @@
 
 #page-pedigree svg .person .arc path {
     fill: rgb(240, 240, 240);
-    stroke: rgb(225, 225, 225);
+    stroke: rgb(175, 175, 175);
     stroke-width: 2px;
 }
 
