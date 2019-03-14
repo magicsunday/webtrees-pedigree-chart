@@ -1,14 +1,14 @@
 {
     "name": "webtrees-pedigree-chart",
     "version": "1.0.0",
-    "license": "GPL-3.0-or-later",
+    "license": "GPL-3.0",
     "repository": {
         "type": "git",
         "url": "https://github.com/magicsunday/webtrees-pedigree-chart"
     },
     "description": "",
     "scripts": {
-        "prepare": "rollup -c && uglifyjs js/pedigree-chart.js --compress --mangle --output js/pedigree-chart.min.js"
+        "prepare": "rollup -c && uglifyjs resources/js/pedigree-chart.js --compress --mangle --output resources/js/pedigree-chart.min.js"
     },
     "devDependencies": {
         "d3-fetch": "^1.1",

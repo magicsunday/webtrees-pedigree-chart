@@ -6,6 +6,7 @@ declare(strict_types=1);
  */
 namespace MagicSunday\Webtrees\PedigreeChart;
 
+use Fisharebest\Localization\Translation;
 use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\Contracts\UserInterface;
 use Fisharebest\Webtrees\Exceptions\IndividualAccessDeniedException;
@@ -127,6 +128,20 @@ class PedigreeChartModule extends WebtreesPedigreeChartModule implements ModuleC
     public function customModuleSupportUrl(): string
     {
         return self::CUSTOM_WEBSITE;
+    }
+
+    /**
+     * Additional/updated translations.
+     *
+     * @param string $language
+     *
+     * @return string[]
+     */
+    public function customTranslations(string $language): array
+    {
+        return (new Translation(
+            $this->moduleDirecotry . '/resources/lang/' . $language . '/messages.mo'
+        ))->asArray();
     }
 
     /**

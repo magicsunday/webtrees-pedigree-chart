@@ -217,14 +217,14 @@ export default class Tree
                 }
 
                 if (d.data.sex === SEX_FEMALE) {
-                    return "modules_v4/webtrees-pedigree-chart/images/silhouette_female.png";
+                    return "modules_v4/webtrees-pedigree-chart/resources/images/silhouette_female.png";
                 }
 
                 if (d.data.sex === SEX_MALE) {
-                    return "modules_v4/webtrees-pedigree-chart/images/silhouette_male.png";
+                    return "modules_v4/webtrees-pedigree-chart/resources/images/silhouette_male.png";
                 }
 
-                return "modules_v4/webtrees-pedigree-chart/images/silhouette_unknown.png";
+                return "modules_v4/webtrees-pedigree-chart/resources/images/silhouette_unknown.png";
             })
             .attr("x", -(this.boxWidth / 2) + 5)
             .attr("y", -(this.boxHeight / 2) + 5)
