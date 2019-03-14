@@ -166,13 +166,47 @@ class PedigreeChartModule extends WebtreesPedigreeChartModule implements ModuleC
         Auth::checkIndividualAccess($individual);
         Auth::checkComponentAccess($this, 'chart', $tree, $user);
 
+        return $this->viewResponse(
+            $this->name() . '::chart',
+            [
+                'title'       => $this->getPageTitle($individual),
+                'moduleName'  => $this->name(),
+                'individual'  => $individual,
+                'tree'        => $this->tree,
+                'config'      => $this->config,
+                'chartParams' => json_encode($this->getChartParameters($individual)),
+            ]
+        );
+    }
+
+    /**
+     * Returns the page title.
+     *
+     * @param Individual $individual The individual used in the curret chart
+     *
+     * @return string
+     */
+    private function getPageTitle(Individual $individual): string
+    {
         $title = I18N::translate('Pedigree chart');
 
         if ($individual && $individual->canShowName()) {
             $title = I18N::translate('Pedigree chart of %s', $individual->fullName());
         }
 
-        $chartParams = [
+        return $title;
+    }
+
+    /**
+     * Collects and returns the required chart data.
+     *
+     * @param Individual $individual The individual used to gather the chart data
+     *
+     * @return string[]
+     */
+    private function getChartParameters(Individual $individual): array
+    {
+        return [
             'rtl'            => I18N::direction() === 'rtl',
             'defaultColor'   => $this->getColor(),
             'fontColor'      => $this->getChartFontColor(),
@@ -185,35 +219,6 @@ class PedigreeChartModule extends WebtreesPedigreeChartModule implements ModuleC
                 'move' => I18N::translate('Move the view with two fingers'),
             ],
         ];
-
-        return $this->viewResponse(
-            $this->name() . '::chart',
-            [
-                'rtl'         => I18N::direction() === 'rtl',
-                'title'       => $title,
-                'moduleName'  => $this->name(),
-                'individual'  => $individual,
-                'tree'        => $this->tree,
-                'config'      => $this->config,
-                'chartParams' => json_encode($chartParams),
-            ]
-        );
-    }
-
-    /**
-     * Returns the current generation.
-     *
-     * @param Request $request The request
-     *
-     * @return int
-     */
-    private function getGeneration(Request $request): int
-    {
-        // Get default number of generations to display
-        $default     = $this->tree->getPreference('DEFAULT_PEDIGREE_GENERATIONS');
-        $generations = (int) $request->get('generations', $default);
-
-        return max(min($generations, self::MAX_GENERATIONS), self::MIN_GENERATIONS);
     }
 
     /**
