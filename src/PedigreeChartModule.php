@@ -149,9 +149,8 @@ class PedigreeChartModule extends WebtreesPedigreeChartModule implements ModuleC
      */
     public function customTranslations(string $language): array
     {
-        return (new Translation(
-            $this->resourcesFolder() . 'lang/' . $language . '/messages.mo'
-        ))->asArray();
+        $languageFile = $this->resourcesFolder() . 'lang/' . $language . '/messages.mo';
+        return file_exists($languageFile) ? (new Translation($languageFile))->asArray() : [];
     }
 
     /**
