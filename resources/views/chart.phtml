@@ -53,12 +53,7 @@ use MagicSunday\Webtrees\PedigreeChart\Config;
             <div class="col-sm-9 wt-page-options-value">
                 <?=
                     Bootstrap4::select(
-                        FunctionsEdit::numericOptions(
-                            range(
-                            Config::MIN_GENERATIONS,
-                            Config::MAX_GENERATIONS
-                            )
-                        ),
+                        $config->getGenerationsList(),
                         $config->getGenerations(),
                         [
                             'id'    => 'generations',

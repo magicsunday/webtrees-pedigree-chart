@@ -6,7 +6,7 @@ declare(strict_types=1);
  */
 namespace MagicSunday\Webtrees\PedigreeChart;
 
-use Fisharebest\Webtrees\Tree;
+use Fisharebest\Webtrees\Functions\FunctionsEdit;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -19,18 +19,25 @@ use Symfony\Component\HttpFoundation\Request;
 class Config
 {
     /**
+     * The default number of generations to display.
+     *
+     * @var int
+     */
+    private const DEFAULT_GENERATIONS = 4;
+
+    /**
      * Minimum number of displayable generations.
      *
      * @var int
      */
-    public const MIN_GENERATIONS = 2;
+    private const MIN_GENERATIONS = 2;
 
     /**
      * Maximum number of displayable generations.
      *
      * @var int
      */
-    public const MAX_GENERATIONS = 25;
+    private const MAX_GENERATIONS = 25;
 
     /**
      * The current request instance.
@@ -40,32 +47,13 @@ class Config
     private $request;
 
     /**
-     * The current tree instance.
-     *
-     * @var Tree
-     */
-    private $tree;
-
-    /**
      * Config constructor.
      *
      * @param Request $request The current HTTP request
-     * @param Tree    $tree    The current tree
      */
-    public function __construct(Request $request, Tree $tree)
+    public function __construct(Request $request)
     {
         $this->request = $request;
-        $this->tree    = $tree;
-    }
-
-    /**
-     * Returns the default number of generations to display.
-     *
-     * @return int
-     */
-    private function getDefaultGenerations(): int
-    {
-        return (int) $this->tree->getPreference('DEFAULT_PEDIGREE_GENERATIONS');
     }
 
     /**
@@ -75,10 +63,20 @@ class Config
      */
     public function getGenerations(): int
     {
-        $generations = (int) $this->request->get('generations', $this->getDefaultGenerations());
+        $generations = (int) $this->request->get('generations', self::DEFAULT_GENERATIONS);
         $generations = min($generations, self::MAX_GENERATIONS);
 
         return max($generations, self::MIN_GENERATIONS);
+    }
+
+    /**
+     * Returns a list of possible selectable generations.
+     *
+     * @return int[]
+     */
+    public function getGenerationsList(): array
+    {
+        return FunctionsEdit::numericOptions(range(self::MIN_GENERATIONS, self::MAX_GENERATIONS));
     }
 
     /**

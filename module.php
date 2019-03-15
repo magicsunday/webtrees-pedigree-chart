@@ -17,4 +17,4 @@ $loader->addPsr4(
 $loader->register();
 
 // Create and return instance of the module
-return new PedigreeChart\PedigreeChartModule(__DIR__);
+return new PedigreeChart\Module(__DIR__);
