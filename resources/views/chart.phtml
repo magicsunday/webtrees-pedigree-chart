@@ -4,8 +4,6 @@ declare(strict_types=1);
 /**
  * See LICENSE.md file for further details.
  */
-use Fisharebest\Webtrees\Bootstrap4;
-use Fisharebest\Webtrees\Functions\FunctionsEdit;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\View;
@@ -32,16 +30,11 @@ use MagicSunday\Webtrees\PedigreeChart\Config;
                 <?= I18N::translate('Individual') ?>
             </label>
             <div class="col-sm-9 wt-page-options-value">
-                <?=
-                    FunctionsEdit::formControlIndividual(
-                        $tree,
-                        $individual,
-                        [
-                            'id'    => 'xref',
-                            'name'  => 'xref',
-                            'class' => 'form-control-sm',
-                        ]
-                    );
+                <?= view('components/select-individual', [
+                        'name'       => 'xref',
+                        'individual' => $individual,
+                        'tree'       => $tree,
+                    ]);
                 ?>
             </div>
         </div>
@@ -51,16 +44,12 @@ use MagicSunday\Webtrees\PedigreeChart\Config;
                 <?= I18N::translate('Generations'); ?>
             </label>
             <div class="col-sm-9 wt-page-options-value">
-                <?=
-                    Bootstrap4::select(
-                        $config->getGenerationsList(),
-                        $config->getGenerations(),
-                        [
-                            'id'    => 'generations',
-                            'name'  => 'generations',
-                            'class' => 'form-control-sm',
-                        ]
-                    );
+                <?= view('components/select', [
+                        'name'     => 'generations',
+                        'selected' => $config->getGenerations(),
+                        'values'   => $config->getGenerationsList(),
+                        'class'    => 'form-control-sm',
+                    ]);
                 ?>
             </div>
         </div>
@@ -70,16 +59,11 @@ use MagicSunday\Webtrees\PedigreeChart\Config;
                 <?= I18N::translate('Layout'); ?>
             </label>
             <div class="col-sm-9 wt-page-options-value">
-                <?=
-                Bootstrap4::checkbox(
-                    I18N::translate('Show empty boxes for missing individuals. Caution: May slow down your system!'),
-                    false,
-                    [
-                        'id'      => 'showEmptyBoxes',
+                <?= view('components/checkbox', [
+                        'label'   => I18N::translate('Show empty boxes for missing individuals. Caution: May slow down your system!'),
                         'name'    => 'showEmptyBoxes',
                         'checked' => $config->getShowEmptyBoxes(),
-                    ]
-                );
+                    ]);
                 ?>
             </div>
         </div>
