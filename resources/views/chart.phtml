@@ -47,7 +47,7 @@ use MagicSunday\Webtrees\PedigreeChart\Config;
                 <?= view('components/select', [
                         'name'     => 'generations',
                         'selected' => $config->getGenerations(),
-                        'values'   => $config->getGenerationsList(),
+                        'options'  => $config->getGenerationsList(),
                         'class'    => 'form-control-sm',
                     ]);
                 ?>
