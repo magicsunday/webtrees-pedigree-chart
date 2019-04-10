@@ -17,8 +17,8 @@ use Fisharebest\Webtrees\Module\PedigreeChartModule as WebtreesPedigreeChartModu
 use Fisharebest\Webtrees\Services\ChartService;
 use Fisharebest\Webtrees\Tree;
 use MagicSunday\Webtrees\PedigreeChart\Traits\UtilityTrait;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Pedigree chart module class.
@@ -47,6 +47,13 @@ class Module extends WebtreesPedigreeChartModule implements ModuleCustomInterfac
     public const CUSTOM_WEBSITE = 'https://github.com/magicsunday/webtrees-pedigree-chart';
 
     /**
+     * The configuration instance.
+     *
+     * @var Config
+     */
+    private $config;
+
+    /**
      * Constructor.
      *
      * @param string $moduleDirectory The module base directory
@@ -63,13 +70,14 @@ class Module extends WebtreesPedigreeChartModule implements ModuleCustomInterfac
      * @throws IndividualAccessDeniedException
      */
     public function getChartAction(
-        Request $request,
+        ServerRequestInterface $request,
         Tree $tree,
         UserInterface $user,
         ChartService $chart_service
-    ): Response {
-        $xref       = $request->get('xref');
-        $individual = Individual::getInstance($xref, $tree);
+    ): ResponseInterface {
+        $this->config = new Config($request);
+        $xref         = $request->getQueryParams()['xref'];
+        $individual   = Individual::getInstance($xref, $tree);
 
         if ($individual === null) {
             throw new IndividualNotFoundException();

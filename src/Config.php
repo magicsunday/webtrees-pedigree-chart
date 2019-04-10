@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace MagicSunday\Webtrees\PedigreeChart;
 
 use Fisharebest\Webtrees\Functions\FunctionsEdit;
-use Symfony\Component\HttpFoundation\Request;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Configuration class.
@@ -42,16 +42,16 @@ class Config
     /**
      * The current request instance.
      *
-     * @var Request
+     * @var ServerRequestInterface
      */
     private $request;
 
     /**
      * Config constructor.
      *
-     * @param Request $request The current HTTP request
+     * @param ServerRequestInterface $request
      */
-    public function __construct(Request $request)
+    public function __construct(ServerRequestInterface $request)
     {
         $this->request = $request;
     }
@@ -63,7 +63,7 @@ class Config
      */
     public function getGenerations(): int
     {
-        $generations = (int) $this->request->get('generations', self::DEFAULT_GENERATIONS);
+        $generations = (int) ($this->request->getQueryParams()['generations'] ?? self::DEFAULT_GENERATIONS);
         $generations = min($generations, self::MAX_GENERATIONS);
 
         return max($generations, self::MIN_GENERATIONS);
@@ -86,6 +86,6 @@ class Config
      */
     public function getShowEmptyBoxes(): bool
     {
-        return (bool) $this->request->get('showEmptyBoxes');
+        return (bool) ($this->request->getQueryParams()['showEmptyBoxes'] ?? false);
     }
 }
