@@ -2,8 +2,8 @@
     position: relative;
     /*font-family: Helvetica,Arial,sans-serif;*/
     font-size: 12px;
-    /*display: flex;*/
-    /*flex: auto;*/
+    display: flex;
+    flex: auto;
 }
 
 #page-pedigree svg {
