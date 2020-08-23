@@ -2,11 +2,11 @@
  * See LICENSE.md file for further details.
  */
 import * as d3 from "./d3";
+import Configuration from "./configuration";
+import Hierarchy from "./chart/hierarchy";
 import Tree from "./tree";
-import Config from "./config";
-import Hierarchy from "./hierarchy";
 import Overlay from "./chart/overlay";
-import Zoom from "./chart/zoom";
+import Svg from "./chart/svg";
 
 const MIN_HEIGHT  = 500;
 const MIN_PADDING = 10;   // Minimum padding around view box
@@ -23,112 +23,25 @@ export default class Chart
     /**
      * Constructor.
      *
-     * @param {String}  selector
-     * @param {Options} options
+     * @param {Selection}     parent        The selected D3 parent element container
+     * @param {Configuration} configuration The application configuration
      */
-    constructor(selector, options)
+    constructor(parent, configuration)
     {
-        this._options = options;
-        this._config  = new Config();
-        this._overlay = null;
-        this._zoom    = null;
-
-        // Parent container
-        this._config.parent = d3.select(selector);
-
-        this.createSvg();
-        this.init();
+        this._configuration = configuration;
+        this._parent        = parent;
+        this._hierarchy     = new Hierarchy(this._configuration);
+        this._data          = {};
     }
 
     /**
-     * @private
+     * Returns the SVG instance.
+     *
+     * @return {Svg}
      */
-    createSvg()
+    get svg()
     {
-        // let margin = {top: 20, right: 20, bottom: 20, left: 20},
-        //     width = 960 - margin.left - margin.right,
-        //     height = 960 - margin.top - margin.bottom;
-
-        // Add SVG element
-        this._config.svg = this._config.parent
-            .append("svg")
-            .attr("version", "1.1")
-            .attr("xmlns", "http://www.w3.org/2000/svg")
-            .attr("xmlns:xlink", "http://www.w3.org/1999/xlink")
-            // .attr("width", width + margin.right + margin.left)
-            // .attr("height", height + margin.top + margin.bottom)
-            .attr("width", "100%")
-            .attr("height", "100%")
-            .attr("text-rendering", "geometricPrecision")
-            .attr("text-anchor", "middle")
-            .on("contextmenu", () => d3.event.preventDefault())
-            .on("wheel", () => {
-                if (!d3.event.ctrlKey) {
-                    this.overlay.show(
-                        this._options.labels.zoom,
-                        300,
-                        () => {
-                            this.overlay.hide(700, 800);
-                        }
-                    );
-                }
-            })
-            .on("touchend", () => {
-                if (d3.event.touches.length < 2) {
-                    this.overlay.hide(0, 800);
-                }
-            })
-            .on("touchmove", () => {
-                if (d3.event.touches.length >= 2) {
-                    // Hide tooltip on more than 2 fingers
-                    this.overlay.hide();
-                } else {
-                    // Show tooltip if less than 2 fingers are used
-                    this.overlay.show(this._options.labels.move);
-                }
-            })
-            .on("click", () => this.doStopPropagation(), true);
-    }
-
-    /**
-     * @private
-     */
-    init()
-    {
-        if (this._options.rtl) {
-            this._config.svg.classed("rtl", true);
-        }
-
-        this.overlay = new Overlay(this._config);
-
-        // Bind click event on reset button
-        d3.select("#resetButton")
-            .on("click", () => this.doReset());
-
-        // Add group
-        this._config.visual = this._config.svg
-            .append("g");
-
-        this._zoom = new Zoom(this._config);
-        this._config.svg.call(this._zoom.get());
-
-        let defs = this._config.svg
-            .append("defs")
-            .attr("id", "imgdefs");
-
-        let clipPath = defs
-            .append('clipPath')
-            .attr('id', 'clip-circle')
-            .append("circle")
-            .attr("r", 35)
-            .attr("cx", -90)
-            .attr("cy", 0);
-
-        // Create hierarchical data
-        let hierarchy = new Hierarchy(this._options.data, this._options);
-        let tree      = new Tree(this._config, this._options, hierarchy);
-
-        this.updateViewBox();
+        return this._svg;
     }
 
     /**
@@ -139,11 +52,11 @@ export default class Chart
     updateViewBox()
     {
         // Get bounding boxes
-        let svgBoundingBox = this._config.visual.node().getBBox();
-        let clientBoundingBox = this._config.parent.node().getBoundingClientRect();
+        let svgBoundingBox    = this._svg.visual.node().getBBox();
+        let clientBoundingBox = this._parent.node().getBoundingClientRect();
 
         // View box should have at least the same width/height as the parent element
-        let viewBoxWidth = Math.max(clientBoundingBox.width, svgBoundingBox.width);
+        let viewBoxWidth  = Math.max(clientBoundingBox.width, svgBoundingBox.width);
         let viewBoxHeight = Math.max(clientBoundingBox.height, svgBoundingBox.height, MIN_HEIGHT);
 
         // Calculate offset to center chart inside svg
@@ -152,64 +65,183 @@ export default class Chart
 
         // Adjust view box dimensions by padding and offset
         let viewBoxLeft = Math.ceil(svgBoundingBox.x - offsetX - MIN_PADDING);
-        let viewBoxTop = Math.ceil(svgBoundingBox.y - offsetY - MIN_PADDING);
+        let viewBoxTop  = Math.ceil(svgBoundingBox.y - offsetY - MIN_PADDING);
 
         // Final width/height of view box
-        viewBoxWidth = Math.ceil(viewBoxWidth + (MIN_PADDING * 2));
+        viewBoxWidth  = Math.ceil(viewBoxWidth + (MIN_PADDING * 2));
         viewBoxHeight = Math.ceil(viewBoxHeight + (MIN_PADDING * 2));
 
         // Set view box attribute
-        this._config.svg
+        this._svg.get()
             .attr("viewBox", [
                 viewBoxLeft,
                 viewBoxTop,
                 viewBoxWidth,
                 viewBoxHeight
             ]);
+
+        // Add rectangle element
+        // this._svg
+        //     .insert("rect", ":first-child")
+        //     .attr("class", "background")
+        //     .attr("width", "100%")
+        //     .attr("height", "100%")
+        //     .style("fill", "none")
+        //     .style("pointer-events", "all");
+        //
+        // // Adjust rectangle position
+        // this._svg
+        //     .select("rect")
+        //     .attr("x", viewBoxLeft)
+        //     .attr("y", viewBoxTop);
     }
 
     /**
-     * Returns the overlay container.
+     * Returns the chart data.
      *
-     * @return {Overlay}
+     * @return {Object}
      */
-    get overlay()
+    get data()
     {
-        return this._overlay;
+        return this._data;
     }
 
     /**
-     * Sets parent overlay container.
+     * Sets the chart data.
      *
-     * @param {Overlay} value The overlay container
+     * @param {Object} value The chart data
      */
-    set overlay(value)
+    set data(value)
     {
-        this._overlay = value;
+        this._data = value;
+
+        // Create the hierarchical data structure
+        this._hierarchy.init(this._data);
     }
 
     /**
-     * Prevent default click and stop propagation.
+     * This method draws the chart.
+     */
+    draw()
+    {
+        // Remove previously created content
+        this._parent.html("");
+
+        // Create the <svg> element
+        this._svg = new Svg(this._parent, this._configuration);
+
+        // Overlay must be placed after the <svg> element
+        this._overlay = new Overlay(this._parent);
+
+        // Init the <svg> events
+        this._svg.initEvents(this._overlay);
+
+        // let personGroup = this._svg.get().select("g.personGroup");
+        // let gradient    = new Gradient(this._svg, this._configuration);
+        // let that        = this;
+        //
+        // personGroup
+        //     .selectAll("g.person")
+        //     .data(this._hierarchy.nodes, (d) => d.data.id)
+        //     .enter()
+        //     .append("g")
+        //     .attr("class", "person")
+        //     .attr("id", (d) => "person-" + d.data.id);
+        //
+        // // Create a new selection in order to leave the previous enter() selection
+        // personGroup
+        //     .selectAll("g.person")
+        //     .each(function (d) {
+        //         let person = d3.select(this);
+        //
+        //         if (that._configuration.showColorGradients) {
+        //             gradient.init(d);
+        //         }
+        //
+        //         new Person(that._svg, that._configuration, person, d);
+        //     });
+
+        // this.bindClickEventListener();
+        this.updateViewBox();
+    }
+
+    // /**
+    //  * This method bind the "click" event listeners to a "person" element.
+    //  */
+    // bindClickEventListener()
+    // {
+    //     let persons = this._svg.get()
+    //         .select("g.personGroup")
+    //         .selectAll("g.person")
+    //         .filter((d) => d.data.xref !== "")
+    //         .classed("available", true);
+    //
+    //     // Trigger method on click
+    //     persons.on("click", this.personClick.bind(this));
+    // }
+
+    /**
+     * Method triggers either the "update" or "individual" method on the click on an person.
+     *
+     * @param {Object} data The D3 data object
      *
      * @private
      */
-    doStopPropagation()
+    personClick(data)
     {
-        if (d3.event.defaultPrevented) {
-            d3.event.stopPropagation();
-        }
+        // Trigger either "update" or "redirectToIndividual" method on click depending on person in chart
+        // (data.depth === 0) ? this.redirectToIndividual(data.data.url) : this.update(data.data.updateUrl);
     }
 
     /**
-     * Reset chart to initial zoom level and position.
+     * Redirects to the individual page.
+     *
+     * @param {string} url The individual URL
      *
      * @private
      */
-    doReset()
+    redirectToIndividual(url)
     {
-        this._config.svg
-            .transition()
-            .duration(750)
-            .call(this._zoom.get().transform, d3.zoomIdentity);
+        window.location = url;
     }
+
+    // /**
+    //  * @private
+    //  */
+    // init()
+    // {
+    //     if (this._configuration.rtl) {
+    //         this._configuration.svg.classed("rtl", true);
+    //     }
+    //
+    //     this.overlay = new Overlay(this._config);
+    //
+    //     // Bind click event on reset button
+    //     d3.select("#resetButton")
+    //         .on("click", () => this.doReset());
+    //
+    //     // Add group
+    //     this._config.visual = this._config.svg
+    //         .append("g");
+    //
+    //     this._zoom = new Zoom(this._config);
+    //     this._config.svg.call(this._zoom.get());
+    //
+    //     let defs = this._svg.defs.get()
+    //         .attr("id", "imgdefs");
+    //
+    //     let clipPath = defs
+    //         .append('clipPath')
+    //         .attr('id', 'clip-circle')
+    //         .append("circle")
+    //         .attr("r", 35)
+    //         .attr("cx", -90)
+    //         .attr("cy", 0);
+    //
+    //     // Create hierarchical data
+    //     let hierarchy = new Hierarchy(this._options.data, this._options);
+    //     let tree      = new Tree(this._config, this._options, hierarchy);
+    //
+    //     this.updateViewBox();
+    // }
 }

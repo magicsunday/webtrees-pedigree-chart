@@ -1,7 +1,9 @@
 /**
  * See LICENSE.md file for further details.
  */
-import * as d3 from "./d3";
+
+import * as d3 from "./../d3";
+import Configuration from "./../configuration";
 
 export const SEX_MALE   = "M";
 export const SEX_FEMALE = "F";
@@ -18,26 +20,22 @@ export default class Hierarchy
     /**
      * Constructor.
      *
-     * @param {Array}  data    The tree data
-     * @param {Object} options
+     * @param {Configuration} configuration The application configuration
      */
-    constructor(data, options)
+    constructor(configuration)
     {
+        this._configuration = configuration;
+        this._nodes         = null;
+
         this.nodeWidth  = 200;
         this.nodeHeight = 0;
         this.separation = 0.5;
-        this._options   = options;
-        this._nodes     = null;
-
-        this.init(data);
     }
 
     /**
      * Initialize the hierarchical chart data.
      *
-     * @param {Object} data JSON encoded data
-     *
-     * @public
+     * @param {Object} data The JSON encoded chart data
      */
     init(data)
     {
@@ -49,16 +47,16 @@ export default class Hierarchy
         let root = d3.hierarchy(
             data,
             data => {
-                if (!this._options.showEmptyBoxes) {
+                if (!this._configuration.showEmptyBoxes) {
                     return data.children;
                 }
 
                 // Fill up the missing children to the requested number of generations
                 if (!data.children && (data.generation < maxGenerations)) {
-                // if (!data.children && (data.generation < this._options.generations)) {
+                // if (!data.children && (data.generation < this._configuration.generations)) {
                     data.children = [
-                        this.createEmptyNode(data.generation + 1),
-                        this.createEmptyNode(data.generation + 1)
+                        this.createEmptyNode(data.generation + 1, SEX_MALE),
+                        this.createEmptyNode(data.generation + 1, SEX_FEMALE)
                     ];
                 }
 
@@ -66,11 +64,11 @@ export default class Hierarchy
                 if (data.children && (data.children.length < 2)) {
                     if (data.children[0].sex === SEX_MALE) {
                         data.children.push(
-                            this.createEmptyNode(data.generation + 1)
+                            this.createEmptyNode(data.generation + 1, SEX_FEMALE)
                         );
                     } else {
                         data.children.unshift(
-                            this.createEmptyNode(data.generation + 1)
+                            this.createEmptyNode(data.generation + 1, SEX_MALE)
                         );
                     }
                 }
@@ -102,20 +100,31 @@ export default class Hierarchy
     /**
      * Create an empty child node object.
      *
-     * @param {Number} generation Generation of the node
+     * @param {number} generation Generation of the node
+     * @param {string} sex        The sex of the individual
      *
      * @return {Object}
      *
      * @private
      */
-    createEmptyNode(generation)
+    createEmptyNode(generation, sex)
     {
         return {
-            id         : 0,
-            xref       : "",
-            sex        : "",
-            generation : generation,
-            color      : this._options.defaultColor,
+            id               : 0,
+            xref             : "",
+            url              : "",
+            updateUrl        : "",
+            generation       : generation,
+            name             : "",
+            firstNames       : [],
+            lastNames        : [],
+            preferredName    : "",
+            alternativeNames : [],
+            isAltRtl         : false,
+            sex              : sex,
+            timespan         : "",
+            color            : this._configuration.defaultColor,
+            colors           : [[], []]
         };
     }
 }

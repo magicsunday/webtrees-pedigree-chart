@@ -2,7 +2,7 @@
  * See LICENSE.md file for further details.
  */
 
-import {SEX_FEMALE, SEX_MALE} from "./hierarchy";
+import {SEX_FEMALE, SEX_MALE} from "./chart/hierarchy";
 
 /**
  * The class handles the creation of the tree.

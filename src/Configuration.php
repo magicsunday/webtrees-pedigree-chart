@@ -1,9 +1,11 @@
 <?php
-declare(strict_types=1);
 
 /**
  * See LICENSE.md file for further details.
  */
+
+declare(strict_types=1);
+
 namespace MagicSunday\Webtrees\PedigreeChart;
 
 use Fisharebest\Webtrees\Functions\FunctionsEdit;
@@ -14,9 +16,9 @@ use Psr\Http\Message\ServerRequestInterface;
  *
  * @author  Rico Sonntag <mail@ricosonntag.de>
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
- * @link    https://github.com/magicsunday/ancestral-fan-chart/
+ * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
-class Config
+class Configuration
 {
     /**
      * The default number of generations to display.
@@ -47,7 +49,7 @@ class Config
     private $request;
 
     /**
-     * Config constructor.
+     * Configuration constructor.
      *
      * @param ServerRequestInterface $request
      */

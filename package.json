@@ -8,20 +8,20 @@
     },
     "description": "",
     "scripts": {
-        "prepare": "rollup -c && uglifyjs resources/js/pedigree-chart.js --compress --mangle --output resources/js/pedigree-chart.min.js"
+        "prepare": "rollup -c"
     },
     "devDependencies": {
         "d3-fetch": "^1.1",
         "d3-hierarchy": "^1.1",
-        "d3-scale": "^2.1",
-        "d3-selection": "^1.3",
-        "d3-shape": "^1.2",
+        "d3-scale": "^3.2",
+        "d3-selection": "^1.4",
+        "d3-shape": "^1.3",
         "d3-timer": "^1.0",
-        "d3-transition": "^1.1",
-        "d3-zoom": "^1.7",
-        "rollup": "^0",
-        "rollup-plugin-node-resolve": "^3",
-        "uglify-es": "^3"
+        "d3-transition": "^1.3",
+        "d3-zoom": "^1.8",
+        "rollup": "^2.26.5",
+        "@rollup/plugin-node-resolve": "^9.0.0",
+        "rollup-plugin-terser": "^7.0.0"
     },
     "dependencies": {}
 }

@@ -1,35 +1,47 @@
 <?php
-declare(strict_types=1);
 
 /**
  * See LICENSE.md file for further details.
  */
+
+declare(strict_types=1);
+
 namespace MagicSunday\Webtrees\PedigreeChart;
 
+use Aura\Router\RouterContainer;
+use Exception;
+use Fig\Http\Message\RequestMethodInterface;
 use Fisharebest\Webtrees\Auth;
-use Fisharebest\Webtrees\Contracts\UserInterface;
-use Fisharebest\Webtrees\Exceptions\IndividualAccessDeniedException;
 use Fisharebest\Webtrees\Exceptions\IndividualNotFoundException;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
+use Fisharebest\Webtrees\Module\AbstractModule;
+use Fisharebest\Webtrees\Module\ModuleChartInterface;
 use Fisharebest\Webtrees\Module\ModuleCustomInterface;
-use Fisharebest\Webtrees\Module\PedigreeChartModule as WebtreesPedigreeChartModule;
-use Fisharebest\Webtrees\Services\ChartService;
-use Fisharebest\Webtrees\Tree;
-use MagicSunday\Webtrees\PedigreeChart\Traits\UtilityTrait;
+use Fisharebest\Webtrees\Module\ModuleThemeInterface;
+use Fisharebest\Webtrees\View;
+use MagicSunday\Webtrees\PedigreeChart\Traits\IndividualTrait;
+use MagicSunday\Webtrees\PedigreeChart\Traits\ModuleChartTrait;
+use MagicSunday\Webtrees\PedigreeChart\Traits\ModuleCustomTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 /**
  * Pedigree chart module class.
  *
  * @author  Rico Sonntag <mail@ricosonntag.de>
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
- * @link    https://github.com/magicsunday/ancestral-fan-chart/
+ * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
-class Module extends WebtreesPedigreeChartModule implements ModuleCustomInterface
+class Module extends AbstractModule implements ModuleCustomInterface, ModuleChartInterface, RequestHandlerInterface
 {
-    use UtilityTrait;
+    use ModuleCustomTrait;
+    use ModuleChartTrait;
+    use IndividualTrait;
+
+    private const ROUTE_DEFAULT     = 'webtrees-pedigree-chart';
+    private const ROUTE_DEFAULT_URL = '/tree/{tree}/webtrees-pedigree-chart/{xref}';
 
     /**
      * @var string
@@ -49,55 +61,147 @@ class Module extends WebtreesPedigreeChartModule implements ModuleCustomInterfac
     /**
      * The configuration instance.
      *
-     * @var Config
+     * @var Configuration
      */
-    private $config;
+    private $configuration;
 
     /**
-     * Constructor.
+     * The current theme instance.
      *
-     * @param string $moduleDirectory The module base directory
+     * @var ModuleThemeInterface
      */
-    public function __construct(string $moduleDirectory)
+    private $theme;
+
+    /**
+     * Initialization.
+     */
+    public function boot(): void
     {
-        $this->moduleDirectory = $moduleDirectory;
+        /** @var RouterContainer $routerContainer */
+        $routerContainer = app(RouterContainer::class);
+
+        $routerContainer->getMap()
+            ->get(self::ROUTE_DEFAULT, self::ROUTE_DEFAULT_URL, $this)
+            ->allows(RequestMethodInterface::METHOD_POST);
+
+        $this->theme = app(ModuleThemeInterface::class);
+
+        View::registerNamespace($this->name(), $this->resourcesFolder() . 'views/');
     }
 
     /**
-     * @inheritDoc
+     * How should this module be identified in the control panel, etc.?
      *
-     * @throws IndividualNotFoundException
-     * @throws IndividualAccessDeniedException
+     * @return string
      */
-    public function getChartAction(
-        ServerRequestInterface $request,
-        Tree $tree,
-        UserInterface $user,
-        ChartService $chart_service
-    ): ResponseInterface {
-        $this->config = new Config($request);
-        $xref         = $request->getQueryParams()['xref'];
-        $individual   = Individual::getInstance($xref, $tree);
+    public function title(): string
+    {
+        return I18N::translate('Pedigree chart');
+    }
+
+    /**
+     * A sentence describing what this module does.
+     *
+     * @return string
+     */
+    public function description(): string
+    {
+        return I18N::translate('A pedigree chart of an individual’s ancestors.');
+    }
+
+    /**
+     * Where does this module store its resources
+     *
+     * @return string
+     */
+    public function resourcesFolder(): string
+    {
+        return __DIR__ . '/../resources/';
+    }
+
+    /**
+     * Handles a request and produces a response.
+     *
+     * @param ServerRequestInterface $request
+     *
+     * @return ResponseInterface
+     * @throws Exception
+     */
+    public function handle(ServerRequestInterface $request): ResponseInterface
+    {
+        $tree       = $request->getAttribute('tree');
+        $user       = $request->getAttribute('user');
+        $xref       = $request->getAttribute('xref');
+        $individual = Individual::getInstance($xref, $tree);
+
+        $this->configuration = new Configuration($request);
 
         if ($individual === null) {
             throw new IndividualNotFoundException();
         }
 
-        Auth::checkIndividualAccess($individual);
+        Auth::checkIndividualAccess($individual, false, true);
         Auth::checkComponentAccess($this, 'chart', $tree, $user);
+
+        $ajaxUrl = route('module', [
+            'module' => $this->name(),
+            'action' => 'update',
+            'tree'   => $individual->tree()->name(),
+            'xref'   => '',
+        ]);
 
         return $this->viewResponse(
             $this->name() . '::chart',
             [
-                'title'       => $this->getPageTitle($individual),
-                'moduleName'  => $this->name(),
-                'individual'  => $individual,
-                'tree'        => $tree,
-                'config'      => $this->config,
-                'chartParams' => json_encode($this->getChartParameters($individual)),
+                'title'         => $this->getPageTitle($individual),
+                'ajaxUrl'       => $ajaxUrl,
+                'moduleName'    => $this->name(),
+                'individual'    => $individual,
+                'tree'          => $tree,
+                'configuration' => $this->configuration,
+                'chartParams'   => json_encode($this->getChartParameters($individual)),
+                'stylesheet'    => $this->assetUrl('css/pedigree-chart.css'),
+                'svgStylesheet' => $this->assetUrl('css/svg.css'),
+                'javascript'    => $this->assetUrl('js/pedigree-chart.min.js'),
             ]
         );
     }
+
+//    /**
+//     * @inheritDoc
+//     *
+//     * @throws IndividualNotFoundException
+//     * @throws IndividualAccessDeniedException
+//     */
+//    public function getChartAction(
+//        ServerRequestInterface $request,
+//        Tree $tree,
+//        UserInterface $user,
+//        ChartService $chart_service
+//    ): ResponseInterface {
+//        $this->config = new Config($request);
+//        $xref         = $request->getQueryParams()['xref'];
+//        $individual   = Individual::getInstance($xref, $tree);
+//
+//        if ($individual === null) {
+//            throw new IndividualNotFoundException();
+//        }
+//
+//        Auth::checkIndividualAccess($individual);
+//        Auth::checkComponentAccess($this, 'chart', $tree, $user);
+//
+//        return $this->viewResponse(
+//            $this->name() . '::chart',
+//            [
+//                'title'       => $this->getPageTitle($individual),
+//                'moduleName'  => $this->name(),
+//                'individual'  => $individual,
+//                'tree'        => $tree,
+//                'config'      => $this->config,
+//                'chartParams' => json_encode($this->getChartParameters($individual)),
+//            ]
+//        );
+//    }
 
     /**
      * Returns the page title.
@@ -127,69 +231,52 @@ class Module extends WebtreesPedigreeChartModule implements ModuleCustomInterfac
     private function getChartParameters(Individual $individual): array
     {
         return [
-            'rtl'            => I18N::direction() === 'rtl',
-            'defaultColor'   => $this->getColor(),
-            'fontColor'      => $this->getChartFontColor(),
-            'generations'    => $this->config->getGenerations(),
-            'showEmptyBoxes' => $this->config->getShowEmptyBoxes(),
-            'individualUrl'  => $this->getIndividualRoute(),
-            'data'           => $this->buildJsonTree($individual),
-            'labels'         => [
+            'rtl'          => I18N::direction() === 'rtl',
+            'defaultColor' => $this->getColor($individual),
+            'fontColor'    => $this->getChartFontColor(),
+            'labels'       => [
                 'zoom' => I18N::translate('Use Ctrl + scroll to zoom in the view'),
                 'move' => I18N::translate('Move the view with two fingers'),
             ],
+
+//            'rtl'            => I18N::direction() === 'rtl',
+//            'defaultColor'   => $this->getColor(),
+//            'fontColor'      => $this->getChartFontColor(),
+//            'generations'    => $this->config->getGenerations(),
+//            'showEmptyBoxes' => $this->config->getShowEmptyBoxes(),
+//            'individualUrl'  => $this->getIndividualRoute(),
+//            'data'           => $this->buildJsonTree($individual),
+//            'labels'         => [
+//                'zoom' => I18N::translate('Use Ctrl + scroll to zoom in the view'),
+//                'move' => I18N::translate('Move the view with two fingers'),
+//            ],
         ];
     }
 
     /**
-     * Returns the URL of the highlight image of an individual.
+     * Update action.
      *
-     * @param Individual $individual The current individual
+     * @param ServerRequestInterface $request The current HTTP request
      *
-     * @return string
+     * @return ResponseInterface
+     *
+     * @throws Exception
      */
-    private function getIndividualImage(Individual $individual): string
+    public function getUpdateAction(ServerRequestInterface $request): ResponseInterface
     {
-        if ($individual->canShow()
-            && $individual->tree()->getPreference('SHOW_HIGHLIGHT_IMAGES')
-        ) {
-            $mediaFile = $individual->findHighlightedMediaFile();
+        $this->configuration = new Configuration($request);
 
-            if ($mediaFile !== null) {
-                return $mediaFile->imageUrl(250, 250, 'crop');
-            }
-        }
+        $tree         = $request->getAttribute('tree');
+        $user         = $request->getAttribute('user');
+        $xref         = $request->getQueryParams()['xref'];
+        $individual   = Individual::getInstance($xref, $tree);
 
-        return '';
-    }
+        Auth::checkIndividualAccess($individual, false, true);
+        Auth::checkComponentAccess($this, 'chart', $tree, $user);
 
-    /**
-     * Get the individual data required for display the chart.
-     *
-     * @param Individual $individual The start person
-     * @param int        $generation The generation the person belongs to
-     *
-     * @return array
-     */
-    private function getIndividualData(Individual $individual, int $generation): array
-    {
-        $fullName        = $this->unescapedHtml($individual->fullName());
-        $alternativeName = $this->unescapedHtml($individual->alternateName());
-
-        return [
-            'id'              => 0,
-            'xref'            => $individual->xref(),
-            'generation'      => $generation,
-            'name'            => $fullName,
-            'alternativeName' => $alternativeName,
-            'isAltRtl'        => $this->isRtl($alternativeName),
-            'thumbnail'       => $this->getIndividualImage($individual),
-            'sex'             => $individual->sex(),
-            'born'            => $individual->getBirthDate()->minimumDate()->format('%d.%m.%Y'),
-            'died'            => $individual->getDeathDate()->minimumDate()->format('%d.%m.%Y'),
-            'color'           => $this->getColor($individual),
-            'colors'          => [[], []],
-        ];
+        return response(
+            $this->buildJsonTree($individual)
+        );
     }
 
     /**
@@ -198,17 +285,17 @@ class Module extends WebtreesPedigreeChartModule implements ModuleCustomInterfac
      * @param null|Individual $individual The start person
      * @param int             $generation The current generation
      *
-     * @return array
+     * @return string[][]
      */
-    private function buildJsonTree(Individual $individual = null, int $generation = 1): array
+    private function buildJsonTree(?Individual $individual, int $generation = 1): array
     {
         // Maximum generation reached
-        if (($individual === null) || ($generation > $this->config->getGenerations())) {
+        if (($individual === null) || ($generation > $this->configuration->getGenerations())) {
             return [];
         }
 
         $data   = $this->getIndividualData($individual, $generation);
-        $family = $individual->primaryChildFamily();
+        $family = $individual->childFamilies()->first();
 
         if ($family === null) {
             return $data;
@@ -228,5 +315,65 @@ class Module extends WebtreesPedigreeChartModule implements ModuleCustomInterfac
         }
 
         return $data;
+    }
+
+    /**
+     * Get the raw update URL. The "xref" parameter must be the last one as the URL gets appended
+     * with the clicked individual id in order to load the required chart data.
+     *
+     * @param Individual $individual
+     *
+     * @return string
+     */
+    private function getUpdateRoute(Individual $individual): string
+    {
+        return route('module', [
+            'module'      => $this->name(),
+            'action'      => 'update',
+            'xref'        => $individual->xref(),
+            'tree'        => $individual->tree()->name(),
+            'generations' => $this->configuration->getGenerations(),
+        ]);
+    }
+
+    /**
+     * Returns whether the given text is in RTL style or not.
+     *
+     * @param string[] $text The text to check
+     *
+     * @return bool
+     */
+    private function isRtl(array $text): bool
+    {
+        foreach ($text as $entry) {
+            if (I18N::scriptDirection(I18N::textScript($entry)) === 'rtl') {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Get the default colors based on the gender of an individual.
+     *
+     * @param null|Individual $individual Individual instance
+     *
+     * @return string HTML color code
+     */
+    private function getColor(?Individual $individual): string
+    {
+        $genderLower = ($individual === null) ? 'u' : strtolower($individual->sex());
+        return '#' . $this->theme->parameter('chart-background-' . $genderLower);
+    }
+
+    /**
+     * Get the theme defined chart font color.
+     *
+     * @return string HTML color code
+     */
+    private function getChartFontColor(): string
+    {
+        return '#' . $this->theme->parameter('chart-font-color');
     }
 }

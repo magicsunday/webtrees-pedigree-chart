@@ -1,56 +1,65 @@
 <?php
-declare(strict_types=1);
 
 /**
  * See LICENSE.md file for further details.
  */
 
+declare(strict_types=1);
+
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
+use Fisharebest\Webtrees\Tree;
 use Fisharebest\Webtrees\View;
-use MagicSunday\Webtrees\PedigreeChart\Config;
+use MagicSunday\Webtrees\PedigreeChart\Configuration;
 
-/** @var Config     $config */
-/** @var string     $title */
-/** @var string     $moduleName */
+/** @var Configuration $configuration */
+/** @var string $title */
+/** @var string $moduleName */
 /** @var Individual $individual */
-/** @var array      $chartParams */
+/** @var Tree $tree */
+/** @var array $chartParams */
+/** @var string $javascript */
+/** @var string $stylesheet */
+/** @var string $svgStylesheet */
+/** @var string $ajaxUrl */
 ?>
 
 <div id="page-pedigree">
     <h2 class="wt-page-title"><?= $title ?></h2>
 
-    <form class="wt-page-options wt-page-options-pedigree-chart d-print-none">
-        <input type="hidden" name="route" value="module">
-        <input type="hidden" name="module" value="<?= e($moduleName) ?>">
-        <input type="hidden" name="ged" value="<?= e($tree->name()) ?>">
-        <input type="hidden" name="action" value="Chart">
+    <form id="webtrees-pedigree-chart-form" method="post" class="wt-page-options wt-page-options-pedigree-chart d-print-none">
+        <?= csrf_field() ?>
 
         <div class="form-group row">
             <label class="col-sm-3 col-form-label wt-page-options-label" for="xref">
                 <?= I18N::translate('Individual') ?>
             </label>
             <div class="col-sm-9 wt-page-options-value">
-                <?= view('components/select-individual', [
+                <?=
+                    view('components/select-individual', [
+                        'id'         => 'xref',
                         'name'       => 'xref',
                         'individual' => $individual,
                         'tree'       => $tree,
-                    ]);
+                        'required'   => true,
+                    ])
                 ?>
             </div>
         </div>
 
         <div class="form-group row">
             <label class="col-sm-3 col-form-label wt-page-options-label" for="generations">
-                <?= I18N::translate('Generations'); ?>
+                <?= I18N::translate('Generations') ?>
             </label>
             <div class="col-sm-9 wt-page-options-value">
-                <?= view('components/select', [
+                <?=
+                    view('components/select', [
+                        'id'       => 'generations',
                         'name'     => 'generations',
-                        'selected' => $config->getGenerations(),
-                        'options'  => $config->getGenerationsList(),
+                        'selected' => $configuration->getGenerations(),
+                        'options'  => $configuration->getGenerationsList(),
                         'class'    => 'form-control-sm',
-                    ]);
+                    ])
                 ?>
             </div>
         </div>
@@ -60,11 +69,13 @@ use MagicSunday\Webtrees\PedigreeChart\Config;
                 <?= I18N::translate('Layout'); ?>
             </label>
             <div class="col-sm-9 wt-page-options-value">
-                <?= view('components/checkbox', [
-                        'label'   => I18N::translate('Show empty boxes for missing individuals. Caution: May slow down your system!'),
+                <?=
+                    view('components/checkbox', [
+                        'id'      => 'showEmptyBoxes',
                         'name'    => 'showEmptyBoxes',
-                        'checked' => $config->getShowEmptyBoxes(),
-                    ]);
+                        'label'   => I18N::translate('Show empty boxes for missing individuals. Caution: May slow down your system!'),
+                        'checked' => $configuration->getShowEmptyBoxes(),
+                    ])
                 ?>
             </div>
         </div>
@@ -78,40 +89,97 @@ use MagicSunday\Webtrees\PedigreeChart\Config;
     </form>
 
     <div class="row">
-        <div id="pedigree_chart" class="wt-ajax-load wt-page-content wt-chart wt-pedigree-chart"></div>
+        <div id="webtrees-pedigree-chart-container" class="wt-ajax-load wt-page-content wt-chart wt-pedigree-chart"></div>
     </div>
 </div>
 
 <?php View::push('styles') ?>
-<link rel="stylesheet" type="text/css" href="modules_v4/webtrees-pedigree-chart/resources/css/pedigree-chart.css">
+<link rel="stylesheet" href="<?= e($stylesheet) ?>">
+<link rel="stylesheet" href="<?= e($svgStylesheet) ?>">
 <?php View::endpush(); ?>
 
 <?php View::push('javascript'); ?>
-<script type="text/javascript" src="modules_v4/webtrees-pedigree-chart/resources/js/pedigree-chart.min.js"></script>
-<script type="text/javascript">
+<script src="<?= e($javascript) ?>"></script>
+<script>
 
-function PedigreeChart(data)
+/**
+ * Returns the AJAX update URL.
+ *
+ * @param {PedigreeChart} pedigreeChart
+ * @param {string}        baseUrl
+ *
+ * @returns {string}
+ */
+function getUrl(pedigreeChart, baseUrl)
 {
-    let options = new rso.Options(
-        data.individualUrl,
-        data.labels,
-        data.generations,
-        data.defaultColor,
-        data.fontColor,
-        data.rtl,
-        data.showEmptyBoxes,
-        1
-    );
+    let url = new URL(baseUrl);
+    url.searchParams.set("xref", document.getElementById('xref').value);
+    url.searchParams.set("generations", pedigreeChart.configuration.generations);
 
-    options = Object.assign({}, options, data);
-
-    new rso.Chart("#pedigree_chart", options);
+    return url.toString();
 }
 
-new PedigreeChart(<?= $chartParams ?>);
+/**
+ * Load chart data and draws the chart.
+ *
+ * @param {PedigreeChart} pedigreeChart
+ * @param {string}        dataUrl
+ */
+function drawChart(pedigreeChart, dataUrl)
+{
+    $.getJSON(
+        getUrl(pedigreeChart, dataUrl),
+        function (data) {
+            pedigreeChart.draw(data);
 
-document.getElementById("pedigree_chart")
-    .scrollIntoView(true);
+            // document.getElementById("webtrees-pedigree-chart-container")
+            //     .scrollIntoView(true);
+        }
+    );
+}
+
+// Wait for DOM to be ready
+document.addEventListener("DOMContentLoaded", function () {
+    // Set up storage object
+    let storage = new WebtreesPedigreeChart.Storage("webtrees-fan-chart");
+
+    // Register all form elements valid for storing data
+    storage.register("generations");
+    storage.register("showEmptyBoxes");
+
+    let data    = <?= $chartParams ?>;
+    let ajaxUrl = <?= json_encode($ajaxUrl) ?>;
+    let cssUrl  = <?= json_encode($svgStylesheet) ?>;
+
+    // Create chart instance with stored configuration
+    const pedigreeChart = new WebtreesPedigreeChart.PedigreeChart(
+        "#webtrees-pedigree-chart-container",
+        {
+            labels         : data.labels,
+            generations    : parseInt(storage.read("generations")),
+            defaultColor   : data.defaultColor,
+            fontColor      : data.fontColor,
+            showEmptyBoxes : storage.read("showEmptyBoxes"),
+            rtl            : data.rtl
+        }
+    );
+
+    pedigreeChart.cssFile = cssUrl;
+
+    // Load initial chart data
+    drawChart(pedigreeChart, ajaxUrl);
+
+    // Redraw chart upon form submit
+    document.getElementById('webtrees-pedigree-chart-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        // Update configuration with changed form values
+        pedigreeChart.configuration.generations    = parseInt(document.getElementById('generations').value);
+        pedigreeChart.configuration.showEmptyBoxes = !!document.getElementById('showEmptyBoxes').checked;
+
+        drawChart(pedigreeChart, ajaxUrl);
+    });
+});
 
 </script>
 <?php View::endpush(); ?>
