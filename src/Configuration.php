@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace MagicSunday\Webtrees\PedigreeChart;
 
-use Fisharebest\Webtrees\Functions\FunctionsEdit;
+use Fisharebest\Webtrees\I18N;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -78,7 +78,13 @@ class Configuration
      */
     public function getGenerationsList(): array
     {
-        return FunctionsEdit::numericOptions(range(self::MIN_GENERATIONS, self::MAX_GENERATIONS));
+        $result = [];
+
+        foreach (range(self::MIN_GENERATIONS, self::MAX_GENERATIONS) as $value) {
+            $result[$value] = I18N::number($value);
+        }
+
+        return $result;
     }
 
     /**
