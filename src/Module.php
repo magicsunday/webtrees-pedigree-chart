@@ -168,42 +168,6 @@ class Module extends AbstractModule implements ModuleCustomInterface, ModuleChar
         );
     }
 
-//    /**
-//     * @inheritDoc
-//     *
-//     * @throws IndividualNotFoundException
-//     * @throws IndividualAccessDeniedException
-//     */
-//    public function getChartAction(
-//        ServerRequestInterface $request,
-//        Tree $tree,
-//        UserInterface $user,
-//        ChartService $chart_service
-//    ): ResponseInterface {
-//        $this->config = new Config($request);
-//        $xref         = $request->getQueryParams()['xref'];
-//        $individual   = Individual::getInstance($xref, $tree);
-//
-//        if ($individual === null) {
-//            throw new IndividualNotFoundException();
-//        }
-//
-//        Auth::checkIndividualAccess($individual);
-//        Auth::checkComponentAccess($this, 'chart', $tree, $user);
-//
-//        return $this->viewResponse(
-//            $this->name() . '::chart',
-//            [
-//                'title'       => $this->getPageTitle($individual),
-//                'moduleName'  => $this->name(),
-//                'individual'  => $individual,
-//                'tree'        => $tree,
-//                'config'      => $this->config,
-//                'chartParams' => json_encode($this->getChartParameters($individual)),
-//            ]
-//        );
-//    }
-
     /**
      * Returns the page title.
      *
@@ -239,18 +203,6 @@ class Module extends AbstractModule implements ModuleCustomInterface, ModuleChar
                 'zoom' => I18N::translate('Use Ctrl + scroll to zoom in the view'),
                 'move' => I18N::translate('Move the view with two fingers'),
             ],
-
-//            'rtl'            => I18N::direction() === 'rtl',
-//            'defaultColor'   => $this->getColor(),
-//            'fontColor'      => $this->getChartFontColor(),
-//            'generations'    => $this->config->getGenerations(),
-//            'showEmptyBoxes' => $this->config->getShowEmptyBoxes(),
-//            'individualUrl'  => $this->getIndividualRoute(),
-//            'data'           => $this->buildJsonTree($individual),
-//            'labels'         => [
-//                'zoom' => I18N::translate('Use Ctrl + scroll to zoom in the view'),
-//                'move' => I18N::translate('Move the view with two fingers'),
-//            ],
         ];
     }
 
