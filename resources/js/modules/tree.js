@@ -16,18 +16,18 @@ export default class Tree
     /**
      * Constructor.
      *
-     * @param {Config}    config    The configuration
-     * @param {Options}   options   The options
-     * @param {Hierarchy} hierarchy The hierarchiecal data
+     * @param {Svg}           svg
+     * @param {Configuration} configuration The configuration
+     * @param {Hierarchy}     hierarchy     The hierarchiecal data
      */
-    constructor(config, options, hierarchy)
+    constructor(svg, configuration, hierarchy)
     {
         this.boxWidth  = 260;
         this.boxHeight = 80;
 
-        this._config    = config;
-        this._options   = options;
-        this._hierarchy = hierarchy;
+        this._svg           = svg;
+        this._configuration = configuration;
+        this._hierarchy     = hierarchy;
 
         this.draw();
     }
@@ -66,7 +66,7 @@ export default class Tree
     {
         let self = this;
 
-        let node = this._config.visual
+        let node = this._svg.visual
             .selectAll("g.person")
             .data(nodes);
 
@@ -251,7 +251,7 @@ export default class Tree
      */
     drawLinks(links)
     {
-        let link = this._config.visual
+        let link = this._svg.visual
             .selectAll("path.link")
             .data(links);
 
@@ -275,9 +275,9 @@ export default class Tree
             targetX = data.target.x,
             targetY = data.target.y - (this.boxWidth / 2);
 
-        return "M" + (this._options.direction * sourceY) + "," + sourceX +
-            "H" + (this._options.direction * (sourceY + (targetY - sourceY) / 2)) +
+        return "M" + (this._configuration.direction * sourceY) + "," + sourceX +
+            "H" + (this._configuration.direction * (sourceY + (targetY - sourceY) / 2)) +
             "V" + targetX +
-            "H" + (this._options.direction * targetY);
+            "H" + (this._configuration.direction * targetY);
     }
 }
