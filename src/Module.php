@@ -197,7 +197,6 @@ class Module extends AbstractModule implements ModuleCustomInterface, ModuleChar
     {
         return [
             'rtl'          => I18N::direction() === 'rtl',
-            'defaultColor' => $this->getColor($individual),
             'fontColor'    => $this->getChartFontColor(),
             'labels'       => [
                 'zoom' => I18N::translate('Use Ctrl + scroll to zoom in the view'),

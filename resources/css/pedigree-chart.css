@@ -20,7 +20,7 @@
 #page-pedigree .person rect {
     stroke: rgb(175, 175, 175);
     stroke-dasharray: 5;
-    stroke-width: 1.5px;
+    stroke-width: 3px;
 }
 
 #page-pedigree .person rect.female {

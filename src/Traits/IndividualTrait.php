@@ -71,8 +71,8 @@ trait IndividualTrait
             'lastNames'        => $lastNames,
             'preferredName'    => $preferredName,
             'alternativeNames' => $alternativeNames,
-            'thumbnail'        => $this->getIndividualImage($individual),
             'isAltRtl'         => $this->isRtl($alternativeNames),
+            'thumbnail'        => $this->getIndividualImage($individual),
             'sex'              => $individual->sex(),
             'timespan'         => $this->getLifetimeDescription($individual),
             'color'            => $this->getColor($individual),
@@ -218,10 +218,20 @@ trait IndividualTrait
             $mediaFile = $individual->findHighlightedMediaFile();
 
             if ($mediaFile !== null) {
-                return $mediaFile->imageUrl(250, 250, 'crop');
+                return $mediaFile->imageUrl(250, 250, 'contain');
             }
         }
 
         return '';
+
+//        if ($individual->sex() === 'F') {
+//            return "modules_v4/webtrees-pedigree-chart/resources/images/silhouette_female.png";
+//        }
+//
+//        if ($individual->sex() === 'M') {
+//            return "modules_v4/webtrees-pedigree-chart/resources/images/silhouette_male.png";
+//        }
+//
+//        return "modules_v4/webtrees-pedigree-chart/resources/images/silhouette_unknown.png";
     }
 }

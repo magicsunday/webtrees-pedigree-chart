@@ -25,7 +25,7 @@ export default class Configuration
     constructor(
         labels,
         generations     = 4,
-        defaultColor     = "rgb(238, 238, 238)",
+        defaultColor     = "rgb(240, 240, 240)",
         fontColor        = "rgb(0, 0, 0)",
         showEmptyBoxes = false,
         rtl            = false,
