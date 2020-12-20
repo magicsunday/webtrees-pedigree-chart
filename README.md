@@ -4,11 +4,15 @@
 [![Test Coverage](https://codeclimate.com/github/magicsunday/webtrees-pedigree-chart/badges/coverage.svg)](https://codeclimate.com/github/magicsunday/webtrees-pedigree-chart/coverage)
 [![Issue Count](https://codeclimate.com/github/magicsunday/webtrees-pedigree-chart/badges/issue_count.svg)](https://codeclimate.com/github/magicsunday/webtrees-pedigree-chart)
 
-# D3 pedigree chart
-This modules provides an SVG pedigree chart for the [webtrees](https://www.webtrees.net) genealogy application.
+# Pedigree chart
+This module provides an SVG pedigree chart for the [webtrees](https://www.webtrees.net) genealogy application.
+
+![A 5 generations pedigree chart](assets/pedigree-chart-5-generations.png)
 
 
 ## Installation
+Requires webtrees 2.0.
+
 ### Using Composer
 To install using [composer](https://getcomposer.org/), just run the following command from the command line 
 at the root directory of your webtrees installation.
@@ -17,7 +21,7 @@ at the root directory of your webtrees installation.
 composer require magicsunday/webtrees-pedigree-chart --update-no-dev
 ```
 
-The module will automatically installed into the ``modules_v4`` directory of your webtrees installation.
+The module will automatically install into the ``modules_v4`` directory of your webtrees installation.
 
 To remove the module run:
 ```
@@ -41,12 +45,16 @@ To manually install the module, perform the following steps:
 4. Rename the folder to ``webtrees-pedigree-chart``
 
 ## Enable module
-Go to the control panel (admin section) of your installation and click on the ``Module administration`` link 
-inside the ``Modules`` section. Enable the ``Pedigree chart`` module and save your settings.
+Go to the control panel (admin section) of your installation and scroll down to the ``Modules`` section. Click
+on ``Charts`` (in subsection Genealogy). Enable the ``Pedigree chart`` custom module (optionally disable the original
+installed pedigree chart module) and save your settings.
+
+![Control panel - Module administration](assets/control-panel-modules.png)
 
 
 ## Usage
-At the charts menu, you will find a new link called `Pedigree chart`.
+At the charts' menu, you will find a new link called `Pedigree chart`. Use the provided configuration options
+to adjust the layout of the charts according to your needs.
 
 
 ## Development
