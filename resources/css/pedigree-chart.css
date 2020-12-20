@@ -1,12 +1,12 @@
-#page-pedigree #pedigree_chart {
+/* SVG */
+#webtrees-pedigree-chart-container {
     position: relative;
-    /*font-family: Helvetica,Arial,sans-serif;*/
-    font-size: 12px;
+    font-size: unset;
     display: flex;
     flex: auto;
 }
 
-#page-pedigree svg {
+#webtrees-pedigree-chart-container svg {
     display: block;
     margin: auto;
     cursor: move;
@@ -17,37 +17,37 @@
     /*filter: drop-shadow(3px 1px 3px rgba(0, 0, 0, 0.4));*/
 }
 
-#page-pedigree .person rect {
+#webtrees-pedigree-chart-container .person rect {
     stroke: rgb(175, 175, 175);
     stroke-dasharray: 5;
     stroke-width: 3px;
 }
 
-#page-pedigree .person rect.female {
+#webtrees-pedigree-chart-container .person rect.female {
     stroke: rgb(255, 32, 128);
     stroke-dasharray: none;
 }
 
-#page-pedigree .person rect.male {
+#webtrees-pedigree-chart-container .person rect.male {
     stroke: rgb(129, 169, 203);
     stroke-dasharray: none;
 }
 
-#page-pedigree .person {
+#webtrees-pedigree-chart-container .person {
 }
 
-#page-pedigree .person rect.image {
+#webtrees-pedigree-chart-container .person rect.image {
     stroke: rgb(175, 175, 175);
 }
 
-#page-pedigree .link {
+#webtrees-pedigree-chart-container .link {
     fill: none;
     stroke: rgb(175, 175, 175);
     stroke-width: 1.5px;
 }
 
-#page-pedigree .person a.gallery img,
-#page-pedigree .person a.gallery {
+#webtrees-pedigree-chart-container .person a.gallery img,
+#webtrees-pedigree-chart-container .person a.gallery {
     float: left;
     height: 50px;
     margin: 0 2px 0 0;
@@ -57,74 +57,74 @@
 
 
 
-#page-pedigree .rtl {
+#webtrees-pedigree-chart-container .rtl {
     direction: rtl !important;
     unicode-bidi: bidi-override !important;
 }
 
-#page-pedigree svg:active {
+#webtrees-pedigree-chart-container svg:active {
     cursor: grabbing;
     /*cursor: -webkit-grabbing;*/
 }
 
-#page-pedigree svg text {
+#webtrees-pedigree-chart-container svg text {
     font-weight: bold;
 }
 
 /* Unset any style from our transition helper classes */
-#page-pedigree svg .new,
-#page-pedigree svg .remove,
-#page-pedigree svg .update,
-#page-pedigree svg .old {
+#webtrees-pedigree-chart-container svg .new,
+#webtrees-pedigree-chart-container svg .remove,
+#webtrees-pedigree-chart-container svg .update,
+#webtrees-pedigree-chart-container svg .old {
     all: unset;
 }
 
-#page-pedigree svg .person.available {
+#webtrees-pedigree-chart-container svg .person.available {
     cursor: pointer;
 }
 
-#page-pedigree svg .person .arc path {
+#webtrees-pedigree-chart-container svg .person .arc path {
     fill: rgb(240, 240, 240);
     stroke: rgb(175, 175, 175);
     stroke-width: 2px;
 }
 
-#page-pedigree svg .person.hover .arc path {
+#webtrees-pedigree-chart-container svg .person.hover .arc path {
     fill: rgb(250, 250, 250);
 }
 
-#page-pedigree svg .person.available .arc path {
+#webtrees-pedigree-chart-container svg .person.available .arc path {
     fill: rgb(250, 250, 250);
 }
 
-#page-pedigree svg .person.available.hover .arc path {
+#webtrees-pedigree-chart-container svg .person.available.hover .arc path {
     fill: rgb(240, 240, 240);
 }
 
-#page-pedigree svg .label {
+#webtrees-pedigree-chart-container svg .label {
     font-weight: normal;
 }
 
-#page-pedigree svg .label .alternativeName {
+#webtrees-pedigree-chart-container svg .label .alternativeName {
     fill: #7f7f7f;
     font-weight: normal;
     direction: ltr;
     unicode-bidi: normal;
 }
 
-#page-pedigree svg .label .date {
+#webtrees-pedigree-chart-container svg .label .date {
     fill: #7f7f7f;
     font-weight: normal;
     direction: ltr;
     unicode-bidi: plaintext;
 }
 
-#page-pedigree svg rect.background {
+#webtrees-pedigree-chart-container svg rect.background {
     fill: none;
     pointer-events: all;
 }
 
-#page-pedigree div.overlay {
+#webtrees-pedigree-chart-container div.overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -141,7 +141,7 @@
     transition-duration: 0s;
 }
 
-#page-pedigree div.overlay .tooltip {
+#webtrees-pedigree-chart-container div.overlay .tooltip {
     font-size: 22px;
     color: white;
     position: relative;
