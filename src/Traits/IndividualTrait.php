@@ -223,15 +223,5 @@ trait IndividualTrait
         }
 
         return '';
-
-//        if ($individual->sex() === 'F') {
-//            return "modules_v4/webtrees-pedigree-chart/resources/images/silhouette_female.png";
-//        }
-//
-//        if ($individual->sex() === 'M') {
-//            return "modules_v4/webtrees-pedigree-chart/resources/images/silhouette_male.png";
-//        }
-//
-//        return "modules_v4/webtrees-pedigree-chart/resources/images/silhouette_unknown.png";
     }
 }

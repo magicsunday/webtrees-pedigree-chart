@@ -42,7 +42,9 @@ export default class Zoom
     init()
     {
         // Setup zoom and pan
-        this._zoom = d3.zoom()
+        this._zoom = d3.zoom();
+
+        this._zoom
             .scaleExtent([MIN_ZOOM, MAX_ZOOM])
             .on("zoom", (event) => {
                 // Abort any action if only one finger is used on "touchmove" events

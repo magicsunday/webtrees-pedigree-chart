@@ -79,21 +79,6 @@ export default class Chart
                 viewBoxWidth,
                 viewBoxHeight
             ]);
-
-        // Add rectangle element
-        // this._svg
-        //     .insert("rect", ":first-child")
-        //     .attr("class", "background")
-        //     .attr("width", "100%")
-        //     .attr("height", "100%")
-        //     .style("fill", "none")
-        //     .style("pointer-events", "all");
-        //
-        // // Adjust rectangle position
-        // this._svg
-        //     .select("rect")
-        //     .attr("x", viewBoxLeft)
-        //     .attr("y", viewBoxTop);
     }
 
     /**

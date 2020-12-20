@@ -3,6 +3,7 @@
  */
 
 import {SEX_FEMALE, SEX_MALE} from "./chart/hierarchy";
+import * as d3 from "./d3";
 
 /**
  * The class handles the creation of the tree.
@@ -24,6 +25,7 @@ export default class Tree
     {
         this.boxWidth  = 260;
         this.boxHeight = 80;
+        this.padding   = 15;
 
         this._svg           = svg;
         this._configuration = configuration;
@@ -94,105 +96,190 @@ export default class Tree
 
         this.addImage(nodeEnter);
 
+        let that = this;
+
         // Name
         nodeEnter
             .filter(d => (d.data.xref !== ""))
-            .append("text")
-            .attr("dx", -(this.boxWidth / 2) + 80)
-            .attr("dy", "-12px")
-            .attr("text-anchor", "start")
-            .attr("class", "name")
-            .text(d => this.getName(d));
+            .each(function (d) {
+                let parent = d3.select(this);
 
-        // Birth date
-        // nodeEnter.append("text")
-        //     .attr("dx", -(this.boxWidth / 2) + 81)
-        //     .attr("dy", "4px")
-        //     .attr("text-anchor", "start")
-        //     .attr("class", "born")
-        //     .text(d => {
-        //         return "\u2217 \u2736 \uFF0A";
-        //     });
+                let text = parent
+                    .append("text")
+                    .attr("dx", -(that.boxWidth / 2) + 80)
+                    .attr("dy", "-12px")
+                    .attr("text-anchor", "start")
+                    .attr("class", "name");
 
+                that.addNames(text, d);
+            });
+
+        // Timespan
         nodeEnter
             .filter(d => (d.data.xref !== ""))
             .append("text")
             .attr("dx", -(this.boxWidth / 2) + 80)
-            .attr("dy", "4px")
+            .attr("dy", "10px")
             .attr("text-anchor", "start")
-            .attr("class", "born")
-            .text(d => d.data.born);
-
-        nodeEnter
-            .filter(d => (d.data.xref !== ""))
-            .append("text")
-            .attr("dx", -(this.boxWidth / 2) + 80)
-            .attr("dy", "17px")
-            .attr("text-anchor", "start")
-            .attr("class", "born")
-            .text(d => d.data.died);
-
-        // Death date
-        // nodeEnter.append("text")
-        //     .attr("dx", -(this.boxWidth / 2) + 80 + 0.3)
-        //     .attr("dy", "18px")
-        //     .attr("text-anchor", "start")
-        //     .attr("class", "died")
-        //     .text(d => {
-        //         return "\u2020 \u2720";
-        //     });
-
-        // nodeEnter.append("text")
-        //     .attr("dx", -(this.boxWidth / 2) + 75)
-        //     .attr("dy", "18px")
-        //     .attr("text-anchor", "start")
-        //     .attr("class", "died")
-        //     .text(d => {
-        //         return d.data.died;
-        //     });
+            .attr("class", "date")
+            .text(d => d.data.timespan);
     }
 
-    // /**
-    //  * Get the time span label of an person. Returns null if label
-    //  * should not be displayed due empty data.
-    //  *
-    //  * @param {Object} data D3 data object
-    //  *
-    //  * @return {null|String}
-    //  */
-    // getTimeSpan(data) {
-    //     if (data.data.xref === "") {
-    //         return null;
-    //     }
-    //
-    //     if (data.data.born || data.data.died) {
-    //         return data.data.born + " - " + data.data.died;
-    //     }
-    //
-    //     return null;
-    // }
+    /**
+     * Creates a single <tspan> element for each single given name and append it to the
+     * parent element. The "tspan" element containing the preferred name gets an
+     * additional underline style in order to highlight this one.
+     *
+     * @param {Selection} parent The parent (<text> or <textPath>) element to which the <tspan> elements are to be attached
+     * @param {Object}    datum  The D3 data object containing the individual data
+     */
+    addFirstNames(parent, datum)
+    {
+        let i = 0;
+
+        for (let firstName of datum.data.firstNames) {
+            // Create a <tspan> element for each given name
+            let tspan = parent.append("tspan")
+                .text(firstName);
+
+            // The preferred name
+            if (firstName === datum.data.preferredName) {
+                tspan.attr("class", "preferred");
+            }
+
+            // Add some spacing between the elements
+            if (i !== 0) {
+                tspan.attr("dx", "0.25em");
+            }
+
+            ++i;
+        }
+    }
 
     /**
-     * Returns the name of the individual.
+     * Creates a single <tspan> element for each last name and append it to the parent element.
      *
-     * @param {Object} data D3 data object
-     *
-     * @return {null|String}
+     * @param {Selection} parent The parent (<text> or <textPath>) element to which the <tspan> elements are to be attached
+     * @param {Object}    datum  The D3 data object containing the individual data
+     * @param {number}    dx     Additional space offset to add between names
      */
-    getName(data)
+    addLastNames(parent, datum, dx = 0)
     {
-        if (data.data.xref === "") {
-            return null;
+        let i = 0;
+
+        for (let lastName of datum.data.lastNames) {
+            // Create a <tspan> element for the last name
+            let tspan = parent.append("tspan")
+                .text(lastName);
+
+            // Add some spacing between the elements
+            if (i !== 0) {
+                tspan.attr("dx", "0.25em");
+            }
+
+            if (dx !== 0) {
+                tspan.attr("dx", dx + "em");
+            }
+
+            ++i;
         }
+    }
 
-        let splitted = data.data.name.split(" ");
-        let length   = splitted.length;
+    /**
+     * Loops over the <tspan> elements and truncates the contained texts.
+     *
+     * @param {Selection} parent The parent (<text> or <textPath>) element to which the <tspan> elements are attached
+     * @param {Object}    data   The D3 data object containing the individual data
+     * @param {number}    index  The index position of the element in parent container.
+     * @param {boolean}   hide   Whether to show or hide the label if the text takes to much space to be displayed
+     */
+    truncateNames(parent, data, index, hide = false)
+    {
+        let availableWidth = this.getAvailableWidth(data, index);
 
-        splitted[0] = splitted[0].substring(0, 1) + ".";
+        // Start truncating those elements which are not the preferred ones
+        parent.selectAll("tspan:not(.preferred)")
+            .each(this.truncateText(parent, availableWidth, hide));
 
-        return splitted.join(" ");
+        // Afterwards the preferred ones if text takes still to much space
+        parent.selectAll("tspan.preferred")
+            .each(this.truncateText(parent, availableWidth, hide));
+    }
 
-        // return data.data.name;
+    /**
+     * Calculate the available text width. Depending on the depth of an entry in
+     * the chart the available width differs.
+     *
+     * @param {Object} data  The D3 data object
+     * @param {number} index The index position of element in parent container.
+     *
+     * @returns {number} Calculated available width
+     *
+     * @private
+     */
+    getAvailableWidth(data, index)
+    {
+        return this.boxWidth - 80 - (this.padding * 2);
+    }
+
+    /**
+     * Truncates the textual content of the actual element.
+     *
+     * @param {Selection} parent         The parent (<text> or <textPath>) element containing the <tspan> child elements
+     * @param {number}    availableWidth The total available width the text could take
+     * @param {boolean}   hide           Whether to show or hide the label if the text takes to much space to be displayed
+     */
+    truncateText(parent, availableWidth, hide = false)
+    {
+        let that = this;
+
+        return function () {
+            let textLength = that.getTextLength(parent);
+            let tspan      = d3.select(this);
+            let text       = tspan.text();
+
+            if (textLength > availableWidth) {
+                if (hide) {
+                    tspan.text("");
+                } else {
+                    if (text.length > 1) {
+                        // Keep only the first letter
+                        tspan.text(text.slice(0, 1) + ".");
+                    }
+                }
+            }
+        };
+    }
+
+    /**
+     * Returns a float representing the computed length of all <tspan> elements within the element.
+     *
+     * @param {Selection} parent The parent (<text> or <textPath>) element containing the <tspan> child elements
+     *
+     * @returns {number}
+     */
+    getTextLength(parent)
+    {
+        let totalWidth = 0;
+
+        // Calculate the total used width of all <tspan> elements
+        parent.selectAll("tspan").each(function () {
+            totalWidth += this.getComputedTextLength();
+        });
+
+        return totalWidth;
+    }
+
+    /**
+     *
+     * @param {Selection} parent The parent element to which the elements are to be attached
+     * @param {Object}    data   The D3 data object
+     */
+    addNames(parent, datum)
+    {
+        this.addFirstNames(parent, datum);
+        this.addLastNames(parent, datum, 0.25);
+        this.truncateNames(parent, datum, 0);
     }
 
     /**
