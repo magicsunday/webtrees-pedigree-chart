@@ -60,9 +60,9 @@ export default class Svg
     initEvents(overlay)
     {
         this._element
-            .on("contextmenu", () => d3.event.preventDefault())
-            .on("wheel", () => {
-                if (!d3.event.ctrlKey) {
+            .on("contextmenu", (event) => event.preventDefault())
+            .on("wheel", (event) => {
+                if (!event.ctrlKey) {
                     overlay.show(
                         this._configuration.labels.zoom,
                         300,
@@ -72,13 +72,13 @@ export default class Svg
                     );
                 }
             })
-            .on("touchend", () => {
-                if (d3.event.touches.length < 2) {
+            .on("touchend", (event) => {
+                if (event.touches.length < 2) {
                     overlay.hide(0, 800);
                 }
             })
-            .on("touchmove", () => {
-                if (d3.event.touches.length >= 2) {
+            .on("touchmove", (event) => {
+                if (event.touches.length >= 2) {
                     // Hide tooltip on more than 2 fingers
                     overlay.hide();
                 } else {
@@ -86,7 +86,7 @@ export default class Svg
                     overlay.show(this._configuration.labels.move);
                 }
             })
-            .on("click", () => this.doStopPropagation(), true);
+            .on("click", (event) => this.doStopPropagation(event), true);
 
         if (this._configuration.rtl) {
             this._element.classed("rtl", true);
@@ -106,12 +106,14 @@ export default class Svg
     /**
      * Prevent default click and stop propagation.
      *
+     * @param {Event} event
+     *
      * @private
      */
-    doStopPropagation()
+    doStopPropagation(event)
     {
-        if (d3.event.defaultPrevented) {
-            d3.event.stopPropagation();
+        if (event.defaultPrevented) {
+            event.stopPropagation();
         }
     }
 

@@ -41,52 +41,62 @@ export default class Zoom
      */
     init()
     {
-        let zoomLevel = null;
-
         // Setup zoom and pan
         this._zoom = d3.zoom()
             .scaleExtent([MIN_ZOOM, MAX_ZOOM])
-            .on("zoom", () => {
+            .on("zoom", (event) => {
                 // Abort any action if only one finger is used on "touchmove" events
-                if (d3.event.sourceEvent
-                    && (d3.event.sourceEvent.type === "touchmove")
-                    && (d3.event.sourceEvent.touches.length < 2)
+                if (event.sourceEvent
+                    && (event.sourceEvent.type === "touchmove")
+                    && (event.sourceEvent.touches.length < 2)
                 ) {
                     return;
                 }
 
-                zoomLevel = d3.event.transform.k;
-
-                this._parent.attr("transform", d3.event.transform);
+                this._parent.attr("transform", event.transform);
             });
 
+        // Adjust the wheel delta (see defaultWheelDelta() in zoom.js, which adds
+        // a 10-times offset if ctrlKey is pressed)
+        this._zoom.wheelDelta((event) => {
+            return -event.deltaY * (event.deltaMode === 1 ? 0.05 : event.deltaMode ? 1 : 0.002);
+        });
+
         // Add zoom filter
-        this._zoom.filter(() => {
+        this._zoom.filter((event) => {
             // Allow "wheel" event only while control key is pressed
-            if (d3.event.type === "wheel") {
-                if (zoomLevel && d3.event.ctrlKey) {
+            if (event.type === "wheel") {
+                if (!event.ctrlKey) {
+                    return false;
+                }
+
+                var transform = d3.zoomTransform(this);
+
+                if (transform.k) {
                     // Prevent zooming below lowest level
-                    if ((zoomLevel <= MIN_ZOOM) && (d3.event.deltaY > 0)) {
-                        d3.event.preventDefault();
+                    if ((transform.k <= MIN_ZOOM) && (event.deltaY > 0)) {
+                        // Prevent browsers page zoom while holding down the control key
+                        event.preventDefault();
                         return false;
                     }
 
                     // Prevent zooming above highest level
-                    if ((zoomLevel >= MAX_ZOOM) && (d3.event.deltaY < 0)) {
-                        d3.event.preventDefault();
+                    if ((transform.k >= MAX_ZOOM) && (event.deltaY < 0)) {
+                        // Prevent browsers page zoom while holding down the control key
+                        event.preventDefault();
                         return false;
                     }
                 }
 
-                return d3.event.ctrlKey;
+                return true;
             }
 
             // Allow "touchmove" event only with two fingers
-            if (!d3.event.button && (d3.event.type === "touchmove")) {
-                return d3.event.touches.length === 2;
+            if (!event.button && (event.type === "touchmove")) {
+                return event.touches.length === 2;
             }
 
-            return true;
+            return (!event.ctrlKey || event.type === 'wheel') && !event.button;
         });
     }
 
