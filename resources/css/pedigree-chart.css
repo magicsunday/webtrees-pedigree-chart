@@ -17,54 +17,23 @@
     /*filter: drop-shadow(3px 1px 3px rgba(0, 0, 0, 0.4));*/
 }
 
-#webtrees-pedigree-chart-container .person rect {
-    stroke: rgb(175, 175, 175);
-    stroke-dasharray: 5;
-    stroke-width: 3px;
+#webtrees-pedigree-chart-container svg:active {
+    cursor: grabbing;
+    /*cursor: -webkit-grabbing;*/
 }
 
-#webtrees-pedigree-chart-container .person rect.female {
-    stroke: rgb(255, 32, 128);
-    stroke-dasharray: none;
-}
-
-#webtrees-pedigree-chart-container .person rect.male {
-    stroke: rgb(129, 169, 203);
-    stroke-dasharray: none;
-}
-
-#webtrees-pedigree-chart-container .person {
-}
-
-#webtrees-pedigree-chart-container .person rect.image {
-    stroke: rgb(175, 175, 175);
-}
-
-#webtrees-pedigree-chart-container .link {
-    fill: none;
-    stroke: rgb(175, 175, 175);
-    stroke-width: 1.5px;
-}
-
-#webtrees-pedigree-chart-container .person a.gallery img,
-#webtrees-pedigree-chart-container .person a.gallery {
-    float: left;
-    height: 50px;
-    margin: 0 2px 0 0;
-    max-width: 80px;
-    width: auto;
-}
-
-
+/*#webtrees-pedigree-chart-container .person a.gallery img,*/
+/*#webtrees-pedigree-chart-container .person a.gallery {*/
+/*    float: left;*/
+/*    height: 50px;*/
+/*    margin: 0 2px 0 0;*/
+/*    max-width: 80px;*/
+/*    width: auto;*/
+/*}*/
 
 #webtrees-pedigree-chart-container .rtl {
     direction: rtl !important;
     unicode-bidi: bidi-override !important;
-}
-
-#webtrees-pedigree-chart-container svg:active {
-    cursor: grabbing;
-    /*cursor: -webkit-grabbing;*/
 }
 
 #webtrees-pedigree-chart-container svg text {

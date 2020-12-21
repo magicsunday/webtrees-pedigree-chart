@@ -59,6 +59,14 @@ export class PedigreeChart
         // Bind click event on center button
         d3.select("#centerButton")
             .on("click", () => this.center());
+
+        // Bind click event on export as PNG button
+        d3.select("#exportPNG")
+            .on("click", () => this.exportPNG());
+
+        // Bind click event on export as SVG button
+        d3.select("#exportSVG")
+            .on("click", () => this.exportSVG());
     }
 
     /**
@@ -104,5 +112,30 @@ export class PedigreeChart
     {
         this._chart.data = data;
         this._chart.draw();
+    }
+
+    /**
+     * Exports the chart as PNG image and triggers a download.
+     *
+     * @private
+     */
+    exportPNG()
+    {
+        this._chart.svg
+            .export('png')
+            .svgToImage(this._chart.svg, "pedigree-chart.png");
+
+    }
+
+    /**
+     * Exports the chart as SVG image and triggers a download.
+     *
+     * @private
+     */
+    exportSVG()
+    {
+        this._chart.svg
+            .export('svg')
+            .svgToImage(this._chart.svg, this._cssFile, "pedigree-chart.svg");
     }
 }

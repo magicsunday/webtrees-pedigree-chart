@@ -201,44 +201,4 @@ export default class Chart
     {
         window.location = url;
     }
-
-    // /**
-    //  * @private
-    //  */
-    // init()
-    // {
-    //     if (this._configuration.rtl) {
-    //         this._configuration.svg.classed("rtl", true);
-    //     }
-    //
-    //     this.overlay = new Overlay(this._config);
-    //
-    //     // Bind click event on reset button
-    //     d3.select("#resetButton")
-    //         .on("click", () => this.doReset());
-    //
-    //     // Add group
-    //     this._config.visual = this._config.svg
-    //         .append("g");
-    //
-    //     this._zoom = new Zoom(this._config);
-    //     this._config.svg.call(this._zoom.get());
-    //
-    //     let defs = this._svg.defs.get()
-    //         .attr("id", "imgdefs");
-    //
-    //     let clipPath = defs
-    //         .append('clipPath')
-    //         .attr('id', 'clip-circle')
-    //         .append("circle")
-    //         .attr("r", 35)
-    //         .attr("cx", -90)
-    //         .attr("cy", 0);
-    //
-    //     // Create hierarchical data
-    //     let hierarchy = new Hierarchy(this._options.data, this._options);
-    //     let tree      = new Tree(this._config, this._options, hierarchy);
-    //
-    //     this.updateViewBox();
-    // }
 }

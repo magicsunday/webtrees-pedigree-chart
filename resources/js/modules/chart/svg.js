@@ -6,13 +6,14 @@ import * as d3 from "./../d3";
 import Configuration from "./../configuration";
 import Defs from "./svg/defs";
 import Zoom from "./svg/zoom";
+import ExportFactory from "./svg/export-factory";
 
 /**
  * SVG class
  *
  * @author  Rico Sonntag <mail@ricosonntag.de>
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
- * @link    https://github.com/magicsunday/webtrees-fan-chart/
+ * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
 export default class Svg
 {
@@ -95,9 +96,9 @@ export default class Svg
         // Add group
         this._visual = this._element.append("g");
 
-        this._visual
-            .append("g")
-            .attr("class", "personGroup");
+        // this._visual
+        //     .append("g")
+        //     .attr("class", "personGroup");
 
         this._zoom = new Zoom(this._visual);
         this._element.call(this._zoom.get());
@@ -115,6 +116,19 @@ export default class Svg
         if (event.defaultPrevented) {
             event.stopPropagation();
         }
+    }
+
+    /**
+     * Exports the chart as PNG image and triggers a download.
+     *
+     * @param {string} type The export file type (either "png" or "svg")
+     *
+     * @return {PngExport|SvgExport}
+     */
+    export(type )
+    {
+        const factory = new ExportFactory();
+        return factory.createExport(type);
     }
 
     /**

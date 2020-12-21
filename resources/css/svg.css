@@ -8,6 +8,35 @@
     font-weight: bold;
 }
 
+#webtrees-pedigree-chart-container .person rect {
+    stroke: rgb(175, 175, 175);
+    stroke-dasharray: 5;
+    stroke-width: 3px;
+}
+
+#webtrees-pedigree-chart-container .person rect.female {
+    stroke: rgb(255, 32, 128);
+    stroke-dasharray: none;
+}
+
+#webtrees-pedigree-chart-container .person rect.male {
+    stroke: rgb(129, 169, 203);
+    stroke-dasharray: none;
+}
+
+#webtrees-pedigree-chart-container .person {
+}
+
+#webtrees-pedigree-chart-container .person rect.image {
+    stroke: rgb(175, 175, 175);
+}
+
+#webtrees-pedigree-chart-container .link {
+    fill: none;
+    stroke: rgb(175, 175, 175);
+    stroke-width: 1.5px;
+}
+
 #webtrees-pedigree-chart-container svg .name .preferred {
     text-decoration: underline;
 }

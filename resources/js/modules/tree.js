@@ -4,6 +4,7 @@
 
 import {SEX_FEMALE, SEX_MALE} from "./chart/hierarchy";
 import * as d3 from "./d3";
+import dataUrl from "./common/dataUrl";
 
 /**
  * The class handles the creation of the tree.
@@ -48,6 +49,28 @@ export default class Tree
             // Normalize for fixed-depth.
             nodes.forEach(function (d) { d.y = d.depth * 300; });
 
+            // let defs = this._svg
+            //     .defs
+            //     .get();
+            //
+            // nodes.forEach(function (d) {
+            //     // .enter()
+            //     defs.append('pattern')
+            //         .attr("id", "image" + d.data.xref)
+            //         // .attr("id", function (d) {
+            //         //     return "image" + d.data.xref;
+            //         // })
+            //         .attr("width", 1)
+            //         .attr("height", 1)
+            //         .append("svg:image")
+            //         .attr("xlink:href", d.data.thumbnail)
+            //         // .attr("xlink:href", function (d) {
+            //         //     return d.data.thumbnail;
+            //         // })
+            //         .attr("width", 250)
+            //         .attr("height", 250);
+            // });
+
             this.drawLinks(links);
             this.drawNodes(nodes);
         // } else {
@@ -66,7 +89,7 @@ export default class Tree
      */
     drawNodes(nodes)
     {
-        let self = this;
+        let that = this;
 
         let node = this._svg.visual
             .selectAll("g.person")
@@ -83,7 +106,8 @@ export default class Tree
             .append("title")
             .text(d => d.data.name);
 
-        nodeEnter.append("rect")
+        nodeEnter
+            .append("rect")
             .attr("class", d => (d.data.sex === SEX_FEMALE) ? "female" : (d.data.sex === SEX_MALE) ? "male" : "")
             .attr("rx", 40)
             .attr("ry", 40)
@@ -94,35 +118,34 @@ export default class Tree
             .attr("fill-opacity", "0.5")
             .attr("fill", d => d.data.color);
 
-        this.addImage(nodeEnter);
+        this.addImages(nodeEnter);
 
-        let that = this;
-
-        // Name
+        // Names and Dates
         nodeEnter
             .filter(d => (d.data.xref !== ""))
             .each(function (d) {
                 let parent = d3.select(this);
 
-                let text = parent
+                // Names
+                let text1 = parent
                     .append("text")
                     .attr("dx", -(that.boxWidth / 2) + 80)
                     .attr("dy", "-12px")
                     .attr("text-anchor", "start")
                     .attr("class", "name");
 
-                that.addNames(text, d);
-            });
+                that.addNames(text1, d);
 
-        // Timespan
-        nodeEnter
-            .filter(d => (d.data.xref !== ""))
-            .append("text")
-            .attr("dx", -(this.boxWidth / 2) + 80)
-            .attr("dy", "10px")
-            .attr("text-anchor", "start")
-            .attr("class", "date")
-            .text(d => d.data.timespan);
+                // Time span
+                let text2 = parent
+                    .append("text")
+                    .attr("dx", -(that.boxWidth / 2) + 80)
+                    .attr("dy", "10px")
+                    .attr("text-anchor", "start")
+                    .attr("class", "date");
+
+                that.addTimeSpan(text2, d);
+            });
     }
 
     /**
@@ -183,6 +206,19 @@ export default class Tree
 
             ++i;
         }
+    }
+
+    /**
+     * Creates a single <tspan> element for the time span append it to the parent element.
+     *
+     * @param {Selection} parent The parent (<text> or <textPath>) element to which the <tspan> elements are to be attached
+     * @param {Object}    datum  The D3 data object containing the individual data
+     */
+    addTimeSpan(parent, datum)
+    {
+        // Create a <tspan> element for the time span
+        parent.append("tspan")
+            .text(datum.data.timespan);
     }
 
     /**
@@ -271,6 +307,7 @@ export default class Tree
     }
 
     /**
+     * Add the individual names to the given parent element.
      *
      * @param {Selection} parent The parent element to which the elements are to be attached
      * @param {Object}    data   The D3 data object
@@ -283,44 +320,65 @@ export default class Tree
     }
 
     /**
+     * Return the image file or the placeholder.
+     *
+     * @param {Object} data The D3 data object
+     *
+     * @returns {String}
+     */
+    getImageToLoad(datum)
+    {
+        if (datum.data.thumbnail) {
+            return datum.data.thumbnail;
+        }
+
+        if (datum.data.sex === SEX_FEMALE) {
+            return "modules_v4/webtrees-pedigree-chart/resources/images/silhouette_female.png";
+        }
+
+        if (datum.data.sex === SEX_MALE) {
+            return "modules_v4/webtrees-pedigree-chart/resources/images/silhouette_male.png";
+        }
+
+        return "modules_v4/webtrees-pedigree-chart/resources/images/silhouette_unknown.png";
+    }
+
+    /**
      * Add the individual thumbnail image to the node.
      *
-     * @param {Object} node D3 object
+     * @param {Selection} parent The parent element to which the elements are to be attached
      */
-    addImage(node)
+    addImages(parent)
     {
+        let that = this;
+
         // Background (only required of thumbnail has transparency (like the silhouettes))
-        node.append("circle")
+        parent.append("circle")
             .attr("cx", -(this.boxWidth / 2) + 40)
             .attr("cy", -(this.boxHeight / 2) + 40)
             .attr("r", 35)
-            .attr("fill", "#fff");
+            .attr("fill", "rgb(255, 255, 255)");
 
-        // The individual image
-        node.append("svg:image")
-            .attr("xlink:href", d => {
-                if (d.data.thumbnail) {
-                    return d.data.thumbnail;
-                }
+        parent
+            .filter(d => (d.data.xref !== ""))
+            .each(function (d) {
+                let parent = d3.select(this);
 
-                if (d.data.sex === SEX_FEMALE) {
-                    return "modules_v4/webtrees-pedigree-chart/resources/images/silhouette_female.png";
-                }
+                // The individual image
+                let image = parent
+                    .append("image")
+                    .attr("x", -(that.boxWidth / 2) + 5)
+                    .attr("y", -(that.boxHeight / 2) + 5)
+                    .attr("height", 70)
+                    .attr("width", 70)
+                    .attr("clip-path", "url(#clip-circle)");
 
-                if (d.data.sex === SEX_MALE) {
-                    return "modules_v4/webtrees-pedigree-chart/resources/images/silhouette_male.png";
-                }
-
-                return "modules_v4/webtrees-pedigree-chart/resources/images/silhouette_unknown.png";
-            })
-            .attr("x", -(this.boxWidth / 2) + 5)
-            .attr("y", -(this.boxHeight / 2) + 5)
-            .attr("height", 70)
-            .attr("width", 70)
-            .attr("clip-path", "url(#clip-circle)");
+                dataUrl(that.getImageToLoad(d))
+                    .then(dataUrl => image.attr("href", dataUrl));
+            });
 
         // Border
-        node.append("circle")
+        parent.append("circle")
             .attr("cx", -(this.boxWidth / 2) + 40)
             .attr("cy", -(this.boxHeight / 2) + 40)
             .attr("r", 35)
