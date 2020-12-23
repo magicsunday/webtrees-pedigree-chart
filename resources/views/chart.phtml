@@ -188,16 +188,16 @@ document.addEventListener("DOMContentLoaded", function () {
     // Load initial chart data
     drawChart(pedigreeChart, ajaxUrl);
 
-    // Redraw chart upon form submit
-    document.getElementById('webtrees-pedigree-chart-form').addEventListener('submit', function (event) {
-        event.preventDefault();
-
-        // Update configuration with changed form values
-        pedigreeChart.configuration.generations    = parseInt(document.getElementById('generations').value);
-        pedigreeChart.configuration.showEmptyBoxes = !!document.getElementById('showEmptyBoxes').checked;
-
-        drawChart(pedigreeChart, ajaxUrl);
-    });
+    // // Redraw chart upon form submit (enable this to use AJAX only post request, without internal redirect from POST to GET)
+    // document.getElementById('webtrees-pedigree-chart-form').addEventListener('submit', function (event) {
+    //     event.preventDefault();
+    //
+    //     // Update configuration with changed form values
+    //     pedigreeChart.configuration.generations    = parseInt(document.getElementById('generations').value);
+    //     pedigreeChart.configuration.showEmptyBoxes = !!document.getElementById('showEmptyBoxes').checked;
+    //
+    //     drawChart(pedigreeChart, ajaxUrl);
+    // });
 });
 
 </script>

@@ -141,6 +141,19 @@ class Module extends AbstractModule implements ModuleCustomInterface, ModuleChar
             throw new IndividualNotFoundException();
         }
 
+        // Convert POST requests into GET requests for pretty URLs.
+        // This also updates the name above the form, which wont get updated if only a POST request is used
+        if ($request->getMethod() === RequestMethodInterface::METHOD_POST) {
+            $params = (array) $request->getParsedBody();
+
+            return redirect(route(self::ROUTE_DEFAULT, [
+                'tree'           => $tree->name(),
+                'xref'           => $params['xref'],
+                'generations'    => $params['generations'] ?? '4',
+                'showEmptyBoxes' => $params['showEmptyBoxes'] ?? '0',
+            ]));
+        }
+
         Auth::checkIndividualAccess($individual, false, true);
         Auth::checkComponentAccess($this, 'chart', $tree, $user);
 
