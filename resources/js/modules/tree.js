@@ -24,10 +24,6 @@ export default class Tree
      */
     constructor(svg, configuration, hierarchy)
     {
-        this.boxWidth  = 260;
-        this.boxHeight = 80;
-        this.padding   = 15;
-
         this._svg           = svg;
         this._configuration = configuration;
         this._hierarchy     = hierarchy;
@@ -42,42 +38,16 @@ export default class Tree
      */
     draw()
     {
-        // if (this._hierarchy.root) {
-            let nodes = this._hierarchy.nodes.descendants();
-            let links = this._hierarchy.nodes.links();
+        let nodes = this._hierarchy.nodes.descendants();
+        let links = this._hierarchy.nodes.links();
 
-            // Normalize for fixed-depth.
-            nodes.forEach(function (d) { d.y = d.depth * 300; });
+        // Normalize for fixed-depth.
+        nodes.forEach((d) => {
+            d.y = d.depth * (this._configuration.boxWidth + 30);
+        });
 
-            // let defs = this._svg
-            //     .defs
-            //     .get();
-            //
-            // nodes.forEach(function (d) {
-            //     // .enter()
-            //     defs.append('pattern')
-            //         .attr("id", "image" + d.data.xref)
-            //         // .attr("id", function (d) {
-            //         //     return "image" + d.data.xref;
-            //         // })
-            //         .attr("width", 1)
-            //         .attr("height", 1)
-            //         .append("svg:image")
-            //         .attr("xlink:href", d.data.thumbnail)
-            //         // .attr("xlink:href", function (d) {
-            //         //     return d.data.thumbnail;
-            //         // })
-            //         .attr("width", 250)
-            //         .attr("height", 250);
-            // });
-
-            this.drawLinks(links);
-            this.drawNodes(nodes);
-        // } else {
-        //     throw new Error("Missing root");
-        // }
-
-        return this;
+        this.drawLinks(links);
+        this.drawNodes(nodes);
     }
 
     /**
@@ -102,50 +72,175 @@ export default class Tree
             .attr("transform", d => `translate(${d.y}, ${d.x})`);
 
         nodeEnter
-            .filter(d => (d.data.xref !== ""))
-            .append("title")
-            .text(d => d.data.name);
-
-        nodeEnter
             .append("rect")
             .attr("class", d => (d.data.sex === SEX_FEMALE) ? "female" : (d.data.sex === SEX_MALE) ? "male" : "")
-            .attr("rx", 40)
-            .attr("ry", 40)
-            .attr("x", -(this.boxWidth / 2))
-            .attr("y", -(this.boxHeight / 2))
-            .attr("width", this.boxWidth)
-            .attr("height", this.boxHeight)
+            .attr("rx", this._configuration.boxHeight / 2)
+            .attr("ry", this._configuration.boxHeight / 2)
+            .attr("x", -(this._configuration.boxWidth / 2))
+            .attr("y", -(this._configuration.boxHeight / 2))
+            .attr("width", this._configuration.boxWidth)
+            .attr("height", this._configuration.boxHeight)
             .attr("fill-opacity", "0.5")
             .attr("fill", d => d.data.color);
 
-        this.addImages(nodeEnter);
+        let clipPath = this._svg
+            .defs
+            .get()
+            .append('clipPath')
+            .attr('id', 'clip-circle')
+            .append("circle")
+            .attr("r", this._configuration.imageRadius)
+            .attr("cx", -(this._configuration.boxWidth / 2) + (this._configuration.boxHeight / 2))
+            .attr("cy", 0);
 
         // Names and Dates
         nodeEnter
             .filter(d => (d.data.xref !== ""))
             .each(function (d) {
-                let parent = d3.select(this);
+                let element = d3.select(this);
 
-                // Names
-                let text1 = parent
+                element
+                    .append("title")
+                    .text(d => d.data.name);
+
+                let group = element
+                    .append("g")
+                    .attr("class", "image");
+
+                // Background (only required of thumbnail has transparency (like the silhouettes))
+                group
+                    .append("circle")
+                    .attr("cx", -(that._configuration.boxWidth / 2) + (that._configuration.boxHeight / 2))
+                    .attr("cy", -(that._configuration.boxHeight / 2) + (that._configuration.boxHeight / 2))
+                    .attr("r", that._configuration.imageRadius)
+                    .attr("fill", "rgb(255, 255, 255)");
+
+                // The individual image
+                let image = group
+                    .append("image")
+                    .attr("x", -(that._configuration.boxWidth / 2) + 5)
+                    .attr("y", -(that._configuration.boxHeight / 2) + 5)
+                    .attr("height", that._configuration.imageDiameter)
+                    .attr("width", that._configuration.imageDiameter)
+                    .attr("clip-path", "url(#clip-circle)");
+
+                dataUrl(that.getImageToLoad(d))
+                    .then(dataUrl => image.attr("href", dataUrl));
+
+                // Border
+                group.append("circle")
+                    .attr("cx", -(that._configuration.boxWidth / 2) + (that._configuration.boxHeight / 2))
+                    .attr("cy", -(that._configuration.boxHeight / 2) + (that._configuration.boxHeight / 2))
+                    .attr("r", that._configuration.imageRadius)
+                    .attr("fill", "none")
+                    .attr("stroke", "rgb(200, 200, 200)")
+                    .attr("stroke-width", "1.5");
+
+
+                let name = element
+                    .append("g")
+                    .attr("class", "name")
                     .append("text")
-                    .attr("dx", -(that.boxWidth / 2) + 80)
-                    .attr("dy", "-12px")
+                    .attr("dx", (-(that._configuration.boxWidth / 2) + that._configuration.imageDiameter + 20 - 5) + "px")
+                    .attr("dy", "-15px")
+                    .attr("text-anchor", "start");
+
+                that.addNames(name, d);
+
+                let table = element
+                    .append("g")
+                    .attr("class", "table");
+
+                let col1 = table.append("text")
+                    .attr("dx", (-(that._configuration.boxWidth / 2) + that._configuration.imageDiameter + 20) + "px")
+                    .attr("dy", "5px")
+                    .attr("class", "date")
+                    .attr("text-anchor", "middle")
+                    .attr("dominant-baseline", "middle");
+
+                if (d.data.birth) {
+                    col1.append("tspan")
+                        .text("\u2605")
+                        .attr("x", "0px")
+                        .attr("y", "0px");
+                }
+
+                if (d.data.death) {
+                    let death = col1
+                        .append("tspan")
+                        .text("\u2020");
+
+                    if (d.data.birth) {
+                        death.attr("x", (-(that._configuration.boxWidth / 2) + that._configuration.imageDiameter + 20) + "px")
+                            .attr("dy", "20px");
+                    } else {
+                        death.attr("x", "0px")
+                            .attr("y", "0px");
+                    }
+                }
+
+                let col2 = table.append("text")
+                    .attr("dx", (-(that._configuration.boxWidth / 2) + that._configuration.imageDiameter + 20) + "px")
+                    .attr("dy", "5px")
+                    .attr("class", "date")
                     .attr("text-anchor", "start")
-                    .attr("class", "name");
+                    .attr("dominant-baseline", "middle");
 
-                that.addNames(text1, d);
+                if (d.data.birth) {
+                    col2.append("tspan")
+                        .text(d.data.birth)
+                        .attr("x", "10px")
+                        .attr("y", "0px");
+                }
 
-                // Time span
-                let text2 = parent
-                    .append("text")
-                    .attr("dx", -(that.boxWidth / 2) + 80)
-                    .attr("dy", "10px")
-                    .attr("text-anchor", "start")
-                    .attr("class", "date");
+                if (d.data.death) {
+                    let death = col2.append("tspan")
+                        .text(d.data.death);
 
-                that.addTimeSpan(text2, d);
+                    if (d.data.birth) {
+                        death
+                            .attr("x", (-(that._configuration.boxWidth / 2) + that._configuration.imageDiameter + 20 + 10) + "px")
+                            .attr("dy", "20px");
+                    } else {
+                        death.attr("x", "10px")
+                            .attr("y", "0px");
+                    }
+                }
             });
+
+        // nodeEnter
+        //     .filter(d => (d.data.xref !== ""))
+        //     .append("title")
+        //     .text(d => d.data.name);
+
+        // this.addImages(nodeEnter);
+
+        // // Names and Dates
+        // nodeEnter
+        //     .filter(d => (d.data.xref !== ""))
+        //     .each(function (d) {
+        //         let parent = d3.select(this);
+        //
+        //         // Names
+        //         let text1 = parent
+        //             .append("text")
+        //             .attr("dx", -(that.boxWidth / 2) + 80)
+        //             .attr("dy", "-12px")
+        //             .attr("text-anchor", "start")
+        //             .attr("class", "name");
+        //
+        //         that.addNames(text1, d);
+        //
+        //         // Time span
+        //         let text2 = parent
+        //             .append("text")
+        //             .attr("dx", -(that.boxWidth / 2) + 80)
+        //             .attr("dy", "10px")
+        //             .attr("text-anchor", "start")
+        //             .attr("class", "date");
+        //
+        //         that.addTimeSpan(text2, d);
+        //     });
     }
 
     /**
@@ -226,12 +321,11 @@ export default class Tree
      *
      * @param {Selection} parent The parent (<text> or <textPath>) element to which the <tspan> elements are attached
      * @param {Object}    data   The D3 data object containing the individual data
-     * @param {number}    index  The index position of the element in parent container.
      * @param {boolean}   hide   Whether to show or hide the label if the text takes to much space to be displayed
      */
-    truncateNames(parent, data, index, hide = false)
+    truncateNames(parent, data, hide = false)
     {
-        let availableWidth = this.getAvailableWidth(data, index);
+        let availableWidth = this.getAvailableWidth(data);
 
         // Start truncating those elements which are not the preferred ones
         parent.selectAll("tspan:not(.preferred)")
@@ -246,16 +340,15 @@ export default class Tree
      * Calculate the available text width. Depending on the depth of an entry in
      * the chart the available width differs.
      *
-     * @param {Object} data  The D3 data object
-     * @param {number} index The index position of element in parent container.
-     *
+     * @param {Object} data The D3 data object
+
      * @returns {number} Calculated available width
      *
      * @private
      */
-    getAvailableWidth(data, index)
+    getAvailableWidth(data)
     {
-        return this.boxWidth - 80 - (this.padding * 2);
+        return this._configuration.boxWidth - (this._configuration.imageDiameter + 20) - (this._configuration.padding * 2);
     }
 
     /**
@@ -316,7 +409,7 @@ export default class Tree
     {
         this.addFirstNames(parent, datum);
         this.addLastNames(parent, datum, 0.25);
-        this.truncateNames(parent, datum, 0);
+        this.truncateNames(parent, datum);
     }
 
     /**
@@ -333,50 +426,6 @@ export default class Tree
         }
 
         return "";
-    }
-
-    /**
-     * Add the individual thumbnail image to the node.
-     *
-     * @param {Selection} parent The parent element to which the elements are to be attached
-     */
-    addImages(parent)
-    {
-        let that = this;
-
-        // Background (only required of thumbnail has transparency (like the silhouettes))
-        parent.append("circle")
-            .attr("cx", -(this.boxWidth / 2) + 40)
-            .attr("cy", -(this.boxHeight / 2) + 40)
-            .attr("r", 35)
-            .attr("fill", "rgb(255, 255, 255)");
-
-        parent
-            .filter(d => (d.data.xref !== ""))
-            .each(function (d) {
-                let parent = d3.select(this);
-
-                // The individual image
-                let image = parent
-                    .append("image")
-                    .attr("x", -(that.boxWidth / 2) + 5)
-                    .attr("y", -(that.boxHeight / 2) + 5)
-                    .attr("height", 70)
-                    .attr("width", 70)
-                    .attr("clip-path", "url(#clip-circle)");
-
-                dataUrl(that.getImageToLoad(d))
-                    .then(dataUrl => image.attr("href", dataUrl));
-            });
-
-        // Border
-        parent.append("circle")
-            .attr("cx", -(this.boxWidth / 2) + 40)
-            .attr("cy", -(this.boxHeight / 2) + 40)
-            .attr("r", 35)
-            .attr("fill", "none")
-            .attr("stroke", "rgb(200, 200, 200)")
-            .attr("stroke-width", "1.5");
     }
 
     /**
@@ -408,9 +457,9 @@ export default class Tree
     elbow(data)
     {
         let sourceX = data.source.x,
-            sourceY = data.source.y + (this.boxWidth / 2),
+            sourceY = data.source.y + (this._configuration.boxWidth / 2),
             targetX = data.target.x,
-            targetY = data.target.y - (this.boxWidth / 2);
+            targetY = data.target.y - (this._configuration.boxWidth / 2);
 
         return "M" + (this._configuration.direction * sourceY) + "," + sourceX +
             "H" + (this._configuration.direction * (sourceY + (targetY - sourceY) / 2)) +

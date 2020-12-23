@@ -31,6 +31,22 @@ export default class Configuration
         rtl            = false,
         direction      = 1
     ) {
+        // The width and height of a box
+        this.boxWidth  = 300;
+        this.boxHeight = 80;
+
+        //
+        this.padding   = 15;
+
+        // Padding around the image circle
+        this.imagePadding  = 5;
+
+        // The radius of the image
+        this.imageRadius   = (this.boxHeight / 2) - this.imagePadding;
+
+        // The diameter of the image
+        this.imageDiameter = this.imageRadius * 2;
+
         // Default number of generations to display
         this._generations = generations;
 

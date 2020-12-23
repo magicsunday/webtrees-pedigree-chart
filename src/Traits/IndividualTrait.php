@@ -74,6 +74,8 @@ trait IndividualTrait
             'isAltRtl'         => $this->isRtl($alternativeNames),
             'thumbnail'        => $this->getIndividualImage($individual),
             'sex'              => $individual->sex(),
+            'birth'            => strip_tags($individual->getBirthDate()->display()),
+            'death'            => strip_tags($individual->getDeathDate()->display()),
             'timespan'         => $this->getLifetimeDescription($individual),
             'color'            => $this->getColor($individual),
             'colors'           => [[], []],

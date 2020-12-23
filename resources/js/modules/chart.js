@@ -121,17 +121,7 @@ export default class Chart
         // Init the <svg> events
         this._svg.initEvents(this._overlay);
 
-        let clipPath = this._svg
-            .defs
-            .get()
-            .append('clipPath')
-            .attr('id', 'clip-circle')
-            .append("circle")
-            .attr("r", 35)
-            .attr("cx", -90)
-            .attr("cy", 0);
-
-        let tree      = new Tree(this._svg, this._configuration, this._hierarchy);
+        let tree = new Tree(this._svg, this._configuration, this._hierarchy);
 
         // let personGroup = this._svg.get().select("g.personGroup");
         // let gradient    = new Gradient(this._svg, this._configuration);

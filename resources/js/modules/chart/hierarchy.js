@@ -28,7 +28,7 @@ export default class Hierarchy
         this._configuration = configuration;
         this._nodes         = null;
 
-        this.nodeWidth  = 200;
+        this.nodeWidth  = configuration.boxWidth - (configuration.boxWidth / 3);
         this.nodeHeight = 0;
         this.separation = 0.5;
     }
