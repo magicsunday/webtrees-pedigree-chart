@@ -2,7 +2,7 @@
  * See LICENSE.md file for further details.
  */
 
-import {SEX_FEMALE, SEX_MALE} from "./chart/hierarchy";
+import {SEX_FEMALE, SEX_MALE, SEX_UNKNOWN} from "./chart/hierarchy";
 import * as d3 from "./d3";
 import dataUrl from "./common/dataUrl";
 
@@ -332,15 +332,7 @@ export default class Tree
             return datum.data.thumbnail;
         }
 
-        if (datum.data.sex === SEX_FEMALE) {
-            return "modules_v4/webtrees-pedigree-chart/resources/images/silhouette_female.png";
-        }
-
-        if (datum.data.sex === SEX_MALE) {
-            return "modules_v4/webtrees-pedigree-chart/resources/images/silhouette_male.png";
-        }
-
-        return "modules_v4/webtrees-pedigree-chart/resources/images/silhouette_unknown.png";
+        return "";
     }
 
     /**

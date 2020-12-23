@@ -5,8 +5,9 @@
 import * as d3 from "./../d3";
 import Configuration from "./../configuration";
 
-export const SEX_MALE   = "M";
-export const SEX_FEMALE = "F";
+export const SEX_MALE    = "M";
+export const SEX_FEMALE  = "F";
+export const SEX_UNKNOWN = "U";
 
 /**
  * This class handles the hierarchical data.

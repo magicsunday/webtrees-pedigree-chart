@@ -220,8 +220,13 @@ trait IndividualTrait
             if ($mediaFile !== null) {
                 return $mediaFile->imageUrl(250, 250, 'contain');
             }
+
+            return sprintf(
+                'modules_v4/webtrees-pedigree-chart/resources/images/silhouette-%s.svg',
+                $individual->sex()
+            );
         }
 
-        return '';
+        return 'modules_v4/webtrees-pedigree-chart/resources/images/silhouette-U.svg';
     }
 }
