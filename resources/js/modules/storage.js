@@ -14,7 +14,7 @@ export class Storage
     /**
      * Constructor.
      *
-     * @param {string} name The name of the storage
+     * @param {String} name The name of the storage
      */
     constructor(name)
     {
@@ -25,7 +25,7 @@ export class Storage
     /**
      * Register a HTML element.
      *
-     * @param {string} id The HTML element id
+     * @param {String} name The id or name of a HTML element
      */
     register(id)
     {

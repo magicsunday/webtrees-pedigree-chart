@@ -7,7 +7,7 @@ import * as d3 from "./../../d3";
 /**
  * Constants
  *
- * @type {number}
+ * @type {Number}
  */
 const MIN_ZOOM = 0.1;
 const MAX_ZOOM = 5.0;

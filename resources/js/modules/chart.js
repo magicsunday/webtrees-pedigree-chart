@@ -183,7 +183,7 @@ export default class Chart
     /**
      * Redirects to the individual page.
      *
-     * @param {string} url The individual URL
+     * @param {String} url The individual URL
      *
      * @private
      */

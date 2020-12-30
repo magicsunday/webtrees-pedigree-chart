@@ -14,13 +14,14 @@ export default class Configuration
     /**
      * Constructor.
      *
-     * @param {string[]} labels
-     * @param {number}   generations
-     * @param {string}   defaultColor
-     * @param {string}   fontColor
-     * @param {boolean}  showEmptyBoxes
-     * @param {boolean}  rtl
-     * @param {number}   direction
+     * @param {String[]} labels
+     * @param {Number}   generations
+     * @param {String}   defaultColor
+     * @param {String}   fontColor
+     * @param {Boolean}  showEmptyBoxes
+     * @param {String}   treeLayout
+     * @param {Boolean}  rtl
+     * @param {Number}   direction
      */
     constructor(
         labels,
@@ -76,7 +77,7 @@ export default class Configuration
     /**
      * Returns the number of generations to display.
      *
-     * @return {number}
+     * @return {Number}
      */
     get generations()
     {
@@ -86,7 +87,7 @@ export default class Configuration
     /**
      * Sets the number of generations to display.
      *
-     * @param {number} value The number of generations to display
+     * @param {Number} value The number of generations to display
      */
     set generations(value)
     {
@@ -96,7 +97,7 @@ export default class Configuration
     /**
      * Returns whether to show or hide empty boxes.
      *
-     * @return {boolean}
+     * @return {Boolean}
      */
     get showEmptyBoxes()
     {
@@ -106,7 +107,7 @@ export default class Configuration
     /**
      * Sets whether to show or hide empty boxes.
      *
-     * @param {boolean} value Either true or false
+     * @param {Boolean} value Either true or false
      */
     set showEmptyBoxes(value)
     {

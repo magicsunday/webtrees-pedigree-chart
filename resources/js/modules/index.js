@@ -20,15 +20,16 @@ export class PedigreeChart
     /**
      * Constructor.
      *
-     * @param {string} selector The CSS selector of the HTML element used to assign the chart too
+     * @param {String} selector The CSS selector of the HTML element used to assign the chart too
      * @param {Object} options  A list of options passed from outside to the application
      *
-     * @param {string[]} options.labels
-     * @param {number}   options.generations
-     * @param {string}   options.defaultColor
-     * @param {string}   options.fontColor
-     * @param {boolean}  options.showEmptyBoxes
-     * @param {boolean}  options.rtl
+     * @param {String[]} options.labels
+     * @param {Number}   options.generations
+     * @param {String}   options.defaultColor
+     * @param {String}   options.fontColor
+     * @param {Boolean}  options.showEmptyBoxes
+     * @param {String}   options.treeLayout
+     * @param {Boolean}  options.rtl
      */
     constructor(selector, options)
     {
@@ -96,7 +97,7 @@ export class PedigreeChart
     /**
      * Sets the URL to the CSS file used in SVG export.
      *
-     * @param {string} cssFile
+     * @param {String} cssFile
      */
     set cssFile(cssFile)
     {

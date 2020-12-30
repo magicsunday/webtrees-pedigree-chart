@@ -279,7 +279,7 @@ export default class Tree
      *
      * @param {Selection} parent The parent (<text> or <textPath>) element to which the <tspan> elements are to be attached
      * @param {Object}    datum  The D3 data object containing the individual data
-     * @param {number}    dx     Additional space offset to add between names
+     * @param {Number}    dx     Additional space offset to add between names
      */
     addLastNames(parent, datum, dx = 0)
     {
@@ -321,7 +321,7 @@ export default class Tree
      *
      * @param {Selection} parent The parent (<text> or <textPath>) element to which the <tspan> elements are attached
      * @param {Object}    data   The D3 data object containing the individual data
-     * @param {boolean}   hide   Whether to show or hide the label if the text takes to much space to be displayed
+     * @param {Boolean}   hide   Whether to show or hide the label if the text takes to much space to be displayed
      */
     truncateNames(parent, data, hide = false)
     {
@@ -342,7 +342,7 @@ export default class Tree
      *
      * @param {Object} data The D3 data object
 
-     * @returns {number} Calculated available width
+     * @returns {Number} Calculated available width
      *
      * @private
      */
@@ -355,8 +355,8 @@ export default class Tree
      * Truncates the textual content of the actual element.
      *
      * @param {Selection} parent         The parent (<text> or <textPath>) element containing the <tspan> child elements
-     * @param {number}    availableWidth The total available width the text could take
-     * @param {boolean}   hide           Whether to show or hide the label if the text takes to much space to be displayed
+     * @param {Number}    availableWidth The total available width the text could take
+     * @param {Boolean}   hide           Whether to show or hide the label if the text takes to much space to be displayed
      */
     truncateText(parent, availableWidth, hide = false)
     {
@@ -385,7 +385,7 @@ export default class Tree
      *
      * @param {Selection} parent The parent (<text> or <textPath>) element containing the <tspan> child elements
      *
-     * @returns {number}
+     * @returns {Number}
      */
     getTextLength(parent)
     {
@@ -450,7 +450,7 @@ export default class Tree
     /**
      * Draw the connecting lines between the profile boxes.
      *
-     * @param {Object} data D3 data object
+     * @param {Object} datum D3 data object
      *
      * @private
      */
