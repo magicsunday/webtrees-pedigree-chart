@@ -25,25 +25,31 @@ export default class Configuration
      */
     constructor(
         labels,
-        generations     = 4,
-        defaultColor     = "rgb(240, 240, 240)",
-        fontColor        = "rgb(0, 0, 0)",
+        generations = 4,
+        defaultColor = "rgb(240, 240, 240)",
+        fontColor = "rgb(0, 0, 0)",
         showEmptyBoxes = false,
-        rtl            = false,
-        direction      = 1
+        treeLayout = 'left-to-right',
+        rtl = false,
+        direction = 1
     ) {
+        this._treeLayout = treeLayout;
+
         // The width and height of a box
         this.boxWidth  = 300;
         this.boxHeight = 80;
 
         //
+        this.duration = 750;
+
+        //
         this.padding   = 15;
 
         // Padding around the image circle
-        this.imagePadding  = 5;
+        this.imagePadding = 5;
 
         // The radius of the image
-        this.imageRadius   = (this.boxHeight / 2) - this.imagePadding;
+        this.imageRadius = (this.boxHeight / 2) - this.imagePadding;
 
         // The diameter of the image
         this.imageDiameter = this.imageRadius * 2;
@@ -112,5 +118,25 @@ export default class Configuration
     set showEmptyBoxes(value)
     {
         this._showEmptyBoxes = value;
+    }
+
+    /**
+     * Returns the tree layout.
+     *
+     * @return {String}
+     */
+    get treeLayout()
+    {
+        return this._treeLayout;
+    }
+
+    /**
+     * Sets the tree layout.
+     *
+     * @param {String} value Tree layout value
+     */
+    set treeLayout(value)
+    {
+        this._treeLayout = value;
     }
 }

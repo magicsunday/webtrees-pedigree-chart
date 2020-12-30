@@ -42,6 +42,13 @@ class Configuration
     private const MAX_GENERATIONS = 25;
 
     /**
+     * Tree layout.
+     *
+     * @var string
+     */
+    private const DEFAULT_TREE_LAYOUT = "left-to-right";
+
+    /**
      * The current request instance.
      *
      * @var ServerRequestInterface
@@ -95,5 +102,15 @@ class Configuration
     public function getShowEmptyBoxes(): bool
     {
         return (bool) ($this->request->getQueryParams()['showEmptyBoxes'] ?? false);
+    }
+
+    /**
+     * Returns the tree layout.
+     *
+     * @return string
+     */
+    public function getTreeLayout(): string
+    {
+        return $this->request->getQueryParams()['treeLayout'] ?? self::DEFAULT_TREE_LAYOUT;
     }
 }

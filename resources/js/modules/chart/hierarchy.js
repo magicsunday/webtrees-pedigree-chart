@@ -27,8 +27,24 @@ export default class Hierarchy
     {
         this._configuration = configuration;
         this._nodes         = null;
+        this._root          = null;
 
-        this.nodeWidth  = configuration.boxWidth - (configuration.boxWidth / 3);
+        let orientations = {
+            "top-to-bottom": {
+                nodeWidth: () => { return (this._configuration.boxWidth * 2) + 30; }
+            },
+            "bottom-to-top": {
+                nodeWidth: () => { return (this._configuration.boxWidth * 2) + 30; }
+            },
+            "left-to-right": {
+                nodeWidth: () => { return (this._configuration.boxHeight * 2) + 30; }
+            },
+            "right-to-left": {
+                nodeWidth: () => { return (this._configuration.boxHeight * 2) + 30; }
+            }
+        };
+
+        this.nodeWidth  = orientations[this._configuration.treeLayout].nodeWidth();
         this.nodeHeight = 0;
         this.separation = 0.5;
     }
@@ -83,6 +99,7 @@ export default class Hierarchy
             .separation(d => this.separation);
 
         // Map the node data to the tree layout
+        this._root  = root;
         this._nodes = treeLayout(root);
     }
 
@@ -96,6 +113,18 @@ export default class Hierarchy
     get nodes()
     {
         return this._nodes;
+    }
+
+    /**
+     * Returns the root note.
+     *
+     * @returns {Object}
+     *
+     * @public
+     */
+    get root()
+    {
+        return this._root;
     }
 
     /**

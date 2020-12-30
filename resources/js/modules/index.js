@@ -43,6 +43,7 @@ export class PedigreeChart
             options.defaultColor,
             options.fontColor,
             options.showEmptyBoxes,
+            options.treeLayout,
             options.rtl
         );
 

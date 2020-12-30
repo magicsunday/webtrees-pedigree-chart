@@ -28,7 +28,43 @@ export default class Tree
         this._configuration = configuration;
         this._hierarchy     = hierarchy;
 
-        this.draw();
+        this._hierarchy.root.x0 = 0;
+        this._hierarchy.root.y0 = 0;
+
+        let orientations = {
+            "top-to-bottom": {
+                norm: (d) => { d.y = d.depth * (this._configuration.boxHeight + 30); },
+                elbow: (d) => this.elbowVertical(d),
+                x: function(d) { return d.x; },
+                y: function(d) { return d.y; }
+            },
+            "bottom-to-top": {
+                norm: (d) => { d.y = -1 * d.depth * (this._configuration.boxHeight + 30); },
+                elbow: (d) => this.elbowVertical(d, -1),
+                x: function(d) { return d.x; },
+                y: function(d) { return d.y; }
+            },
+            "left-to-right": {
+                norm: (d) => { d.y = d.depth * (this._configuration.boxWidth + 30); },
+                elbow: (d) => this.elbowHorizontal(d),
+                x: function(d) { return d.y; },
+                y: function(d) { return d.x; }
+            },
+            "right-to-left": {
+                norm: (d) => { d.y = -1 * d.depth * (this._configuration.boxWidth + 30); },
+                elbow: (d) => this.elbowHorizontal(d, -1),
+                x: function(d) { return d.y; },
+                y: function(d) { return d.x; }
+            }
+        };
+
+        this._orientation = orientations[this._configuration.treeLayout];
+
+
+        // Collapse after the second level
+        // this._hierarchy.root.children.forEach((child) => this.collapse(child));
+
+        this.draw(this._hierarchy.root);
     }
 
     /**
@@ -36,19 +72,59 @@ export default class Tree
      *
      * @public
      */
-    draw()
+    draw(source)
     {
         let nodes = this._hierarchy.nodes.descendants();
         let links = this._hierarchy.nodes.links();
 
+        // // Start with only the first few generations of ancestors showing
+        // nodes.forEach((person) => {
+        //     if (person.children) {
+        //         person.children.forEach((child) => this.collapse(child));
+        //     }
+        // });
+
         // Normalize for fixed-depth.
-        nodes.forEach((d) => {
-            d.y = d.depth * (this._configuration.boxWidth + 30);
+        nodes.forEach((person) => {
+            this._orientation.norm(person);
         });
 
-        this.drawLinks(links);
-        this.drawNodes(nodes);
+        this.drawLinks(links, source);
+        this.drawNodes(nodes, source);
+
+        // Stash the old positions for transition.
+        nodes.forEach((person) => {
+            person.x0 = person.x;
+            person.y0 = person.y;
+        });
     }
+
+    // /**
+    //  * Draw the tree.
+    //  *
+    //  * @public
+    //  */
+    // update(source)
+    // {
+    //     let nodes = this._hierarchy.nodes.descendants();
+    //     let links = this._hierarchy.nodes.links();
+    //
+    //     // // Start with only the first few generations of ancestors showing
+    //     // nodes.forEach((person) => {
+    //     //     if (person.children) {
+    //     //         person.children.forEach((child) => this.collapse(child));
+    //     //     }
+    //     // });
+    //
+    //     this.drawLinks(links, source);
+    //     this.drawNodes(nodes, source);
+    //
+    //     // Stash the old positions for transition.
+    //     nodes.forEach((person) => {
+    //         person.x0 = person.x;
+    //         person.y0 = person.y;
+    //     });
+    // }
 
     /**
      * Draw the person boxes.
@@ -57,31 +133,10 @@ export default class Tree
      *
      * @private
      */
-    drawNodes(nodes)
+    drawNodes(nodes, source)
     {
+        let i = 0;
         let that = this;
-
-        let node = this._svg.visual
-            .selectAll("g.person")
-            .data(nodes);
-
-        let nodeEnter = node
-            .enter()
-            .append("g")
-            .attr("class", "person")
-            .attr("transform", d => `translate(${d.y}, ${d.x})`);
-
-        nodeEnter
-            .append("rect")
-            .attr("class", d => (d.data.sex === SEX_FEMALE) ? "female" : (d.data.sex === SEX_MALE) ? "male" : "")
-            .attr("rx", this._configuration.boxHeight / 2)
-            .attr("ry", this._configuration.boxHeight / 2)
-            .attr("x", -(this._configuration.boxWidth / 2))
-            .attr("y", -(this._configuration.boxHeight / 2))
-            .attr("width", this._configuration.boxWidth)
-            .attr("height", this._configuration.boxHeight)
-            .attr("fill-opacity", "0.5")
-            .attr("fill", d => d.data.color);
 
         let clipPath = this._svg
             .defs
@@ -92,6 +147,52 @@ export default class Tree
             .attr("r", this._configuration.imageRadius)
             .attr("cx", -(this._configuration.boxWidth / 2) + (this._configuration.boxHeight / 2))
             .attr("cy", 0);
+
+        let t = this._svg.visual
+            .transition()
+            .duration(this._configuration.duration);
+
+        let node = this._svg.visual
+            .selectAll("g.person")
+            .data(nodes, person => person.id || (person.id = ++i));
+
+        let nodeEnter = node
+            .enter()
+            .append("g")
+            .attr("class", "person")
+            // Add new nodes at the right side of their child's box.
+            // They will be transitioned into their proper position.
+            // .attr("transform", person => {
+            //     return "translate(" + (this._configuration.direction * (source.y0 + (this._configuration.boxWidth / 2))) + ',' + source.x0 + ")";
+            // })
+            // .attr("transform", person => {
+            //     return "translate(" + (this._configuration.direction * (source.y + (this._configuration.boxWidth / 2))) + ',' + source.x + ")";
+            // })
+            // .attr("transform", person => `translate(${source.y0}, ${source.x0})`)
+            .attr("transform", person => {
+                return "translate(" + this._orientation.x(person) + "," + this._orientation.y(person) + ")";
+            })
+        // .on("click", this.togglePerson.bind(this))
+        ;
+
+        // Draw the rectangle person boxes. Start new boxes with 0 size so that we can
+        // transition them to their proper size.
+        nodeEnter
+            .append("rect")
+            .attr("class", d => (d.data.sex === SEX_FEMALE) ? "female" : (d.data.sex === SEX_MALE) ? "male" : "")
+            .attr("rx", this._configuration.boxHeight / 2)
+            .attr("ry", this._configuration.boxHeight / 2)
+            // .attr("x", 0)
+            // .attr("y", 0)
+            // .attr("width", 0)
+            // .attr("height", 0)
+            .attr("x", -(this._configuration.boxWidth / 2))
+            .attr("y", -(this._configuration.boxHeight / 2))
+            .attr("width", this._configuration.boxWidth)
+            .attr("height", this._configuration.boxHeight)
+            .attr("fill-opacity", "0.5")
+            .attr("fill", d => d.data.color);
+        //
 
         // Names and Dates
         nodeEnter
@@ -208,6 +309,73 @@ export default class Tree
                 }
             });
 
+    //     // Merge the update and the enter selections
+    //     let nodeUpdate = nodeEnter.merge(node);
+    //
+    //     nodeUpdate
+    //         .transition()
+    //         .duration(this._configuration.duration)
+    //         // .attr("transform", person => `translate(${person.y}, ${person.x})`);
+    //         .attr("transform", person => {
+    //             return "translate(" + (this._configuration.direction * person.y) + "," + person.x + ")";
+    //         });
+    //
+    //     // Grow boxes to their proper size
+    //     nodeUpdate.select('rect')
+    //         .attr("x", -(this._configuration.boxWidth / 2))
+    //         .attr("y", -(this._configuration.boxHeight / 2))
+    //         .attr("width", this._configuration.boxWidth)
+    //         .attr("height", this._configuration.boxHeight)
+    //         // .attr("fill-opacity", "0.5")
+    //         // .attr({
+    //         //     x: -(this._configuration.boxWidth / 2),
+    //         //     y: -(this._configuration.boxHeight / 2),
+    //         //     width: this._configuration.boxWidth,
+    //         //     height: this._configuration.boxHeight
+    //         // })
+    // ;
+    //
+    //     // Move text to it's proper position
+    //     // nodeUpdate.select('text')
+    //     //     .attr("dx", -(this._configuration.boxWidth / 2) + 10)
+    //     //     .style("fill-opacity", 1);
+    //
+    //     // Remove nodes we aren't showing anymore
+    //     let nodeExit = node
+    //         .exit()
+    //         .transition()
+    //         .duration(this._configuration.duration)
+    //         // Transition exit nodes to the source's position
+    //         .attr("transform", person => {
+    //             return "translate(" + (this._configuration.direction * (source.y + (this._configuration.boxWidth / 2))) + ',' + source.x + ")";
+    //         })
+    //         // .attr("transform", person => `translate(${source.y}, ${source.x})`)
+    //         // .attr("transform", (d) => {
+    //         //     return "translate(" + source.y + "," + source.x + ")";
+    //         // })
+    //         .remove();
+    //
+    //     // Shrink boxes as we remove them
+    //     nodeExit.select('rect')
+    //         .attr("x", 0)
+    //         .attr("y", 0)
+    //         .attr("width", 0)
+    //         .attr("height", 0)
+    //         // .attr("fill-opacity", 0)
+    //         // .attr({
+    //         //     x: 0,
+    //         //     y: 0,
+    //         //     width: 0,
+    //         //     height: 0
+    //         // })
+    //     ;
+
+        // Fade out the text as we remove it
+        // nodeExit.select('text')
+        //     .style('fill-opacity', 0)
+        //     .attr('dx', 0);
+
+
         // nodeEnter
         //     .filter(d => (d.data.xref !== ""))
         //     .append("title")
@@ -241,6 +409,132 @@ export default class Tree
         //
         //         that.addTimeSpan(text2, d);
         //     });
+
+
+        // node.join(
+        //     enter => {
+        //         let nodeEnter = enter
+        //             .append("g")
+        //             .attr("class", "person")
+        //             // .attr("transform", person => `translate(${person.y}, ${person.x})`)
+        //             .attr("transform", person => {
+        //                 return "translate(" + (this._configuration.direction * (source.y0 + (this._configuration.boxWidth / 2))) + ',' + source.x0 + ")";
+        //             })
+        //             .on("click", this.togglePerson.bind(this));
+        //
+        //         nodeEnter
+        //             .append("rect")
+        //             // .attr("x", -(this._configuration.boxWidth / 2))
+        //             // .attr("y", -(this._configuration.boxHeight / 2))
+        //             // .attr("width", this._configuration.boxWidth)
+        //             // .attr("height", this._configuration.boxHeight);
+        //             .attr("x", 0)
+        //             .attr("y", 0)
+        //             .attr("width", 0)
+        //             .attr("height", 0);
+        //
+        //         return nodeEnter;
+        //     },
+        //
+        //     update => {
+        //         let nodeUpdate = update
+        //             .call(update => update
+        //                 .transition(t)
+        //                 .attr("transform", person => {
+        //                     return "translate(" + (this._configuration.direction * person.y) + "," + person.x + ")";
+        //                 })
+        //             );
+        //
+        //         nodeUpdate
+        //             .select('rect')
+        //             .attr("x", -(this._configuration.boxWidth / 2))
+        //             .attr("y", -(this._configuration.boxHeight / 2))
+        //             .attr("width", this._configuration.boxWidth)
+        //             .attr("height", this._configuration.boxHeight);
+        //
+        //         return nodeUpdate;
+        //     },
+        //
+        //     exit => {
+        //         let nodeExit = exit
+        //             .call(exit => exit
+        //                 .transition(t)
+        //                 .attr("transform", person => {
+        //                     return "translate(" + (this._configuration.direction * (source.y + (this._configuration.boxWidth / 2))) + ',' + source.x + ")";
+        //                 })
+        //             )
+        //             .remove();
+        //
+        //         nodeExit
+        //             .select('rect')
+        //             .attr("x", 0)
+        //             .attr("y", 0)
+        //             .attr("width", 0)
+        //             .attr("height", 0);
+        //
+        //         return nodeExit;
+        //     }
+        // )
+        //     // .selectAll('rect')
+        //     // .attr("x", -(this._configuration.boxWidth / 2))
+        //     // .attr("y", -(this._configuration.boxHeight / 2))
+        //     // .attr("width", this._configuration.boxWidth)
+        //     // .attr("height", this._configuration.boxHeight);
+        // ;
+        //
+        // return;
+
+    }
+
+    /**
+     * Update a person's state when they are clicked.
+     */
+    togglePerson(event, person)
+    {
+        if (person.children) {
+            person._children = person.children;
+            person.children = null;
+        } else {
+            person.children = person._children;
+            person._children = null;
+        }
+
+        this.draw(person);
+
+        // if (person.collapsed) {
+        //     person.collapsed = false;
+        // } else {
+        //     this.collapse(person);
+        // }
+        //
+        // this.draw(person);
+    }
+
+    /**
+     * Collapse person (hide their ancestors). We recursively
+     * collapse the ancestors so that when the person is
+     * expanded it will only reveal one generation. If we don't
+     * recursively collapse the ancestors then when
+     * the person is clicked on again to expand, all ancestors
+     * that were previously showing will be shown again.
+     * If you want that behavior then just remove the recursion
+     * by removing the if block.
+     */
+    collapse(person)
+    {
+        if (person.children) {
+            person._children = person.children;
+            person._children.forEach((child) => this.collapse(child));
+            // person._children.forEach(this.collapse);
+            person.children = null;
+        }
+
+        // person.collapsed = true;
+        //
+        // if (person.children) {
+        //     person.children.forEach((child) => this.collapse(child));
+        //     person.children.forEach(this.collapse);
+        // }
     }
 
     /**
@@ -435,35 +729,120 @@ export default class Tree
      *
      * @private
      */
-    drawLinks(links)
+    drawLinks(links, source)
     {
+        let that = this;
+
         let link = this._svg.visual
             .selectAll("path.link")
-            .data(links);
+            .data(links, person => person.target.id);
 
-        link.enter()
+        // Add new links. Transition new links from the source's old position to
+        // the links final position.
+        let linkEnter = link
+            .enter()
             .append("path")
             .classed("link", true)
-            .attr("d", d => this.elbow(d));
+            .attr("d", person => this._orientation.elbow(person));
+
+        // // Add new links. Transition new links from the source's old position to
+        // // the links final position.
+        // let linkEnter = link.enter()
+        //     .append("path")
+        //     .classed("link", true)
+        //     .attr("d", person => {
+        //         const o = {
+        //             x: source.x0,
+        //             y: this._configuration.direction * (source.y0 + (this._configuration.boxWidth / 2))
+        //         };
+        //
+        //         return this.transitionElbow({ source: o, target: o });
+        //     });
+        //
+        // var linkUpdate = linkEnter.merge(link);
+        //
+        // // Update the old links positions
+        // linkUpdate.transition()
+        //     .duration(this._configuration.duration)
+        //     .attr("d", person => this.elbow(person));
+        //
+        // // Remove any links we don't need anymore if part of the tree was collapsed. Transition exit
+        // // links from their current position to the source's new position.
+        // link.exit()
+        //     .transition()
+        //     .duration(this._configuration.duration)
+        //     .attr("d", person => {
+        //         const o = {
+        //             x: source.x,
+        //             y: this._configuration.direction * (source.y + this._configuration.boxWidth / 2)
+        //         };
+        //
+        //         return this.transitionElbow({ source: o, target: o });
+        //     })
+        //     .remove();
     }
 
     /**
-     * Draw the connecting lines between the profile boxes.
+     * Draw the vertical connecting lines between the profile boxes for Top/Bottom and Bottom/Top layout.
      *
      * @param {Object} datum D3 data object
      *
      * @private
      */
-    elbow(data)
+    elbowVertical(datum, direction)
     {
-        let sourceX = data.source.x,
-            sourceY = data.source.y + (this._configuration.boxWidth / 2),
-            targetX = data.target.x,
-            targetY = data.target.y - (this._configuration.boxWidth / 2);
+        direction = direction || 1;
 
-        return "M" + (this._configuration.direction * sourceY) + "," + sourceX +
-            "H" + (this._configuration.direction * (sourceY + (targetY - sourceY) / 2)) +
-            "V" + targetX +
-            "H" + (this._configuration.direction * targetY);
+        // Top => Bottom, Bottom => Top
+        let sourceX = this._orientation.x(datum.source),
+            sourceY = this._orientation.y(datum.source) + (direction * (this._configuration.boxHeight / 2)),
+            targetX = this._orientation.x(datum.target),
+            targetY = this._orientation.y(datum.target) - (direction * (this._configuration.boxHeight / 2));
+
+        return "M " + sourceX + " " + sourceY +
+            " V " + (sourceY + ((targetY - sourceY) / 2)) +
+            " H " + targetX +
+            " V " + targetY;
     }
+
+    /**
+     * Draw the horizontal connecting lines between the profile boxes for Left/Right and Right/Left layout.
+     *
+     * @param {Object} datum D3 data object
+     *
+     * @private
+     */
+    elbowHorizontal(datum, direction)
+    {
+        direction = direction || 1;
+
+        // Left => Right, Right => Left
+        let sourceX = this._orientation.y(datum.source),
+            sourceY = this._orientation.x(datum.source) + (direction * (this._configuration.boxWidth / 2)),
+            targetX = this._orientation.y(datum.target),
+            targetY = this._orientation.x(datum.target) - (direction * (this._configuration.boxWidth / 2));
+
+        return "M " + sourceY + " " + sourceX +
+            " H " + (sourceY + ((targetY - sourceY) / 2)) +
+            " V " + targetX +
+            " H " + targetY;
+    }
+
+    // /**
+    //  * Use a different elbow function for enter
+    //  * and exit nodes. This is necessary because
+    //  * the function above assumes that the nodes
+    //  * are stationary along the x axis.
+    //  *
+    //  * @param {Object} datum D3 data object
+    //  *
+    //  * @private
+    //  */
+    // transitionElbow(datum)
+    // {
+    //     return "M" + datum.source.y + "," + datum.source.x
+    //         + "H" + datum.source.y
+    //         + "V" + datum.source.x
+    //         + "H" + datum.source.y;
+    // }
 }

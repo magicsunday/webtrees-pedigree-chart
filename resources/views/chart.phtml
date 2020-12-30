@@ -81,6 +81,26 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
         </div>
 
         <div class="form-group row">
+            <label class="col-form-label col-sm-3 wt-page-options-label">
+                <?= I18N::translate('Tree layout') ?>
+            </label>
+            <div class="col-sm-9 wt-page-options-value" id="treeLayout">
+                <?=
+                    view('components/radios-inline', [
+                        'name' => 'treeLayout',
+                        'options' => [
+                            'right-to-left' => view('icons/pedigree-left') . I18N::translate('left'),
+                            'left-to-right' => view('icons/pedigree-right') . I18N::translate('right'),
+                            'bottom-to-top' => view('icons/pedigree-up') . I18N::translate('up'),
+                            'top-to-bottom' => view('icons/pedigree-down') . I18N::translate('down'),
+                        ],
+                        'selected' => $configuration->getTreeLayout(),
+                    ])
+                ?>
+            </div>
+        </div>
+
+        <div class="form-group row">
             <div class="col-sm-12 wt-page-options-value text-center">
                 <div class="btn-toolbar justify-content-between">
                     <div class="btn-group btn-group-sm">
@@ -165,6 +185,11 @@ document.addEventListener("DOMContentLoaded", function () {
     // Register all form elements valid for storing data
     storage.register("generations");
     storage.register("showEmptyBoxes");
+    storage.register("treeLayout");
+
+    // Set initial stored value for radio button group
+    const formElements = document.getElementById("webtrees-pedigree-chart-form").elements;
+    formElements.namedItem("treeLayout").value = storage.read("treeLayout");
 
     let data    = <?= $chartParams ?>;
     let ajaxUrl = <?= json_encode($ajaxUrl) ?>;
@@ -179,6 +204,7 @@ document.addEventListener("DOMContentLoaded", function () {
             defaultColor   : data.defaultColor,
             fontColor      : data.fontColor,
             showEmptyBoxes : storage.read("showEmptyBoxes"),
+            treeLayout     : storage.read("treeLayout"),
             rtl            : data.rtl
         }
     );
@@ -195,6 +221,7 @@ document.addEventListener("DOMContentLoaded", function () {
     //     // Update configuration with changed form values
     //     pedigreeChart.configuration.generations    = parseInt(document.getElementById('generations').value);
     //     pedigreeChart.configuration.showEmptyBoxes = !!document.getElementById('showEmptyBoxes').checked;
+    //     pedigreeChart.configuration.treeLayout     = document.getElementById('treeLayout').value;
     //
     //     drawChart(pedigreeChart, ajaxUrl);
     // });

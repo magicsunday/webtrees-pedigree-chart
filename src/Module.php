@@ -151,6 +151,7 @@ class Module extends AbstractModule implements ModuleCustomInterface, ModuleChar
                 'xref'           => $params['xref'],
                 'generations'    => $params['generations'] ?? '4',
                 'showEmptyBoxes' => $params['showEmptyBoxes'] ?? '0',
+                'treeLayout'     => $params['treeLayout'] ?? 'left-to-right',
             ]));
         }
 
@@ -298,6 +299,7 @@ class Module extends AbstractModule implements ModuleCustomInterface, ModuleChar
             'xref'        => $individual->xref(),
             'tree'        => $individual->tree()->name(),
             'generations' => $this->configuration->getGenerations(),
+            'treeLayout'  => $this->configuration->getTreeLayout(),
         ]);
     }
 
