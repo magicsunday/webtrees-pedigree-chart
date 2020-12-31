@@ -1,57 +1,122 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pedigree chart\n"
-"POT-Creation-Date: 2018-11-16 20:00+0100\n"
-"PO-Revision-Date: 2018-11-16 20:01+0100\n"
+"POT-Creation-Date: 2020-12-31 14:13+0100\n"
+"PO-Revision-Date: 2020-12-31 14:14+0100\n"
 "Last-Translator: Rico Sonntag <mail@ricosonntag.de>\n"
 "Language-Team: \n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.5\n"
-"X-Poedit-Basepath: ..\n"
+"X-Generator: Poedit 2.2.1\n"
+"X-Poedit-Basepath: ../../..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-KeywordsList: translate;doShowTooltipOverlay\n"
-"X-Poedit-SearchPath-0: .\n"
-"X-Poedit-SearchPathExcluded-0: node_modules\n"
-"X-Poedit-SearchPathExcluded-1: .git\n"
-"X-Poedit-SearchPathExcluded-2: css\n"
-"X-Poedit-SearchPathExcluded-3: language\n"
+"X-Poedit-KeywordsList: translate\n"
+"X-Poedit-SearchPath-0: resources/views/chart.phtml\n"
+"X-Poedit-SearchPath-1: module.php\n"
+"X-Poedit-SearchPath-2: src\n"
+"X-Poedit-SearchPathExcluded-0: resources/lang/node_modules\n"
+"X-Poedit-SearchPathExcluded-1: resources/lang/.git\n"
+"X-Poedit-SearchPathExcluded-2: resources/lang/css\n"
+"X-Poedit-SearchPathExcluded-3: resources/lang/language\n"
 
-#: src/PedigreeChartModule.php:87 src/PedigreeChartModule.php:164
+#: src/Module.php:100 src/Module.php:194
 msgid "Pedigree chart"
 msgstr "Ahnentafel"
 
-#: src/PedigreeChartModule.php:97
-msgid "A pedigree chart of an individual."
-msgstr "Eine Ahnentafel einer Person."
+#: src/Module.php:110
+msgid "A pedigree chart of an individual’s ancestors."
+msgstr "Eine Ahnentafel der Vorfahren einer Person."
 
-#: src/PedigreeChartModule.php:167
+#: src/Module.php:197 src/Traits/ModuleChartTrait.php:38
 #, php-format
 msgid "Pedigree chart of %s"
 msgstr "Ahnentafel von %s"
 
-#: src/PedigreeChartModule.php:186
+#: src/Module.php:216
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Verwende Strg+Scrollen zum Zoomen der Ansicht"
 
-#: src/PedigreeChartModule.php:187
+#: src/Module.php:217
 msgid "Move the view with two fingers"
 msgstr "Verschieben der Ansicht mit zwei Fingern"
 
-#: resources/views/webtrees-pedigree-chart.phtml:27
+#: src/Traits/IndividualTrait.php:114
+#, php-format
+msgid "Born: %s"
+msgstr "Geboren: %s"
+
+#: src/Traits/IndividualTrait.php:118
+#, php-format
+msgid "Died: %s"
+msgstr "Gestorben: %s"
+
+#: src/Traits/IndividualTrait.php:122
+msgid "Deceased"
+msgstr "Verstorben"
+
+#: resources/views/chart.phtml:35
 msgid "Individual"
 msgstr "Person"
 
-#: resources/views/webtrees-pedigree-chart.phtml:38
+#: resources/views/chart.phtml:52
 msgid "Generations"
 msgstr "Generationen"
 
-#: resources/views/webtrees-pedigree-chart.phtml:59
+#: resources/views/chart.phtml:69
+msgid "Orientation"
+msgstr "Ausrichtung"
+
+#: resources/views/chart.phtml:76
+msgid "left"
+msgstr "Links"
+
+#: resources/views/chart.phtml:77
+msgid "right"
+msgstr "Rechts"
+
+#: resources/views/chart.phtml:78
+msgid "up"
+msgstr "Oben"
+
+#: resources/views/chart.phtml:79
+msgid "down"
+msgstr "Unten"
+
+#: resources/views/chart.phtml:90
+msgid "Layout"
+msgstr "Ansicht"
+
+#: resources/views/chart.phtml:97
+msgid ""
+"Show empty boxes for missing individuals. Caution: May slow down your system!"
+msgstr ""
+"Zeige leere Kästchen für fehlende Personen an. Achtung: Kann Ihr System "
+"verlangsamen!"
+
+#: resources/views/chart.phtml:110
+msgid "More options ..."
+msgstr "Weitere Optionen ..."
+
+#: resources/views/chart.phtml:115
 msgid "view"
 msgstr "Anzeigen"
 
-#: resources/views/webtrees-pedigree-chart.phtml:60
-msgid "reset"
-msgstr "Zurücksetzen"
+#: resources/views/chart.phtml:121
+msgid "Re center"
+msgstr "Neu zentrieren"
+
+#: resources/views/chart.phtml:126
+msgid "Export as PNG"
+msgstr "Als PNG exportieren"
+
+#: resources/views/chart.phtml:129
+msgid "Export as SVG"
+msgstr "Als SVG exportieren"
+
+#~ msgid "Tree layout"
+#~ msgstr "Baumansicht"
+
+#~ msgid "reset"
+#~ msgstr "Zurücksetzen"
