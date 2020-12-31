@@ -2,12 +2,9 @@
  * See LICENSE.md file for further details.
  */
 
-import * as d3 from "./../d3";
-import Configuration from "./../configuration";
-
-export const SEX_MALE    = "M";
-export const SEX_FEMALE  = "F";
-export const SEX_UNKNOWN = "U";
+import * as d3 from "../d3";
+import Configuration from "../configuration";
+import {SEX_MALE,SEX_FEMALE} from "../constants";
 
 /**
  * This class handles the hierarchical data.
@@ -29,22 +26,7 @@ export default class Hierarchy
         this._nodes         = null;
         this._root          = null;
 
-        let orientations = {
-            "top-to-bottom": {
-                nodeWidth: () => { return (this._configuration.boxWidth * 2) + 30; }
-            },
-            "bottom-to-top": {
-                nodeWidth: () => { return (this._configuration.boxWidth * 2) + 30; }
-            },
-            "left-to-right": {
-                nodeWidth: () => { return (this._configuration.boxHeight * 2) + 30; }
-            },
-            "right-to-left": {
-                nodeWidth: () => { return (this._configuration.boxHeight * 2) + 30; }
-            }
-        };
-
-        this.nodeWidth  = orientations[this._configuration.treeLayout].nodeWidth();
+        this.nodeWidth  = this._configuration.orientation.nodeWidth();
         this.nodeHeight = 0;
         this.separation = 0.5;
     }

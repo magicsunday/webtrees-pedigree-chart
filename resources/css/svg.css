@@ -2,6 +2,8 @@
 #webtrees-pedigree-chart-container svg {
     /* Native font stack: see https://www.smashingmagazine.com/2015/11/using-system-ui-fonts-practical-guide/ */
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+    min-height: 600px;
 }
 
 #webtrees-pedigree-chart-container svg text {

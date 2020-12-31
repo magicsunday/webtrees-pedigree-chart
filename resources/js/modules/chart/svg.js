@@ -7,6 +7,7 @@ import Configuration from "./../configuration";
 import Defs from "./svg/defs";
 import Zoom from "./svg/zoom";
 import ExportFactory from "./svg/export-factory";
+import {LAYOUT_BOTTOMTOP, LAYOUT_TOPBOTTOM} from "../constants";
 
 /**
  * SVG class
@@ -102,6 +103,18 @@ export default class Svg
 
         this._zoom = new Zoom(this._visual);
         this._element.call(this._zoom.get());
+
+        // // For Top/Bottom and Bottom/Top layout set the initial zoom level to the number
+        // // of displayed generations
+        // if ((this._configuration.generations > 4)
+        //     && ((this._configuration.treeLayout === LAYOUT_TOPBOTTOM)
+        //     || (this._configuration.treeLayout === LAYOUT_BOTTOMTOP))
+        // ) {
+        //     // this._element
+        //     //     .attr("transform", "translate(200, 200)")
+        //     //
+        //     // this._zoom.get().scaleTo(this._element, this._configuration.generations);
+        // }
     }
 
     /**

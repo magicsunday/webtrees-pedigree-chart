@@ -151,7 +151,7 @@ class Module extends AbstractModule implements ModuleCustomInterface, ModuleChar
                 'xref'           => $params['xref'],
                 'generations'    => $params['generations'] ?? '4',
                 'showEmptyBoxes' => $params['showEmptyBoxes'] ?? '0',
-                'treeLayout'     => $params['treeLayout'] ?? 'left-to-right',
+                'treeLayout'     => $params['treeLayout'] ?? Configuration::LAYOUT_LEFTRIGHT,
             ]));
         }
 

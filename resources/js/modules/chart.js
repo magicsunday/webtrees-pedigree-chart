@@ -71,6 +71,13 @@ export default class Chart
         viewBoxWidth  = Math.ceil(viewBoxWidth + (MIN_PADDING * 2));
         viewBoxHeight = Math.ceil(viewBoxHeight + (MIN_PADDING * 2));
 
+        // this._svg.visual
+        //     .attr("transform", "translate(" + (-viewBoxLeft) + ", " + (-viewBoxTop) + ")");
+        //
+        // this._svg.get()
+        //     .attr("width", viewBoxWidth)
+        //     .attr("height", viewBoxHeight);
+
         // Set view box attribute
         this._svg.get()
             .attr("viewBox", [

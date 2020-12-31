@@ -89,10 +89,10 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
                     view('components/radios-inline', [
                         'name' => 'treeLayout',
                         'options' => [
-                            'right-to-left' => view('icons/pedigree-left') . I18N::translate('left'),
-                            'left-to-right' => view('icons/pedigree-right') . I18N::translate('right'),
-                            'bottom-to-top' => view('icons/pedigree-up') . I18N::translate('up'),
-                            'top-to-bottom' => view('icons/pedigree-down') . I18N::translate('down'),
+                            Configuration::LAYOUT_RIGHTLEFT => view('icons/pedigree-left') . I18N::translate('left'),
+                            Configuration::LAYOUT_LEFTRIGHT => view('icons/pedigree-right') . I18N::translate('right'),
+                            Configuration::LAYOUT_BOTTOMTOP => view('icons/pedigree-up') . I18N::translate('up'),
+                            Configuration::LAYOUT_TOPBOTTOM => view('icons/pedigree-down') . I18N::translate('down'),
                         ],
                         'selected' => $configuration->getTreeLayout(),
                     ])

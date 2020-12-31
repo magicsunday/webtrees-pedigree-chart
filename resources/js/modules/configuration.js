@@ -2,6 +2,9 @@
  * See LICENSE.md file for further details.
  */
 
+import {LAYOUT_LEFTRIGHT} from "./constants";
+import OrientationCollection from "./chart/orientation-collection";
+
 /**
  * This class handles the configuration of the application.
  *
@@ -29,15 +32,17 @@ export default class Configuration
         defaultColor = "rgb(240, 240, 240)",
         fontColor = "rgb(0, 0, 0)",
         showEmptyBoxes = false,
-        treeLayout = 'left-to-right',
+        treeLayout = LAYOUT_LEFTRIGHT,
         rtl = false,
         direction = 1
     ) {
-        this._treeLayout = treeLayout;
-
         // The width and height of a box
         this.boxWidth  = 300;
         this.boxHeight = 80;
+
+        // The layout/orientation of the tree
+        this._treeLayout = treeLayout;
+        this._orientations = new OrientationCollection(this.boxWidth, this.boxHeight);
 
         //
         this.duration = 750;
@@ -138,5 +143,15 @@ export default class Configuration
     set treeLayout(value)
     {
         this._treeLayout = value;
+    }
+
+    /**
+     * Returns the current orientation.
+     *
+     * @returns {Orientation}
+     */
+    get orientation()
+    {
+        return this._orientations.get()[this.treeLayout];
     }
 }

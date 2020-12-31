@@ -2,9 +2,9 @@
  * See LICENSE.md file for further details.
  */
 
-import {SEX_FEMALE, SEX_MALE, SEX_UNKNOWN} from "./chart/hierarchy";
 import * as d3 from "./d3";
 import dataUrl from "./common/dataUrl";
+import {SEX_MALE,SEX_FEMALE,SEX_UNKNOWN} from "./constants";
 
 /**
  * The class handles the creation of the tree.
@@ -31,38 +31,7 @@ export default class Tree
         this._hierarchy.root.x0 = 0;
         this._hierarchy.root.y0 = 0;
 
-        let orientations = {
-            "top-to-bottom": {
-                norm: (d) => { d.y = d.depth * (this._configuration.boxHeight + 30); },
-                elbow: (d) => this.elbowVertical(d),
-                x: function(d) { return d.x; },
-                y: function(d) { return d.y; }
-            },
-            "bottom-to-top": {
-                norm: (d) => { d.y = -1 * d.depth * (this._configuration.boxHeight + 30); },
-                elbow: (d) => this.elbowVertical(d, -1),
-                x: function(d) { return d.x; },
-                y: function(d) { return d.y; }
-            },
-            "left-to-right": {
-                norm: (d) => { d.y = d.depth * (this._configuration.boxWidth + 30); },
-                elbow: (d) => this.elbowHorizontal(d),
-                x: function(d) { return d.y; },
-                y: function(d) { return d.x; }
-            },
-            "right-to-left": {
-                norm: (d) => { d.y = -1 * d.depth * (this._configuration.boxWidth + 30); },
-                elbow: (d) => this.elbowHorizontal(d, -1),
-                x: function(d) { return d.y; },
-                y: function(d) { return d.x; }
-            }
-        };
-
-        this._orientation = orientations[this._configuration.treeLayout];
-
-
-        // Collapse after the second level
-        // this._hierarchy.root.children.forEach((child) => this.collapse(child));
+        this._orientation = this._configuration.orientation;
 
         this.draw(this._hierarchy.root);
     }
@@ -780,52 +749,6 @@ export default class Tree
         //         return this.transitionElbow({ source: o, target: o });
         //     })
         //     .remove();
-    }
-
-    /**
-     * Draw the vertical connecting lines between the profile boxes for Top/Bottom and Bottom/Top layout.
-     *
-     * @param {Object} datum D3 data object
-     *
-     * @private
-     */
-    elbowVertical(datum, direction)
-    {
-        direction = direction || 1;
-
-        // Top => Bottom, Bottom => Top
-        let sourceX = this._orientation.x(datum.source),
-            sourceY = this._orientation.y(datum.source) + (direction * (this._configuration.boxHeight / 2)),
-            targetX = this._orientation.x(datum.target),
-            targetY = this._orientation.y(datum.target) - (direction * (this._configuration.boxHeight / 2));
-
-        return "M " + sourceX + " " + sourceY +
-            " V " + (sourceY + ((targetY - sourceY) / 2)) +
-            " H " + targetX +
-            " V " + targetY;
-    }
-
-    /**
-     * Draw the horizontal connecting lines between the profile boxes for Left/Right and Right/Left layout.
-     *
-     * @param {Object} datum D3 data object
-     *
-     * @private
-     */
-    elbowHorizontal(datum, direction)
-    {
-        direction = direction || 1;
-
-        // Left => Right, Right => Left
-        let sourceX = this._orientation.y(datum.source),
-            sourceY = this._orientation.x(datum.source) + (direction * (this._configuration.boxWidth / 2)),
-            targetX = this._orientation.y(datum.target),
-            targetY = this._orientation.x(datum.target) - (direction * (this._configuration.boxWidth / 2));
-
-        return "M " + sourceY + " " + sourceX +
-            " H " + (sourceY + ((targetY - sourceY) / 2)) +
-            " V " + targetX +
-            " H " + targetY;
     }
 
     // /**

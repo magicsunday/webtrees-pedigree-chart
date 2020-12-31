@@ -21,6 +21,14 @@ use Psr\Http\Message\ServerRequestInterface;
 class Configuration
 {
     /**
+     * Tree layout variants.
+     */
+    public const LAYOUT_TOPBOTTOM = "top-to-bottom";
+    public const LAYOUT_BOTTOMTOP = "bottom-to-top";
+    public const LAYOUT_LEFTRIGHT = "left-to-right";
+    public const LAYOUT_RIGHTLEFT = "right-to-left";
+
+    /**
      * The default number of generations to display.
      *
      * @var int
@@ -46,7 +54,7 @@ class Configuration
      *
      * @var string
      */
-    private const DEFAULT_TREE_LAYOUT = "left-to-right";
+    private const DEFAULT_TREE_LAYOUT = self::LAYOUT_LEFTRIGHT;
 
     /**
      * The current request instance.

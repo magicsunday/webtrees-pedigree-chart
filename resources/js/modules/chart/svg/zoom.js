@@ -10,7 +10,7 @@ import * as d3 from "./../../d3";
  * @type {Number}
  */
 const MIN_ZOOM = 0.1;
-const MAX_ZOOM = 5.0;
+const MAX_ZOOM = 20.0;
 
 /**
  * This class handles the zoom.
