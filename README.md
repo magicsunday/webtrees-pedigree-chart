@@ -5,10 +5,16 @@
 [![Issue Count](https://codeclimate.com/github/magicsunday/webtrees-pedigree-chart/badges/issue_count.svg)](https://codeclimate.com/github/magicsunday/webtrees-pedigree-chart)
 
 # Pedigree chart
-This module provides an SVG pedigree chart for the [webtrees](https://www.webtrees.net) genealogy application.
+This module provides an SVG pedigree chart for the [webtrees](https://www.webtrees.net) genealogy application. It 
+is capable to displays up to 25 ancestor generations of an individual. 
 
-![A 5 generations pedigree chart](assets/pedigree-chart-5-generations.png)
+![pedigree-chart-3-generations](assets/pedigree-chart-3-generations.png)
+*Fig. 1: A three generations pedigree chart (drawn top to bottom)*
 
+![pedigree-chart-5-generations](assets/pedigree-chart-5-generations.png)
+*Fig. 2: A five generations pedigree chart (drawn left to right)*
+
+**Caution: If you are rendering a lot of generations it may take a while and even slow down your system.**
 
 ## Installation
 Requires webtrees 2.0.
@@ -44,12 +50,14 @@ To manually install the module, perform the following steps:
 3. Unzip the package into your ``modules_v4`` directory.
 4. Rename the folder to ``webtrees-pedigree-chart``
 
+
 ## Enable module
 Go to the control panel (admin section) of your installation and scroll down to the ``Modules`` section. Click
 on ``Charts`` (in subsection Genealogy). Enable the ``Pedigree chart`` custom module (optionally disable the original
 installed pedigree chart module) and save your settings.
 
-![Control panel - Module administration](assets/control-panel-modules.png)
+![control-panel-modules](assets/control-panel-modules.png)
+*Fig. 3: Control panel - Module administration*
 
 
 ## Usage
