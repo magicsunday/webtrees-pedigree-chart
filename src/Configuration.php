@@ -121,4 +121,14 @@ class Configuration
     {
         return $this->request->getQueryParams()['treeLayout'] ?? self::DEFAULT_TREE_LAYOUT;
     }
+
+    /**
+     * Returns TRUE if the show more button was selected otherwise FALSE.
+     *
+     * @return bool
+     */
+    public function getShowMore(): bool
+    {
+        return (bool) ($this->request->getQueryParams()['showMore'] ?? false);
+    }
 }
