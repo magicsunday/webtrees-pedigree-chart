@@ -104,6 +104,13 @@ export class PedigreeChart
     }
 
     /**
+     * Updates the chart.
+     *
+     * @param {Object} url The update url
+     */
+    update(url) { this._chart.update(url); }
+
+    /**
      * Draws the chart.
      *
      * @param {Object} data The JSON encoded chart data

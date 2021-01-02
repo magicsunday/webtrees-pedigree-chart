@@ -207,6 +207,17 @@ export default class Chart
         $.getJSON(url, function(data){
             that.data = data;
             that.draw();
+        
+            var indSelector = $(document.getElementById('xref'));
+            $.ajax({
+                type: 'POST',
+                url: indSelector.attr("data-ajax--url"),
+                data: { q : data.xref }
+            }).then(function (data) {
+                // create the option and append to Select2
+                var option = new Option(data.results[0].text, data.results[0].id, true, true);
+                indSelector.append(option).trigger('change');
+            });
         });
     }
 }
