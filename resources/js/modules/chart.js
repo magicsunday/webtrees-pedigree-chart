@@ -155,24 +155,26 @@ export default class Chart
         //         new Person(that._svg, that._configuration, person, d);
         //     });
 
-        // this.bindClickEventListener();
+        this.bindClickEventListener();
         this.updateViewBox();
     }
 
-    // /**
-    //  * This method bind the "click" event listeners to a "person" element.
-    //  */
-    // bindClickEventListener()
-    // {
-    //     let persons = this._svg.get()
-    //         .select("g.personGroup")
-    //         .selectAll("g.person")
-    //         .filter((d) => d.data.xref !== "")
-    //         .classed("available", true);
-    //
-    //     // Trigger method on click
-    //     persons.on("click", this.personClick.bind(this));
-    // }
+     /**
+      * This method bind the "click" event listeners to a "person" element.
+      */
+     bindClickEventListener()
+     {
+         var that = this;
+         let persons = this._svg.visual
+             .selectAll("g.person")
+             .filter((d) => d.data.xref !== "")
+             .each(function (d) {
+                let element = d3.select(this);
+                element.on("click", function() { that.personClick(d.data); });
+            });
+    
+         // Trigger method on click
+    }
 
     /**
      * Method triggers either the "update" or "individual" method on the click on an person.
@@ -184,7 +186,7 @@ export default class Chart
     personClick(data)
     {
         // Trigger either "update" or "redirectToIndividual" method on click depending on person in chart
-        // (data.depth === 0) ? this.redirectToIndividual(data.data.url) : this.update(data.data.updateUrl);
+        (data.generation === 1) ? this.redirectToIndividual(data.url) : this.update(data.updateUrl);
     }
 
     /**
@@ -194,8 +196,20 @@ export default class Chart
      *
      * @private
      */
-    redirectToIndividual(url)
-    {
-        window.location = url;
+    redirectToIndividual(url) { window.location = url; }
+
+    /**
+     * Changes root individual
+     *
+     * @param {String} url The update url
+     *
+     * @private
+     */
+    update(url) {
+        var that = this;
+        $.getJSON(url, function(data){
+            that.data = data;
+            that.draw();
+        });
     }
 }
