@@ -39,7 +39,7 @@ export default class Hierarchy
     init(data)
     {
         // Get the greatest depth
-        const getDepth       = ({children}) => 1 + (children ? Math.max(...children.map(getDepth)) : 0);
+        const getDepth       = ({parents}) => 1 + (parents ? Math.max(...parents.map(getDepth)) : 0);
         const maxGenerations = getDepth(data);
 
         // Construct root node from the hierarchical data
@@ -47,32 +47,32 @@ export default class Hierarchy
             data,
             data => {
                 if (!this._configuration.showEmptyBoxes) {
-                    return data.children;
+                    return data.parents;
                 }
 
-                // Fill up the missing children to the requested number of generations
-                if (!data.children && (data.generation < maxGenerations)) {
-                // if (!data.children && (data.generation < this._configuration.generations)) {
-                    data.children = [
+                // Fill up the missing parents to the requested number of generations
+                if (!data.parents && (data.generation < maxGenerations)) {
+                // if (!data.parents && (data.generation < this._configuration.generations)) {
+                    data.parents = [
                         this.createEmptyNode(data.generation + 1, SEX_MALE),
                         this.createEmptyNode(data.generation + 1, SEX_FEMALE)
                     ];
                 }
 
                 // Add missing parent record if we got only one
-                if (data.children && (data.children.length < 2)) {
-                    if (data.children[0].sex === SEX_MALE) {
-                        data.children.push(
+                if (data.parents && (data.parents.length < 2)) {
+                    if (data.parents[0].sex === SEX_MALE) {
+                        data.parents.push(
                             this.createEmptyNode(data.generation + 1, SEX_FEMALE)
                         );
                     } else {
-                        data.children.unshift(
+                        data.parents.unshift(
                             this.createEmptyNode(data.generation + 1, SEX_MALE)
                         );
                     }
                 }
 
-                return data.children;
+                return data.parents;
             });
 
         // Declares a tree layout and assigns the size
