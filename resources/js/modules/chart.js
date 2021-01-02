@@ -159,18 +159,17 @@ export default class Chart
         this.updateViewBox();
     }
 
-     /**
-      * This method bind the "click" event listeners to a "person" element.
-      */
-     bindClickEventListener()
-     {
-         var that = this;
-         let persons = this._svg.visual
-             .selectAll("g.person")
-             .filter((d) => d.data.xref !== "")
-             .each(function (d) {
-                let element = d3.select(this);
-                element.on("click", function() { that.personClick(d.data); });
+    /**
+     * This method bind the "click" event listeners to a "person" element.
+     */
+    bindClickEventListener()
+    {
+        var that = this;
+        this._svg.visual
+            .selectAll("g.person")
+            .filter((d) => d.data.xref !== "")
+            .each(function (d) {
+                d3.select(this).on("click", function() { that.personClick(d.data); });
             });
     }
 
