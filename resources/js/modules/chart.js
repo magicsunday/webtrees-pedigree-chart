@@ -172,8 +172,6 @@ export default class Chart
                 let element = d3.select(this);
                 element.on("click", function() { that.personClick(d.data); });
             });
-    
-         // Trigger method on click
     }
 
     /**

@@ -48,8 +48,8 @@ export default class Tree
 
         // // Start with only the first few generations of ancestors showing
         // nodes.forEach((person) => {
-        //     if (person.children) {
-        //         person.children.forEach((child) => this.collapse(child));
+        //     if (person.parents) {
+        //         person.parents.forEach((child) => this.collapse(child));
         //     }
         // });
 
@@ -80,8 +80,8 @@ export default class Tree
     //
     //     // // Start with only the first few generations of ancestors showing
     //     // nodes.forEach((person) => {
-    //     //     if (person.children) {
-    //     //         person.children.forEach((child) => this.collapse(child));
+    //     //     if (person.parents) {
+    //     //         person.parents.forEach((child) => this.collapse(child));
     //     //     }
     //     // });
     //
@@ -141,7 +141,6 @@ export default class Tree
             .attr("transform", person => {
                 return "translate(" + this._orientation.x(person) + "," + this._orientation.y(person) + ")";
             })
-        // .on("click", this.togglePerson.bind(this))
         ;
 
         // Draw the rectangle person boxes. Start new boxes with 0 size so that we can
@@ -460,12 +459,12 @@ export default class Tree
      */
     togglePerson(event, person)
     {
-        if (person.children) {
-            person._children = person.children;
-            person.children = null;
+        if (person.parents) {
+            person._parents = person.parents;
+            person.parents = null;
         } else {
-            person.children = person._children;
-            person._children = null;
+            person.parents = person._parents;
+            person._parents = null;
         }
 
         this.draw(person);
@@ -491,18 +490,18 @@ export default class Tree
      */
     collapse(person)
     {
-        if (person.children) {
-            person._children = person.children;
-            person._children.forEach((child) => this.collapse(child));
-            // person._children.forEach(this.collapse);
-            person.children = null;
+        if (person.parents) {
+            person._parents = person.parents;
+            person._parents.forEach((child) => this.collapse(child));
+            // person._parents.forEach(this.collapse);
+            person.parents = null;
         }
 
         // person.collapsed = true;
         //
-        // if (person.children) {
-        //     person.children.forEach((child) => this.collapse(child));
-        //     person.children.forEach(this.collapse);
+        // if (person.parents) {
+        //     person.parents.forEach((child) => this.collapse(child));
+        //     person.parents.forEach(this.collapse);
         // }
     }
 
