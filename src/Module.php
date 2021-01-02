@@ -191,13 +191,8 @@ class Module extends AbstractModule implements ModuleCustomInterface, ModuleChar
      */
     private function getPageTitle(Individual $individual): string
     {
-        $title = I18N::translate('Pedigree chart');
-
-        if ($individual && $individual->canShowName()) {
-            $title = I18N::translate('Pedigree chart of %s', $individual->fullName());
-        }
-
-        return $title;
+        //if ($individual && $individual->canShowName()) return I18N::translate('Pedigree chart of %s', $individual->fullName());
+        return I18N::translate('Pedigree chart');
     }
 
     /**

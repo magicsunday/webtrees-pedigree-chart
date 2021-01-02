@@ -174,15 +174,7 @@ function getUrl(pedigreeChart, baseUrl)
  */
 function drawChart(pedigreeChart, dataUrl)
 {
-    $.getJSON(
-        getUrl(pedigreeChart, dataUrl),
-        function (data) {
-            pedigreeChart.draw(data);
-
-            // document.getElementById("webtrees-pedigree-chart-container")
-            //     .scrollIntoView(true);
-        }
-    );
+    pedigreeChart.update(getUrl(pedigreeChart, dataUrl));
 }
 
 // Wait for DOM to be ready
@@ -234,17 +226,17 @@ document.addEventListener("DOMContentLoaded", function () {
     // Load initial chart data
     drawChart(pedigreeChart, ajaxUrl);
 
-    // // Redraw chart upon form submit (enable this to use AJAX only post request, without internal redirect from POST to GET)
-    // document.getElementById('webtrees-pedigree-chart-form').addEventListener('submit', function (event) {
-    //     event.preventDefault();
-    //
-    //     // Update configuration with changed form values
-    //     pedigreeChart.configuration.generations    = parseInt(document.getElementById('generations').value);
-    //     pedigreeChart.configuration.showEmptyBoxes = !!document.getElementById('showEmptyBoxes').checked;
-    //     pedigreeChart.configuration.treeLayout     = document.getElementById('treeLayout').value;
-    //
-    //     drawChart(pedigreeChart, ajaxUrl);
-    // });
+    // Redraw chart upon form submit (enable this to use AJAX only post request, without internal redirect from POST to GET)
+    document.getElementById('webtrees-pedigree-chart-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+    
+        // Update configuration with changed form values
+        pedigreeChart.configuration.generations    = parseInt(document.getElementById('generations').value);
+        pedigreeChart.configuration.showEmptyBoxes = !!document.getElementById('showEmptyBoxes').checked;
+        pedigreeChart.configuration.treeLayout     = document.getElementById('treeLayout').value;
+    
+        drawChart(pedigreeChart, ajaxUrl);
+    });
 });
 
 </script>
