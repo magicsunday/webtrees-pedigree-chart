@@ -8,7 +8,7 @@ import Tree from "./tree";
 import Overlay from "./chart/overlay";
 import Svg from "./chart/svg";
 
-const MIN_HEIGHT  = 500;
+const MIN_HEIGHT  = 300;
 const MIN_PADDING = 10;   // Minimum padding around view box
 
 /**

@@ -12,16 +12,18 @@ use Fisharebest\Webtrees\Tree;
 use Fisharebest\Webtrees\View;
 use MagicSunday\Webtrees\PedigreeChart\Configuration;
 
-/** @var Configuration $configuration */
-/** @var string $title */
-/** @var string $moduleName */
-/** @var Individual $individual */
-/** @var Tree $tree */
-/** @var array $chartParams */
-/** @var string $javascript */
-/** @var string $stylesheet */
-/** @var string $svgStylesheet */
-/** @var string $ajaxUrl */
+/**
+ * @var Configuration $configuration
+ * @var string        $title
+ * @var string        $moduleName
+ * @var Individual    $individual
+ * @var Tree          $tree
+ * @var array         $chartParams
+ * @var string        $javascript
+ * @var string        $stylesheet
+ * @var string        $svgStylesheet
+ * @var string        $ajaxUrl
+ */
 ?>
 
 <div id="page-pedigree">
@@ -68,17 +70,17 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
             <label class="col-form-label col-sm-3 wt-page-options-label">
                 <?= I18N::translate('Orientation') ?>
             </label>
-            <div class="col-sm-9 wt-page-options-value" id="treeLayout">
+            <div class="col-sm-9 wt-page-options-value" id="layout">
                 <?=
                     view('components/radios-inline', [
-                        'name' => 'treeLayout',
+                        'name' => 'layout',
                         'options' => [
                             Configuration::LAYOUT_RIGHTLEFT => view('icons/pedigree-left') . I18N::translate('left'),
                             Configuration::LAYOUT_LEFTRIGHT => view('icons/pedigree-right') . I18N::translate('right'),
                             Configuration::LAYOUT_BOTTOMTOP => view('icons/pedigree-up') . I18N::translate('up'),
                             Configuration::LAYOUT_TOPBOTTOM => view('icons/pedigree-down') . I18N::translate('down'),
                         ],
-                        'selected' => $configuration->getTreeLayout(),
+                        'selected' => $configuration->getLayout(),
                     ])
                 ?>
             </div>
@@ -135,9 +137,7 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
         </div>
     </form>
 
-    <div class="row">
-        <div id="webtrees-pedigree-chart-container" class="wt-ajax-load wt-page-content wt-chart wt-pedigree-chart"></div>
-    </div>
+    <div id="pedigree-chart-url" class="row wt-ajax-load wt-page-content wt-chart wt-pedigree-chart"></div>
 </div>
 
 <?php View::push('styles') ?>
@@ -152,100 +152,51 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
 /**
  * Returns the AJAX update URL.
  *
- * @param {PedigreeChart} pedigreeChart
- * @param {string}        baseUrl
+ * @param {String} baseUrl
+ * @param {String} generations
  *
- * @returns {string}
+ * @returns {String}
  */
-function getUrl(pedigreeChart, baseUrl)
+function getUrl(baseUrl, generations)
 {
     let url = new URL(baseUrl);
     url.searchParams.set("xref", document.getElementById('xref').value);
-    url.searchParams.set("generations", pedigreeChart.configuration.generations);
+    url.searchParams.set("generations", generations);
 
     return url.toString();
 }
 
-/**
- * Load chart data and draws the chart.
- *
- * @param {PedigreeChart} pedigreeChart
- * @param {string}        dataUrl
- */
-function drawChart(pedigreeChart, dataUrl)
-{
-    $.getJSON(
-        getUrl(pedigreeChart, dataUrl),
-        function (data) {
-            pedigreeChart.draw(data);
+// Set up storage object
+let storage = new WebtreesPedigreeChart.Storage("webtrees-pedigree-chart");
 
-            // document.getElementById("webtrees-pedigree-chart-container")
-            //     .scrollIntoView(true);
-        }
-    );
-}
+// Register all form elements valid for storing data
+storage.register("generations");
+storage.register("showEmptyBoxes");
+storage.register("layout");
 
-// Wait for DOM to be ready
-document.addEventListener("DOMContentLoaded", function () {
-    // Set up storage object
-    let storage = new WebtreesPedigreeChart.Storage("webtrees-pedigree-chart");
-
-    // Register all form elements valid for storing data
-    storage.register("generations");
-    storage.register("showEmptyBoxes");
-    storage.register("treeLayout");
-
-    // Handle special case with option toggler (works only with jquery)
-    $("#showMoreOptions")
-        .on("shown.bs.collapse", function () {
-            storage.write("showMoreOptions", true);
-        })
-        .on("hidden.bs.collapse", function () {
-            storage.write("showMoreOptions", false);
-        })
-        .collapse(
-            storage.read("showMoreOptions") ? "show" : "hide"
-        );
-
-    // Set initial stored value for radio button group
-    const formElements = document.getElementById("webtrees-pedigree-chart-form").elements;
-    formElements.namedItem("treeLayout").value = storage.read("treeLayout");
-
-    let data    = <?= $chartParams ?>;
-    let ajaxUrl = <?= json_encode($ajaxUrl) ?>;
-    let cssUrl  = <?= json_encode($svgStylesheet) ?>;
-
-    // Create chart instance with stored configuration
-    const pedigreeChart = new WebtreesPedigreeChart.PedigreeChart(
-        "#webtrees-pedigree-chart-container",
-        {
-            labels         : data.labels,
-            generations    : parseInt(storage.read("generations")),
-            defaultColor   : data.defaultColor,
-            fontColor      : data.fontColor,
-            showEmptyBoxes : storage.read("showEmptyBoxes"),
-            treeLayout     : storage.read("treeLayout"),
-            rtl            : data.rtl
-        }
+// Handle special case with option toggler (works only with jquery)
+$("#showMoreOptions")
+    .on("shown.bs.collapse", function () {
+        storage.write("showMoreOptions", true);
+    })
+    .on("hidden.bs.collapse", function () {
+        storage.write("showMoreOptions", false);
+    })
+    .collapse(
+        storage.read("showMoreOptions") ? "show" : "hide"
     );
 
-    pedigreeChart.cssFile = cssUrl;
+// Set initial stored value for radio button group
+let formElements = document.getElementById("webtrees-pedigree-chart-form").elements;
+formElements.namedItem("layout").value = storage.read("layout");
 
-    // Load initial chart data
-    drawChart(pedigreeChart, ajaxUrl);
+const generations    = parseInt(storage.read("generations"));
+const showEmptyBoxes = storage.read("showEmptyBoxes");
+const treeLayout     = storage.read("layout");
+const ajaxUrl        = getUrl(<?= json_encode($ajaxUrl) ?>, storage.read("generations"))
 
-    // // Redraw chart upon form submit (enable this to use AJAX only post request, without internal redirect from POST to GET)
-    // document.getElementById('webtrees-pedigree-chart-form').addEventListener('submit', function (event) {
-    //     event.preventDefault();
-    //
-    //     // Update configuration with changed form values
-    //     pedigreeChart.configuration.generations    = parseInt(document.getElementById('generations').value);
-    //     pedigreeChart.configuration.showEmptyBoxes = !!document.getElementById('showEmptyBoxes').checked;
-    //     pedigreeChart.configuration.treeLayout     = document.getElementById('treeLayout').value;
-    //
-    //     drawChart(pedigreeChart, ajaxUrl);
-    // });
-});
+document.getElementById("pedigree-chart-url")
+    .setAttribute('data-ajax-url', ajaxUrl);
 
 </script>
 <?php View::endpush(); ?>

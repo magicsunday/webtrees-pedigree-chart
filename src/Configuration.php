@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace MagicSunday\Webtrees\PedigreeChart;
 
 use Fisharebest\Webtrees\I18N;
+use Fisharebest\Webtrees\Module\PedigreeChartModule;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -22,11 +23,13 @@ class Configuration
 {
     /**
      * Tree layout variants.
+     *
+     * @see \Fisharebest\Webtrees\Module\PedigreeChartModule
      */
-    public const LAYOUT_TOPBOTTOM = "top-to-bottom";
-    public const LAYOUT_BOTTOMTOP = "bottom-to-top";
-    public const LAYOUT_LEFTRIGHT = "left-to-right";
-    public const LAYOUT_RIGHTLEFT = "right-to-left";
+    public const LAYOUT_TOPBOTTOM = PedigreeChartModule::STYLE_DOWN;
+    public const LAYOUT_BOTTOMTOP = PedigreeChartModule::STYLE_UP;
+    public const LAYOUT_LEFTRIGHT = PedigreeChartModule::STYLE_RIGHT;
+    public const LAYOUT_RIGHTLEFT = PedigreeChartModule::STYLE_LEFT;
 
     /**
      * The default number of generations to display.
@@ -117,9 +120,9 @@ class Configuration
      *
      * @return string
      */
-    public function getTreeLayout(): string
+    public function getLayout(): string
     {
-        return $this->request->getQueryParams()['treeLayout'] ?? self::DEFAULT_TREE_LAYOUT;
+        return $this->request->getQueryParams()['layout'] ?? self::DEFAULT_TREE_LAYOUT;
     }
 
     /**

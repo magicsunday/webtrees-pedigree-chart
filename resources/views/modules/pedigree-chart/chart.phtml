@@ -1,0 +1,69 @@
+<?php
+
+/**
+ * See LICENSE.md file for further details.
+ */
+
+declare(strict_types=1);
+
+use Fisharebest\Webtrees\View;
+use MagicSunday\Webtrees\PedigreeChart\Configuration;
+
+/**
+ * @var string        $javascript
+ * @var Configuration $configuration
+ * @var array         $chartParams
+ * @var string        $svgStylesheet
+ * @var array         $data          The chart data
+ */
+?>
+
+<div id="webtrees-pedigree-chart-container"></div>
+
+<?php View::push('styles') ?>
+<link rel="stylesheet" href="<?= e($svgStylesheet) ?>">
+<?php View::endpush(); ?>
+
+<?php View::push('javascript'); ?>
+<script src="<?= e($javascript) ?>"></script>
+<?php View::endpush(); ?>
+
+<?php View::push('javascript'); ?>
+<script>
+
+const chartParams = <?= $chartParams ?>;
+const cssUrl      = <?= json_encode($svgStylesheet) ?>;
+
+const optionGenerations = typeof generations !== "undefined"
+    ? generations
+    : <?= $configuration->getGenerations() ?>;
+
+const optionShowEmptyBox = typeof showEmptyBoxes !== "undefined"
+    ? showEmptyBoxes
+    : <?= json_encode($configuration->getShowEmptyBoxes()) ?>;
+
+const optionLayout = typeof treeLayout !== "undefined"
+    ? treeLayout
+    : <?= json_encode($configuration->getLayout()) ?>;
+
+// Create chart instance with stored configuration
+const pedigreeChart = new WebtreesPedigreeChart.PedigreeChart(
+    "#webtrees-pedigree-chart-container",
+    {
+        labels         : chartParams.labels,
+        generations    : optionGenerations,
+        defaultColor   : chartParams.defaultColor,
+        fontColor      : chartParams.fontColor,
+        showEmptyBoxes : optionShowEmptyBox,
+        treeLayout     : optionLayout,
+        rtl            : chartParams.rtl
+    }
+);
+
+pedigreeChart.cssFile = cssUrl;
+
+// Draw chart
+pedigreeChart.draw(<?= json_encode($data) ?>);
+
+</script>
+<?php View::endpush(); ?>

@@ -6,11 +6,13 @@
  * Tree layout variants.
  *
  * @type {String}
+ *
+ * @see \Fisharebest\Webtrees\Module\PedigreeChartModule
  */
-export const LAYOUT_TOPBOTTOM = "top-to-bottom";
-export const LAYOUT_BOTTOMTOP = "bottom-to-top";
-export const LAYOUT_LEFTRIGHT = "left-to-right";
-export const LAYOUT_RIGHTLEFT = "right-to-left";
+export const LAYOUT_TOPBOTTOM = "down";
+export const LAYOUT_BOTTOMTOP = "up";
+export const LAYOUT_LEFTRIGHT = "right";
+export const LAYOUT_RIGHTLEFT = "left";
 
 /**
  * Gender types.

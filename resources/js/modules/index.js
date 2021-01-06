@@ -6,8 +6,6 @@ import * as d3 from "./d3";
 import Configuration from "./configuration";
 import Chart from "./chart";
 
-export { Storage } from "./storage";
-
 /**
  * The application class.
  *

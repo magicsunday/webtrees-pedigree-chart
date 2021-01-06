@@ -19,6 +19,7 @@ use Fisharebest\Webtrees\Module\AbstractModule;
 use Fisharebest\Webtrees\Module\ModuleChartInterface;
 use Fisharebest\Webtrees\Module\ModuleCustomInterface;
 use Fisharebest\Webtrees\Module\ModuleThemeInterface;
+use Fisharebest\Webtrees\Module\PedigreeChartModule;
 use Fisharebest\Webtrees\Registry;
 use Fisharebest\Webtrees\View;
 use MagicSunday\Webtrees\PedigreeChart\Traits\IndividualTrait;
@@ -35,7 +36,7 @@ use Psr\Http\Server\RequestHandlerInterface;
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
  * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
-class Module extends AbstractModule implements ModuleCustomInterface, ModuleChartInterface, RequestHandlerInterface
+class Module extends PedigreeChartModule implements ModuleCustomInterface
 {
     use ModuleCustomTrait;
     use ModuleChartTrait;
@@ -88,6 +89,7 @@ class Module extends AbstractModule implements ModuleCustomInterface, ModuleChar
         $this->theme = app(ModuleThemeInterface::class);
 
         View::registerNamespace($this->name(), $this->resourcesFolder() . 'views/');
+        View::registerCustomView('::modules/charts/chart', $this->name() . '::modules/charts/chart');
     }
 
     /**
@@ -151,33 +153,47 @@ class Module extends AbstractModule implements ModuleCustomInterface, ModuleChar
                 'xref'           => $params['xref'],
                 'generations'    => $params['generations'] ?? '4',
                 'showEmptyBoxes' => $params['showEmptyBoxes'] ?? '0',
-                'treeLayout'     => $params['treeLayout'] ?? Configuration::LAYOUT_LEFTRIGHT,
+                'layout'         => $params['layout'] ?? Configuration::LAYOUT_LEFTRIGHT,
             ]));
         }
 
         Auth::checkIndividualAccess($individual, false, true);
         Auth::checkComponentAccess($this, 'chart', $tree, $user);
 
-        $ajaxUrl = route('module', [
-            'module' => $this->name(),
-            'action' => 'update',
-            'tree'   => $individual->tree()->name(),
-            'xref'   => '',
-        ]);
+        $ajax = (bool) ($request->getQueryParams()['ajax'] ?? false);
 
-        return $this->viewResponse(
-            $this->name() . '::chart',
-            [
-                'title'         => $this->getPageTitle($individual),
-                'ajaxUrl'       => $ajaxUrl,
-                'moduleName'    => $this->name(),
-                'individual'    => $individual,
-                'tree'          => $tree,
+        if ($ajax) {
+            $this->layout = $this->name() . '::layouts/ajax';
+
+            return $this->viewResponse($this->name() . '::modules/pedigree-chart/chart', [
+                'data'          => $this->buildJsonTree($individual),
                 'configuration' => $this->configuration,
                 'chartParams'   => json_encode($this->getChartParameters($individual)),
                 'stylesheet'    => $this->assetUrl('css/pedigree-chart.css'),
                 'svgStylesheet' => $this->assetUrl('css/svg.css'),
                 'javascript'    => $this->assetUrl('js/pedigree-chart.min.js'),
+            ]);
+        }
+
+        $ajaxUrl = $this->chartUrl($individual, [
+            'ajax'        => true,
+            'generations' => $this->configuration->getGenerations(),
+            'layout'      => $this->configuration->getLayout(),
+            'xref'        => $xref,
+        ]);
+
+        return $this->viewResponse(
+            $this->name() . '::modules/pedigree-chart/page',
+            [
+                'ajaxUrl'       => $ajaxUrl,
+                'title'         => $this->getPageTitle($individual),
+                'moduleName'    => $this->name(),
+                'individual'    => $individual,
+                'tree'          => $tree,
+                'configuration' => $this->configuration,
+                'stylesheet'    => $this->assetUrl('css/pedigree-chart.css'),
+                'svgStylesheet' => $this->assetUrl('css/svg.css'),
+                'javascript'    => $this->assetUrl('js/pedigree-chart-storage.min.js'),
             ]
         );
     }
@@ -210,9 +226,9 @@ class Module extends AbstractModule implements ModuleCustomInterface, ModuleChar
     private function getChartParameters(Individual $individual): array
     {
         return [
-            'rtl'          => I18N::direction() === 'rtl',
-            'fontColor'    => $this->getChartFontColor(),
-            'labels'       => [
+            'rtl'       => I18N::direction() === 'rtl',
+            'fontColor' => $this->getChartFontColor(),
+            'labels'    => [
                 'zoom' => I18N::translate('Use Ctrl + scroll to zoom in the view'),
                 'move' => I18N::translate('Move the view with two fingers'),
             ],
@@ -299,7 +315,7 @@ class Module extends AbstractModule implements ModuleCustomInterface, ModuleChar
             'xref'        => $individual->xref(),
             'tree'        => $individual->tree()->name(),
             'generations' => $this->configuration->getGenerations(),
-            'treeLayout'  => $this->configuration->getTreeLayout(),
+            'layout'      => $this->configuration->getLayout(),
         ]);
     }
 
