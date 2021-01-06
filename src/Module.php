@@ -171,7 +171,7 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
                 'chartParams'   => json_encode($this->getChartParameters($individual)),
                 'stylesheet'    => $this->assetUrl('css/pedigree-chart.css'),
                 'svgStylesheet' => $this->assetUrl('css/svg.css'),
-                'javascript'    => $this->assetUrl('js/pedigree-chart.min.js'),
+                'javascript'    => $this->assetUrl('js/pedigree-chart.js'),
             ]);
         }
 

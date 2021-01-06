@@ -2,9 +2,8 @@
  * See LICENSE.md file for further details.
  */
 
-import * as d3 from "./../../../d3";
-import Svg from "./../../svg";
-import Export from "./../export";
+import * as d3 from "../../../d3";
+import Export from "../export";
 
 /**
  * Export the chart as raw SVG image.
@@ -17,54 +16,86 @@ export default class SvgExport extends Export
 {
     /**
      * Copies recursively all the styles from the list of container elements from the source
-     * to the desination node.
+     * to the destination node.
      *
-     * @param {String} cssFile
-     * @param {Node} destinationNode
+     * @param {String}             cssFile
+     * @param {SVGGraphicsElement} destinationNode
+     *
+     * @returns {Promise<SVGGraphicsElement>}
      */
-    copyStylesInline(cssFile, destinationNode, callback)
+    copyStylesInline(cssFile, destinationNode)
     {
-        d3.text(cssFile)
-            .then((data) => {
-                // Remove parent container selector as the CSS is included directly into the SVG element
-                data = data.replace(/#webtrees-pedigree-chart-container /g, "");
+        return new Promise(resolve => {
+            d3.text(cssFile)
+                .then((data) => {
+                    // Remove parent container selector as the CSS is included directly into the SVG element
+                    data = data.replace(/#webtrees-pedigree-chart-container /g, "");
 
-                let style = document.createElement("style");
+                    let style = document.createElement("style");
+                    style.appendChild(document.createTextNode(data));
 
-                destinationNode.prepend(style);
+                    destinationNode.prepend(style);
 
-                style.type = "text/css";
-                style.appendChild(document.createTextNode(data));
-
-                // Execute callback function after fetching the CSS file is done
-                callback();
-            });
+                    resolve(destinationNode);
+                });
+        })
     }
 
     /**
-     * Saves the given SVG as SVG image file.
+     * Converts the given SVG into an object URL. Resolves to the object URL.
      *
-     * @param {Svg}    svg     The source SVG object
-     * @param {String} cssFile The CSS file used together with the SVG
-     * @param (String} fileName The file name
+     * @param {SVGGraphicsElement} svg The SVG element
+     *
+     * @returns {Promise<String>}
      */
-    svgToImage(svg, cssFile, fileName)
+    convertToObjectUrl(svg)
     {
-        let oldSvg = svg.get().node();
-        let newSvg = svg.get().node().cloneNode(true);
-
-        this.copyStylesInline(cssFile, newSvg, () => {
-            let data    = (new XMLSerializer()).serializeToString(newSvg);
+        return new Promise(resolve => {
+            let data    = (new XMLSerializer()).serializeToString(svg);
             let DOMURL  = window.URL || window.webkitURL || window;
             let svgBlob = new Blob([ data ], { type: "image/svg+xml;charset=utf-8" });
             let url     = DOMURL.createObjectURL(svgBlob);
             let img     = new Image();
 
             img.onload = () => {
-                this.triggerDownload(url, fileName);
+                resolve(url);
             };
 
             img.src = url;
         });
+    }
+
+    /**
+     * Clones the SVG element.
+     *
+     * @param {SVGGraphicsElement} svg
+     *
+     * @returns {Promise<SVGGraphicsElement>}
+     */
+    cloneSvg(svg)
+    {
+        return new Promise(resolve => {
+            let newSvg = svg.cloneNode(true);
+
+            resolve(newSvg);
+        })
+    }
+
+    /**
+     * Saves the given SVG as SVG image file.
+     *
+     * @param {Svg}    svg      The source SVG object
+     * @param {String} cssFile  The CSS file used together with the SVG
+     * @param {String} fileName The file name
+     */
+    svgToImage(svg, cssFile, fileName)
+    {
+        this.cloneSvg(svg.get().node())
+            .then(newSvg => this.copyStylesInline(cssFile, newSvg))
+            .then(newSvg => this.convertToObjectUrl(newSvg))
+            .then(objectUrl => this.triggerDownload(objectUrl, fileName))
+            .catch(() => {
+                console.log("Failed to save chart as SVG image");
+            });
     }
 }
