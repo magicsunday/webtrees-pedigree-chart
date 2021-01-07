@@ -15,8 +15,6 @@ use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\Exceptions\IndividualNotFoundException;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
-use Fisharebest\Webtrees\Module\AbstractModule;
-use Fisharebest\Webtrees\Module\ModuleChartInterface;
 use Fisharebest\Webtrees\Module\ModuleCustomInterface;
 use Fisharebest\Webtrees\Module\ModuleThemeInterface;
 use Fisharebest\Webtrees\Module\PedigreeChartModule;
@@ -27,7 +25,6 @@ use MagicSunday\Webtrees\PedigreeChart\Traits\ModuleChartTrait;
 use MagicSunday\Webtrees\PedigreeChart\Traits\ModuleCustomTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\RequestHandlerInterface;
 
 /**
  * Pedigree chart module class.
@@ -48,17 +45,27 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
     /**
      * @var string
      */
+    private const GITHUB_REPO = 'magicsunday/webtrees-pedigree-chart';
+
+    /**
+     * @var string
+     */
     public const CUSTOM_AUTHOR = 'Rico Sonntag';
 
     /**
      * @var string
      */
-    public const CUSTOM_VERSION = '1.0';
+    public const CUSTOM_VERSION = '1.1.0';
 
     /**
      * @var string
      */
-    public const CUSTOM_WEBSITE = 'https://github.com/magicsunday/webtrees-pedigree-chart';
+    public const CUSTOM_SUPPORT_URL = 'https://github.com/' . self::GITHUB_REPO . '/issues';
+
+    /**
+     * @var string
+     */
+    public const CUSTOM_LATEST_VERSION = 'https://api.github.com/repos/' . self::GITHUB_REPO . '/releases/latest';
 
     /**
      * The configuration instance.
