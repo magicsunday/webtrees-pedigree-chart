@@ -46,33 +46,15 @@
 }
 
 /* Unset any style from our transition helper classes */
-#webtrees-pedigree-chart-container svg .new,
-#webtrees-pedigree-chart-container svg .remove,
-#webtrees-pedigree-chart-container svg .update,
-#webtrees-pedigree-chart-container svg .old {
-    all: unset;
-}
+/*#webtrees-pedigree-chart-container svg .new,*/
+/*#webtrees-pedigree-chart-container svg .remove,*/
+/*#webtrees-pedigree-chart-container svg .update,*/
+/*#webtrees-pedigree-chart-container svg .old {*/
+/*    all: unset;*/
+/*}*/
 
-#webtrees-pedigree-chart-container svg .person.available {
+#webtrees-pedigree-chart-container svg .person {
     cursor: pointer;
-}
-
-#webtrees-pedigree-chart-container svg .person .arc path {
-    fill: rgb(240, 240, 240);
-    stroke: rgb(175, 175, 175);
-    stroke-width: 2px;
-}
-
-#webtrees-pedigree-chart-container svg .person.hover .arc path {
-    fill: rgb(250, 250, 250);
-}
-
-#webtrees-pedigree-chart-container svg .person.available .arc path {
-    fill: rgb(250, 250, 250);
-}
-
-#webtrees-pedigree-chart-container svg .person.available.hover .arc path {
-    fill: rgb(240, 240, 240);
 }
 
 #webtrees-pedigree-chart-container svg .label {

@@ -3,8 +3,7 @@
  */
 
 import * as d3 from "../d3";
-import Configuration from "../configuration";
-import {SEX_MALE,SEX_FEMALE} from "../constants";
+import {SEX_FEMALE, SEX_MALE} from "../constants";
 
 /**
  * This class handles the hierarchical data.

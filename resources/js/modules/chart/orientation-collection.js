@@ -2,7 +2,7 @@
  * See LICENSE.md file for further details.
  */
 
-import {LAYOUT_TOPBOTTOM, LAYOUT_BOTTOMTOP, LAYOUT_LEFTRIGHT, LAYOUT_RIGHTLEFT} from "../constants";
+import {LAYOUT_BOTTOMTOP, LAYOUT_LEFTRIGHT, LAYOUT_RIGHTLEFT, LAYOUT_TOPBOTTOM} from "../constants";
 import OrientationTopBottom from "./orientation/orientation-topBottom";
 import OrientationBottomTop from "./orientation/orientation-bottomTop";
 import OrientationLeftRight from "./orientation/orientation-leftRight";

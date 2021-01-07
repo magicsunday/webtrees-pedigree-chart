@@ -2,12 +2,9 @@
  * See LICENSE.md file for further details.
  */
 
-import * as d3 from "./../d3";
-import Configuration from "./../configuration";
 import Defs from "./svg/defs";
 import Zoom from "./svg/zoom";
 import ExportFactory from "./svg/export-factory";
-import {LAYOUT_BOTTOMTOP, LAYOUT_TOPBOTTOM} from "../constants";
 
 /**
  * SVG class

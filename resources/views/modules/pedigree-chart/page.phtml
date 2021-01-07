@@ -198,23 +198,5 @@ const ajaxUrl        = getUrl(<?= json_encode($ajaxUrl) ?>, storage.read("genera
 document.getElementById("pedigree-chart-url")
     .setAttribute('data-ajax-url', ajaxUrl);
 
-//     pedigreeChart.cssFile = cssUrl;
-//
-//     // Load initial chart data
-//     drawChart(pedigreeChart, ajaxUrl);
-//
-//     // Redraw chart upon form submit (enable this to use AJAX only post request, without internal redirect from POST to GET)
-//     document.getElementById('webtrees-pedigree-chart-form').addEventListener('submit', function (event) {
-//         event.preventDefault();
-//
-//         // Update configuration with changed form values
-//         pedigreeChart.configuration.generations    = parseInt(document.getElementById('generations').value);
-//         pedigreeChart.configuration.showEmptyBoxes = document.getElementById('showEmptyBoxes').checked;
-//         pedigreeChart.configuration.treeLayout     = document.querySelector('input[name="treeLayout"]:checked').value;
-//
-//         drawChart(pedigreeChart, ajaxUrl);
-//     });
-// });
-
 </script>
 <?php View::endpush(); ?>

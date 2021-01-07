@@ -171,21 +171,14 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
                 'chartParams'   => json_encode($this->getChartParameters($individual)),
                 'stylesheet'    => $this->assetUrl('css/pedigree-chart.css'),
                 'svgStylesheet' => $this->assetUrl('css/svg.css'),
-                'javascript'    => $this->assetUrl('js/pedigree-chart.js'),
+                'javascript'    => $this->assetUrl('js/pedigree-chart.min.js'),
             ]);
         }
-
-        $ajaxUrl = $this->chartUrl($individual, [
-            'ajax'        => true,
-            'generations' => $this->configuration->getGenerations(),
-            'layout'      => $this->configuration->getLayout(),
-            'xref'        => $xref,
-        ]);
 
         return $this->viewResponse(
             $this->name() . '::modules/pedigree-chart/page',
             [
-                'ajaxUrl'       => $ajaxUrl,
+                'ajaxUrl'       => $this->getAjaxRoute($individual, $xref),
                 'title'         => $this->getPageTitle($individual),
                 'moduleName'    => $this->name(),
                 'individual'    => $individual,
@@ -207,8 +200,15 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
      */
     private function getPageTitle(Individual $individual): string
     {
-        //if ($individual && $individual->canShowName()) return I18N::translate('Pedigree chart of %s', $individual->fullName());
-        return I18N::translate('Pedigree chart');
+        $title = I18N::translate('Pedigree chart');
+
+        if ($individual && $individual->canShowName()) {
+            $title = I18N::translate('Pedigree chart of %s', $individual->fullName());
+        }
+
+        return $title;
+
+//        return I18N::translate('Pedigree chart');
     }
 
     /**
@@ -295,6 +295,23 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
     }
 
     /**
+     *
+     * @param Individual $individual
+     * @param string     $xref
+     *
+     * @return string
+     */
+    private function getAjaxRoute(Individual $individual, string $xref): string
+    {
+        return $this->chartUrl($individual, [
+            'ajax'        => true,
+            'generations' => $this->configuration->getGenerations(),
+            'layout'      => $this->configuration->getLayout(),
+            'xref'        => $xref,
+        ]);
+    }
+
+    /**
      * Get the raw update URL. The "xref" parameter must be the last one as the URL gets appended
      * with the clicked individual id in order to load the required chart data.
      *
@@ -304,14 +321,20 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
      */
     private function getUpdateRoute(Individual $individual): string
     {
-        return route('module', [
-            'module'      => $this->name(),
-            'action'      => 'update',
-            'xref'        => $individual->xref(),
-            'tree'        => $individual->tree()->name(),
+        return $this->chartUrl($individual, [
             'generations' => $this->configuration->getGenerations(),
             'layout'      => $this->configuration->getLayout(),
+//            'xref'        => $individual->xref(),
         ]);
+
+//        return route('module', [
+//            'module'      => $this->name(),
+//            'action'      => 'update',
+//            'xref'        => $individual->xref(),
+//            'tree'        => $individual->tree()->name(),
+//            'generations' => $this->configuration->getGenerations(),
+//            'layout'      => $this->configuration->getLayout(),
+//        ]);
     }
 
     /**

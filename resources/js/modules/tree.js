@@ -4,7 +4,7 @@
 
 import * as d3 from "./d3";
 import dataUrl from "./common/dataUrl";
-import {SEX_MALE,SEX_FEMALE,SEX_UNKNOWN} from "./constants";
+import {SEX_FEMALE, SEX_MALE} from "./constants";
 
 /**
  * The class handles the creation of the tree.

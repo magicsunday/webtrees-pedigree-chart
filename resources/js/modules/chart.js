@@ -2,7 +2,6 @@
  * See LICENSE.md file for further details.
  */
 import * as d3 from "./d3";
-import Configuration from "./configuration";
 import Hierarchy from "./chart/hierarchy";
 import Tree from "./tree";
 import Overlay from "./chart/overlay";
@@ -193,31 +192,46 @@ export default class Chart
      *
      * @private
      */
-    redirectToIndividual(url) { window.location = url; }
+    redirectToIndividual(url)
+    {
+        window.location = url;
+    }
 
     /**
-     * Changes root individual
+     * Updates the chart with the data of the selected individual.
      *
-     * @param {String} url The update url
-     *
-     * @private
+     * @param {String} url The update URL
      */
-    update(url) {
-        var that = this;
-        $.getJSON(url, function(data){
-            that.data = data;
-            that.draw();
-        
-            var indSelector = $(document.getElementById('xref'));
-            $.ajax({
-                type: 'POST',
-                url: indSelector.attr("data-ajax--url"),
-                data: { q : data.xref }
-            }).then(function (data) {
-                // create the option and append to Select2
-                var option = new Option(data.results[0].text, data.results[0].id, true, true);
-                indSelector.append(option).trigger('change');
-            });
-        });
+    update(url)
+    {
+        window.location = url;
     }
+
+    // /**
+    //  * Changes root individual
+    //  *
+    //  * @param {String} url The update url
+    //  *
+    //  * @private
+    //  */
+    // update(url)
+    // {
+    //     var that = this;
+    //
+    //     $.getJSON(url, function(data) {
+    //         that.data = data;
+    //         that.draw();
+    //
+    //         var indSelector = $(document.getElementById('xref'));
+    //         $.ajax({
+    //             type: 'POST',
+    //             url: indSelector.attr("data-ajax--url"),
+    //             data: { q : data.xref }
+    //         }).then(function (data) {
+    //             // create the option and append to Select2
+    //             var option = new Option(data.results[0].text, data.results[0].id, true, true);
+    //             indSelector.append(option).trigger('change');
+    //         });
+    //     });
+    // }
 }
