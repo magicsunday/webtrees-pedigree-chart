@@ -194,7 +194,10 @@ export default class Tree
                     .attr("clip-path", "url(#clip-circle)");
 
                 dataUrl(that.getImageToLoad(d))
-                    .then(dataUrl => image.attr("href", dataUrl));
+                    .then(dataUrl => image.attr("href", dataUrl))
+                    .catch((exception) => {
+                        console.error(exception);
+                    });
 
                 // Border
                 group.append("circle")

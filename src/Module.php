@@ -214,8 +214,6 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
         }
 
         return $title;
-
-//        return I18N::translate('Pedigree chart');
     }
 
     /**
