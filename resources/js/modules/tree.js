@@ -111,11 +111,14 @@ export default class Tree
             .defs
             .get()
             .append('clipPath')
-            .attr('id', 'clip-circle')
-            .append("circle")
-            .attr("r", this._configuration.imageRadius)
-            .attr("cx", -(this._orientation.boxWidth / 2) + (this._orientation.boxHeight / 2))
-            .attr("cy", 0);
+            .attr('id', 'clip-rect')
+            .append("rect")
+            .attr("rx", that._orientation.imageCornerRadius())
+            .attr("ry", that._orientation.imageCornerRadius())
+            .attr("x", that._orientation.imageX())
+            .attr("y", that._orientation.imageY())
+            .attr("width", that._orientation.imageWidth())
+            .attr("height", that._orientation.imageHeight());
 
         let t = this._svg.visual
             .transition()
@@ -148,19 +151,14 @@ export default class Tree
         nodeEnter
             .append("rect")
             .attr("class", d => (d.data.sex === SEX_FEMALE) ? "female" : (d.data.sex === SEX_MALE) ? "male" : "")
-            .attr("rx", this._orientation.boxHeight / 2)
-            .attr("ry", this._orientation.boxHeight / 2)
-            // .attr("x", 0)
-            // .attr("y", 0)
-            // .attr("width", 0)
-            // .attr("height", 0)
+            .attr("rx", this._orientation.cornerRadius())
+            .attr("ry", this._orientation.cornerRadius())
             .attr("x", -(this._orientation.boxWidth / 2))
             .attr("y", -(this._orientation.boxHeight / 2))
             .attr("width", this._orientation.boxWidth)
             .attr("height", this._orientation.boxHeight)
-            .attr("fill-opacity", "0.5")
+            .attr("fill-opacity", 0.5)
             .attr("fill", d => d.data.color);
-        //
 
         // Names and Dates
         nodeEnter
@@ -176,22 +174,25 @@ export default class Tree
                     .append("g")
                     .attr("class", "image");
 
-                // Background (only required of thumbnail has transparency (like the silhouettes))
+                // Background (only required if thumbnail has transparency (like the silhouettes))
                 group
-                    .append("circle")
-                    .attr("cx", -(that._orientation.boxWidth / 2) + (that._orientation.boxHeight / 2))
-                    .attr("cy", -(that._orientation.boxHeight / 2) + (that._orientation.boxHeight / 2))
-                    .attr("r", that._configuration.imageRadius)
+                    .append("rect")
+                    .attr("rx", that._orientation.imageCornerRadius())
+                    .attr("ry", that._orientation.imageCornerRadius())
+                    .attr("x", that._orientation.imageX())
+                    .attr("y", that._orientation.imageY())
+                    .attr("width", that._orientation.imageWidth())
+                    .attr("height", that._orientation.imageHeight())
                     .attr("fill", "rgb(255, 255, 255)");
 
                 // The individual image
                 let image = group
                     .append("image")
-                    .attr("x", -(that._orientation.boxWidth / 2) + 5)
-                    .attr("y", -(that._orientation.boxHeight / 2) + 5)
-                    .attr("height", that._configuration.imageDiameter)
-                    .attr("width", that._configuration.imageDiameter)
-                    .attr("clip-path", "url(#clip-circle)");
+                    .attr("x", that._orientation.imageX())
+                    .attr("y", that._orientation.imageY())
+                    .attr("width", that._orientation.imageWidth())
+                    .attr("height", that._orientation.imageHeight())
+                    .attr("clip-path", "url(#clip-rect)");
 
                 dataUrl(that.getImageToLoad(d))
                     .then(dataUrl => image.attr("href", dataUrl))
@@ -200,84 +201,20 @@ export default class Tree
                     });
 
                 // Border
-                group.append("circle")
-                    .attr("cx", -(that._orientation.boxWidth / 2) + (that._orientation.boxHeight / 2))
-                    .attr("cy", -(that._orientation.boxHeight / 2) + (that._orientation.boxHeight / 2))
-                    .attr("r", that._configuration.imageRadius)
+                group
+                    .append("rect")
+                    .attr("rx", that._orientation.imageCornerRadius())
+                    .attr("ry", that._orientation.imageCornerRadius())
+                    .attr("x", that._orientation.imageX())
+                    .attr("y", that._orientation.imageY())
+                    .attr("width", that._orientation.imageWidth())
+                    .attr("height", that._orientation.imageHeight())
                     .attr("fill", "none")
                     .attr("stroke", "rgb(200, 200, 200)")
-                    .attr("stroke-width", "1.5");
+                    .attr("stroke-width", 1.5);
 
-
-                let name = element
-                    .append("g")
-                    .attr("class", "name")
-                    .append("text")
-                    .attr("dx", (-(that._orientation.boxWidth / 2) + that._configuration.imageDiameter + 20 - 5) + "px")
-                    .attr("dy", "-15px")
-                    .attr("text-anchor", "start");
-
-                that.addNames(name, d);
-
-                let table = element
-                    .append("g")
-                    .attr("class", "table");
-
-                let col1 = table.append("text")
-                    .attr("dx", (-(that._orientation.boxWidth / 2) + that._configuration.imageDiameter + 20) + "px")
-                    .attr("dy", "5px")
-                    .attr("class", "date")
-                    .attr("text-anchor", "middle")
-                    .attr("dominant-baseline", "middle");
-
-                if (d.data.birth) {
-                    col1.append("tspan")
-                        .text("\u2605")
-                        .attr("x", "0px")
-                        .attr("y", "0px");
-                }
-
-                if (d.data.death) {
-                    let death = col1
-                        .append("tspan")
-                        .text("\u2020");
-
-                    if (d.data.birth) {
-                        death.attr("x", (-(that._orientation.boxWidth / 2) + that._configuration.imageDiameter + 20) + "px")
-                            .attr("dy", "20px");
-                    } else {
-                        death.attr("x", "0px")
-                            .attr("y", "0px");
-                    }
-                }
-
-                let col2 = table.append("text")
-                    .attr("dx", (-(that._orientation.boxWidth / 2) + that._configuration.imageDiameter + 20) + "px")
-                    .attr("dy", "5px")
-                    .attr("class", "date")
-                    .attr("text-anchor", "start")
-                    .attr("dominant-baseline", "middle");
-
-                if (d.data.birth) {
-                    col2.append("tspan")
-                        .text(d.data.birth)
-                        .attr("x", "10px")
-                        .attr("y", "0px");
-                }
-
-                if (d.data.death) {
-                    let death = col2.append("tspan")
-                        .text(d.data.death);
-
-                    if (d.data.birth) {
-                        death
-                            .attr("x", (-(that._orientation.boxWidth / 2) + that._configuration.imageDiameter + 20 + 10) + "px")
-                            .attr("dy", "20px");
-                    } else {
-                        death.attr("x", "10px")
-                            .attr("y", "0px");
-                    }
-                }
+                that.addNames(element, d);
+                that.addDates(element, d);
             });
 
     //     // Merge the update and the enter selections
@@ -569,28 +506,14 @@ export default class Tree
     }
 
     /**
-     * Creates a single <tspan> element for the time span append it to the parent element.
-     *
-     * @param {Selection} parent The parent (<text> or <textPath>) element to which the <tspan> elements are to be attached
-     * @param {Object}    datum  The D3 data object containing the individual data
-     */
-    addTimeSpan(parent, datum)
-    {
-        // Create a <tspan> element for the time span
-        parent.append("tspan")
-            .text(datum.data.timespan);
-    }
-
-    /**
      * Loops over the <tspan> elements and truncates the contained texts.
      *
      * @param {Selection} parent The parent (<text> or <textPath>) element to which the <tspan> elements are attached
-     * @param {Object}    data   The D3 data object containing the individual data
      * @param {Boolean}   hide   Whether to show or hide the label if the text takes to much space to be displayed
      */
-    truncateNames(parent, data, hide = false)
+    truncateNames(parent, hide = false)
     {
-        let availableWidth = this.getAvailableWidth(data);
+        let availableWidth = this._orientation.textWidth();
 
         // Start truncating those elements which are not the preferred ones
         parent.selectAll("tspan:not(.preferred)")
@@ -599,21 +522,6 @@ export default class Tree
         // Afterwards the preferred ones if text takes still to much space
         parent.selectAll("tspan.preferred")
             .each(this.truncateText(parent, availableWidth, hide));
-    }
-
-    /**
-     * Calculate the available text width. Depending on the depth of an entry in
-     * the chart the available width differs.
-     *
-     * @param {Object} data The D3 data object
-
-     * @returns {Number} Calculated available width
-     *
-     * @private
-     */
-    getAvailableWidth(data)
-    {
-        return this._orientation.boxWidth - (this._configuration.imageDiameter + 20) - (this._configuration.padding * 2);
     }
 
     /**
@@ -668,13 +576,129 @@ export default class Tree
      * Add the individual names to the given parent element.
      *
      * @param {Selection} parent The parent element to which the elements are to be attached
-     * @param {Object}    data   The D3 data object
+     * @param {Object}    datum  The D3 data object
      */
     addNames(parent, datum)
     {
-        this.addFirstNames(parent, datum);
-        this.addLastNames(parent, datum, 0.25);
-        this.truncateNames(parent, datum);
+        let name = parent
+            .append("g")
+            .attr("class", "name");
+
+        // Top/Bottom and Bottom/Top
+        if (this._orientation._splittNames) {
+            let text1 = name.append("text")
+                .attr("text-anchor", "middle")
+                .attr("alignment-baseline", "central")
+                .attr("dy", this._orientation.textY());
+
+            let text2 = name.append("text")
+                .attr("text-anchor", "middle")
+                .attr("alignment-baseline", "central")
+                .attr("dy", this._orientation.textY() + 20);
+
+            this.addFirstNames(text1, datum);
+            this.addLastNames(text2, datum);
+
+            this.truncateNames(text1);
+            this.truncateNames(text2);
+
+        // Left/Right and Right/Left
+        } else {
+            let text1 = name.append("text")
+                .attr("text-anchor", "start")
+                .attr("dx", this._orientation.textX())
+                .attr("dy", this._orientation.textY());
+
+            this.addFirstNames(text1, datum);
+            this.addLastNames(text1, datum, 0.25);
+            this.truncateNames(text1);
+        }
+    }
+
+    /**
+     * Add the individual dates to the given parent element.
+     *
+     * @param {Selection} parent The parent element to which the elements are to be attached
+     * @param {Object}    datum  The D3 data object
+     */
+    addDates(parent, datum)
+    {
+        let table = parent
+            .append("g")
+            .attr("class", "table");
+
+        // Top/Bottom and Bottom/Top
+        if (this._orientation._splittNames) {
+            let text1 = table.append("text")
+                .attr("class", "date")
+                .attr("text-anchor", "middle")
+                .attr("alignment-baseline", "central")
+                .attr("dy", this._orientation.textY() + 50);
+
+            text1.append("tspan")
+                .text(datum.data.timespan);
+
+            return;
+        }
+
+        let col1 = table
+            .append("text")
+            .attr("class", "date")
+            .attr("text-anchor", "middle")
+            .attr("dominant-baseline", "middle")
+            .attr("dx", this._orientation.textX())
+            .attr("dy", this._orientation.textY() + 20);
+
+        if (datum.data.birth) {
+            col1.append("tspan")
+                .text("\u2605")
+                .attr("x", 0)
+                .attr("y", 0);
+        }
+
+        if (datum.data.death) {
+            let death = col1
+                .append("tspan")
+                .text("\u2020");
+
+            if (datum.data.birth) {
+                // Left/Right
+                death
+                    .attr("x", this._orientation.textX())
+                    .attr("dy", 20);
+            } else {
+                death.attr("x", 0)
+                    .attr("y", 0);
+            }
+        }
+
+        let col2 = table.append("text")
+            .attr("class", "date")
+            .attr("text-anchor", "start")
+            .attr("dominant-baseline", "middle")
+            .attr("dx", this._orientation.textX())
+            .attr("dy", this._orientation.textY() + 20);
+
+        if (datum.data.birth) {
+            col2.append("tspan")
+                .text(datum.data.birth)
+                .attr("x", 10)
+                .attr("y", 0);
+        }
+
+        if (datum.data.death) {
+            let death = col2.append("tspan")
+                .text(datum.data.death);
+
+            if (datum.data.birth) {
+                death
+                    .attr("x", this._orientation.textX() + 10)
+                    .attr("dy", 20);
+            } else {
+                death.attr("x", 10)
+                    .attr("y", 0);
+            }
+        }
     }
 
     /**

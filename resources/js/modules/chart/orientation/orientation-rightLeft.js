@@ -23,6 +23,8 @@ export default class OrientationRightLeft extends Orientation
     constructor(boxWidth, boxHeight)
     {
         super(boxWidth, boxHeight);
+
+        this._splittNames = false;
     }
 
     direction()
@@ -33,6 +35,51 @@ export default class OrientationRightLeft extends Orientation
     nodeWidth()
     {
         return (this._boxHeight * 2) + 30;
+    }
+
+    imageCornerRadius()
+    {
+        return this.cornerRadius() - this._imagePadding;
+    }
+
+    imageX()
+    {
+        return -(this._boxWidth / 2) + this._imagePadding;
+    }
+
+    imageY()
+    {
+        return -this.imageRadius();
+    }
+
+    imageWidth()
+    {
+        return this.imageRadius() * 2;
+    }
+
+    imageHeight()
+    {
+        return this.imageRadius() * 2;
+    }
+
+    textX()
+    {
+        return -(this._boxWidth / 2) + (this.imageRadius() * 2) + 20 - this._imagePadding;
+    }
+
+    textY()
+    {
+        return -15;
+    }
+
+    /**
+     * Calculate the available text width.
+     *
+     * @returns {Number}
+     */
+    textWidth()
+    {
+        return this._boxWidth - ((this.imageRadius() * 2) + 15 + this._imagePadding) - (15 * 2);
     }
 
     norm(d)

@@ -19,20 +19,14 @@ export default class OrientationCollection
 {
     /**
      * Constructor.
-     *
-     * @param {Number} boxWidth  The width of a single individual box
-     * @param {Number} boxHeight The height of a single individual box
      */
-    constructor(boxWidth, boxHeight)
+    constructor()
     {
-        this._boxWidth  = boxWidth;
-        this._boxHeight = boxHeight;
-
         this._orientations = {
-            [LAYOUT_TOPBOTTOM]: new OrientationTopBottom(boxWidth, boxHeight),
-            [LAYOUT_BOTTOMTOP]: new OrientationBottomTop(boxWidth, boxHeight),
-            [LAYOUT_LEFTRIGHT]: new OrientationLeftRight(boxWidth, boxHeight),
-            [LAYOUT_RIGHTLEFT]: new OrientationRightLeft(boxWidth, boxHeight)
+            [LAYOUT_TOPBOTTOM]: new OrientationTopBottom(150, 175),
+            [LAYOUT_BOTTOMTOP]: new OrientationBottomTop(150, 175),
+            [LAYOUT_LEFTRIGHT]: new OrientationLeftRight(300, 80),
+            [LAYOUT_RIGHTLEFT]: new OrientationRightLeft(300, 80)
         };
     }
 

@@ -11,19 +11,21 @@
 }
 
 #webtrees-pedigree-chart-container .person rect {
-    stroke: rgb(175, 175, 175);
-    stroke-dasharray: 5;
-    stroke-width: 3px;
+    /*stroke: rgb(175, 175, 175);*/
+    /*stroke-dasharray: 5;*/
+    /*stroke-width: 3px;*/
 }
 
 #webtrees-pedigree-chart-container .person rect.female {
     stroke: rgb(255, 32, 128);
     stroke-dasharray: none;
+    stroke-width: 3px;
 }
 
 #webtrees-pedigree-chart-container .person rect.male {
     stroke: rgb(129, 169, 203);
     stroke-dasharray: none;
+    stroke-width: 3px;
 }
 
 #webtrees-pedigree-chart-container .person {

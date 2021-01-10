@@ -19,8 +19,11 @@ export default class Orientation
      */
     constructor(boxWidth, boxHeight)
     {
-        this._boxWidth  = boxWidth;
-        this._boxHeight = boxHeight;
+        this._boxWidth     = boxWidth;
+        this._boxHeight    = boxHeight;
+        this._imagePadding = 5;
+        this._imageRadius  = Math.min(40, (this._boxHeight / 2) - this._imagePadding);
+        this._cornerRadius = 20;
     }
 
     /**
@@ -41,5 +44,25 @@ export default class Orientation
     get boxHeight()
     {
         return this._boxHeight;
+    }
+
+    /**
+     * Returns the corner radius.
+     *
+     * @returns {Number}
+     */
+    cornerRadius()
+    {
+        return this._cornerRadius;
+    }
+
+    /**
+     * Returns the radius of the image.
+     *
+     * @returns {Number}
+     */
+    imageRadius()
+    {
+        return this._imageRadius;
     }
 }
