@@ -39,7 +39,7 @@ export default class OrientationCollection
     /**
      * Returns the internal element.
      *
-     * @return {Array}
+     * @returns {Array}
      */
     get()
     {

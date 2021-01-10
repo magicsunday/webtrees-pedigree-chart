@@ -73,7 +73,7 @@ export default class Overlay
     /**
      * Returns the internal element.
      *
-     * @return {Selection}
+     * @returns {Selection}
      */
     get()
     {

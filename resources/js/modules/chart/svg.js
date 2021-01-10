@@ -133,7 +133,7 @@ export default class Svg
      *
      * @param {String} type The export file type (either "png" or "svg")
      *
-     * @return {PngExport|SvgExport}
+     * @returns {PngExport|SvgExport}
      */
     export(type )
     {
@@ -144,7 +144,7 @@ export default class Svg
     /**
      * Returns the SVG definition instance.
      *
-     * @return {Defs}
+     * @returns {Defs}
      */
     get defs()
     {
@@ -154,7 +154,7 @@ export default class Svg
     /**
      * Returns the SVG definition instance.
      *
-     * @return {Zoom}
+     * @returns {Zoom}
      */
     get zoom()
     {
@@ -164,7 +164,7 @@ export default class Svg
     /**
      *
      *
-     * @return {Selection}
+     * @returns {Selection}
      */
     get visual()
     {
@@ -174,7 +174,7 @@ export default class Svg
     /**
      * Returns the internal element.
      *
-     * @return {Selection}
+     * @returns {Selection}
      */
     get()
     {

@@ -105,7 +105,7 @@ export default class Zoom
     /**
      * Returns the internal d3 zoom behaviour.
      *
-     * @return {zoom}
+     * @returns {zoom}
      */
     get()
     {

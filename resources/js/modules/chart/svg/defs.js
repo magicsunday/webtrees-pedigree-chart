@@ -25,7 +25,7 @@ export default class Defs
     /**
      * Returns the internal element.
      *
-     * @return {Selection}
+     * @returns {Selection}
      */
     get()
     {

@@ -88,7 +88,7 @@ export default class Configuration
     /**
      * Returns the number of generations to display.
      *
-     * @return {Number}
+     * @returns {Number}
      */
     get generations()
     {
@@ -108,7 +108,7 @@ export default class Configuration
     /**
      * Returns whether to show or hide empty boxes.
      *
-     * @return {Boolean}
+     * @returns {Boolean}
      */
     get showEmptyBoxes()
     {
@@ -128,7 +128,7 @@ export default class Configuration
     /**
      * Returns the tree layout.
      *
-     * @return {String}
+     * @returns {String}
      */
     get treeLayout()
     {

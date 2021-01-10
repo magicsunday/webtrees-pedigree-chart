@@ -36,7 +36,7 @@ export default class Chart
     /**
      * Returns the SVG instance.
      *
-     * @return {Svg}
+     * @returns {Svg}
      */
     get svg()
     {
@@ -90,7 +90,7 @@ export default class Chart
     /**
      * Returns the chart data.
      *
-     * @return {Object}
+     * @returns {Object}
      */
     get data()
     {

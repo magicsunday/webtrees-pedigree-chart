@@ -86,7 +86,7 @@ export class PedigreeChart
     /**
      * Returns the configuration object.
      *
-     * @return {Configuration}
+     * @returns {Configuration}
      */
     get configuration()
     {

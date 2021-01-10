@@ -114,7 +114,7 @@ export default class Hierarchy
      * @param {Number} generation Generation of the node
      * @param {String} sex        The sex of the individual
      *
-     * @return {Object}
+     * @returns {Object}
      *
      * @private
      */

@@ -67,7 +67,7 @@ export class Storage
      *
      * @param {String} name The id or name of a HTML element
      *
-     * @return {String|Boolean|Number}
+     * @returns {String|Boolean|Number}
      */
     read(name)
     {

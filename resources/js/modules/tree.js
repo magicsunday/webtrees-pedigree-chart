@@ -114,7 +114,7 @@ export default class Tree
             .attr('id', 'clip-circle')
             .append("circle")
             .attr("r", this._configuration.imageRadius)
-            .attr("cx", -(this._configuration.boxWidth / 2) + (this._configuration.boxHeight / 2))
+            .attr("cx", -(this._orientation.boxWidth / 2) + (this._orientation.boxHeight / 2))
             .attr("cy", 0);
 
         let t = this._svg.visual
@@ -132,10 +132,10 @@ export default class Tree
             // Add new nodes at the right side of their child's box.
             // They will be transitioned into their proper position.
             // .attr("transform", person => {
-            //     return "translate(" + (this._configuration.direction * (source.y0 + (this._configuration.boxWidth / 2))) + ',' + source.x0 + ")";
+            //     return "translate(" + (this._configuration.direction * (source.y0 + (this._orientation.boxWidth / 2))) + ',' + source.x0 + ")";
             // })
             // .attr("transform", person => {
-            //     return "translate(" + (this._configuration.direction * (source.y + (this._configuration.boxWidth / 2))) + ',' + source.x + ")";
+            //     return "translate(" + (this._configuration.direction * (source.y + (this._orientation.boxWidth / 2))) + ',' + source.x + ")";
             // })
             // .attr("transform", person => `translate(${source.y0}, ${source.x0})`)
             .attr("transform", person => {
@@ -148,16 +148,16 @@ export default class Tree
         nodeEnter
             .append("rect")
             .attr("class", d => (d.data.sex === SEX_FEMALE) ? "female" : (d.data.sex === SEX_MALE) ? "male" : "")
-            .attr("rx", this._configuration.boxHeight / 2)
-            .attr("ry", this._configuration.boxHeight / 2)
+            .attr("rx", this._orientation.boxHeight / 2)
+            .attr("ry", this._orientation.boxHeight / 2)
             // .attr("x", 0)
             // .attr("y", 0)
             // .attr("width", 0)
             // .attr("height", 0)
-            .attr("x", -(this._configuration.boxWidth / 2))
-            .attr("y", -(this._configuration.boxHeight / 2))
-            .attr("width", this._configuration.boxWidth)
-            .attr("height", this._configuration.boxHeight)
+            .attr("x", -(this._orientation.boxWidth / 2))
+            .attr("y", -(this._orientation.boxHeight / 2))
+            .attr("width", this._orientation.boxWidth)
+            .attr("height", this._orientation.boxHeight)
             .attr("fill-opacity", "0.5")
             .attr("fill", d => d.data.color);
         //
@@ -179,16 +179,16 @@ export default class Tree
                 // Background (only required of thumbnail has transparency (like the silhouettes))
                 group
                     .append("circle")
-                    .attr("cx", -(that._configuration.boxWidth / 2) + (that._configuration.boxHeight / 2))
-                    .attr("cy", -(that._configuration.boxHeight / 2) + (that._configuration.boxHeight / 2))
+                    .attr("cx", -(that._orientation.boxWidth / 2) + (that._orientation.boxHeight / 2))
+                    .attr("cy", -(that._orientation.boxHeight / 2) + (that._orientation.boxHeight / 2))
                     .attr("r", that._configuration.imageRadius)
                     .attr("fill", "rgb(255, 255, 255)");
 
                 // The individual image
                 let image = group
                     .append("image")
-                    .attr("x", -(that._configuration.boxWidth / 2) + 5)
-                    .attr("y", -(that._configuration.boxHeight / 2) + 5)
+                    .attr("x", -(that._orientation.boxWidth / 2) + 5)
+                    .attr("y", -(that._orientation.boxHeight / 2) + 5)
                     .attr("height", that._configuration.imageDiameter)
                     .attr("width", that._configuration.imageDiameter)
                     .attr("clip-path", "url(#clip-circle)");
@@ -201,8 +201,8 @@ export default class Tree
 
                 // Border
                 group.append("circle")
-                    .attr("cx", -(that._configuration.boxWidth / 2) + (that._configuration.boxHeight / 2))
-                    .attr("cy", -(that._configuration.boxHeight / 2) + (that._configuration.boxHeight / 2))
+                    .attr("cx", -(that._orientation.boxWidth / 2) + (that._orientation.boxHeight / 2))
+                    .attr("cy", -(that._orientation.boxHeight / 2) + (that._orientation.boxHeight / 2))
                     .attr("r", that._configuration.imageRadius)
                     .attr("fill", "none")
                     .attr("stroke", "rgb(200, 200, 200)")
@@ -213,7 +213,7 @@ export default class Tree
                     .append("g")
                     .attr("class", "name")
                     .append("text")
-                    .attr("dx", (-(that._configuration.boxWidth / 2) + that._configuration.imageDiameter + 20 - 5) + "px")
+                    .attr("dx", (-(that._orientation.boxWidth / 2) + that._configuration.imageDiameter + 20 - 5) + "px")
                     .attr("dy", "-15px")
                     .attr("text-anchor", "start");
 
@@ -224,7 +224,7 @@ export default class Tree
                     .attr("class", "table");
 
                 let col1 = table.append("text")
-                    .attr("dx", (-(that._configuration.boxWidth / 2) + that._configuration.imageDiameter + 20) + "px")
+                    .attr("dx", (-(that._orientation.boxWidth / 2) + that._configuration.imageDiameter + 20) + "px")
                     .attr("dy", "5px")
                     .attr("class", "date")
                     .attr("text-anchor", "middle")
@@ -243,7 +243,7 @@ export default class Tree
                         .text("\u2020");
 
                     if (d.data.birth) {
-                        death.attr("x", (-(that._configuration.boxWidth / 2) + that._configuration.imageDiameter + 20) + "px")
+                        death.attr("x", (-(that._orientation.boxWidth / 2) + that._configuration.imageDiameter + 20) + "px")
                             .attr("dy", "20px");
                     } else {
                         death.attr("x", "0px")
@@ -252,7 +252,7 @@ export default class Tree
                 }
 
                 let col2 = table.append("text")
-                    .attr("dx", (-(that._configuration.boxWidth / 2) + that._configuration.imageDiameter + 20) + "px")
+                    .attr("dx", (-(that._orientation.boxWidth / 2) + that._configuration.imageDiameter + 20) + "px")
                     .attr("dy", "5px")
                     .attr("class", "date")
                     .attr("text-anchor", "start")
@@ -271,7 +271,7 @@ export default class Tree
 
                     if (d.data.birth) {
                         death
-                            .attr("x", (-(that._configuration.boxWidth / 2) + that._configuration.imageDiameter + 20 + 10) + "px")
+                            .attr("x", (-(that._orientation.boxWidth / 2) + that._configuration.imageDiameter + 20 + 10) + "px")
                             .attr("dy", "20px");
                     } else {
                         death.attr("x", "10px")
@@ -293,22 +293,22 @@ export default class Tree
     //
     //     // Grow boxes to their proper size
     //     nodeUpdate.select('rect')
-    //         .attr("x", -(this._configuration.boxWidth / 2))
-    //         .attr("y", -(this._configuration.boxHeight / 2))
-    //         .attr("width", this._configuration.boxWidth)
-    //         .attr("height", this._configuration.boxHeight)
+    //         .attr("x", -(this._orientation.boxWidth / 2))
+    //         .attr("y", -(this._orientation.boxHeight / 2))
+    //         .attr("width", this._orientation.boxWidth)
+    //         .attr("height", this._orientation.boxHeight)
     //         // .attr("fill-opacity", "0.5")
     //         // .attr({
-    //         //     x: -(this._configuration.boxWidth / 2),
-    //         //     y: -(this._configuration.boxHeight / 2),
-    //         //     width: this._configuration.boxWidth,
-    //         //     height: this._configuration.boxHeight
+    //         //     x: -(this._orientation.boxWidth / 2),
+    //         //     y: -(this._orientation.boxHeight / 2),
+    //         //     width: this._orientation.boxWidth,
+    //         //     height: this._orientation.boxHeight
     //         // })
     // ;
     //
     //     // Move text to it's proper position
     //     // nodeUpdate.select('text')
-    //     //     .attr("dx", -(this._configuration.boxWidth / 2) + 10)
+    //     //     .attr("dx", -(this._orientation.boxWidth / 2) + 10)
     //     //     .style("fill-opacity", 1);
     //
     //     // Remove nodes we aren't showing anymore
@@ -318,7 +318,7 @@ export default class Tree
     //         .duration(this._configuration.duration)
     //         // Transition exit nodes to the source's position
     //         .attr("transform", person => {
-    //             return "translate(" + (this._configuration.direction * (source.y + (this._configuration.boxWidth / 2))) + ',' + source.x + ")";
+    //             return "translate(" + (this._configuration.direction * (source.y + (this._orientation.boxWidth / 2))) + ',' + source.x + ")";
     //         })
     //         // .attr("transform", person => `translate(${source.y}, ${source.x})`)
     //         // .attr("transform", (d) => {
@@ -389,16 +389,16 @@ export default class Tree
         //             .attr("class", "person")
         //             // .attr("transform", person => `translate(${person.y}, ${person.x})`)
         //             .attr("transform", person => {
-        //                 return "translate(" + (this._configuration.direction * (source.y0 + (this._configuration.boxWidth / 2))) + ',' + source.x0 + ")";
+        //                 return "translate(" + (this._configuration.direction * (source.y0 + (this._orientation.boxWidth / 2))) + ',' + source.x0 + ")";
         //             })
         //             .on("click", this.togglePerson.bind(this));
         //
         //         nodeEnter
         //             .append("rect")
-        //             // .attr("x", -(this._configuration.boxWidth / 2))
-        //             // .attr("y", -(this._configuration.boxHeight / 2))
-        //             // .attr("width", this._configuration.boxWidth)
-        //             // .attr("height", this._configuration.boxHeight);
+        //             // .attr("x", -(this._orientation.boxWidth / 2))
+        //             // .attr("y", -(this._orientation.boxHeight / 2))
+        //             // .attr("width", this._orientation.boxWidth)
+        //             // .attr("height", this._orientation.boxHeight);
         //             .attr("x", 0)
         //             .attr("y", 0)
         //             .attr("width", 0)
@@ -418,10 +418,10 @@ export default class Tree
         //
         //         nodeUpdate
         //             .select('rect')
-        //             .attr("x", -(this._configuration.boxWidth / 2))
-        //             .attr("y", -(this._configuration.boxHeight / 2))
-        //             .attr("width", this._configuration.boxWidth)
-        //             .attr("height", this._configuration.boxHeight);
+        //             .attr("x", -(this._orientation.boxWidth / 2))
+        //             .attr("y", -(this._orientation.boxHeight / 2))
+        //             .attr("width", this._orientation.boxWidth)
+        //             .attr("height", this._orientation.boxHeight);
         //
         //         return nodeUpdate;
         //     },
@@ -431,7 +431,7 @@ export default class Tree
         //             .call(exit => exit
         //                 .transition(t)
         //                 .attr("transform", person => {
-        //                     return "translate(" + (this._configuration.direction * (source.y + (this._configuration.boxWidth / 2))) + ',' + source.x + ")";
+        //                     return "translate(" + (this._configuration.direction * (source.y + (this._orientation.boxWidth / 2))) + ',' + source.x + ")";
         //                 })
         //             )
         //             .remove();
@@ -447,10 +447,10 @@ export default class Tree
         //     }
         // )
         //     // .selectAll('rect')
-        //     // .attr("x", -(this._configuration.boxWidth / 2))
-        //     // .attr("y", -(this._configuration.boxHeight / 2))
-        //     // .attr("width", this._configuration.boxWidth)
-        //     // .attr("height", this._configuration.boxHeight);
+        //     // .attr("x", -(this._orientation.boxWidth / 2))
+        //     // .attr("y", -(this._orientation.boxHeight / 2))
+        //     // .attr("width", this._orientation.boxWidth)
+        //     // .attr("height", this._orientation.boxHeight);
         // ;
         //
         // return;
@@ -613,7 +613,7 @@ export default class Tree
      */
     getAvailableWidth(data)
     {
-        return this._configuration.boxWidth - (this._configuration.imageDiameter + 20) - (this._configuration.padding * 2);
+        return this._orientation.boxWidth - (this._configuration.imageDiameter + 20) - (this._configuration.padding * 2);
     }
 
     /**
@@ -724,7 +724,7 @@ export default class Tree
         //     .attr("d", person => {
         //         const o = {
         //             x: source.x0,
-        //             y: this._configuration.direction * (source.y0 + (this._configuration.boxWidth / 2))
+        //             y: this._configuration.direction * (source.y0 + (this._orientation.boxWidth / 2))
         //         };
         //
         //         return this.transitionElbow({ source: o, target: o });
@@ -745,7 +745,7 @@ export default class Tree
         //     .attr("d", person => {
         //         const o = {
         //             x: source.x,
-        //             y: this._configuration.direction * (source.y + this._configuration.boxWidth / 2)
+        //             y: this._configuration.direction * (source.y + this._orientation.boxWidth / 2)
         //         };
         //
         //         return this.transitionElbow({ source: o, target: o });

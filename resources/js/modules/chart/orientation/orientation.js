@@ -28,7 +28,7 @@ export default class Orientation
      *
      * @returns {Number}
      */
-    boxWidth()
+    get boxWidth()
     {
         return this._boxWidth;
     }
@@ -38,7 +38,7 @@ export default class Orientation
      *
      * @returns {Number}
      */
-    boxHeight()
+    get boxHeight()
     {
         return this._boxHeight;
     }
