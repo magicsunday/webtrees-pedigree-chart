@@ -1,0 +1,113 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Pedigree chart\n"
+"POT-Creation-Date: 2020-12-31 14:13+0100\n"
+"PO-Revision-Date: 2021-01-13 19:55+0100\n"
+"Last-Translator: TheDutchJewel <thedutchjewel@gmail.com>\n"
+"Language-Team: \n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.2\n"
+"X-Poedit-Basepath: ../../..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: translate\n"
+"X-Poedit-SearchPath-0: resources/views/chart.phtml\n"
+"X-Poedit-SearchPath-1: module.php\n"
+"X-Poedit-SearchPath-2: src\n"
+"X-Poedit-SearchPathExcluded-0: resources/lang/node_modules\n"
+"X-Poedit-SearchPathExcluded-1: resources/lang/.git\n"
+"X-Poedit-SearchPathExcluded-2: resources/lang/css\n"
+"X-Poedit-SearchPathExcluded-3: resources/lang/language\n"
+
+#: src/Module.php:100 src/Module.php:194
+msgid "Pedigree chart"
+msgstr "Kwartierstaat"
+
+#: src/Module.php:110
+msgid "A pedigree chart of an individual’s ancestors."
+msgstr "Een kwartierstaat van de voorouders van een persoon."
+
+#: src/Module.php:197 src/Traits/ModuleChartTrait.php:38
+#, php-format
+msgid "Pedigree chart of %s"
+msgstr "Kwartierstaat van %s"
+
+#: src/Module.php:216
+msgid "Use Ctrl + scroll to zoom in the view"
+msgstr "Gebruik Ctrl + scroll om in te zoomen op de weergave"
+
+#: src/Module.php:217
+msgid "Move the view with two fingers"
+msgstr "Verplaats de weergave met twee vingers"
+
+#: src/Traits/IndividualTrait.php:114
+#, php-format
+msgid "Born: %s"
+msgstr "Geboren: %s"
+
+#: src/Traits/IndividualTrait.php:118
+#, php-format
+msgid "Died: %s"
+msgstr "Overleden: %s"
+
+#: src/Traits/IndividualTrait.php:122
+msgid "Deceased"
+msgstr "Overleden"
+
+#: resources/views/chart.phtml:35
+msgid "Individual"
+msgstr "Persoon"
+
+#: resources/views/chart.phtml:52
+msgid "Generations"
+msgstr "Generaties"
+
+#: resources/views/chart.phtml:69
+msgid "Orientation"
+msgstr "Oriëntatie"
+
+#: resources/views/chart.phtml:76
+msgid "left"
+msgstr "links"
+
+#: resources/views/chart.phtml:77
+msgid "right"
+msgstr "rechts"
+
+#: resources/views/chart.phtml:78
+msgid "up"
+msgstr "omhoog"
+
+#: resources/views/chart.phtml:79
+msgid "down"
+msgstr "omlaag"
+
+#: resources/views/chart.phtml:90
+msgid "Layout"
+msgstr "Indeling"
+
+#: resources/views/chart.phtml:97
+msgid "Show empty boxes for missing individuals. Caution: May slow down your system!"
+msgstr "Lege vakken weergeven voor ontbrekende personen. Let op: kan uw systeem vertragen!"
+
+#: resources/views/chart.phtml:110
+msgid "More options ..."
+msgstr "Meer opties ..."
+
+#: resources/views/chart.phtml:115
+msgid "view"
+msgstr "weergeven"
+
+#: resources/views/chart.phtml:121
+msgid "Re center"
+msgstr "Opnieuw centreren"
+
+#: resources/views/chart.phtml:126
+msgid "Export as PNG"
+msgstr "Exporteren als PNG"
+
+#: resources/views/chart.phtml:129
+msgid "Export as SVG"
+msgstr "Exporteren als SVG"
