@@ -8,8 +8,8 @@
 This module provides an SVG pedigree chart for the [webtrees](https://www.webtrees.net) genealogy application. It 
 is capable to display up to 25 ancestor generations of an individual.
 
-![pedigree-chart-3-generations](assets/pedigree-chart-3-generations.png)
-*Fig. 1: A three generations pedigree chart (drawn top to bottom)*
+![pedigree-chart-3-generations](assets/pedigree-chart-top-bottom.png)
+*Fig. 1: A five generations pedigree chart (drawn top to bottom)*
 
 ![pedigree-chart-5-generations](assets/pedigree-chart-5-generations.png)
 *Fig. 2: A five generations pedigree chart (drawn left to right)*
