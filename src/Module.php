@@ -175,7 +175,7 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
             return $this->viewResponse($this->name() . '::modules/pedigree-chart/chart', [
                 'data'          => $this->buildJsonTree($individual),
                 'configuration' => $this->configuration,
-                'chartParams'   => json_encode($this->getChartParameters($individual)),
+                'chartParams'   => json_encode($this->getChartParameters($individual), JSON_THROW_ON_ERROR),
                 'stylesheet'    => $this->assetUrl('css/pedigree-chart.css'),
                 'svgStylesheet' => $this->assetUrl('css/svg.css'),
                 'javascript'    => $this->assetUrl('js/pedigree-chart.min.js'),
@@ -209,7 +209,7 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
     {
         $title = I18N::translate('Pedigree chart');
 
-        if ($individual && $individual->canShowName()) {
+        if ($individual->canShowName()) {
             $title = I18N::translate('Pedigree chart of %s', $individual->fullName());
         }
 
@@ -221,7 +221,7 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
      *
      * @param Individual $individual The individual used to gather the chart data
      *
-     * @return string[]
+     * @return mixed[]
      */
     private function getChartParameters(Individual $individual): array
     {
@@ -267,7 +267,7 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
      * @param null|Individual $individual The start person
      * @param int             $generation The current generation
      *
-     * @return string[][]
+     * @return mixed[]
      */
     private function buildJsonTree(?Individual $individual, int $generation = 1): array
     {

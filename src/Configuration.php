@@ -92,7 +92,7 @@ class Configuration
     /**
      * Returns a list of possible selectable generations.
      *
-     * @return int[]
+     * @return string[]
      */
     public function getGenerationsList(): array
     {
