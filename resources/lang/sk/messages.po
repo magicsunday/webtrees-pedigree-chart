@@ -1,17 +1,20 @@
+#
+# Slavko <linux@slavino.sk>, 2021.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Pedigree chart\n"
 "POT-Creation-Date: 2020-12-31 14:13+0100\n"
-"PO-Revision-Date: 2020-12-31 14:13+0100\n"
-"Last-Translator: Rico Sonntag <mail@ricosonntag.de>\n"
-"Language-Team: \n"
-"Language: en_US\n"
+"PO-Revision-Date: 2021-03-25 11:42+0100\n"
+"Last-Translator: Slavko <linux@slavino.sk>\n"
+"Language-Team: slovenčina <linux@slavino.sk>\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Gtranslator 3.38.0\n"
 "X-Poedit-Basepath: ../../..\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Poedit-KeywordsList: translate\n"
 "X-Poedit-SearchPath-0: resources/views/chart.phtml\n"
 "X-Poedit-SearchPath-1: module.php\n"
@@ -23,91 +26,93 @@ msgstr ""
 
 #: src/Module.php:100 src/Module.php:194
 msgid "Pedigree chart"
-msgstr ""
+msgstr "Rodokmeň"
 
 #: src/Module.php:110
 msgid "A pedigree chart of an individual’s ancestors."
-msgstr ""
+msgstr "Rodokmeň predkov jednotlivca"
 
 #: src/Module.php:197 src/Traits/ModuleChartTrait.php:38
 #, php-format
 msgid "Pedigree chart of %s"
-msgstr ""
+msgstr "Rodokmeň %s"
 
 #: src/Module.php:216
 msgid "Use Ctrl + scroll to zoom in the view"
-msgstr ""
+msgstr "Použite Ctrl + scroll na zväčšenie zobrazenia"
 
 #: src/Module.php:217
 msgid "Move the view with two fingers"
-msgstr ""
+msgstr "Presunúť pohľad dvomi prstami"
 
 #: src/Traits/IndividualTrait.php:114
 #, php-format
 msgid "Born: %s"
-msgstr ""
+msgstr "Narodenie: %s"
 
 #: src/Traits/IndividualTrait.php:118
 #, php-format
 msgid "Died: %s"
-msgstr ""
+msgstr "Úmrtie: %s"
 
 #: src/Traits/IndividualTrait.php:122
 msgid "Deceased"
-msgstr ""
+msgstr "Mŕtvy/a"
 
 #: resources/views/chart.phtml:35
 msgid "Individual"
-msgstr ""
+msgstr "Jednotlivec"
 
 #: resources/views/chart.phtml:52
 msgid "Generations"
-msgstr ""
+msgstr "Generácie"
 
 #: resources/views/chart.phtml:69
 msgid "Orientation"
-msgstr ""
+msgstr "Orentácia"
 
 #: resources/views/chart.phtml:76
 msgid "left"
-msgstr ""
+msgstr "vľavo"
 
 #: resources/views/chart.phtml:77
 msgid "right"
-msgstr ""
+msgstr "vpravo"
 
 #: resources/views/chart.phtml:78
 msgid "up"
-msgstr ""
+msgstr "hore"
 
 #: resources/views/chart.phtml:79
 msgid "down"
-msgstr ""
+msgstr "dole"
 
 #: resources/views/chart.phtml:90
 msgid "Layout"
-msgstr ""
+msgstr "Rozloženie"
 
 #: resources/views/chart.phtml:97
-msgid "Show empty boxes for missing individuals. Caution: May slow down your system!"
+msgid ""
+"Show empty boxes for missing individuals. Caution: May slow down your system!"
 msgstr ""
+"Zobraziť prázdne položky chýbajúcich osôb. Pozor: môže spomaliť váš systém!"
 
 #: resources/views/chart.phtml:110
 msgid "More options ..."
-msgstr ""
+msgstr "Ďalšie voľby…"
 
 #: resources/views/chart.phtml:115
 msgid "view"
-msgstr ""
+msgstr "zobraziť"
 
 #: resources/views/chart.phtml:121
 msgid "Re center"
-msgstr ""
+msgstr "Znova vycentrovať"
 
 #: resources/views/chart.phtml:126
 msgid "Export as PNG"
-msgstr ""
+msgstr "Exportovať ako PNG"
 
 #: resources/views/chart.phtml:129
 msgid "Export as SVG"
-msgstr ""
+msgstr "Exportovať ako SVG"
