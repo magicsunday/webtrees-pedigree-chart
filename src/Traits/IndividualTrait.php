@@ -62,6 +62,11 @@ trait IndividualTrait
         $firstNames       = $this->getFirstNames($xpath);
         $alternativeNames = $this->getAlternateNames($individual);
 
+        // Use the first given name if no preferred name was selected
+        if ($preferredName === '') {
+            $preferredName = reset($firstNames);
+        }
+
         return [
             'id'               => 0,
             'xref'             => $individual->xref(),
