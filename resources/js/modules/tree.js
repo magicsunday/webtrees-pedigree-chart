@@ -150,7 +150,7 @@ export default class Tree
         // transition them to their proper size.
         nodeEnter
             .append("rect")
-            .attr("class", d => (d.data.sex === SEX_FEMALE) ? "female" : (d.data.sex === SEX_MALE) ? "male" : "")
+            .attr("class", d => (d.data.sex === SEX_FEMALE) ? "female" : (d.data.sex === SEX_MALE) ? "male" : "unknown")
             .attr("rx", this._orientation.cornerRadius())
             .attr("ry", this._orientation.cornerRadius())
             .attr("x", -(this._orientation.boxWidth / 2))

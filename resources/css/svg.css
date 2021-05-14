@@ -28,6 +28,12 @@
     stroke-width: 3px;
 }
 
+#webtrees-pedigree-chart-container .person rect.unknown {
+    stroke: rgb(175, 175, 175);
+    stroke-dasharray: 5;
+    stroke-width: 3px;
+}
+
 #webtrees-pedigree-chart-container .person {
 }
 
