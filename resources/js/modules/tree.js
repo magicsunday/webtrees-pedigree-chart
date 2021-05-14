@@ -490,6 +490,7 @@ export default class Tree
         for (let lastName of datum.data.lastNames) {
             // Create a <tspan> element for the last name
             let tspan = parent.append("tspan")
+                .attr("class", "lastName")
                 .text(lastName);
 
             // Add some spacing between the elements
@@ -515,13 +516,41 @@ export default class Tree
     {
         let availableWidth = this._orientation.textWidth();
 
-        // Start truncating those elements which are not the preferred ones
-        parent.selectAll("tspan:not(.preferred)")
-            .each(this.truncateText(parent, availableWidth, hide));
+        // Select all not preferred and not last names
+        this.truncateListOfNames(
+            parent.selectAll("tspan:not(.preferred):not(.lastName)"),
+            parent,
+            availableWidth,
+            hide
+        );
 
         // Afterwards the preferred ones if text takes still to much space
         parent.selectAll("tspan.preferred")
             .each(this.truncateText(parent, availableWidth, hide));
+
+        // Truncate lastnames
+        parent.selectAll("tspan.lastName")
+            .each(this.truncateText(parent, availableWidth, hide));
+    }
+
+    /**
+     *
+     * @param {Selection} names          A selection of name elements
+     * @param {Selection} parent         The parent (<text> or <textPath>) element to which the <tspan> elements are attached
+     * @param {Number}    availableWidth The total available width the text could take
+     * @param {Boolean}   hide           Whether to show or hide the label if the text takes to much space to be displayed
+     */
+    truncateListOfNames(names, parent, availableWidth, hide)
+    {
+        if (names.size()) {
+            // Start truncating from last element to the first one
+            names.nodes()
+                .reverse()
+                .forEach(element => {
+                    d3.select(element)
+                        .each(this.truncateText(parent, availableWidth, hide));
+                });
+        }
     }
 
     /**
@@ -680,6 +709,44 @@ export default class Tree
             .attr("dy", this._orientation.textY() + 20);
 
         if (datum.data.birth) {
+            // let words = datum.data.birth.split(" ");
+            // let y     = 0;
+            // let width = 180;
+            // let line  = '';
+            // let count = 0;
+            //
+            // for (let n = 0; n < words.length; ++n) {
+            //     let testLine = line + words[n] + " ";
+            //     let testElem = col2.append("tspan");
+            //
+            //     //  Add line in testElement
+            //     testElem.text(testLine);
+            //
+            //     // Messure textElement
+            //     let metrics = testElem.node().getBoundingClientRect();
+            //     let testWidth = metrics.width;
+            //
+            //     if ((testWidth > width) && (n > 0)) {
+            //         col2.append("tspan")
+            //             .text(line)
+            //             .attr("x", () => { return count > 0 ? -55 : 10 })
+            //             .attr("dy", () => { return count > 0 ? 20 : 0 })
+            //
+            //         ++count;
+            //
+            //         line = words[n] + " ";
+            //     } else {
+            //         line = testLine;
+            //     }
+            //
+            //     testElem.remove();
+            // }
+            //
+            // col2.append("tspan")
+            //     .text(line)
+            //     .attr("x", () => { return count > 0 ? -55 : 10 })
+            //     .attr("dy", () => { return count > 0 ? 20 : 0 })
+
             col2.append("tspan")
                 .text(datum.data.birth)
                 .attr("x", 10)

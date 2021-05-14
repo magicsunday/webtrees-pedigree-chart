@@ -62,11 +62,6 @@ trait IndividualTrait
         $firstNames       = $this->getFirstNames($xpath);
         $alternativeNames = $this->getAlternateNames($individual);
 
-        // Use the first given name if no preferred name was selected
-        if ($preferredName === '') {
-            $preferredName = reset($firstNames);
-        }
-
         return [
             'id'               => 0,
             'xref'             => $individual->xref(),
@@ -81,8 +76,8 @@ trait IndividualTrait
             'isAltRtl'         => $this->isRtl($alternativeNames),
             'thumbnail'        => $this->getIndividualImage($individual),
             'sex'              => $individual->sex(),
-            'birth'            => strip_tags($individual->getBirthDate()->display()),
-            'death'            => strip_tags($individual->getDeathDate()->display()),
+            'birth'            => $this->decodeValue(strip_tags($individual->getBirthDate()->display())),
+            'death'            => $this->decodeValue(strip_tags($individual->getDeathDate()->display())),
             'timespan'         => $this->getLifetimeDescription($individual),
             'color'            => $this->getColor($individual),
             'colors'           => [[], []],
@@ -154,6 +149,18 @@ trait IndividualTrait
     private function getDeathYear(Individual $individual): string
     {
         return $individual->getDeathDate()->minimumDate()->format('%Y');
+    }
+
+    /**
+     * Convert HTML entities to their corresponding characters.
+     *
+     * @param string $value
+     *
+     * @return string
+     */
+    private function decodeValue(string $value): string
+    {
+        return strip_tags($value);
     }
 
     /**
