@@ -195,7 +195,7 @@ export default class Tree
                     .attr("clip-path", "url(#clip-rect)");
 
                 dataUrl(that.getImageToLoad(d))
-                    .then(dataUrl => image.attr("href", dataUrl))
+                    .then(dataUrl => image.attr("xlink:href", dataUrl))
                     .catch((exception) => {
                         console.error(exception);
                     });
@@ -670,87 +670,53 @@ export default class Tree
             return;
         }
 
+        // A text element for the asterix and dagger
         let col1 = table
             .append("text")
             .attr("class", "date")
             .attr("text-anchor", "middle")
             .attr("dominant-baseline", "middle")
-            .attr("dx", this._orientation.textX())
-            .attr("dy", this._orientation.textY() + 20);
+            .attr("x", this._orientation.textX())
+            .attr("y", this._orientation.textY() + 15);
 
+        // The asterix
         if (datum.data.birth) {
             col1.append("tspan")
                 .text("\u2605")
-                .attr("x", 0)
-                .attr("y", 0);
+                .attr("x", this._orientation.textX() + 5)
+                .attr("dy", this._orientation.textY() + 20);
         }
 
+        // The dagger
         if (datum.data.death) {
             let death = col1
                 .append("tspan")
                 .text("\u2020");
 
+            // Are both dates present?
             if (datum.data.birth) {
-                // Left/Right
-                death
-                    .attr("x", this._orientation.textX())
-                    .attr("dy", 20);
+                death.attr("x", this._orientation.textX() + 5)
+                    .attr("dy", this._orientation.textY() + 35);
             } else {
-                death.attr("x", 0)
-                    .attr("y", 0);
+                // Only death date
+                death.attr("x", this._orientation.textX() + 5)
+                    .attr("dy", this._orientation.textY() + 20);
             }
         }
 
+        // A text element for the dates
         let col2 = table.append("text")
             .attr("class", "date")
             .attr("text-anchor", "start")
             .attr("dominant-baseline", "middle")
-            .attr("dx", this._orientation.textX())
-            .attr("dy", this._orientation.textY() + 20);
+            .attr("x", this._orientation.textX())
+            .attr("y", this._orientation.textY() + 20);
 
         if (datum.data.birth) {
-            // let words = datum.data.birth.split(" ");
-            // let y     = 0;
-            // let width = 180;
-            // let line  = '';
-            // let count = 0;
-            //
-            // for (let n = 0; n < words.length; ++n) {
-            //     let testLine = line + words[n] + " ";
-            //     let testElem = col2.append("tspan");
-            //
-            //     //  Add line in testElement
-            //     testElem.text(testLine);
-            //
-            //     // Messure textElement
-            //     let metrics = testElem.node().getBoundingClientRect();
-            //     let testWidth = metrics.width;
-            //
-            //     if ((testWidth > width) && (n > 0)) {
-            //         col2.append("tspan")
-            //             .text(line)
-            //             .attr("x", () => { return count > 0 ? -55 : 10 })
-            //             .attr("dy", () => { return count > 0 ? 20 : 0 })
-            //
-            //         ++count;
-            //
-            //         line = words[n] + " ";
-            //     } else {
-            //         line = testLine;
-            //     }
-            //
-            //     testElem.remove();
-            // }
-            //
-            // col2.append("tspan")
-            //     .text(line)
-            //     .attr("x", () => { return count > 0 ? -55 : 10 })
-            //     .attr("dy", () => { return count > 0 ? 20 : 0 })
-
             col2.append("tspan")
                 .text(datum.data.birth)
-                .attr("x", 10)
-                .attr("y", 0);
+                .attr("x", this._orientation.textX() + 15)
+                .attr("dy", this._orientation.textY() + 15);
         }
 
         if (datum.data.death) {
@@ -758,12 +724,11 @@ export default class Tree
                 .text(datum.data.death);
 
             if (datum.data.birth) {
-                death
-                    .attr("x", this._orientation.textX() + 10)
-                    .attr("dy", 20);
+                death.attr("x", this._orientation.textX() + 15)
+                    .attr("dy", this._orientation.textY() + 35);
             } else {
-                death.attr("x", 10)
-                    .attr("y", 0);
+                death.attr("x", this._orientation.textX() + 15)
+                    .attr("dy", this._orientation.textY() + 15);
             }
         }
     }
