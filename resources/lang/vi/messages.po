@@ -1,0 +1,113 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Pedigree chart\n"
+"POT-Creation-Date: 2020-12-31 14:13+0100\n"
+"PO-Revision-Date: 2021-07-12 19:26+0700\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.0\n"
+"X-Poedit-Basepath: ../../..\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-KeywordsList: translate\n"
+"Last-Translator: \n"
+"Language: vi_VN\n"
+"X-Poedit-SearchPath-0: resources/views/chart.phtml\n"
+"X-Poedit-SearchPath-1: module.php\n"
+"X-Poedit-SearchPath-2: src\n"
+"X-Poedit-SearchPathExcluded-0: resources/lang/node_modules\n"
+"X-Poedit-SearchPathExcluded-1: resources/lang/.git\n"
+"X-Poedit-SearchPathExcluded-2: resources/lang/css\n"
+"X-Poedit-SearchPathExcluded-3: resources/lang/language\n"
+
+#: src/Module.php:100 src/Module.php:194
+msgid "Pedigree chart"
+msgstr "Biểu đồ phả hệ"
+
+#: src/Module.php:110
+msgid "A pedigree chart of an individual’s ancestors."
+msgstr "Biểu đồ phả hệ của tổ tiên của một cá nhân."
+
+#: src/Module.php:197 src/Traits/ModuleChartTrait.php:38
+#, php-format
+msgid "Pedigree chart of %s"
+msgstr "Biểu đồ phả hệ của %s"
+
+#: src/Module.php:216
+msgid "Use Ctrl + scroll to zoom in the view"
+msgstr "Sử dụng Ctrl + cuộn để phóng to chế độ xem"
+
+#: src/Module.php:217
+msgid "Move the view with two fingers"
+msgstr "Di chuyển tầm nhìn bằng hai ngón tay"
+
+#: src/Traits/IndividualTrait.php:114
+#, php-format
+msgid "Born: %s"
+msgstr "Sinh: %s"
+
+#: src/Traits/IndividualTrait.php:118
+#, php-format
+msgid "Died: %s"
+msgstr "Mất: %s"
+
+#: src/Traits/IndividualTrait.php:122
+msgid "Deceased"
+msgstr "Người mất"
+
+#: resources/views/chart.phtml:35
+msgid "Individual"
+msgstr "Cá nhân"
+
+#: resources/views/chart.phtml:52
+msgid "Generations"
+msgstr "Các thế hệ"
+
+#: resources/views/chart.phtml:69
+msgid "Orientation"
+msgstr "Chiều hiển thị biểu đồ"
+
+#: resources/views/chart.phtml:76
+msgid "left"
+msgstr "Từ trái sang phải"
+
+#: resources/views/chart.phtml:77
+msgid "right"
+msgstr "Từ phải sang trái"
+
+#: resources/views/chart.phtml:78
+msgid "up"
+msgstr "Từ dưới lên"
+
+#: resources/views/chart.phtml:79
+msgid "down"
+msgstr "Từ trên xuống"
+
+#: resources/views/chart.phtml:90
+msgid "Layout"
+msgstr "Hiển thị biểu đồ theo:"
+
+#: resources/views/chart.phtml:97
+msgid "Show empty boxes for missing individuals. Caution: May slow down your system!"
+msgstr "Hiển thị các ô trống cho các cá nhân không có thông tin. Thận trọng: Có thể làm chậm hệ thống của bạn!"
+
+#: resources/views/chart.phtml:110
+msgid "More options ..."
+msgstr "Lựa chọn khác ..."
+
+#: resources/views/chart.phtml:115
+msgid "view"
+msgstr "Xem biểu đồ"
+
+#: resources/views/chart.phtml:121
+msgid "Re center"
+msgstr "Chỉnh biểu đồ về giữa màn hình"
+
+#: resources/views/chart.phtml:126
+msgid "Export as PNG"
+msgstr "Xuất định dạng PNG"
+
+#: resources/views/chart.phtml:129
+msgid "Export as SVG"
+msgstr "Xuất định dạng SVG"
