@@ -86,7 +86,7 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
             </div>
         </div>
 
-        <div class="collapse<?= ($configuration->getShowMore() ? ' show' : '') ?>" id="showMoreOptions">
+        <div class="collapse" id="showMoreOptions">
             <div class="form-group row">
                 <label class="col-form-label col-sm-3 wt-page-options-label">
                     <?= I18N::translate('Layout') ?>
@@ -108,7 +108,12 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
             <div class="col-sm-12 wt-page-options-value text-center">
                 <div class="btn-toolbar justify-content-between">
                     <div class="btn-group btn-group-sm">
-                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#showMoreOptions" aria-expanded="false" aria-controls="showMoreOptions">
+                        <button class="btn btn-primary"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#showMoreOptions"
+                                aria-expanded="false"
+                                aria-controls="showMoreOptions">
                             <?= I18N::translate('More options ...') ?>
                         </button>
                     </div>
@@ -124,10 +129,10 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
                             </button>
                         </div>
                         <div class="btn-group btn-group-sm">
-                            <button class="btn btn-secondary border-right" type="button" id="exportPNG">
+                            <button class="btn btn-secondary border-end" type="button" id="exportPNG">
                                 <?= I18N::translate('Export as PNG') ?>
                             </button>
-                            <button class="btn btn-secondary border-left" type="button" id="exportSVG">
+                            <button class="btn btn-secondary border-start" type="button" id="exportSVG">
                                 <?= I18N::translate('Export as SVG') ?>
                             </button>
                         </div>
@@ -166,6 +171,27 @@ function getUrl(baseUrl, generations)
     return url.toString();
 }
 
+/**
+ * Set visibility of "Show more options" to previous state after page reload.
+ *
+ * @param Storage storage
+ */
+function toogleMoreOptions(storage)
+{
+    // Handle special case with option toggler (works only with jquery)
+    let showMoreOptions = document.getElementById('showMoreOptions');
+
+    showMoreOptions.addEventListener('shown.bs.collapse', function () {
+        storage.write("showMoreOptions", true);
+    });
+
+    showMoreOptions.addEventListener('hidden.bs.collapse', function () {
+        storage.write("showMoreOptions", false);
+    });
+
+    showMoreOptions.className = "collapse " + (storage.read("showMoreOptions") ? "show" : "hide");
+}
+
 // Set up storage object
 let storage = new WebtreesPedigreeChart.Storage("webtrees-pedigree-chart");
 
@@ -174,17 +200,7 @@ storage.register("generations");
 storage.register("showEmptyBoxes");
 storage.register("layout");
 
-// Handle special case with option toggler (works only with jquery)
-$("#showMoreOptions")
-    .on("shown.bs.collapse", function () {
-        storage.write("showMoreOptions", true);
-    })
-    .on("hidden.bs.collapse", function () {
-        storage.write("showMoreOptions", false);
-    })
-    .collapse(
-        storage.read("showMoreOptions") ? "show" : "hide"
-    );
+toogleMoreOptions(storage);
 
 // Set initial stored value for radio button group
 let formElements = document.getElementById("webtrees-pedigree-chart-form").elements;
