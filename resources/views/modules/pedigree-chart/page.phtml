@@ -110,8 +110,8 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
                     <div class="btn-group btn-group-sm">
                         <button class="btn btn-primary"
                                 type="button"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#showMoreOptions"
+                                data-toggle="collapse"
+                                data-target="#showMoreOptions"
                                 aria-expanded="false"
                                 aria-controls="showMoreOptions">
                             <?= I18N::translate('More options ...') ?>
@@ -174,11 +174,11 @@ function getUrl(baseUrl, generations)
 /**
  * Set visibility of "Show more options" to previous state after page reload.
  *
- * @param Storage storage
+ * @param {Storage} storage
  */
-function toogleMoreOptions(storage)
+function toggleMoreOptions(storage)
 {
-    // Handle special case with option toggler (works only with jquery)
+    // Handle special case with option toggle (works only with jquery)
     let showMoreOptions = document.getElementById('showMoreOptions');
 
     showMoreOptions.addEventListener('shown.bs.collapse', function () {
@@ -200,7 +200,7 @@ storage.register("generations");
 storage.register("showEmptyBoxes");
 storage.register("layout");
 
-toogleMoreOptions(storage);
+toggleMoreOptions(storage);
 
 // Set initial stored value for radio button group
 let formElements = document.getElementById("webtrees-pedigree-chart-form").elements;

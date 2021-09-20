@@ -75,3 +75,10 @@ To build/update the javascript, run the following commands:
 npm install --unsafe-perm --save-dev
 npm run prepare
 ```
+
+### Run tests
+```
+composer update
+vendor/bin/phpstan analyse -c phpstan.neon
+vendor/bin/phpcs src/ --standard=PSR12
+```

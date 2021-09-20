@@ -175,7 +175,7 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
             return $this->viewResponse($this->name() . '::modules/pedigree-chart/chart', [
                 'data'          => $this->buildJsonTree($individual),
                 'configuration' => $this->configuration,
-                'chartParams'   => json_encode($this->getChartParameters($individual), JSON_THROW_ON_ERROR),
+                'chartParams'   => json_encode($this->getChartParameters()),
                 'stylesheet'    => $this->assetUrl('css/pedigree-chart.css'),
                 'svgStylesheet' => $this->assetUrl('css/svg.css'),
                 'javascript'    => $this->assetUrl('js/pedigree-chart.min.js'),
@@ -219,11 +219,9 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
     /**
      * Collects and returns the required chart data.
      *
-     * @param Individual $individual The individual used to gather the chart data
-     *
      * @return mixed[]
      */
-    private function getChartParameters(Individual $individual): array
+    private function getChartParameters(): array
     {
         return [
             'rtl'       => I18N::direction() === 'rtl',

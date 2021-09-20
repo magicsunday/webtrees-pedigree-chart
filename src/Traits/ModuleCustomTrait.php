@@ -69,7 +69,7 @@ trait ModuleCustomTrait
                         return $version;
                     }
                 }
-            } catch (RequestException $ex) {
+            } catch (RequestException $exception) {
                 // Can't connect to the server?
             }
 
