@@ -13,6 +13,7 @@ use Exception;
 use Fig\Http\Message\RequestMethodInterface;
 use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\Exceptions\IndividualNotFoundException;
+use Fisharebest\Webtrees\Family;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Module\ModuleCustomInterface;
@@ -175,7 +176,7 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
             return $this->viewResponse($this->name() . '::modules/pedigree-chart/chart', [
                 'data'          => $this->buildJsonTree($individual),
                 'configuration' => $this->configuration,
-                'chartParams'   => json_encode($this->getChartParameters()),
+                'chartParams'   => json_encode($this->getChartParameters(), JSON_THROW_ON_ERROR),
                 'stylesheet'    => $this->assetUrl('css/pedigree-chart.css'),
                 'svgStylesheet' => $this->assetUrl('css/svg.css'),
                 'javascript'    => $this->assetUrl('js/pedigree-chart.min.js'),
@@ -274,7 +275,9 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
             return [];
         }
 
-        $data   = $this->getIndividualData($individual, $generation);
+        $data = $this->getIndividualData($individual, $generation);
+
+        /** @var null|Family $family */
         $family = $individual->childFamilies()->first();
 
         if ($family === null) {
