@@ -111,8 +111,8 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
                         <button id="options"
                                 class="btn btn-primary"
                                 type="button"
-                                data-toggle="collapse"
-                                data-target="#showMoreOptions"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#showMoreOptions"
                                 aria-expanded="false"
                                 aria-controls="showMoreOptions">
                             <span><?= I18N::translate('Show more options') ?></span>
@@ -227,7 +227,7 @@ const treeLayout     = storage.read("layout");
 const ajaxUrl        = getUrl(<?= json_encode($ajaxUrl) ?>, storage.read("generations"))
 
 document.getElementById("pedigree-chart-url")
-    .setAttribute('data-ajax-url', ajaxUrl);
+    .setAttribute('data-wt-ajax-url', ajaxUrl);
 
 </script>
 <?php View::endpush(); ?>
