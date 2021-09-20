@@ -28,7 +28,7 @@ trait IndividualTrait
      *
      * @var string
      */
-    private $xpathFirstNames
+    private string $xpathFirstNames
         = '//span[@class="NAME"]//text()[parent::*[not(@class="wt-nickname")]][following::span[@class="SURN"]]';
 
     /**
@@ -36,7 +36,7 @@ trait IndividualTrait
      *
      * @var string
      */
-    private $xpathLastNames
+    private string $xpathLastNames
         = '//span[@class="NAME"]//span[@class="SURN"]/text()|//span[@class="SURN"]/following::text()';
 
     /**
@@ -44,21 +44,21 @@ trait IndividualTrait
      *
      * @var string
      */
-    private $xpathNickname = '//span[@class="NAME"]//q[@class="wt-nickname"]/text()';
+    private string $xpathNickname = '//span[@class="NAME"]//q[@class="wt-nickname"]/text()';
 
     /**
      * The XPath identifier to extract the starred name part.
      *
      * @var string
      */
-    private $xpathPreferredName = '//span[@class="NAME"]//span[@class="starredname"]/text()';
+    private string $xpathPreferredName = '//span[@class="NAME"]//span[@class="starredname"]/text()';
 
     /**
      * The XPath identifier to extract the alternative name parts.
      *
      * @var string
      */
-    private $xpathAlternativeName = '//span[contains(attribute::class, "NAME")]';
+    private string $xpathAlternativeName = '//span[contains(attribute::class, "NAME")]';
 
     /**
      * Get the individual data required for display the chart.
