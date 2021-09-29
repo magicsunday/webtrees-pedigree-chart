@@ -108,13 +108,14 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
             <div class="col-sm-12 wt-page-options-value text-center">
                 <div class="btn-toolbar justify-content-between">
                     <div class="btn-group btn-group-sm">
-                        <button class="btn btn-primary"
+                        <button id="options" class="btn btn-primary"
                                 type="button"
                                 data-bs-toggle="collapse"
                                 data-bs-target="#showMoreOptions"
                                 aria-expanded="false"
                                 aria-controls="showMoreOptions">
-                            <?= I18N::translate('More options ...') ?>
+                            <span><?= I18N::translate('Show more options') ?></span>
+                            <span class="d-none"><?= I18N::translate('Hide more options') ?></span>
                         </button>
                     </div>
 
@@ -171,36 +172,41 @@ function getUrl(baseUrl, generations)
     return url.toString();
 }
 
-/**
- * Set visibility of "Show more options" to previous state after page reload.
- *
- * @param {Storage} storage
- */
-function toggleMoreOptions(storage)
-{
-    // Handle special case with option toggle (works only with jquery)
-    let showMoreOptions = document.getElementById('showMoreOptions');
-
-    showMoreOptions.addEventListener('shown.bs.collapse', function () {
-        storage.write("showMoreOptions", true);
-    });
-
-    showMoreOptions.addEventListener('hidden.bs.collapse', function () {
-        storage.write("showMoreOptions", false);
-    });
-
-    showMoreOptions.className = "collapse " + (storage.read("showMoreOptions") ? "show" : "hide");
-}
-
+// Options container
+const showMoreOptions = document.getElementById('showMoreOptions');
+// Options toggle button
+const optionsToggle = document.getElementById('options');
 // Set up storage object
-let storage = new WebtreesPedigreeChart.Storage("webtrees-pedigree-chart");
+const storage = new WebtreesPedigreeChart.Storage("webtrees-pedigree-chart");
 
 // Register all form elements valid for storing data
 storage.register("generations");
 storage.register("showEmptyBoxes");
 storage.register("layout");
 
-toggleMoreOptions(storage);
+showMoreOptions.addEventListener('shown.bs.collapse', () => {
+  storage.write("showMoreOptions", true);
+});
+
+showMoreOptions.addEventListener('hidden.bs.collapse', () => {
+  storage.write("showMoreOptions", false);
+});
+
+const toggleText = () => {
+  Array.from(optionsToggle.children).forEach((element, index) => {
+    element.classList.toggle('d-none');
+  });
+};
+
+optionsToggle.addEventListener('click', () => {
+  optionsToggle.blur(); // needed for colors theme (see https://github.com/fisharebest/webtrees/issues/4053)
+  toggleText();
+});
+
+if (storage.read("showMoreOptions")) {
+  showMoreOptions.classList.add('show');
+  toggleText();
+}
 
 // Set initial stored value for radio button group
 let formElements = document.getElementById("webtrees-pedigree-chart-form").elements;

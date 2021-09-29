@@ -1,6 +1,8 @@
 /* Form */
-#webtrees-pedigree-chart-form #showMoreOptions.collapsing {
-    transition: none;
+
+#webtrees-pedigree-chart-form .row {
+    margin-left: 0;
+    margin-right: 0;
 }
 
 /* SVG */
