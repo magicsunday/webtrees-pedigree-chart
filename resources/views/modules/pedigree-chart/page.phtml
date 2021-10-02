@@ -108,7 +108,8 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
             <div class="col-sm-12 wt-page-options-value text-center">
                 <div class="btn-toolbar justify-content-between">
                     <div class="btn-group btn-group-sm">
-                        <button id="options" class="btn btn-primary"
+                        <button id="options"
+                                class="btn btn-primary"
                                 type="button"
                                 data-bs-toggle="collapse"
                                 data-bs-target="#showMoreOptions"
@@ -172,10 +173,44 @@ function getUrl(baseUrl, generations)
     return url.toString();
 }
 
-// Options container
-const showMoreOptions = document.getElementById('showMoreOptions');
-// Options toggle button
-const optionsToggle = document.getElementById('options');
+/**
+ * Set visibility of "Show more options" to previous state after page reload.
+ *
+ * @param {Storage} storage
+ */
+function toggleMoreOptions(storage)
+{
+    // Options container
+    const showMoreOptions = document.getElementById('showMoreOptions');
+
+    // Options toggle button
+    const optionsToggle = document.getElementById('options');
+
+    showMoreOptions.addEventListener('shown.bs.collapse', () => {
+        storage.write("showMoreOptions", true);
+    });
+
+    showMoreOptions.addEventListener('hidden.bs.collapse', () => {
+        storage.write("showMoreOptions", false);
+    });
+
+    const toggleText = () => {
+        Array.from(optionsToggle.children).forEach((element, index) => {
+            element.classList.toggle('d-none');
+        });
+    };
+
+    optionsToggle.addEventListener('click', () => {
+        optionsToggle.blur(); // needed for colors theme (see https://github.com/fisharebest/webtrees/issues/4053)
+        toggleText();
+    });
+
+    if (storage.read("showMoreOptions")) {
+        showMoreOptions.classList.add('show');
+        toggleText();
+    }
+}
+
 // Set up storage object
 const storage = new WebtreesPedigreeChart.Storage("webtrees-pedigree-chart");
 
@@ -184,29 +219,8 @@ storage.register("generations");
 storage.register("showEmptyBoxes");
 storage.register("layout");
 
-showMoreOptions.addEventListener('shown.bs.collapse', () => {
-  storage.write("showMoreOptions", true);
-});
-
-showMoreOptions.addEventListener('hidden.bs.collapse', () => {
-  storage.write("showMoreOptions", false);
-});
-
-const toggleText = () => {
-  Array.from(optionsToggle.children).forEach((element, index) => {
-    element.classList.toggle('d-none');
-  });
-};
-
-optionsToggle.addEventListener('click', () => {
-  optionsToggle.blur(); // needed for colors theme (see https://github.com/fisharebest/webtrees/issues/4053)
-  toggleText();
-});
-
-if (storage.read("showMoreOptions")) {
-  showMoreOptions.classList.add('show');
-  toggleText();
-}
+// Handle option toggle button
+toggleMoreOptions(storage);
 
 // Set initial stored value for radio button group
 let formElements = document.getElementById("webtrees-pedigree-chart-form").elements;
