@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pedigree chart\n"
-"POT-Creation-Date: 2021-09-30 11:00+0100\n"
-"PO-Revision-Date: 2021-09-30 11:00+0100\n"
+"POT-Creation-Date: 2021-10-02 14:05+0200\n"
+"PO-Revision-Date: 2021-10-02 14:05+0200\n"
 "Last-Translator: TheDutchJewel <thedutchjewel@gmail.com>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -16,38 +16,38 @@ msgstr ""
 "X-Poedit-SearchPath-0: src\n"
 "X-Poedit-SearchPath-1: resources/views\n"
 
-#: src/Module.php:109 src/Module.php:210
+#: src/Module.php:110 src/Module.php:211
 msgid "Pedigree chart"
 msgstr "Kwartierstaat"
 
-#: src/Module.php:119
+#: src/Module.php:120
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "Een kwartierstaat van de voorouders van een persoon."
 
-#: src/Module.php:213 src/Traits/ModuleChartTrait.php:38
+#: src/Module.php:214 src/Traits/ModuleChartTrait.php:38
 #, php-format
 msgid "Pedigree chart of %s"
 msgstr "Kwartierstaat van %s"
 
-#: src/Module.php:230
+#: src/Module.php:231
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Gebruik Ctrl + scroll om in te zoomen op de weergave"
 
-#: src/Module.php:231
+#: src/Module.php:232
 msgid "Move the view with two fingers"
 msgstr "Verplaats de weergave met twee vingers"
 
-#: src/Traits/IndividualTrait.php:117
+#: src/Traits/IndividualTrait.php:148
 #, php-format
 msgid "Born: %s"
 msgstr "Geboren: %s"
 
-#: src/Traits/IndividualTrait.php:121
+#: src/Traits/IndividualTrait.php:152
 #, php-format
 msgid "Died: %s"
 msgstr "Overleden: %s"
 
-#: src/Traits/IndividualTrait.php:125
+#: src/Traits/IndividualTrait.php:156
 msgid "Deceased"
 msgstr "Overleden"
 
@@ -90,26 +90,26 @@ msgstr ""
 "Lege vakken weergeven voor ontbrekende personen. Let op: kan uw systeem "
 "vertragen!"
 
-#: resources/views/modules/pedigree-chart/page.phtml:117
+#: resources/views/modules/pedigree-chart/page.phtml:118
 msgid "Show more options"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/page.phtml:118
+#: resources/views/modules/pedigree-chart/page.phtml:119
 msgid "Hide more options"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/page.phtml:123
+#: resources/views/modules/pedigree-chart/page.phtml:124
 msgid "view"
 msgstr "weergeven"
 
-#: resources/views/modules/pedigree-chart/page.phtml:129
+#: resources/views/modules/pedigree-chart/page.phtml:130
 msgid "Re center"
 msgstr "Opnieuw centreren"
 
-#: resources/views/modules/pedigree-chart/page.phtml:134
+#: resources/views/modules/pedigree-chart/page.phtml:135
 msgid "Export as PNG"
 msgstr "Exporteren als PNG"
 
-#: resources/views/modules/pedigree-chart/page.phtml:137
+#: resources/views/modules/pedigree-chart/page.phtml:138
 msgid "Export as SVG"
 msgstr "Exporteren als SVG"

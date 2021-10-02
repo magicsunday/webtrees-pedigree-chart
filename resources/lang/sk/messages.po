@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pedigree chart\n"
-"POT-Creation-Date: 2021-09-30 11:02+0100\n"
-"PO-Revision-Date: 2021-09-30 11:02+0100\n"
+"POT-Creation-Date: 2021-10-02 14:05+0200\n"
+"PO-Revision-Date: 2021-10-02 14:05+0200\n"
 "Last-Translator: Slavko <linux@slavino.sk>\n"
 "Language-Team: slovenčina <linux@slavino.sk>\n"
 "Language: sk\n"
@@ -19,38 +19,38 @@ msgstr ""
 "X-Poedit-SearchPath-0: src\n"
 "X-Poedit-SearchPath-1: resources/views\n"
 
-#: src/Module.php:109 src/Module.php:210
+#: src/Module.php:110 src/Module.php:211
 msgid "Pedigree chart"
 msgstr "Rodokmeň"
 
-#: src/Module.php:119
+#: src/Module.php:120
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "Rodokmeň predkov jednotlivca"
 
-#: src/Module.php:213 src/Traits/ModuleChartTrait.php:38
+#: src/Module.php:214 src/Traits/ModuleChartTrait.php:38
 #, php-format
 msgid "Pedigree chart of %s"
 msgstr "Rodokmeň %s"
 
-#: src/Module.php:230
+#: src/Module.php:231
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Použite Ctrl + scroll na zväčšenie zobrazenia"
 
-#: src/Module.php:231
+#: src/Module.php:232
 msgid "Move the view with two fingers"
 msgstr "Presunúť pohľad dvomi prstami"
 
-#: src/Traits/IndividualTrait.php:117
+#: src/Traits/IndividualTrait.php:148
 #, php-format
 msgid "Born: %s"
 msgstr "Narodenie: %s"
 
-#: src/Traits/IndividualTrait.php:121
+#: src/Traits/IndividualTrait.php:152
 #, php-format
 msgid "Died: %s"
 msgstr "Úmrtie: %s"
 
-#: src/Traits/IndividualTrait.php:125
+#: src/Traits/IndividualTrait.php:156
 msgid "Deceased"
 msgstr "Mŕtvy/a"
 
@@ -90,26 +90,26 @@ msgstr "Rozloženie"
 msgid "Show empty boxes for missing individuals. Caution: May slow down your system!"
 msgstr "Zobraziť prázdne položky chýbajúcich osôb. Pozor: môže spomaliť váš systém!"
 
-#: resources/views/modules/pedigree-chart/page.phtml:117
+#: resources/views/modules/pedigree-chart/page.phtml:118
 msgid "Show more options"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/page.phtml:118
+#: resources/views/modules/pedigree-chart/page.phtml:119
 msgid "Hide more options"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/page.phtml:123
+#: resources/views/modules/pedigree-chart/page.phtml:124
 msgid "view"
 msgstr "zobraziť"
 
-#: resources/views/modules/pedigree-chart/page.phtml:129
+#: resources/views/modules/pedigree-chart/page.phtml:130
 msgid "Re center"
 msgstr "Znova vycentrovať"
 
-#: resources/views/modules/pedigree-chart/page.phtml:134
+#: resources/views/modules/pedigree-chart/page.phtml:135
 msgid "Export as PNG"
 msgstr "Exportovať ako PNG"
 
-#: resources/views/modules/pedigree-chart/page.phtml:137
+#: resources/views/modules/pedigree-chart/page.phtml:138
 msgid "Export as SVG"
 msgstr "Exportovať ako SVG"

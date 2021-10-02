@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pedigree chart\n"
-"POT-Creation-Date: 2021-09-30 11:04+0100\n"
-"PO-Revision-Date: 2021-09-30 11:04+0100\n"
+"POT-Creation-Date: 2021-10-02 14:05+0200\n"
+"PO-Revision-Date: 2021-10-02 14:05+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: vi_VN\n"
@@ -16,38 +16,38 @@ msgstr ""
 "X-Poedit-SearchPath-0: src\n"
 "X-Poedit-SearchPath-1: resources/views\n"
 
-#: src/Module.php:109 src/Module.php:210
+#: src/Module.php:110 src/Module.php:211
 msgid "Pedigree chart"
 msgstr "Biểu đồ phả hệ"
 
-#: src/Module.php:119
+#: src/Module.php:120
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "Biểu đồ phả hệ của tổ tiên của một cá nhân."
 
-#: src/Module.php:213 src/Traits/ModuleChartTrait.php:38
+#: src/Module.php:214 src/Traits/ModuleChartTrait.php:38
 #, php-format
 msgid "Pedigree chart of %s"
 msgstr "Biểu đồ phả hệ của %s"
 
-#: src/Module.php:230
+#: src/Module.php:231
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Sử dụng Ctrl + cuộn để phóng to chế độ xem"
 
-#: src/Module.php:231
+#: src/Module.php:232
 msgid "Move the view with two fingers"
 msgstr "Di chuyển tầm nhìn bằng hai ngón tay"
 
-#: src/Traits/IndividualTrait.php:117
+#: src/Traits/IndividualTrait.php:148
 #, php-format
 msgid "Born: %s"
 msgstr "Sinh: %s"
 
-#: src/Traits/IndividualTrait.php:121
+#: src/Traits/IndividualTrait.php:152
 #, php-format
 msgid "Died: %s"
 msgstr "Mất: %s"
 
-#: src/Traits/IndividualTrait.php:125
+#: src/Traits/IndividualTrait.php:156
 msgid "Deceased"
 msgstr "Người mất"
 
@@ -90,26 +90,26 @@ msgstr ""
 "Hiển thị các ô trống cho các cá nhân không có thông tin. Thận trọng: Có thể "
 "làm chậm hệ thống của bạn!"
 
-#: resources/views/modules/pedigree-chart/page.phtml:117
+#: resources/views/modules/pedigree-chart/page.phtml:118
 msgid "Show more options"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/page.phtml:118
+#: resources/views/modules/pedigree-chart/page.phtml:119
 msgid "Hide more options"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/page.phtml:123
+#: resources/views/modules/pedigree-chart/page.phtml:124
 msgid "view"
 msgstr "Xem biểu đồ"
 
-#: resources/views/modules/pedigree-chart/page.phtml:129
+#: resources/views/modules/pedigree-chart/page.phtml:130
 msgid "Re center"
 msgstr "Chỉnh biểu đồ về giữa màn hình"
 
-#: resources/views/modules/pedigree-chart/page.phtml:134
+#: resources/views/modules/pedigree-chart/page.phtml:135
 msgid "Export as PNG"
 msgstr "Xuất định dạng PNG"
 
-#: resources/views/modules/pedigree-chart/page.phtml:137
+#: resources/views/modules/pedigree-chart/page.phtml:138
 msgid "Export as SVG"
 msgstr "Xuất định dạng SVG"

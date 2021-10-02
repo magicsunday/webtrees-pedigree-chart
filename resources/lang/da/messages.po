@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pedigree chart\n"
-"POT-Creation-Date: 2021-09-30 10:55+0100\n"
-"PO-Revision-Date: 2021-09-30 10:55+0100\n"
+"POT-Creation-Date: 2021-10-02 14:04+0200\n"
+"PO-Revision-Date: 2021-10-02 14:05+0200\n"
 "Last-Translator: Rico Sonntag <mail@ricosonntag.de>\n"
 "Language-Team: \n"
 "Language: da\n"
@@ -16,38 +16,38 @@ msgstr ""
 "X-Poedit-SearchPath-0: src\n"
 "X-Poedit-SearchPath-1: resources/views\n"
 
-#: src/Module.php:109 src/Module.php:210
+#: src/Module.php:110 src/Module.php:211
 msgid "Pedigree chart"
 msgstr "Stamtavle"
 
-#: src/Module.php:119
+#: src/Module.php:120
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "En stamtavle over en persons forfædre."
 
-#: src/Module.php:213 src/Traits/ModuleChartTrait.php:38
+#: src/Module.php:214 src/Traits/ModuleChartTrait.php:38
 #, php-format
 msgid "Pedigree chart of %s"
 msgstr "Stamtavle for %s"
 
-#: src/Module.php:230
+#: src/Module.php:231
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Brug Ctrl + scroll for at zoome i visningen"
 
-#: src/Module.php:231
+#: src/Module.php:232
 msgid "Move the view with two fingers"
 msgstr "Flyt visningen med to fingre"
 
-#: src/Traits/IndividualTrait.php:117
+#: src/Traits/IndividualTrait.php:148
 #, php-format
 msgid "Born: %s"
 msgstr "Født: %s"
 
-#: src/Traits/IndividualTrait.php:121
+#: src/Traits/IndividualTrait.php:152
 #, php-format
 msgid "Died: %s"
 msgstr "Død: %s"
 
-#: src/Traits/IndividualTrait.php:125
+#: src/Traits/IndividualTrait.php:156
 msgid "Deceased"
 msgstr "Død"
 
@@ -90,26 +90,26 @@ msgstr ""
 "Vis tomme bokse for manglende personer. Advarsel: Kan muligvis gøre dit "
 "system langsomt!"
 
-#: resources/views/modules/pedigree-chart/page.phtml:117
+#: resources/views/modules/pedigree-chart/page.phtml:118
 msgid "Show more options"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/page.phtml:118
+#: resources/views/modules/pedigree-chart/page.phtml:119
 msgid "Hide more options"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/page.phtml:123
+#: resources/views/modules/pedigree-chart/page.phtml:124
 msgid "view"
 msgstr "vis"
 
-#: resources/views/modules/pedigree-chart/page.phtml:129
+#: resources/views/modules/pedigree-chart/page.phtml:130
 msgid "Re center"
 msgstr "Gen-centrer"
 
-#: resources/views/modules/pedigree-chart/page.phtml:134
+#: resources/views/modules/pedigree-chart/page.phtml:135
 msgid "Export as PNG"
 msgstr "Eksporter som PNG"
 
-#: resources/views/modules/pedigree-chart/page.phtml:137
+#: resources/views/modules/pedigree-chart/page.phtml:138
 msgid "Export as SVG"
 msgstr "Eksporter som SVG"
