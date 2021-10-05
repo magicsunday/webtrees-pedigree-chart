@@ -175,6 +175,7 @@ function getUrl(baseUrl, generations)
 
 /**
  * Set visibility of "Show more options" to previous state after page reload.
+ * Toggle text on "Show more options" on click.
  *
  * @param {Storage} storage
  */
@@ -194,20 +195,14 @@ function toggleMoreOptions(storage)
         storage.write("showMoreOptions", false);
     });
 
-    const toggleText = () => {
-        Array.from(optionsToggle.children).forEach((element, index) => {
-            element.classList.toggle('d-none');
-        });
-    };
-
     optionsToggle.addEventListener('click', () => {
-        optionsToggle.blur(); // needed for colors theme (see https://github.com/fisharebest/webtrees/issues/4053)
-        toggleText();
+      Array.from(optionsToggle.children).forEach((element, index) => {
+        element.classList.toggle('d-none');
+      });
     });
 
     if (storage.read("showMoreOptions")) {
-        showMoreOptions.classList.add('show');
-        toggleText();
+      optionsToggle.click()
     }
 }
 
