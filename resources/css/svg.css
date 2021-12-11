@@ -16,21 +16,24 @@
 }
 
 #webtrees-pedigree-chart-container svg rect.female {
-    stroke: rgb(255, 32, 128);
+    stroke: var(--sex-f-fg, rgb(255, 32, 128));
     stroke-dasharray: none;
     stroke-width: 3px;
+    fill: var(--sex-f-bg, rgb(233, 218, 241));
 }
 
 #webtrees-pedigree-chart-container svg rect.male {
-    stroke: rgb(129, 169, 203);
+    stroke: var(--sex-m-fg, rgb(129, 169, 203));
     stroke-dasharray: none;
     stroke-width: 3px;
+    fill: var(--sex-m-bg, rgb(237, 247, 253));
 }
 
 #webtrees-pedigree-chart-container svg rect.unknown {
-    stroke: rgb(175, 175, 175);
+    stroke: var(--sex-u-fg, rgb(129, 169, 203));
     stroke-dasharray: 5;
     stroke-width: 3px;
+    fill: var(--sex-u-bg, rgb(255, 255, 255));
 }
 
 #webtrees-pedigree-chart-container svg rect.image {

@@ -9,11 +9,12 @@ declare(strict_types=1);
 namespace MagicSunday\Webtrees\PedigreeChart;
 
 use Aura\Router\RouterContainer;
-use Exception;
 use Fig\Http\Message\RequestMethodInterface;
 use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\Contracts\UserInterface;
 use Fisharebest\Webtrees\Family;
+use Fisharebest\Webtrees\Http\Exceptions\HttpAccessDeniedException;
+use Fisharebest\Webtrees\Http\Exceptions\HttpNotFoundException;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Module\ModuleCustomInterface;
@@ -139,7 +140,9 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
      * @param ServerRequestInterface $request
      *
      * @return ResponseInterface
-     * @throws Exception
+     *
+     * @throws HttpNotFoundException
+     * @throws HttpAccessDeniedException
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
@@ -231,9 +234,8 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
     private function getChartParameters(): array
     {
         return [
-            'rtl'       => I18N::direction() === 'rtl',
-            'fontColor' => $this->getChartFontColor(),
-            'labels'    => [
+            'rtl'    => I18N::direction() === 'rtl',
+            'labels' => [
                 'zoom' => I18N::translate('Use Ctrl + scroll to zoom in the view'),
                 'move' => I18N::translate('Move the view with two fingers'),
             ],
@@ -336,28 +338,5 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
         }
 
         return false;
-    }
-
-    /**
-     * Get the default colors based on the gender of an individual.
-     *
-     * @param null|Individual $individual Individual instance
-     *
-     * @return string HTML color code
-     */
-    private function getColor(?Individual $individual): string
-    {
-        $genderLower = ($individual === null) ? 'u' : strtolower($individual->sex());
-        return '#' . $this->theme->parameter('chart-background-' . $genderLower);
-    }
-
-    /**
-     * Get the theme defined chart font color.
-     *
-     * @return string HTML color code
-     */
-    private function getChartFontColor(): string
-    {
-        return '#' . $this->theme->parameter('chart-font-color');
     }
 }
