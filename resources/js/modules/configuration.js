@@ -19,8 +19,6 @@ export default class Configuration
      *
      * @param {String[]} labels
      * @param {Number}   generations
-     * @param {String}   defaultColor
-     * @param {String}   fontColor
      * @param {Boolean}  showEmptyBoxes
      * @param {String}   treeLayout
      * @param {Boolean}  rtl
@@ -29,8 +27,6 @@ export default class Configuration
     constructor(
         labels,
         generations = 4,
-        defaultColor = "rgb(240, 240, 240)",
-        fontColor = "rgb(0, 0, 0)",
         showEmptyBoxes = false,
         treeLayout = LAYOUT_LEFTRIGHT,
         rtl = false,
@@ -61,13 +57,10 @@ export default class Configuration
         // Left/Right padding of text (used with truncation)
         this.textPadding = 8;
 
-        // Default background color of an arc
-        this.defaultColor = defaultColor;
-
         // // Default font size, color and scaling
         this._fontSize  = 14;
         // this._fontScale = fontScale;
-        this.fontColor = fontColor;
+        this.fontColor = "rgb(0, 0, 0)";
 
         this._showEmptyBoxes  = showEmptyBoxes;
 

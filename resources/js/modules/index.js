@@ -23,8 +23,6 @@ export class PedigreeChart
      *
      * @param {String[]} options.labels
      * @param {Number}   options.generations
-     * @param {String}   options.defaultColor
-     * @param {String}   options.fontColor
      * @param {Boolean}  options.showEmptyBoxes
      * @param {String}   options.treeLayout
      * @param {Boolean}  options.rtl
@@ -38,8 +36,6 @@ export class PedigreeChart
         this._configuration = new Configuration(
             options.labels,
             options.generations,
-            options.defaultColor,
-            options.fontColor,
             options.showEmptyBoxes,
             options.treeLayout,
             options.rtl
