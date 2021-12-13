@@ -18,11 +18,11 @@ use Fisharebest\Webtrees\Http\Exceptions\HttpNotFoundException;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Module\ModuleCustomInterface;
-use Fisharebest\Webtrees\Module\ModuleThemeInterface;
 use Fisharebest\Webtrees\Module\PedigreeChartModule;
 use Fisharebest\Webtrees\Registry;
 use Fisharebest\Webtrees\Tree;
 use Fisharebest\Webtrees\View;
+use JsonException;
 use MagicSunday\Webtrees\PedigreeChart\Traits\IndividualTrait;
 use MagicSunday\Webtrees\PedigreeChart\Traits\ModuleChartTrait;
 use MagicSunday\Webtrees\PedigreeChart\Traits\ModuleCustomTrait;
@@ -78,13 +78,6 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
     private $configuration;
 
     /**
-     * The current theme instance.
-     *
-     * @var ModuleThemeInterface
-     */
-    private $theme;
-
-    /**
      * Initialization.
      */
     public function boot(): void
@@ -95,10 +88,6 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
         $routerContainer->getMap()
             ->get(self::ROUTE_DEFAULT, self::ROUTE_DEFAULT_URL, $this)
             ->allows(RequestMethodInterface::METHOD_POST);
-
-        /** @var ModuleThemeInterface $theme */
-        $theme = app(ModuleThemeInterface::class);
-        $this->theme = $theme;
 
         View::registerNamespace($this->name(), $this->resourcesFolder() . 'views/');
         View::registerCustomView('::modules/charts/chart', $this->name() . '::modules/charts/chart');
@@ -141,8 +130,7 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
      *
      * @return ResponseInterface
      *
-     * @throws HttpNotFoundException
-     * @throws HttpAccessDeniedException
+     * @throws JsonException
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {

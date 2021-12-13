@@ -23,7 +23,7 @@ is capable to display up to 25 ancestor generations of an individual.
 **Caution: If you are rendering a lot of generations it may take a while and even slow down your system.**
 
 ## Installation
-Requires webtrees 2.0.
+Requires webtrees 2.1.
 
 ### Using Composer
 To install using [composer](https://getcomposer.org/), just run the following command from the command line 
