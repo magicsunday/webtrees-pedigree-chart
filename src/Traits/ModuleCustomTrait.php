@@ -40,11 +40,6 @@ trait ModuleCustomTrait
         return self::CUSTOM_LATEST_VERSION;
     }
 
-    /**
-     * Fetch the latest version of this module.
-     *
-     * @return string
-     */
     public function customModuleLatestVersion(): string
     {
         // No update URL provided.
@@ -52,29 +47,42 @@ trait ModuleCustomTrait
             return $this->customModuleVersion();
         }
 
-        return Registry::cache()->file()->remember($this->name() . '-latest-version', function () {
-            try {
-                $client = new Client([
-                    'timeout' => 3,
-                ]);
+        return Registry::cache()
+            ->file()
+            ->remember(
+                $this->name() . '-latest-version',
+                function (): string {
+                    try {
+                        $client = new Client([
+                            'timeout' => 3,
+                        ]);
 
-                $response = $client->get($this->customModuleLatestVersionUrl());
+                        $response = $client->get($this->customModuleLatestVersionUrl());
 
-                if ($response->getStatusCode() === StatusCodeInterface::STATUS_OK) {
-                    $json    = json_decode($response->getBody()->getContents(), true);
-                    $version = $json['tag_name'];
+                        if ($response->getStatusCode() === StatusCodeInterface::STATUS_OK) {
+                            $json = json_decode(
+                                $response->getBody()->getContents(),
+                                true
+                            );
 
-                    // Does the response look like a version?
-                    if (preg_match('/^\d+\.\d+\.\d+/', $json['tag_name'])) {
-                        return $version;
+                            if (is_array($json)) {
+                                /** @var string $version */
+                                $version = $json['tag_name'] ?? '';
+
+                                // Does the response look like a version?
+                                if (preg_match('/^\d+\.\d+\.\d+/', $version)) {
+                                    return $version;
+                                }
+                            }
+                        }
+                    } catch (RequestException $exception) {
+                        // Can't connect to the server?
                     }
-                }
-            } catch (RequestException $exception) {
-                // Can't connect to the server?
-            }
 
-            return $this->customModuleVersion();
-        }, 86400);
+                    return $this->customModuleVersion();
+                },
+                86400
+            );
     }
 
     public function customModuleSupportUrl(): string

@@ -24,14 +24,40 @@ use Fisharebest\Webtrees\Individual;
 trait IndividualTrait
 {
     /**
-     * The XPath identifiers to extract the name parts.
+     * The XPath identifier to extract the first name parts.
+     *
+     * @var string
      */
-    private $xpathFirstNames = '//text()[following::span[@class="SURN"]][normalize-space()]';
-    private $xpathLastNames
-        = '//text()[parent::*[not(@class="wt-nickname")]][not(following::span[@class="SURN"])][normalize-space()]';
+    private $xpathFirstNames
+        = '//span[@class="NAME"]//text()[parent::*[not(@class="wt-nickname")]][following::span[@class="SURN"]]';
 
-    private $xpathNickname = '//q[@class="wt-nickname"]';
-    private $xpathPreferredName = '//span[@class="starredname"]';
+    /**
+     * The XPath identifier to extract the last name parts (surname + surname suffix).
+     *
+     * @var string
+     */
+    private $xpathLastNames
+        = '//span[@class="NAME"]//span[@class="SURN"]/text()|//span[@class="SURN"]/following::text()';
+
+    /**
+     * The XPath identifier to extract the nickname part.
+     *
+     * @var string
+     */
+    private $xpathNickname = '//span[@class="NAME"]//q[@class="wt-nickname"]/text()';
+
+    /**
+     * The XPath identifier to extract the starred name part.
+     *
+     * @var string
+     */
+    private $xpathPreferredName = '//span[@class="NAME"]//span[@class="starredname"]/text()';
+
+    /**
+     * The XPath identifier to extract the alternative name parts.
+     *
+     * @var string
+     */
     private $xpathAlternativeName = '//span[contains(attribute::class, "NAME")]';
 
     /**
@@ -40,7 +66,7 @@ trait IndividualTrait
      * @param Individual $individual The current individual
      * @param int        $generation The generation the person belongs to
      *
-     * @return mixed[]
+     * @return array<string, array<string>|bool|int|string>
      */
     private function getIndividualData(Individual $individual, int $generation): array
     {
@@ -87,7 +113,6 @@ trait IndividualTrait
             'death'            => $this->decodeValue($individual->getDeathDate()->display()),
             'timespan'         => $this->getLifetimeDescription($individual),
             'color'            => $this->getColor($individual),
-            'colors'           => [[], []],
         ];
     }
 

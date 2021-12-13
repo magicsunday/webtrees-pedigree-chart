@@ -628,6 +628,14 @@ export default class Tree
             this.addFirstNames(text1, datum);
             this.addLastNames(text2, datum);
 
+            if (!datum.data.firstNames.length
+                && !datum.data.lastNames.length
+            ) {
+                // If both first and last names are empty, add the full name as alternative
+                text1.append("tspan")
+                    .text(datum.data.name);
+            }
+
             this.truncateNames(text1);
             this.truncateNames(text2);
 
@@ -640,6 +648,15 @@ export default class Tree
 
             this.addFirstNames(text1, datum);
             this.addLastNames(text1, datum, 0.25);
+
+            if (!datum.data.firstNames.length
+                && !datum.data.lastNames.length
+            ) {
+                // If both first and last names are empty, add the full name as alternative
+                text1.append("tspan")
+                    .text(datum.data.name);
+            }
+
             this.truncateNames(text1);
         }
     }

@@ -1,11 +1,13 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
 
-[![PHPStan](https://img.shields.io/badge/PHPStan-level%205-brightgreen.svg?style=flat)](https://github.com/phpstan/phpstan)
-[![PHP_CodeSniffer](https://img.shields.io/badge/PHP_CodeSniffer-PSR12-brightgreen.svg?style=flat)](https://github.com/squizlabs/PHP_CodeSniffer)
+[![PHPStan](https://github.com/magicsunday/webtrees-pedigree-chart/actions/workflows/phpstan.yml/badge.svg)](https://github.com/magicsunday/webtrees-pedigree-chart/actions/workflows/phpstan.yml)
+[![PHP_CodeSniffer](https://github.com/magicsunday/webtrees-pedigree-chart/actions/workflows/phpcs.yml/badge.svg)](https://github.com/magicsunday/webtrees-pedigree-chart/actions/workflows/phpcs.yml)
+
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/magicsunday/webtrees-pedigree-chart/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/magicsunday/webtrees-pedigree-chart/?branch=master)
 [![Build Status](https://scrutinizer-ci.com/g/magicsunday/webtrees-pedigree-chart/badges/build.png?b=master)](https://scrutinizer-ci.com/g/magicsunday/webtrees-pedigree-chart/build-status/master)
 [![Code Climate](https://codeclimate.com/github/magicsunday/webtrees-pedigree-chart/badges/gpa.svg)](https://codeclimate.com/github/magicsunday/webtrees-pedigree-chart)
 [![Issue Count](https://codeclimate.com/github/magicsunday/webtrees-pedigree-chart/badges/issue_count.svg)](https://codeclimate.com/github/magicsunday/webtrees-pedigree-chart)
+
 
 # Pedigree chart
 This module provides an SVG pedigree chart for the [webtrees](https://www.webtrees.net) genealogy application. It 
