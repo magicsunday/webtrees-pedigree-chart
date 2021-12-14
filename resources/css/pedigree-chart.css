@@ -1,10 +1,5 @@
 /* Form */
 
-#webtrees-pedigree-chart-form .row {
-    margin-left: 0;
-    margin-right: 0;
-}
-
 /* SVG */
 #webtrees-pedigree-chart-container {
     position: relative;
@@ -29,52 +24,8 @@
     /*cursor: -webkit-grabbing;*/
 }
 
-/*#webtrees-pedigree-chart-container .person a.gallery img,*/
-/*#webtrees-pedigree-chart-container .person a.gallery {*/
-/*    float: left;*/
-/*    height: 50px;*/
-/*    margin: 0 2px 0 0;*/
-/*    max-width: 80px;*/
-/*    width: auto;*/
-/*}*/
-
-#webtrees-pedigree-chart-container .rtl {
-    direction: rtl !important;
-    unicode-bidi: bidi-override !important;
-}
-
-#webtrees-pedigree-chart-container svg text {
-    font-weight: bold;
-}
-
-/* Unset any style from our transition helper classes */
-/*#webtrees-pedigree-chart-container svg .new,*/
-/*#webtrees-pedigree-chart-container svg .remove,*/
-/*#webtrees-pedigree-chart-container svg .update,*/
-/*#webtrees-pedigree-chart-container svg .old {*/
-/*    all: unset;*/
-/*}*/
-
 #webtrees-pedigree-chart-container svg .person {
     cursor: pointer;
-}
-
-#webtrees-pedigree-chart-container svg .label {
-    font-weight: normal;
-}
-
-#webtrees-pedigree-chart-container svg .label .alternativeName {
-    fill: #7f7f7f;
-    font-weight: normal;
-    direction: ltr;
-    unicode-bidi: normal;
-}
-
-#webtrees-pedigree-chart-container svg .label .date {
-    fill: #7f7f7f;
-    font-weight: normal;
-    direction: ltr;
-    unicode-bidi: plaintext;
 }
 
 #webtrees-pedigree-chart-container svg rect.background {

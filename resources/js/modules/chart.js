@@ -163,7 +163,8 @@ export default class Chart
      */
     bindClickEventListener()
     {
-        var that = this;
+        let that = this;
+
         this._svg.visual
             .selectAll("g.person")
             .filter((d) => d.data.xref !== "")

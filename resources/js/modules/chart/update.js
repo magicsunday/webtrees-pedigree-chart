@@ -53,15 +53,20 @@ export default class Update
             this._hierarchy.init(data);
             that.draw();
 
-            var indSelector = $(document.getElementById('xref'));
+            let indSelector = $(document.getElementById("xref"));
+
             $.ajax({
-                type: 'POST',
+                type: "POST",
                 url: indSelector.attr("data-ajax--url"),
-                data: { q : data.xref }
+                data: {
+                    q : data.xref
+                }
             }).then(function (data) {
-                // create the option and append to Select2
-                var option = new Option(data.results[0].text, data.results[0].id, true, true);
-                indSelector.append(option).trigger('change');
+                // Create the option and append to Select2
+                let option = new Option(data.results[0].text, data.results[0].id, true, true);
+
+                indSelector.append(option);
+                indSelector.trigger("change");
             });
         });
     }
