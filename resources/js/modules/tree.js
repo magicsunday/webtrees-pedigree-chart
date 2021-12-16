@@ -20,7 +20,7 @@ export default class Tree
      *
      * @param {Svg}           svg
      * @param {Configuration} configuration The configuration
-     * @param {Hierarchy}     hierarchy     The hierarchiecal data
+     * @param {Hierarchy}     hierarchy     The hierarchical data
      */
     constructor(svg, configuration, hierarchy)
     {
@@ -38,6 +38,8 @@ export default class Tree
 
     /**
      * Draw the tree.
+     *
+     * @param {Object} source The root object
      *
      * @public
      */
@@ -98,7 +100,8 @@ export default class Tree
     /**
      * Draw the person boxes.
      *
-     * @param {Array} nodes Array of descendant nodes
+     * @param {Array}  nodes  Array of descendant nodes
+     * @param {Object} source The root object
      *
      * @private
      */
@@ -107,18 +110,19 @@ export default class Tree
         let i = 0;
         let that = this;
 
-        let clipPath = this._svg
+        // Image clip path
+        this._svg
             .defs
             .get()
-            .append('clipPath')
-            .attr('id', 'clip-rect')
+            .append("clipPath")
+            .attr("id", "clip-image")
             .append("rect")
-            .attr("rx", that._orientation.imageCornerRadius())
-            .attr("ry", that._orientation.imageCornerRadius())
-            .attr("x", that._orientation.imageX())
-            .attr("y", that._orientation.imageY())
-            .attr("width", that._orientation.imageWidth())
-            .attr("height", that._orientation.imageHeight());
+            .attr("rx", this._orientation.imageCornerRadius())
+            .attr("ry", this._orientation.imageCornerRadius())
+            .attr("x", this._orientation.imageX())
+            .attr("y", this._orientation.imageY())
+            .attr("width", this._orientation.imageWidth())
+            .attr("height", this._orientation.imageHeight());
 
         let t = this._svg.visual
             .transition()
@@ -174,7 +178,7 @@ export default class Tree
                     .append("g")
                     .attr("class", "image");
 
-                // Background (only required if thumbnail has transparency (like the silhouettes))
+                // Background of image (only required if thumbnail has transparency (like the silhouettes))
                 group
                     .append("rect")
                     .attr("rx", that._orientation.imageCornerRadius())
@@ -192,7 +196,7 @@ export default class Tree
                     .attr("y", that._orientation.imageY())
                     .attr("width", that._orientation.imageWidth())
                     .attr("height", that._orientation.imageHeight())
-                    .attr("clip-path", "url(#clip-rect)");
+                    .attr("clip-path", "url(#clip-image)");
 
                 dataUrl(that.getImageToLoad(d))
                     .then(dataUrl => image.attr("xlink:href", dataUrl))
@@ -200,7 +204,7 @@ export default class Tree
                         console.error(exception);
                     });
 
-                // Border
+                // Border around image
                 group
                     .append("rect")
                     .attr("rx", that._orientation.imageCornerRadius())
@@ -419,14 +423,10 @@ export default class Tree
     }
 
     /**
-     * Collapse person (hide their ancestors). We recursively
-     * collapse the ancestors so that when the person is
-     * expanded it will only reveal one generation. If we don't
-     * recursively collapse the ancestors then when
-     * the person is clicked on again to expand, all ancestors
-     * that were previously showing will be shown again.
-     * If you want that behavior then just remove the recursion
-     * by removing the if block.
+     * Collapse person (hide their ancestors). We recursively collapse the ancestors so that when the person is
+     * expanded it will only reveal one generation. If we don't recursively collapse the ancestors then when
+     * the person is clicked on again to expand, all ancestors that were previously showing will be shown again.
+     * If you want that behavior then just remove the recursion by removing the if block.
      */
     collapse(person)
     {
@@ -510,47 +510,29 @@ export default class Tree
      * Loops over the <tspan> elements and truncates the contained texts.
      *
      * @param {Selection} parent The parent (<text> or <textPath>) element to which the <tspan> elements are attached
-     * @param {Boolean}   hide   Whether to show or hide the label if the text takes to much space to be displayed
      */
-    truncateNames(parent, hide = false)
+    truncateNames(parent)
     {
+        // The total available width that the text can occupy
         let availableWidth = this._orientation.textWidth();
 
         // Select all not preferred and not last names
-        this.truncateListOfNames(
-            parent.selectAll("tspan:not(.preferred):not(.lastName)"),
-            parent,
-            availableWidth,
-            hide
-        );
+        // Start truncating from last element to the first one
+        parent.selectAll("tspan:not(.preferred):not(.lastName)")
+            .nodes()
+            .reverse()
+            .forEach(element =>
+                d3.select(element)
+                    .each(this.truncateText(parent, availableWidth))
+            );
 
-        // Afterwards the preferred ones if text takes still to much space
+        // Afterwards the preferred ones if text takes still too much space
         parent.selectAll("tspan.preferred")
-            .each(this.truncateText(parent, availableWidth, hide));
+            .each(this.truncateText(parent, availableWidth));
 
         // Truncate lastnames
         parent.selectAll("tspan.lastName")
-            .each(this.truncateText(parent, availableWidth, hide));
-    }
-
-    /**
-     *
-     * @param {Selection} names          A selection of name elements
-     * @param {Selection} parent         The parent (<text> or <textPath>) element to which the <tspan> elements are attached
-     * @param {Number}    availableWidth The total available width the text could take
-     * @param {Boolean}   hide           Whether to show or hide the label if the text takes to much space to be displayed
-     */
-    truncateListOfNames(names, parent, availableWidth, hide)
-    {
-        if (names.size()) {
-            // Start truncating from last element to the first one
-            names.nodes()
-                .reverse()
-                .forEach(element => {
-                    d3.select(element)
-                        .each(this.truncateText(parent, availableWidth, hide));
-                });
-        }
+            .each(this.truncateText(parent, availableWidth));
     }
 
     /**
@@ -558,9 +540,38 @@ export default class Tree
      *
      * @param {Selection} parent         The parent (<text> or <textPath>) element containing the <tspan> child elements
      * @param {Number}    availableWidth The total available width the text could take
-     * @param {Boolean}   hide           Whether to show or hide the label if the text takes to much space to be displayed
      */
-    truncateText(parent, availableWidth, hide = false)
+    truncateText(parent, availableWidth)
+    {
+        let that = this;
+
+        return function () {
+            let textLength = that.getTextLength(parent);
+            let tspan      = d3.select(this);
+            let words      = tspan.text().split(/\s+/);
+
+            // If the <tspan> contains multiple words split them until available width matches
+            for (let i = words.length - 1; i >= 0; --i) {
+                if (textLength > availableWidth) {
+                    // Keep only the first letter
+                    words[i] = words[i].slice(0, 1) + ".";
+
+                    tspan.text(words.join(" "));
+
+                    // Recalculate text length
+                    textLength = that.getTextLength(parent);
+                }
+            }
+        };
+    }
+
+    /**
+     * Truncates a date value.
+     *
+     * @param {Selection} parent         The parent (<text> or <textPath>) element containing the <tspan> child elements
+     * @param {Number}    availableWidth The total available width the text could take
+     */
+    truncateDate(parent, availableWidth)
     {
         let that = this;
 
@@ -569,15 +580,20 @@ export default class Tree
             let tspan      = d3.select(this);
             let text       = tspan.text();
 
-            if (textLength > availableWidth) {
-                if (hide) {
-                    tspan.text("");
-                } else {
-                    if (text.length > 1) {
-                        // Keep only the first letter
-                        tspan.text(text.slice(0, 1) + ".");
-                    }
-                }
+            // Repeat removing the last char until the width matches
+            while ((textLength > availableWidth) && (text.length > 1)) {
+                // Remove last char
+                text = text.slice(0, -1).trim();
+
+                tspan.text(text);
+
+                // Recalculate text length
+                textLength = that.getTextLength(parent);
+            }
+
+            // Remove trailing dot if present
+            if (text[text.length - 1] === ".") {
+                tspan.text(text.slice(0, -1).trim());
             }
         };
     }
@@ -675,14 +691,24 @@ export default class Tree
 
         // Top/Bottom and Bottom/Top
         if (this._orientation._splittNames) {
-            let text1 = table.append("text")
+            let text = table.append("text")
                 .attr("class", "date")
                 .attr("text-anchor", "middle")
                 .attr("alignment-baseline", "central")
                 .attr("dy", this._orientation.textY() + 50);
 
-            text1.append("tspan")
+            text.append("title")
                 .text(datum.data.timespan);
+
+            let tspan = text.append("tspan")
+                .text(datum.data.timespan);
+
+            if (this.getTextLength(text) > this._orientation.textWidth()) {
+                text.selectAll("tspan")
+                    .each(this.truncateDate(text, this._orientation.textWidth()));
+
+                tspan.text(tspan.text() + "\u2026");
+            }
 
             return;
         }
@@ -710,9 +736,20 @@ export default class Tree
                 .attr("x", this._orientation.textX())
                 .attr("dy", this._orientation.textY() + offset);
 
-            col2.append("tspan")
+            col2.append("title")
+                .text(datum.data.birth);
+
+            let tspan = col2
+                .append("tspan")
                 .text(datum.data.birth)
                 .attr("x", this._orientation.textX() + 15);
+
+            if (this.getTextLength(col2) > this._orientation.textWidth()) {
+                col2.selectAll("tspan")
+                    .each(this.truncateDate(col2, this._orientation.textWidth()));
+
+                tspan.text(tspan.text() + "\u2026");
+            }
         }
 
         if (datum.data.death) {
@@ -740,16 +777,27 @@ export default class Tree
                 .attr("x", this._orientation.textX())
                 .attr("dy", this._orientation.textY() + offset);
 
-            col2.append("tspan")
+            col2.append("title")
+                .text(datum.data.death);
+
+            let tspan = col2
+                .append("tspan")
                 .text(datum.data.death)
                 .attr("x", this._orientation.textX() + 15);
+
+            if (this.getTextLength(col2) > this._orientation.textWidth()) {
+                col2.selectAll("tspan")
+                    .each(this.truncateDate(col2, this._orientation.textWidth()));
+
+                tspan.text(tspan.text().trim() + "\u2026");
+            }
         }
     }
 
     /**
      * Return the image file or the placeholder.
      *
-     * @param {Object} data The D3 data object
+     * @param {Object} datum The D3 data object
      *
      * @returns {String}
      */
@@ -765,7 +813,8 @@ export default class Tree
     /**
      * Draw the connecting lines.
      *
-     * @param {Array} links Array of links
+     * @param {Array}  links  Array of links
+     * @param {Object} source The root object
      *
      * @private
      */
