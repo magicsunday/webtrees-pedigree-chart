@@ -2,16 +2,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pedigree chart\n"
 "POT-Creation-Date: 2021-10-02 14:05+0200\n"
-"PO-Revision-Date: 2021-12-12 05:04+0100\n"
+"PO-Revision-Date: 2021-10-02 14:05+0200\n"
 "Last-Translator: TheDutchJewel <thedutchjewel@gmail.com>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 2.4.2\n"
 "X-Poedit-Basepath: ../../..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-KeywordsList: translate\n"
 "X-Poedit-SearchPath-0: src\n"
 "X-Poedit-SearchPath-1: resources/views\n"
@@ -92,11 +92,11 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:118
 msgid "Show more options"
-msgstr "Meer opties"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:119
 msgid "Hide more options"
-msgstr "Minder opties"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:124
 msgid "view"
