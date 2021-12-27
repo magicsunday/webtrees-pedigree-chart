@@ -516,7 +516,7 @@ export default class Tree
         // The total available width that the text can occupy
         let availableWidth = this._orientation.textWidth();
 
-        // Select all not preferred and not last names
+        // Select all not preferred names and not last names
         // Start truncating from last element to the first one
         parent.selectAll("tspan:not(.preferred):not(.lastName)")
             .nodes()
