@@ -18,7 +18,7 @@ export default class Svg
     /**
      * Constructor.
      *
-     * @param {Selection}     parent        The selected D3 parent element container
+     * @param {selection}     parent        The selected D3 parent element container
      * @param {Configuration} configuration The application configuration
      */
     constructor(parent, configuration)
@@ -165,7 +165,7 @@ export default class Svg
     /**
      *
      *
-     * @returns {Selection}
+     * @returns {selection}
      */
     get visual()
     {
@@ -175,7 +175,7 @@ export default class Svg
     /**
      * Returns the internal element.
      *
-     * @returns {Selection}
+     * @returns {selection}
      */
     get()
     {

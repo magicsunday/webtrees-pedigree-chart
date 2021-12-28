@@ -450,7 +450,7 @@ export default class Tree
      * parent element. The "tspan" element containing the preferred name gets an
      * additional underline style in order to highlight this one.
      *
-     * @param {Selection} parent The parent (<text> or <textPath>) element to which the <tspan> elements are to be attached
+     * @param {selection} parent The parent (<text> or <textPath>) element to which the <tspan> elements are to be attached
      * @param {Object}    datum  The D3 data object containing the individual data
      */
     addFirstNames(parent, datum)
@@ -479,7 +479,7 @@ export default class Tree
     /**
      * Creates a single <tspan> element for each last name and append it to the parent element.
      *
-     * @param {Selection} parent The parent (<text> or <textPath>) element to which the <tspan> elements are to be attached
+     * @param {selection} parent The parent (<text> or <textPath>) element to which the <tspan> elements are to be attached
      * @param {Object}    datum  The D3 data object containing the individual data
      * @param {Number}    dx     Additional space offset to add between names
      */
@@ -488,7 +488,7 @@ export default class Tree
         let i = 0;
 
         for (let lastName of datum.data.lastNames) {
-            // Create a <tspan> element for the last name
+            // Create a <tspan> element for each last name
             let tspan = parent.append("tspan")
                 .attr("class", "lastName")
                 .text(lastName);
@@ -509,7 +509,7 @@ export default class Tree
     /**
      * Loops over the <tspan> elements and truncates the contained texts.
      *
-     * @param {Selection} parent The parent (<text> or <textPath>) element to which the <tspan> elements are attached
+     * @param {selection} parent The parent (<text> or <textPath>) element to which the <tspan> elements are attached
      */
     truncateNames(parent)
     {
@@ -538,7 +538,7 @@ export default class Tree
     /**
      * Truncates the textual content of the actual element.
      *
-     * @param {Selection} parent         The parent (<text> or <textPath>) element containing the <tspan> child elements
+     * @param {selection} parent         The parent (<text> or <textPath>) element containing the <tspan> child elements
      * @param {Number}    availableWidth The total available width the text could take
      */
     truncateText(parent, availableWidth)
@@ -568,7 +568,7 @@ export default class Tree
     /**
      * Truncates a date value.
      *
-     * @param {Selection} parent         The parent (<text> or <textPath>) element containing the <tspan> child elements
+     * @param {selection} parent         The parent (<text> or <textPath>) element containing the <tspan> child elements
      * @param {Number}    availableWidth The total available width the text could take
      */
     truncateDate(parent, availableWidth)
@@ -601,7 +601,7 @@ export default class Tree
     /**
      * Returns a float representing the computed length of all <tspan> elements within the element.
      *
-     * @param {Selection} parent The parent (<text> or <textPath>) element containing the <tspan> child elements
+     * @param {selection} parent The parent (<text> or <textPath>) element containing the <tspan> child elements
      *
      * @returns {Number}
      */
@@ -620,7 +620,7 @@ export default class Tree
     /**
      * Add the individual names to the given parent element.
      *
-     * @param {Selection} parent The parent element to which the elements are to be attached
+     * @param {selection} parent The parent element to which the elements are to be attached
      * @param {Object}    datum  The D3 data object
      */
     addNames(parent, datum)
@@ -644,10 +644,10 @@ export default class Tree
             this.addFirstNames(text1, datum);
             this.addLastNames(text2, datum);
 
+            // If both first and last names are empty, add the full name as alternative
             if (!datum.data.firstNames.length
                 && !datum.data.lastNames.length
             ) {
-                // If both first and last names are empty, add the full name as alternative
                 text1.append("tspan")
                     .text(datum.data.name);
             }
@@ -665,10 +665,10 @@ export default class Tree
             this.addFirstNames(text1, datum);
             this.addLastNames(text1, datum, 0.25);
 
+            // If both first and last names are empty, add the full name as alternative
             if (!datum.data.firstNames.length
                 && !datum.data.lastNames.length
             ) {
-                // If both first and last names are empty, add the full name as alternative
                 text1.append("tspan")
                     .text(datum.data.name);
             }
@@ -680,7 +680,7 @@ export default class Tree
     /**
      * Add the individual dates to the given parent element.
      *
-     * @param {Selection} parent The parent element to which the elements are to be attached
+     * @param {selection} parent The parent element to which the elements are to be attached
      * @param {Object}    datum  The D3 data object
      */
     addDates(parent, datum)
