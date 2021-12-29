@@ -13,6 +13,7 @@ use Exception;
 use Fig\Http\Message\RequestMethodInterface;
 use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\Contracts\UserInterface;
+use Fisharebest\Webtrees\Family;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Module\ModuleCustomInterface;
@@ -257,6 +258,7 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
         /** @var array<string, array<string>> $data */
         $data = $this->getIndividualData($individual, $generation);
 
+        /** @var null|Family $family */
         $family = $individual->childFamilies()->first();
 
         if ($family === null) {
