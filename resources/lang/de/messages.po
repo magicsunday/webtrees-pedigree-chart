@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pedigree chart\n"
 "POT-Creation-Date: 2021-09-30 10:56+0100\n"
-"PO-Revision-Date: 2021-10-02 14:04+0200\n"
+"PO-Revision-Date: 2021-12-29 12:40+0100\n"
 "Last-Translator: Rico Sonntag <mail@ricosonntag.de>\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -18,16 +18,16 @@ msgstr ""
 
 #: src/Module.php:109 src/Module.php:210
 msgid "Pedigree chart"
-msgstr "Ahnentafel"
+msgstr "Vorfahrentafel"
 
 #: src/Module.php:119
 msgid "A pedigree chart of an individual’s ancestors."
-msgstr "Eine Ahnentafel der Vorfahren einer Person."
+msgstr "Ein Stammbaum der Vorfahren einer Person."
 
 #: src/Module.php:213 src/Traits/ModuleChartTrait.php:38
 #, php-format
 msgid "Pedigree chart of %s"
-msgstr "Ahnentafel von %s"
+msgstr "Vorfahrentafel von %s"
 
 #: src/Module.php:230
 msgid "Use Ctrl + scroll to zoom in the view"
@@ -113,9 +113,3 @@ msgstr "Als PNG exportieren"
 #: resources/views/modules/pedigree-chart/page.phtml:137
 msgid "Export as SVG"
 msgstr "Als SVG exportieren"
-
-#~ msgid "Tree layout"
-#~ msgstr "Baumansicht"
-
-#~ msgid "reset"
-#~ msgstr "Zurücksetzen"
