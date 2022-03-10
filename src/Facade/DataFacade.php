@@ -125,6 +125,15 @@ class DataFacade
         $fatherNode = $this->buildTreeStructure($family->husband(), $generation + 1);
         $motherNode = $this->buildTreeStructure($family->wife(), $generation + 1);
 
+        $data['siblings'] = [];
+
+        /** @var Individual $child */
+        foreach ($family->children() as $child) {
+            if ($child->xref() !== $individual->xref()) {
+                $data['siblings'][] = $this->getNodeData($generation, $child);
+            }
+        }
+
         // Add an array of child nodes
         if ($fatherNode !== null) {
             $node->addParent($fatherNode);
