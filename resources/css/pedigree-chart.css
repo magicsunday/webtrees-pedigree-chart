@@ -44,15 +44,21 @@
     padding: 0;
     border: 0;
     font: 10px sans-serif;
-    background: rgba(0, 0, 0, 0.5);
     pointer-events: none;
     transition: opacity ease-in-out;
     transition-duration: 0s;
+    backdrop-filter: blur(5px);
+}
+
+@supports (-webkit-backdrop-filter: none) {
+    #webtrees-pedigree-chart-container div.overlay {
+        -webkit-backdrop-filter: blur(1em);
+    }
 }
 
 #webtrees-pedigree-chart-container div.overlay .tooltip {
     font-size: 22px;
-    color: white;
+    color: #5a6268;
     position: relative;
     margin: 0;
     top: 50%;
@@ -61,4 +67,14 @@
     transform: translateY(-50%);
     opacity: 1;
     text-align: center;
+}
+
+@supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+    #webtrees-pedigree-chart-container div.overlay {
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    #webtrees-pedigree-chart-container div.overlay .tooltip {
+        color: white;
+    }--
 }
