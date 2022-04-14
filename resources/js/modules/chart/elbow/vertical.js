@@ -10,7 +10,7 @@
  */
 export default function(datum, orientation)
 {
-    // Left => Right, Right => Left
+    // Top => Bottom, Bottom => Top
     let sourceX = orientation.x(datum.source),
         sourceY = orientation.y(datum.source) + (orientation.direction() * (orientation.boxHeight / 2)),
         targetX = orientation.x(datum.target),
