@@ -312,9 +312,11 @@ trait IndividualTrait
                 return $mediaFile->imageUrl(250, 250, 'contain');
             }
 
-            return $this->assetUrl(sprintf('images/silhouette-%s.svg', $individual->sex()));
+            if ($individual->tree()->getPreference('USE_SILHOUETTE')) {
+                return $this->assetUrl(sprintf('images/silhouette-%s.svg', $individual->sex()));
+            }
         }
 
-        return $this->assetUrl('images/silhouette-U.svg');
+        return '';
     }
 }

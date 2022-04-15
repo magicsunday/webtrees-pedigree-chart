@@ -19,11 +19,19 @@ export default class Orientation
      */
     constructor(boxWidth, boxHeight)
     {
-        this._boxWidth     = boxWidth;
-        this._boxHeight    = boxHeight;
-        this._imagePadding = 5;
-        this._imageRadius  = Math.min(40, (this._boxHeight / 2) - this._imagePadding);
-        this._cornerRadius = 20;
+        this._boxWidth    = boxWidth;
+        this._boxHeight   = boxHeight;
+        this._splittNames = false;
+    }
+
+    /**
+     * Returns whether to splitt the names on multiple lines or not.
+     *
+     * @returns {Boolean}
+     */
+    get splittNames()
+    {
+        return this._splittNames;
     }
 
     /**
@@ -47,22 +55,40 @@ export default class Orientation
     }
 
     /**
-     * Returns the corner radius.
+     * Returns the direction.
      *
      * @returns {Number}
      */
-    cornerRadius()
+    direction()
     {
-        return this._cornerRadius;
+        throw "Abstract method direction() not implemented";
     }
 
     /**
-     * Returns the radius of the image.
+     * Returns the width of the node.
      *
      * @returns {Number}
      */
-    imageRadius()
+    nodeWidth()
     {
-        return this._imageRadius;
+        throw "Abstract method nodeWidth() not implemented";
+    }
+
+    /**
+     * Normalizes the x and/or y values of an entry.
+     */
+    norm(d)
+    {
+        throw "Abstract method norm() not implemented";
+    }
+
+    /**
+     * Returns the elbow function depending on the orientation.
+     *
+     * @returns {String}
+     */
+    elbow(d)
+    {
+        throw "Abstract method elbow() not implemented";
     }
 }

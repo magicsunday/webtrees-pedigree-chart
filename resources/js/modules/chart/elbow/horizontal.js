@@ -11,13 +11,13 @@
 export default function(datum, orientation)
 {
     // Left => Right, Right => Left
-    let sourceX = orientation.y(datum.source),
-        sourceY = orientation.x(datum.source) + (orientation.direction() * (orientation.boxWidth / 2)),
-        targetX = orientation.y(datum.target),
-        targetY = orientation.x(datum.target) - (orientation.direction() * (orientation.boxWidth / 2));
+    const sourceX = datum.source.x + (orientation.direction() * (orientation.boxWidth / 2)),
+          sourceY = datum.source.y,
+          targetX = datum.target.x - (orientation.direction() * (orientation.boxWidth / 2)),
+          targetY = datum.target.y;
 
-    return "M " + sourceY + " " + sourceX +
-        " H " + (sourceY + ((targetY - sourceY) / 2)) +
-        " V " + targetX +
-        " H " + targetY;
+    return "M " + sourceX + " " + sourceY +
+        " H " + (sourceX + ((targetX - sourceX) / 2)) +
+        " V " + targetY +
+        " H " + targetX;
 }

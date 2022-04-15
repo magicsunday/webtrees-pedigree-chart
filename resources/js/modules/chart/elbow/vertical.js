@@ -11,10 +11,10 @@
 export default function(datum, orientation)
 {
     // Top => Bottom, Bottom => Top
-    let sourceX = orientation.x(datum.source),
-        sourceY = orientation.y(datum.source) + (orientation.direction() * (orientation.boxHeight / 2)),
-        targetX = orientation.x(datum.target),
-        targetY = orientation.y(datum.target) - (orientation.direction() * (orientation.boxHeight / 2));
+    const sourceX = datum.source.x,
+          sourceY = datum.source.y + (orientation.direction() * (orientation.boxHeight / 2)),
+          targetX = datum.target.x,
+          targetY = datum.target.y - (orientation.direction() * (orientation.boxHeight / 2));
 
     return "M " + sourceX + " " + sourceY +
         " V " + (sourceY + ((targetY - sourceY) / 2)) +

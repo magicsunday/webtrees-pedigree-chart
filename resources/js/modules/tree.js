@@ -5,6 +5,7 @@
 import * as d3 from "./d3";
 import dataUrl from "./common/dataUrl";
 import {SEX_FEMALE, SEX_MALE} from "./constants";
+import Box from "./chart/box";
 
 /**
  * The class handles the creation of the tree.
@@ -32,6 +33,9 @@ export default class Tree
         this._hierarchy.root.y0 = 0;
 
         this._orientation = this._configuration.orientation;
+
+        // Create a default box container for a person based on the selected orientation
+        this._box = new Box(this._orientation);
 
         this.draw(this._hierarchy.root);
     }
@@ -117,16 +121,16 @@ export default class Tree
             .append("clipPath")
             .attr("id", "clip-image")
             .append("rect")
-            .attr("rx", this._orientation.imageCornerRadius())
-            .attr("ry", this._orientation.imageCornerRadius())
-            .attr("x", this._orientation.imageX())
-            .attr("y", this._orientation.imageY())
-            .attr("width", this._orientation.imageWidth())
-            .attr("height", this._orientation.imageHeight());
+            .attr("rx", this._box.image.rx)
+            .attr("ry", this._box.image.ry)
+            .attr("x", this._box.image.x)
+            .attr("y", this._box.image.y)
+            .attr("width", this._box.image.width)
+            .attr("height", this._box.image.height);
 
-        let t = this._svg.visual
-            .transition()
-            .duration(this._configuration.duration);
+        // let t = this._svg.visual
+        //     .transition()
+        //     .duration(this._configuration.duration);
 
         let node = this._svg.visual
             .selectAll("g.person")
@@ -136,17 +140,17 @@ export default class Tree
             .enter()
             .append("g")
             .attr("class", "person")
-            // Add new nodes at the right side of their child's box.
+            // Add new nodes on the right side of their child's this._box.
             // They will be transitioned into their proper position.
             // .attr("transform", person => {
-            //     return "translate(" + (this._configuration.direction * (source.y0 + (this._orientation.boxWidth / 2))) + ',' + source.x0 + ")";
+            //     return "translate(" + (this._configuration.direction * (source.y0 + (this._box.width / 2))) + ',' + source.x0 + ")";
             // })
             // .attr("transform", person => {
-            //     return "translate(" + (this._configuration.direction * (source.y + (this._orientation.boxWidth / 2))) + ',' + source.x + ")";
+            //     return "translate(" + (this._configuration.direction * (source.y + (this._box.width / 2))) + ',' + source.x + ")";
             // })
             // .attr("transform", person => `translate(${source.y0}, ${source.x0})`)
             .attr("transform", person => {
-                return "translate(" + this._orientation.x(person) + "," + this._orientation.y(person) + ")";
+                return "translate(" + person.x + "," + person.y + ")";
             })
         ;
 
@@ -155,12 +159,12 @@ export default class Tree
         nodeEnter
             .append("rect")
             .attr("class", d => (d.data.sex === SEX_FEMALE) ? "female" : (d.data.sex === SEX_MALE) ? "male" : "unknown")
-            .attr("rx", this._orientation.cornerRadius())
-            .attr("ry", this._orientation.cornerRadius())
-            .attr("x", -(this._orientation.boxWidth / 2))
-            .attr("y", -(this._orientation.boxHeight / 2))
-            .attr("width", this._orientation.boxWidth)
-            .attr("height", this._orientation.boxHeight)
+            .attr("rx", this._box.rx)
+            .attr("ry", this._box.ry)
+            .attr("x", this._box.x)
+            .attr("y", this._box.y)
+            .attr("width", this._box.width)
+            .attr("height", this._box.height)
             .attr("fill-opacity", 0.5)
             .attr("fill", d => d.data.color);
 
@@ -174,118 +178,127 @@ export default class Tree
                     .append("title")
                     .text(d => d.data.name);
 
-                let group = element
-                    .append("g")
-                    .attr("class", "image");
+                const imageUrlToLoad = that.getImageToLoad(d);
 
-                // Background of image (only required if thumbnail has transparency (like the silhouettes))
-                group
-                    .append("rect")
-                    .attr("rx", that._orientation.imageCornerRadius())
-                    .attr("ry", that._orientation.imageCornerRadius())
-                    .attr("x", that._orientation.imageX())
-                    .attr("y", that._orientation.imageY())
-                    .attr("width", that._orientation.imageWidth())
-                    .attr("height", that._orientation.imageHeight())
-                    .attr("fill", "rgb(255, 255, 255)");
+                // Check if image should be shown or hidden
+                that._box.showImage = !!imageUrlToLoad;
 
-                // The individual image
-                let image = group
-                    .append("image")
-                    .attr("x", that._orientation.imageX())
-                    .attr("y", that._orientation.imageY())
-                    .attr("width", that._orientation.imageWidth())
-                    .attr("height", that._orientation.imageHeight())
-                    .attr("clip-path", "url(#clip-image)");
+                if (that._box.showImage) {
+                    let group = element
+                        .append("g")
+                        .attr("class", "image");
 
-                dataUrl(that.getImageToLoad(d))
-                    .then(dataUrl => image.attr("xlink:href", dataUrl))
-                    .catch((exception) => {
-                        console.error(exception);
-                    });
+                    // Background of image (only required if thumbnail has transparency (like the silhouettes))
+                    group
+                        .append("rect")
+                        .attr("rx", that._box.image.rx)
+                        .attr("ry", that._box.image.ry)
+                        .attr("x", that._box.image.x)
+                        .attr("y", that._box.image.y)
+                        .attr("width", that._box.image.width)
+                        .attr("height", that._box.image.height)
+                        .attr("fill", "rgb(255, 255, 255)");
 
-                // Border around image
-                group
-                    .append("rect")
-                    .attr("rx", that._orientation.imageCornerRadius())
-                    .attr("ry", that._orientation.imageCornerRadius())
-                    .attr("x", that._orientation.imageX())
-                    .attr("y", that._orientation.imageY())
-                    .attr("width", that._orientation.imageWidth())
-                    .attr("height", that._orientation.imageHeight())
-                    .attr("fill", "none")
-                    .attr("stroke", "rgb(200, 200, 200)")
-                    .attr("stroke-width", 1.5);
+                    // The individual image
+                    let image = group
+                        .append("image")
+                        .attr("x", that._box.image.x)
+                        .attr("y", that._box.image.y)
+                        .attr("width", that._box.image.width)
+                        .attr("height", that._box.image.height)
+                        .attr("clip-path", "url(#clip-image)");
+
+                    dataUrl(imageUrlToLoad)
+                        .then(dataUrl => image.attr("xlink:href", dataUrl))
+                        .catch((exception) => {
+                            console.error(exception);
+                        });
+
+                    // Border around image
+                    group
+                        .append("rect")
+                        .attr("rx", that._box.image.rx)
+                        .attr("ry", that._box.image.ry)
+                        .attr("x", that._box.image.x)
+                        .attr("y", that._box.image.y)
+                        .attr("width", that._box.image.width)
+                        .attr("height", that._box.image.height)
+                        .attr("fill", "none")
+                        .attr("stroke", "rgb(200, 200, 200)")
+                        .attr("stroke-width", 1.5);
+                }
 
                 that.addNames(element, d);
                 that.addDates(element, d);
+
+                that._box.showImage = true;
             });
 
-    //     // Merge the update and the enter selections
-    //     let nodeUpdate = nodeEnter.merge(node);
-    //
-    //     nodeUpdate
-    //         .transition()
-    //         .duration(this._configuration.duration)
-    //         // .attr("transform", person => `translate(${person.y}, ${person.x})`);
-    //         .attr("transform", person => {
-    //             return "translate(" + (this._configuration.direction * person.y) + "," + person.x + ")";
-    //         });
-    //
-    //     // Grow boxes to their proper size
-    //     nodeUpdate.select('rect')
-    //         .attr("x", -(this._orientation.boxWidth / 2))
-    //         .attr("y", -(this._orientation.boxHeight / 2))
-    //         .attr("width", this._orientation.boxWidth)
-    //         .attr("height", this._orientation.boxHeight)
-    //         // .attr("fill-opacity", "0.5")
-    //         // .attr({
-    //         //     x: -(this._orientation.boxWidth / 2),
-    //         //     y: -(this._orientation.boxHeight / 2),
-    //         //     width: this._orientation.boxWidth,
-    //         //     height: this._orientation.boxHeight
-    //         // })
-    // ;
-    //
-    //     // Move text to it's proper position
-    //     // nodeUpdate.select('text')
-    //     //     .attr("dx", -(this._orientation.boxWidth / 2) + 10)
-    //     //     .style("fill-opacity", 1);
-    //
-    //     // Remove nodes we aren't showing anymore
-    //     let nodeExit = node
-    //         .exit()
-    //         .transition()
-    //         .duration(this._configuration.duration)
-    //         // Transition exit nodes to the source's position
-    //         .attr("transform", person => {
-    //             return "translate(" + (this._configuration.direction * (source.y + (this._orientation.boxWidth / 2))) + ',' + source.x + ")";
-    //         })
-    //         // .attr("transform", person => `translate(${source.y}, ${source.x})`)
-    //         // .attr("transform", (d) => {
-    //         //     return "translate(" + source.y + "," + source.x + ")";
-    //         // })
-    //         .remove();
-    //
-    //     // Shrink boxes as we remove them
-    //     nodeExit.select('rect')
-    //         .attr("x", 0)
-    //         .attr("y", 0)
-    //         .attr("width", 0)
-    //         .attr("height", 0)
-    //         // .attr("fill-opacity", 0)
-    //         // .attr({
-    //         //     x: 0,
-    //         //     y: 0,
-    //         //     width: 0,
-    //         //     height: 0
-    //         // })
-    //     ;
+        //     // Merge the update and the enter selections
+        //     let nodeUpdate = nodeEnter.merge(node);
+        //
+        //     nodeUpdate
+        //         .transition()
+        //         .duration(this._configuration.duration)
+        //         // .attr("transform", person => `translate(${person.y}, ${person.x})`);
+        //         .attr("transform", person => {
+        //             return "translate(" + (this._configuration.direction * person.y) + "," + person.x + ")";
+        //         });
+        //
+        //     // Grow boxes to their proper size
+        //     nodeUpdate.select("rect")
+        //         .attr("x", this._box.x)
+        //         .attr("y", this._box.y)
+        //         .attr("width", this._box.width)
+        //         .attr("height", this._box.height)
+        //         // .attr("fill-opacity", "0.5")
+        //         // .attr({
+        //         //     x: this._box.x,
+        //         //     y: this._box.y,
+        //         //     width: this._box.width,
+        //         //     height: this._box.height
+        //         // })
+        // ;
+        //
+        //     // Move text to it's proper position
+        //     // nodeUpdate.select("text")
+        //     //     .attr("dx", this._box.x + 10)
+        //     //     .style("fill-opacity", 1);
+        //
+        //     // Remove nodes we aren't showing anymore
+        //     let nodeExit = node
+        //         .exit()
+        //         .transition()
+        //         .duration(this._configuration.duration)
+        //         // Transition exit nodes to the source's position
+        //         .attr("transform", person => {
+        //             return "translate(" + (this._configuration.direction * (source.y + (this._box.width / 2))) + ',' + source.x + ")";
+        //         })
+        //         // .attr("transform", person => `translate(${source.y}, ${source.x})`)
+        //         // .attr("transform", (d) => {
+        //         //     return "translate(" + source.y + "," + source.x + ")";
+        //         // })
+        //         .remove();
+        //
+        //     // Shrink boxes as we remove them
+        //     nodeExit.select("rect")
+        //         .attr("x", 0)
+        //         .attr("y", 0)
+        //         .attr("width", 0)
+        //         .attr("height", 0)
+        //         // .attr("fill-opacity", 0)
+        //         // .attr({
+        //         //     x: 0,
+        //         //     y: 0,
+        //         //     width: 0,
+        //         //     height: 0
+        //         // })
+        //     ;
 
         // Fade out the text as we remove it
-        // nodeExit.select('text')
-        //     .style('fill-opacity', 0)
-        //     .attr('dx', 0);
+        // nodeExit.select("text")
+        //     .style("fill-opacity", 0)
+        //     .attr("dx", 0);
 
 
         // nodeEnter
@@ -330,16 +343,16 @@ export default class Tree
         //             .attr("class", "person")
         //             // .attr("transform", person => `translate(${person.y}, ${person.x})`)
         //             .attr("transform", person => {
-        //                 return "translate(" + (this._configuration.direction * (source.y0 + (this._orientation.boxWidth / 2))) + ',' + source.x0 + ")";
+        //                 return "translate(" + (this._configuration.direction * (source.y0 + (this._box.width / 2))) + ',' + source.x0 + ")";
         //             })
         //             .on("click", this.togglePerson.bind(this));
         //
         //         nodeEnter
         //             .append("rect")
-        //             // .attr("x", -(this._orientation.boxWidth / 2))
-        //             // .attr("y", -(this._orientation.boxHeight / 2))
-        //             // .attr("width", this._orientation.boxWidth)
-        //             // .attr("height", this._orientation.boxHeight);
+        //             // .attr("x", this._box.x)
+        //             // .attr("y", this._box.y)
+        //             // .attr("width", this._box.width)
+        //             // .attr("height", this._box.height);
         //             .attr("x", 0)
         //             .attr("y", 0)
         //             .attr("width", 0)
@@ -358,11 +371,11 @@ export default class Tree
         //             );
         //
         //         nodeUpdate
-        //             .select('rect')
-        //             .attr("x", -(this._orientation.boxWidth / 2))
-        //             .attr("y", -(this._orientation.boxHeight / 2))
-        //             .attr("width", this._orientation.boxWidth)
-        //             .attr("height", this._orientation.boxHeight);
+        //             .select("rect")
+        //             .attr("x", this._box.x)
+        //             .attr("y", this._box.y)
+        //             .attr("width", this._box.width)
+        //             .attr("height", this._box.height);
         //
         //         return nodeUpdate;
         //     },
@@ -372,13 +385,13 @@ export default class Tree
         //             .call(exit => exit
         //                 .transition(t)
         //                 .attr("transform", person => {
-        //                     return "translate(" + (this._configuration.direction * (source.y + (this._orientation.boxWidth / 2))) + ',' + source.x + ")";
+        //                     return "translate(" + (this._configuration.direction * (source.y + (this._box.width / 2))) + ',' + source.x + ")";
         //                 })
         //             )
         //             .remove();
         //
         //         nodeExit
-        //             .select('rect')
+        //             .select("rect")
         //             .attr("x", 0)
         //             .attr("y", 0)
         //             .attr("width", 0)
@@ -387,11 +400,11 @@ export default class Tree
         //         return nodeExit;
         //     }
         // )
-        //     // .selectAll('rect')
-        //     // .attr("x", -(this._orientation.boxWidth / 2))
-        //     // .attr("y", -(this._orientation.boxHeight / 2))
-        //     // .attr("width", this._orientation.boxWidth)
-        //     // .attr("height", this._orientation.boxHeight);
+        //     // .selectAll("rect")
+        //     // .attr("x", this._box.x)
+        //     // .attr("y", this._box.y)
+        //     // .attr("width", this._box.width)
+        //     // .attr("height", this._box.height);
         // ;
         //
         // return;
@@ -514,9 +527,9 @@ export default class Tree
     truncateNames(parent)
     {
         // The total available width that the text can occupy
-        let availableWidth = this._orientation.textWidth();
+        let availableWidth = this._box.text.width;
 
-        // Select all not preferred names and not last names
+        // Select all not preferred and not last names
         // Start truncating from last element to the first one
         parent.selectAll("tspan:not(.preferred):not(.lastName)")
             .nodes()
@@ -630,16 +643,16 @@ export default class Tree
             .attr("class", "name");
 
         // Top/Bottom and Bottom/Top
-        if (this._orientation._splittNames) {
+        if (this._orientation.splittNames) {
             let text1 = name.append("text")
                 .attr("text-anchor", "middle")
                 .attr("alignment-baseline", "central")
-                .attr("dy", this._orientation.textY());
+                .attr("dy", this._box.text.y);
 
             let text2 = name.append("text")
                 .attr("text-anchor", "middle")
                 .attr("alignment-baseline", "central")
-                .attr("dy", this._orientation.textY() + 20);
+                .attr("dy", this._box.text.y + 20);
 
             this.addFirstNames(text1, datum);
             this.addLastNames(text2, datum);
@@ -655,12 +668,12 @@ export default class Tree
             this.truncateNames(text1);
             this.truncateNames(text2);
 
-        // Left/Right and Right/Left
+            // Left/Right and Right/Left
         } else {
             let text1 = name.append("text")
                 .attr("text-anchor", this._configuration.rtl ? "end" : "start")
-                .attr("dx", this._orientation.textX())
-                .attr("dy", this._orientation.textY());
+                .attr("dx", this._box.text.x)
+                .attr("dy", this._box.text.y);
 
             this.addFirstNames(text1, datum);
             this.addLastNames(text1, datum, 0.25);
@@ -690,12 +703,12 @@ export default class Tree
             .attr("class", "table");
 
         // Top/Bottom and Bottom/Top
-        if (this._orientation._splittNames) {
+        if (this._orientation.splittNames) {
             let text = table.append("text")
                 .attr("class", "date")
                 .attr("text-anchor", "middle")
                 .attr("alignment-baseline", "central")
-                .attr("dy", this._orientation.textY() + 50);
+                .attr("dy", this._box.text.y + 50);
 
             text.append("title")
                 .text(datum.data.timespan);
@@ -703,9 +716,9 @@ export default class Tree
             let tspan = text.append("tspan")
                 .text(datum.data.timespan);
 
-            if (this.getTextLength(text) > this._orientation.textWidth()) {
+            if (this.getTextLength(text) > this._box.text.width) {
                 text.selectAll("tspan")
-                    .each(this.truncateDate(text, this._orientation.textWidth()));
+                    .each(this.truncateDate(text, this._box.text.width));
 
                 tspan.text(tspan.text() + "\u2026");
             }
@@ -721,20 +734,20 @@ export default class Tree
                 .attr("class", "date")
                 .attr("text-anchor", "middle")
                 .attr("dominant-baseline", "middle")
-                .attr("x", this._orientation.textX())
-                .attr("dy", this._orientation.textY() + offset);
+                .attr("x", this._box.text.x)
+                .attr("dy", this._box.text.y + offset);
 
             col1.append("tspan")
                 .text("\u2605")
-                .attr("x", this._orientation.textX() + 5);
+                .attr("x", this._box.text.x + 5);
 
             let col2 = table
                 .append("text")
                 .attr("class", "date")
                 .attr("text-anchor", this._configuration.rtl ? "end" : "start")
                 .attr("dominant-baseline", "middle")
-                .attr("x", this._orientation.textX())
-                .attr("dy", this._orientation.textY() + offset);
+                .attr("x", this._box.text.x)
+                .attr("dy", this._box.text.y + offset);
 
             col2.append("title")
                 .text(datum.data.birth);
@@ -742,11 +755,11 @@ export default class Tree
             let tspan = col2
                 .append("tspan")
                 .text(datum.data.birth)
-                .attr("x", this._orientation.textX() + 15);
+                .attr("x", this._box.text.x + 15);
 
-            if (this.getTextLength(col2) > this._orientation.textWidth()) {
+            if (this.getTextLength(col2) > (this._box.text.width - 25)) {
                 col2.selectAll("tspan")
-                    .each(this.truncateDate(col2, this._orientation.textWidth()));
+                    .each(this.truncateDate(col2, this._box.text.width - 25));
 
                 tspan.text(tspan.text() + "\u2026");
             }
@@ -762,20 +775,20 @@ export default class Tree
                 .attr("class", "date")
                 .attr("text-anchor", "middle")
                 .attr("dominant-baseline", "middle")
-                .attr("x", this._orientation.textX())
-                .attr("dy", this._orientation.textY() + offset);
+                .attr("x", this._box.text.x)
+                .attr("dy", this._box.text.y + offset);
 
             col1.append("tspan")
                 .text("\u2020")
-                .attr("x", this._orientation.textX() + 5);
+                .attr("x", this._box.text.x + 5);
 
             let col2 = table
                 .append("text")
                 .attr("class", "date")
                 .attr("text-anchor", this._configuration.rtl ? "end" : "start")
                 .attr("dominant-baseline", "middle")
-                .attr("x", this._orientation.textX())
-                .attr("dy", this._orientation.textY() + offset);
+                .attr("x", this._box.text.x)
+                .attr("dy", this._box.text.y + offset);
 
             col2.append("title")
                 .text(datum.data.death);
@@ -783,11 +796,11 @@ export default class Tree
             let tspan = col2
                 .append("tspan")
                 .text(datum.data.death)
-                .attr("x", this._orientation.textX() + 15);
+                .attr("x", this._box.text.x + 15);
 
-            if (this.getTextLength(col2) > this._orientation.textWidth()) {
+            if (this.getTextLength(col2) > (this._box.text.width - 25)) {
                 col2.selectAll("tspan")
-                    .each(this.truncateDate(col2, this._orientation.textWidth()));
+                    .each(this.truncateDate(col2, this._box.text.width - 25));
 
                 tspan.text(tspan.text().trim() + "\u2026");
             }
@@ -820,7 +833,7 @@ export default class Tree
      */
     drawLinks(links, source)
     {
-        let that = this;
+        // let that = this;
 
         let link = this._svg.visual
             .selectAll("path.link")
@@ -842,7 +855,7 @@ export default class Tree
         //     .attr("d", person => {
         //         const o = {
         //             x: source.x0,
-        //             y: this._configuration.direction * (source.y0 + (this._orientation.boxWidth / 2))
+        //             y: this._configuration.direction * (source.y0 + (this._box.width / 2))
         //         };
         //
         //         return this.transitionElbow({ source: o, target: o });
@@ -863,7 +876,7 @@ export default class Tree
         //     .attr("d", person => {
         //         const o = {
         //             x: source.x,
-        //             y: this._configuration.direction * (source.y + this._orientation.boxWidth / 2)
+        //             y: this._configuration.direction * (source.y + this._box.width / 2)
         //         };
         //
         //         return this.transitionElbow({ source: o, target: o });
