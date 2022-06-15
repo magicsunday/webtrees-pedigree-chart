@@ -10,6 +10,7 @@ namespace MagicSunday\Webtrees\PedigreeChart;
 
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Module\PedigreeChartModule;
+use Fisharebest\Webtrees\Validator;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -83,10 +84,9 @@ class Configuration
      */
     public function getGenerations(): int
     {
-        $generations = (int) ($this->request->getQueryParams()['generations'] ?? self::DEFAULT_GENERATIONS);
-        $generations = min($generations, self::MAX_GENERATIONS);
-
-        return max($generations, self::MIN_GENERATIONS);
+        return Validator::queryParams($this->request)
+            ->isBetween(self::MIN_GENERATIONS, self::MAX_GENERATIONS)
+            ->integer('generations', self::DEFAULT_GENERATIONS);
     }
 
     /**
@@ -112,7 +112,8 @@ class Configuration
      */
     public function getShowEmptyBoxes(): bool
     {
-        return (bool) ($this->request->getQueryParams()['showEmptyBoxes'] ?? false);
+        return Validator::queryParams($this->request)
+            ->boolean('showEmptyBoxes', false);
     }
 
     /**
@@ -122,6 +123,7 @@ class Configuration
      */
     public function getLayout(): string
     {
-        return $this->request->getQueryParams()['layout'] ?? self::DEFAULT_TREE_LAYOUT;
+        return Validator::queryParams($this->request)
+            ->string('layout', self::DEFAULT_TREE_LAYOUT);
     }
 }

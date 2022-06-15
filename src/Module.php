@@ -11,16 +11,14 @@ namespace MagicSunday\Webtrees\PedigreeChart;
 use Aura\Router\RouterContainer;
 use Fig\Http\Message\RequestMethodInterface;
 use Fisharebest\Webtrees\Auth;
-use Fisharebest\Webtrees\Contracts\UserInterface;
 use Fisharebest\Webtrees\Family;
-use Fisharebest\Webtrees\Http\Exceptions\HttpAccessDeniedException;
-use Fisharebest\Webtrees\Http\Exceptions\HttpNotFoundException;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
+use Fisharebest\Webtrees\Module\ModuleChartInterface;
 use Fisharebest\Webtrees\Module\ModuleCustomInterface;
 use Fisharebest\Webtrees\Module\PedigreeChartModule;
 use Fisharebest\Webtrees\Registry;
-use Fisharebest\Webtrees\Tree;
+use Fisharebest\Webtrees\Validator;
 use Fisharebest\Webtrees\View;
 use JsonException;
 use MagicSunday\Webtrees\PedigreeChart\Traits\IndividualTrait;
@@ -75,7 +73,7 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
      *
      * @var Configuration
      */
-    private $configuration;
+    private Configuration $configuration;
 
     /**
      * Initialization.
@@ -134,50 +132,51 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        /** @var Tree $tree */
-        $tree = $request->getAttribute('tree');
-        assert($tree instanceof Tree);
-
-        $xref = $request->getAttribute('xref');
-        assert(is_string($xref));
-
-        $individual = Registry::individualFactory()->make($xref, $tree);
-        $individual = Auth::checkIndividualAccess($individual, false, true);
-
-        /** @var UserInterface $user */
-        $user = $request->getAttribute('user');
-
-        $this->configuration = new Configuration($request);
+        $tree = Validator::attributes($request)->tree();
+        $xref = Validator::attributes($request)->isXref()->string('xref');
+        $user = Validator::attributes($request)->user();
+        $ajax = Validator::queryParams($request)->boolean('ajax', false);
 
         // Convert POST requests into GET requests for pretty URLs.
         // This also updates the name above the form, which wont get updated if only a POST request is used
         if ($request->getMethod() === RequestMethodInterface::METHOD_POST) {
-            $params = (array) $request->getParsedBody();
+            $validator = Validator::parsedBody($request);
 
-            return redirect(route(self::ROUTE_DEFAULT, [
-                'tree'           => $tree->name(),
-                'xref'           => $params['xref'],
-                'generations'    => $params['generations'] ?? '4',
-                'showEmptyBoxes' => $params['showEmptyBoxes'] ?? '0',
-                'layout'         => $params['layout'] ?? Configuration::LAYOUT_LEFTRIGHT,
-            ]));
+            return redirect(
+                route(
+                    self::ROUTE_DEFAULT,
+                    [
+                        'tree'           => $tree->name(),
+                        'xref'           => $validator->string('xref', ''),
+                        'generations'    => $validator->integer('generations', 4),
+                        'showEmptyBoxes' => $validator->boolean('showEmptyBoxes', false),
+                        'layout'         => $validator->string('layout', Configuration::LAYOUT_LEFTRIGHT),
+                    ]
+                )
+            );
         }
 
-        Auth::checkComponentAccess($this, 'chart', $tree, $user);
+        Auth::checkComponentAccess($this, ModuleChartInterface::class, $tree, $user);
 
-        $ajax = (bool) ($request->getQueryParams()['ajax'] ?? false);
+        $individual = Registry::individualFactory()->make($xref, $tree);
+        $individual = Auth::checkIndividualAccess($individual, false, true);
+
+        $this->configuration = new Configuration($request);
 
         if ($ajax) {
             $this->layout = $this->name() . '::layouts/ajax';
 
-            return $this->viewResponse($this->name() . '::modules/pedigree-chart/chart', [
-                'data'          => $this->buildJsonTree($individual),
-                'configuration' => $this->configuration,
-                'chartParams'   => json_encode($this->getChartParameters(), JSON_THROW_ON_ERROR),
-                'stylesheet'    => $this->assetUrl('css/pedigree-chart.css'),
-                'svgStylesheet' => $this->assetUrl('css/svg.css'),
-                'javascript'    => $this->assetUrl('js/pedigree-chart.min.js'),
-            ]);
+            return $this->viewResponse(
+                $this->name() . '::modules/pedigree-chart/chart',
+                [
+                    'data'          => $this->buildJsonTree($individual),
+                    'configuration' => $this->configuration,
+                    'chartParams'   => json_encode($this->getChartParameters(), JSON_THROW_ON_ERROR),
+                    'stylesheet'    => $this->assetUrl('css/pedigree-chart.css'),
+                    'svgStylesheet' => $this->assetUrl('css/svg.css'),
+                    'javascript'    => $this->assetUrl('js/pedigree-chart.min.js'),
+                ]
+            );
         }
 
         return $this->viewResponse(
@@ -217,7 +216,7 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
     /**
      * Collects and returns the required chart data.
      *
-     * @return mixed[]
+     * @return array<string, bool|array<string, string>>
      */
     private function getChartParameters(): array
     {
