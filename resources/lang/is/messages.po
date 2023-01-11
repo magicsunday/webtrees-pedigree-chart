@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pedigree chart\n"
-"POT-Creation-Date: 2021-10-02 14:05+0200\n"
-"PO-Revision-Date: 2022-04-06 15:02+0000\n"
+"POT-Creation-Date: 2023-01-11 08:15+0100\n"
+"PO-Revision-Date: 2023-01-11 08:15+0100\n"
 "Last-Translator: David Drury <david@drury.me.uk>\n"
 "Language-Team: \n"
 "Language: is\n"
@@ -10,44 +10,44 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.2.2\n"
 "X-Poedit-Basepath: ../../..\n"
 "X-Poedit-KeywordsList: translate\n"
 "X-Poedit-SearchPath-0: src\n"
 "X-Poedit-SearchPath-1: resources/views\n"
 
-#: src/Module.php:110 src/Module.php:211
+#: src/Module.php:101 src/Module.php:207
 msgid "Pedigree chart"
 msgstr "Ættartölugraf"
 
-#: src/Module.php:120
+#: src/Module.php:111
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "Ættartafla yfir forfeður einstaklings."
 
-#: src/Module.php:214 src/Traits/ModuleChartTrait.php:38
+#: src/Module.php:210 src/Traits/ModuleChartTrait.php:38
 #, php-format
 msgid "Pedigree chart of %s"
 msgstr "Ættartölugraf fyrir %s"
 
-#: src/Module.php:231
+#: src/Module.php:226
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Notið Ctrl + Skrunhjól til að þysja í grafinu"
 
-#: src/Module.php:232
+#: src/Module.php:227
 msgid "Move the view with two fingers"
 msgstr "Færðu yfirlitið með tveimur fingrum"
 
-#: src/Traits/IndividualTrait.php:148
+#: src/Traits/IndividualTrait.php:147
 #, php-format
 msgid "Born: %s"
 msgstr "Fædd/-ur: %s"
 
-#: src/Traits/IndividualTrait.php:152
+#: src/Traits/IndividualTrait.php:151
 #, php-format
 msgid "Died: %s"
 msgstr "Lést: %s"
 
-#: src/Traits/IndividualTrait.php:156
+#: src/Traits/IndividualTrait.php:155
 msgid "Deceased"
 msgstr "Látin/-n"
 
@@ -84,8 +84,11 @@ msgid "Layout"
 msgstr "Útlit"
 
 #: resources/views/modules/pedigree-chart/page.phtml:99
-msgid "Show empty boxes for missing individuals. Caution: May slow down your system!"
-msgstr "Sýndu tóma kassa fyrir einstaklinga sem vantar. Varúð: Getur hægt á kerfinu þínu!"
+msgid ""
+"Show empty boxes for missing individuals. Caution: May slow down your system!"
+msgstr ""
+"Sýndu tóma kassa fyrir einstaklinga sem vantar. Varúð: Getur hægt á kerfinu "
+"þínu!"
 
 #: resources/views/modules/pedigree-chart/page.phtml:118
 msgid "Show more options"
