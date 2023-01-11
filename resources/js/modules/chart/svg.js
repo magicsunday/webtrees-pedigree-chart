@@ -45,7 +45,7 @@ export default class Svg
         this._element
             .attr("width", "100%")
             .attr("height", "100%")
-            .attr("text-rendering", "geometricPrecision")
+            .attr("text-rendering", "optimizeLegibility")
             .attr("text-anchor", "middle")
             .attr("xmlns:xlink", "https://www.w3.org/1999/xlink");
 
