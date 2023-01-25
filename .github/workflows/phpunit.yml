@@ -1,4 +1,4 @@
-name: PHP_CodeSniffer
+name: PHPUnit
 
 on: [push, pull_request]
 
@@ -18,10 +18,12 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           extensions: json,intl,mbstring
+          coverage: pcov
 
       - name: Checkout repository
         uses: actions/checkout@v3
 
       - run: composer validate
       - run: composer install --no-progress
-      - run: vendor/bin/phpcs src/ --standard=PSR12
+      - run: composer require phpdocumentor/reflection-docblock
+      - run: vendor/bin/phpunit --coverage-clover=tests/coverage.xml

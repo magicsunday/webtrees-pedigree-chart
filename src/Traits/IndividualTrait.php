@@ -1,7 +1,10 @@
 <?php
 
 /**
- * See LICENSE.md file for further details.
+ * This file is part of the package magicsunday/webtrees-pedigree-chart.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -116,6 +119,18 @@ trait IndividualTrait
     }
 
     /**
+     * Returns the UTF-8 chars converted to HTML entities.
+     *
+     * @param string $input The input to encode
+     *
+     * @return string
+     */
+    private function convertToHtmlEntities(string $input): string
+    {
+        return htmlspecialchars_decode(htmlentities($input));
+    }
+
+    /**
      * Returns the DOMXPath instance.
      *
      * @param string $fullName The individuals full name (containing HTML)
@@ -125,7 +140,7 @@ trait IndividualTrait
     private function getXPath(string $fullName): DOMXPath
     {
         $document = new DOMDocument();
-        $document->loadHTML(htmlspecialchars_decode(htmlentities($fullName)));
+        $document->loadHTML($this->convertToHtmlEntities($fullName));
 
         return new DOMXPath($document);
     }
