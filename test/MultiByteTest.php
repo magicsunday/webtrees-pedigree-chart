@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the package magicsunday/webtrees-fan-chart.
+ * This file is part of the package magicsunday/webtrees-pedigree-chart.
  *
  * For the full copyright and license information, please read the
  * LICENSE file that was distributed with this source code.
@@ -21,7 +21,7 @@ use ReflectionClass;
  *
  * @author  Rico Sonntag <mail@ricosonntag.de>
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
- * @link    https://github.com/magicsunday/webtrees-fan-chart/
+ * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
 class MultiByteTest extends TestCase
 {
@@ -35,7 +35,7 @@ class MultiByteTest extends TestCase
             // German umlauts
             [
                 '<div>abc <span>äöü</span> <p>&#228;&#246;&#252;</p></div>',
-                '<div>abc <span>&auml;&ouml;&uuml;</span> <p>&#228;&#246;&#252;</p></div>',
+                '<div>abc <span>&#228;&#246;&#252;</span> <p>&#228;&#246;&#252;</p></div>',
             ],
             [
                 '<div>abc <span>&auml;&ouml;&uuml;</span> <p>&#228;&#246;&#252;</p></div>',
@@ -45,7 +45,7 @@ class MultiByteTest extends TestCase
             // Euro sign
             [
                 '€ &euro; &#8364;',
-                '&euro; &euro; &#8364;',
+                '&#8364; &euro; &#8364;',
             ],
 
             // Korean
