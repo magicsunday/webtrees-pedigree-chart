@@ -16,10 +16,7 @@ use MagicSunday\Webtrees\PedigreeChart\Module;
 
 // Register our namespace
 $loader = new ClassLoader();
-$loader->addPsr4(
-    'MagicSunday\\Webtrees\\PedigreeChart\\',
-    __DIR__ . '/src'
-);
+$loader->addPsr4('MagicSunday\\Webtrees\\PedigreeChart\\', __DIR__ . '/src');
 $loader->register();
 
 // Create and return instance of the module
