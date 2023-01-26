@@ -25,12 +25,15 @@
     "require": {
         "ext-json": "*",
         "ext-dom": "*",
-        "fisharebest/webtrees": "~2.1.0",
+        "fisharebest/webtrees": "~2.2.0 || dev-main",
+        "magicsunday/webtrees-module-base": "^1.0",
         "magicsunday/webtrees-module-installer-plugin": "^1.3"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
         "phpstan/phpstan": "^1.9",
+        "phpstan/phpstan-strict-rules": "^1.4",
+        "phpstan/phpstan-deprecation-rules": "^1.1",
         "squizlabs/php_codesniffer": "^3.7"
     },
     "autoload": {
@@ -38,9 +41,58 @@
             "MagicSunday\\Webtrees\\PedigreeChart\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "MagicSunday\\Webtrees\\PedigreeChart\\Test\\": "test/"
-        }
+    "scripts": {
+        "module:build": [
+            "### Remove any left over files",
+            "rm -Rf webtrees-pedigree-chart/",
+            "### Checkout latest version of repository",
+            "git archive --prefix=webtrees-pedigree-chart/ HEAD --format=tar | tar -x",
+            "### Install required components",
+            "@composer require magicsunday/webtrees-module-base:^1.0",
+            "### Copy base module to vendor directory",
+            "mkdir -p webtrees-pedigree-chart/vendor/magicsunday",
+            "cp -r vendor/magicsunday/webtrees-module-base webtrees-pedigree-chart/vendor/magicsunday/webtrees-module-base",
+            "### Remove all not required files from archive",
+            "rm -rf webtrees-pedigree-chart/.github",
+            "rm -rf webtrees-pedigree-chart/resources/js/modules",
+            "rm -f webtrees-pedigree-chart/.gitattributes",
+            "rm -f webtrees-pedigree-chart/.gitignore",
+            "rm -f webtrees-pedigree-chart/composer.json",
+            "rm -f webtrees-pedigree-chart/package.json",
+            "rm -f webtrees-pedigree-chart/rollup.config.js",
+            "rm -f webtrees-pedigree-chart/phpstan.neon",
+            "### Clean vendor",
+            "rm -rf webtrees-pedigree-chart/vendor/magicsunday/webtrees-module-base/.github",
+            "rm -rf webtrees-pedigree-chart/vendor/magicsunday/webtrees-module-base/test",
+            "rm -f webtrees-pedigree-chart/vendor/magicsunday/webtrees-module-base/.gitignore",
+            "rm -f webtrees-pedigree-chart/vendor/magicsunday/webtrees-module-base/composer.json",
+            "rm -f webtrees-pedigree-chart/vendor/magicsunday/webtrees-module-base/phpstan.neon",
+            "rm -f webtrees-pedigree-chart/vendor/magicsunday/webtrees-module-base/phpunit.xml",
+            "### Create archive",
+            "zip --quiet --recurse-paths --move -9 webtrees-pedigree-chart.zip webtrees-pedigree-chart"
+        ],
+        "module:check": [
+            "### PHP CodeSniffer",
+            "@composer module:phpcs",
+            "### PHPStan",
+            "@composer module:phpstan"
+        ],
+        "module:phpcs": [
+            "@composer global require squizlabs/php_codesniffer=* --quiet",
+            "~/.composer/vendor/bin/phpcs src/ --standard=PSR12"
+        ],
+        "module:phpstan": [
+            "@composer global require --quiet phpstan/phpstan=*",
+            "@composer global require --quiet phpstan/extension-installer=*",
+            "@composer global require --quiet phpstan/phpstan-deprecation-rules=*",
+            "@composer global require --quiet phpstan/phpstan-strict-rules=*",
+            "@composer install --quiet",
+            "~/.composer/vendor/bin/phpstan analyse --memory-limit=-1 --xdebug -c phpstan.neon",
+            "@composer install --no-dev --quiet"
+        ]
+    },
+    "scripts-descriptions": {
+        "module:build": "Create a distribution file (webtrees-pedigree-chart.zip)",
+        "module:check": "Run various static analysis tools"
     }
 }

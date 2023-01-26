@@ -1,13 +1,13 @@
+includes:
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor/phpstan/phpstan-deprecation-rules/rules.neon
+
 parameters:
     # You can currently choose from 10 levels (0 is the loosest and 9 is the strictest).
-    level: 8
+    level: max
 
     paths:
-        - src
-        # If you have tests and want to analyze this folder, uncomment the line below
-        # - test
+        - src/
 
-    fileExtensions:
-        - php
-
-    checkMissingIterableValueType: false
+    excludePaths:
+        - vendor/

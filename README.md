@@ -19,7 +19,7 @@ is capable to display up to 25 ancestor generations of an individual.
 **Caution: If you are rendering a lot of generations it may take a while and even slow down your system.**
 
 ## Installation
-Requires webtrees 2.1.
+Requires webtrees 2.2.
 
 ### Using Composer
 To install using [composer](https://getcomposer.org/), just run the following command from the command line 
@@ -71,6 +71,7 @@ to adjust the layout of the charts according to your needs.
 To build/update the javascript, run the following commands:
 
 ```
+nvm install node
 npm install --unsafe-perm --save-dev
 npm run prepare
 ```
@@ -78,6 +79,6 @@ npm run prepare
 ### Run tests
 ```
 composer update
-vendor/bin/phpstan analyse -c phpstan.neon
+vendor/bin/phpstan analyse --xdebug --memory-limit=-1 -c phpstan.neon
 vendor/bin/phpcs src/ --standard=PSR12
 ```
