@@ -259,11 +259,11 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
         $motherTree = $this->buildJsonTree($family->wife(), $generation + 1);
 
         // Add array of child nodes
-        if ($fatherTree) {
+        if (count($fatherTree) > 0) {
             $data['parents'][] = $fatherTree;
         }
 
-        if ($motherTree) {
+        if (count($motherTree) > 0) {
             $data['parents'][] = $motherTree;
         }
 
