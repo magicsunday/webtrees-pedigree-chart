@@ -1,13 +1,8 @@
 parameters:
     # You can currently choose from 10 levels (0 is the loosest and 9 is the strictest).
-    level: 8
+    level: 9
 
     paths:
         - src
         # If you have tests and want to analyze this folder, uncomment the line below
         # - test
-
-    fileExtensions:
-        - php
-
-    checkMissingIterableValueType: false

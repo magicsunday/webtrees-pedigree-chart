@@ -73,6 +73,7 @@ to adjust the layout of the charts according to your needs.
 To build/update the javascript, run the following commands:
 
 ```
+nvm install node
 npm install --unsafe-perm --save-dev
 npm run prepare
 ```
