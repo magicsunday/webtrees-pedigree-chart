@@ -24,7 +24,9 @@ use Fisharebest\Webtrees\Registry;
 use Fisharebest\Webtrees\Validator;
 use Fisharebest\Webtrees\View;
 use JsonException;
-use MagicSunday\Webtrees\PedigreeChart\Traits\IndividualTrait;
+use MagicSunday\Webtrees\ModuleBase\Processor\DateProcessor;
+use MagicSunday\Webtrees\ModuleBase\Processor\ImageProcessor;
+use MagicSunday\Webtrees\ModuleBase\Processor\NameProcessor;
 use MagicSunday\Webtrees\PedigreeChart\Traits\ModuleChartTrait;
 use MagicSunday\Webtrees\PedigreeChart\Traits\ModuleCustomTrait;
 use Psr\Http\Message\ResponseInterface;
@@ -41,7 +43,6 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
 {
     use ModuleCustomTrait;
     use ModuleChartTrait;
-    use IndividualTrait;
 
     private const ROUTE_DEFAULT     = 'webtrees-pedigree-chart';
     private const ROUTE_DEFAULT_URL = '/tree/{tree}/webtrees-pedigree-chart/{xref}';
@@ -271,6 +272,42 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
         }
 
         return $data;
+    }
+
+    /**
+     * Get the individual data required for display the chart.
+     *
+     * @param Individual $individual The current individual
+     * @param int        $generation The generation the person belongs to
+     *
+     * @return array<string, array<string>|bool|int|string>
+     */
+    private function getIndividualData(Individual $individual, int $generation): array
+    {
+        $nameProcessor  = new NameProcessor($individual);
+        $dateProcessor  = new DateProcessor($individual);
+        $imageProcessor = new ImageProcessor($this, $individual);
+
+        $alternativeNames = $nameProcessor->getAlternateNames();
+
+        return [
+            'id'               => 0,
+            'xref'             => $individual->xref(),
+            'url'              => $individual->url(),
+            'updateUrl'        => $this->getUpdateRoute($individual),
+            'generation'       => $generation,
+            'name'             => $nameProcessor->getFullName(),
+            'firstNames'       => $nameProcessor->getFirstNames(),
+            'lastNames'        => $nameProcessor->getLastNames(),
+            'preferredName'    => $nameProcessor->getPreferredName(),
+            'alternativeNames' => $alternativeNames,
+            'isAltRtl'         => $this->isRtl($alternativeNames),
+            'thumbnail'        => $imageProcessor->getHighlightImageUrl(),
+            'sex'              => $individual->sex(),
+            'birth'            => $dateProcessor->getBirthDate(),
+            'death'            => $dateProcessor->getDeathDate(),
+            'timespan'         => $dateProcessor->getLifetimeDescription(),
+        ];
     }
 
     /**
