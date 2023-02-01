@@ -27,6 +27,8 @@
             "magicsunday/webtrees-module-installer-plugin": true
         }
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "ext-json": "*",
         "ext-dom": "*",

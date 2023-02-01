@@ -14,8 +14,9 @@ namespace MagicSunday\Webtrees;
 use Composer\Autoload\ClassLoader;
 use MagicSunday\Webtrees\PedigreeChart\Module;
 
-// Register our namespace
+// Register our required namespaces
 $loader = new ClassLoader();
+$loader->addPsr4('MagicSunday\\Webtrees\\ModuleBase\\', __DIR__ . '/vendor/magicsunday/webtrees-module-base/src');
 $loader->addPsr4('MagicSunday\\Webtrees\\PedigreeChart\\', __DIR__ . '/src');
 $loader->register();
 
