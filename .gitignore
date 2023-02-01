@@ -1,8 +1,8 @@
-composer.lock
-package-lock.json
 .idea/
 vendor/
 node_modules/
+composer.lock
+package-lock.json
 resources/js/pedigree-chart.js
 resources/js/pedigree-chart-storage.js
 .phpunit.result.cache
