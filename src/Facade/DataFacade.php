@@ -15,12 +15,12 @@ use Fisharebest\Webtrees\Family;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Module\ModuleCustomInterface;
+use MagicSunday\Webtrees\ModuleBase\Processor\DateProcessor;
+use MagicSunday\Webtrees\ModuleBase\Processor\ImageProcessor;
+use MagicSunday\Webtrees\ModuleBase\Processor\NameProcessor;
 use MagicSunday\Webtrees\PedigreeChart\Configuration;
 use MagicSunday\Webtrees\PedigreeChart\Model\Node;
 use MagicSunday\Webtrees\PedigreeChart\Model\NodeData;
-use MagicSunday\Webtrees\PedigreeChart\Processor\DateProcessor;
-use MagicSunday\Webtrees\PedigreeChart\Processor\ImageProcessor;
-use MagicSunday\Webtrees\PedigreeChart\Processor\NameProcessor;
 
 /**
  * Facade class to hide complex logic to generate the structure required to display the tree.
