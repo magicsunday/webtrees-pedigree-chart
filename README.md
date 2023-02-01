@@ -1,7 +1,6 @@
 ![Latest version](https://img.shields.io/github/v/release/magicsunday/webtrees-pedigree-chart?sort=semver)
 ![License](https://img.shields.io/github/license/magicsunday/webtrees-pedigree-chart)
 ![PHPStan](https://github.com/magicsunday/webtrees-pedigree-chart/actions/workflows/phpstan.yml/badge.svg)
-![PHPUnit](https://github.com/magicsunday/webtrees-pedigree-chart/actions/workflows/phpunit.yml/badge.svg)
 ![PHPCodeSniffer](https://github.com/magicsunday/webtrees-pedigree-chart/actions/workflows/phpcs.yml/badge.svg)
 ![CodeQL](https://github.com/magicsunday/webtrees-pedigree-chart/actions/workflows/codeql-analysis.yml/badge.svg)
 
