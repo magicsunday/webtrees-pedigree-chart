@@ -141,7 +141,7 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
         $ajax = Validator::queryParams($request)->boolean('ajax', false);
 
         // Convert POST requests into GET requests for pretty URLs.
-        // This also updates the name above the form, which wont get updated if only a POST request is used
+        // This also updates the name above the form, which won't get updated if only a POST request is used
         if ($request->getMethod() === RequestMethodInterface::METHOD_POST) {
             $validator = Validator::parsedBody($request);
 

@@ -199,13 +199,13 @@ function toggleMoreOptions(storage)
     });
 
     optionsToggle.addEventListener('click', () => {
-      Array.from(optionsToggle.children).forEach((element, index) => {
-        element.classList.toggle('d-none');
-      });
+        Array.from(optionsToggle.children).forEach((element, index) => {
+            element.classList.toggle('d-none');
+        });
     });
 
     if (storage.read("showMoreOptions")) {
-      optionsToggle.click()
+        optionsToggle.click()
     }
 }
 
@@ -227,7 +227,7 @@ formElements.namedItem("layout").value = storage.read("layout");
 const generations    = parseInt(storage.read("generations"));
 const showEmptyBoxes = storage.read("showEmptyBoxes");
 const treeLayout     = storage.read("layout");
-const ajaxUrl        = getUrl(<?= json_encode($ajaxUrl) ?>, storage.read("generations"))
+const ajaxUrl        = getUrl(<?= json_encode($ajaxUrl) ?>, storage.read("generations"));
 
 document.getElementById("pedigree-chart-url")
     .setAttribute('data-wt-ajax-url', ajaxUrl);

@@ -44,6 +44,7 @@
     fill: none;
     stroke: rgb(175, 175, 175);
     stroke-width: 1.5px;
+    /*shape-rendering: crispEdges;*/
 }
 
 #webtrees-pedigree-chart-container svg g.name text {

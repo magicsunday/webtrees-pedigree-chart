@@ -65,7 +65,7 @@ export default class Configuration
         // this._fontScale = fontScale;
         this.fontColor = "rgb(0, 0, 0)";
 
-        this._showEmptyBoxes  = showEmptyBoxes;
+        this._showEmptyBoxes = showEmptyBoxes;
 
         // Duration of update animation if clicked on a person
         // this.updateDuration = 1250;

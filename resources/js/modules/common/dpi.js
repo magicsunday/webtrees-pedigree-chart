@@ -12,8 +12,8 @@
  */
 export default function()
 {
-    const element = document.createElement('div');
-    element.style = 'width: 1in;'
+    const element = document.createElement("div");
+    element.style.width = "1in";
 
     document.body.appendChild(element);
     const offsetWidth = element.offsetWidth;

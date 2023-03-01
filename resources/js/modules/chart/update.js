@@ -54,7 +54,7 @@ export default class Update
         ).then((data) => {
             // Initialize the new loaded data
             this._hierarchy.init(data);
-            that.draw();
+            this.draw();
 
             let indSelector = $(document.getElementById("xref"));
 

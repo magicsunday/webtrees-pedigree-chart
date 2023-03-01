@@ -20,35 +20,27 @@ export default class PngExport extends Export
      * Copies recursively all the styles from the list of container elements from the source
      * to the destination node.
      *
-     * @param {SVGGraphicsElement} sourceNode
-     * @param {SVGGraphicsElement} destinationNode
+     * @param {Element} sourceNode
+     * @param {Element} destinationNode
      */
     copyStylesInline(sourceNode, destinationNode)
     {
-        return new Promise(resolve => {
-            let containerElements = ["svg", "g", "text", "textPath"];
+        let containerElements = ["svg", "g", "text", "textPath"];
 
-            for (let i = 0; i < destinationNode.childNodes.length; ++i) {
-                let child = destinationNode.childNodes[i];
+        for (let i = 0; i < destinationNode.children.length; ++i) {
+            let element = destinationNode.children[i];
 
-                if (containerElements.indexOf(child.tagName) !== -1) {
-                    this.copyStylesInline(sourceNode.childNodes[i], child);
-                    continue;
-                }
-
-                let computedStyle = window.getComputedStyle(sourceNode.childNodes[i]);
-
-                if (computedStyle === null) {
-                    continue;
-                }
-
-                for (let j = 0; j < computedStyle.length; ++j) {
-                    child.style.setProperty(computedStyle[j], computedStyle.getPropertyValue(computedStyle[j]));
-                }
+            if (containerElements.indexOf(element.tagName) !== -1) {
+                this.copyStylesInline(sourceNode.children[i], element);
+                continue;
             }
 
-            resolve(destinationNode);
-        })
+            let computedStyle = window.getComputedStyle(sourceNode.children[i]);
+
+            for (let j = 0; j < computedStyle.length; ++j) {
+                element.style.setProperty(computedStyle[j], computedStyle.getPropertyValue(computedStyle[j]));
+            }
+        }
     }
 
     /**
@@ -156,29 +148,29 @@ export default class PngExport extends Export
         //let scale = 300 / dpi();
 
         // Paper sizes (width, height) in pixel at 300 DPI/PPI
-        // const paperSize = {
-        //     'A3': [4960, 3508],
-        //     'A4': [3508, 2480],
-        //     'A5': [2480, 1748]
-        // };
+        const paperSize = {
+            'A3': [4960, 3508],
+            'A4': [3508, 2480],
+            'A5': [2480, 1748]
+        };
 
         this.cloneSvg(svg.get().node())
             .then(newSvg => {
                 this.copyStylesInline(svg.get().node(), newSvg);
 
                 const viewBox = this.calculateViewBox(svg.get().node());
-                const width = viewBox[2];
-                const height = viewBox[3];
+                const width   = Math.max(paperSize['A3'][0], viewBox[2]);
+                const height  = Math.max(paperSize['A3'][1], viewBox[3]);
 
-                newSvg.setAttribute("width", width);
-                newSvg.setAttribute("height", height);
-                newSvg.setAttribute("viewBox", viewBox);
+                newSvg.setAttribute("width", "" + width);
+                newSvg.setAttribute("height", "" + height);
+                newSvg.setAttribute("viewBox", "" + viewBox);
 
-                this.convertToDataUrl(newSvg, width, height)
-                    .then(imgURI => this.triggerDownload(imgURI, fileName))
-                    .catch(() => {
-                        console.log("Failed to save chart as PNG image");
-                    });
+                return this.convertToDataUrl(newSvg, width, height);
+            })
+            .then(imgURI => this.triggerDownload(imgURI, fileName))
+            .catch(() => {
+                console.log("Failed to save chart as PNG image");
             });
     }
 }
