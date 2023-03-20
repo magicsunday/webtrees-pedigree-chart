@@ -20,9 +20,11 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
  * @var string        $svgStylesheet
  * @var array         $data          The chart data
  */
+
+$id = uniqid();
 ?>
 
-<div id="webtrees-pedigree-chart-container"></div>
+<div class="webtrees-pedigree-chart-container" id="webtrees-pedigree-chart-container-<?= $id ?>"></div>
 
 <?php View::push('styles') ?>
 <link rel="stylesheet" href="<?= e($svgStylesheet) ?>">
@@ -35,43 +37,43 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
 <?php View::push('javascript'); ?>
 <script>
 
-const chartParams = <?= $chartParams ?>;
+const chartParams<?= $id ?> = <?= $chartParams ?>;
 const cssFiles    = [];
 
 <?php foreach (app(ModuleThemeInterface::class)->stylesheets() as $stylesheet) : ?>
-cssFiles.push(<?= json_encode($stylesheet) ?>);
+    cssFiles.push(<?= json_encode($stylesheet) ?>);
 <?php endforeach ?>
 
 cssFiles.push(<?= json_encode($svgStylesheet) ?>);
 
-const optionGenerations = typeof generations !== "undefined"
+const optionGenerations<?= $id ?> = typeof generations !== "undefined"
     ? generations
     : <?= $configuration->getGenerations() ?>;
 
-const optionShowEmptyBox = typeof showEmptyBoxes !== "undefined"
+const optionShowEmptyBox<?= $id ?> = typeof showEmptyBoxes !== "undefined"
     ? showEmptyBoxes
     : <?= json_encode($configuration->getShowEmptyBoxes()) ?>;
 
-const optionLayout = typeof treeLayout !== "undefined"
+const optionLayout<?= $id ?> = typeof treeLayout !== "undefined"
     ? treeLayout
     : <?= json_encode($configuration->getLayout()) ?>;
 
 // Create chart instance with stored configuration
-const pedigreeChart = new WebtreesPedigreeChart.PedigreeChart(
-    "#webtrees-pedigree-chart-container",
+const pedigreeChart<?= $id ?> = new WebtreesPedigreeChart.PedigreeChart(
+    "#webtrees-pedigree-chart-container-<?= $id ?>",
     {
-        labels         : chartParams.labels,
-        generations    : optionGenerations,
-        showEmptyBoxes : optionShowEmptyBox,
-        treeLayout     : optionLayout,
-        rtl            : chartParams.rtl
+        labels         : chartParams<?= $id ?>.labels,
+        generations    : optionGenerations<?= $id ?>,
+        showEmptyBoxes : optionShowEmptyBox<?= $id ?>,
+        treeLayout     : optionLayout<?= $id ?>,
+        rtl            : chartParams<?= $id ?>.rtl
     }
 );
 
-pedigreeChart.cssFiles = cssFiles;
+pedigreeChart<?= $id ?>.cssFiles = cssFiles;
 
 // Draw chart
-pedigreeChart.draw(<?= json_encode($data) ?>);
+pedigreeChart<?= $id ?>.draw(<?= json_encode($data) ?>);
 
 </script>
 <?php View::endpush(); ?>
