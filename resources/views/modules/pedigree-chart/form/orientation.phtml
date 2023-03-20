@@ -1,0 +1,32 @@
+<?php
+
+declare(strict_types=1);
+
+use Fisharebest\Webtrees\I18N;
+use MagicSunday\Webtrees\PedigreeChart\Configuration;
+
+/**
+ * @var Configuration $configuration
+ */
+
+?>
+
+<div class="form-group row">
+    <label class="col-form-label col-sm-3 wt-page-options-label">
+        <?= I18N::translate('Orientation') ?>
+    </label>
+    <div class="col-sm-9 wt-page-options-value" id="layout">
+        <?=
+        view('components/radios-inline', [
+            'name' => 'layout',
+            'options' => [
+                Configuration::LAYOUT_RIGHTLEFT => view('icons/pedigree-left') . I18N::translate('left'),
+                Configuration::LAYOUT_LEFTRIGHT => view('icons/pedigree-right') . I18N::translate('right'),
+                Configuration::LAYOUT_BOTTOMTOP => view('icons/pedigree-up') . I18N::translate('up'),
+                Configuration::LAYOUT_TOPBOTTOM => view('icons/pedigree-down') . I18N::translate('down'),
+            ],
+            'selected' => $configuration->getLayout(),
+        ])
+        ?>
+    </div>
+</div>

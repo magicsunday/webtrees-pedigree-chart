@@ -18,6 +18,7 @@ use Fisharebest\Webtrees\Family;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Module\ModuleChartInterface;
+use Fisharebest\Webtrees\Module\ModuleConfigInterface;
 use Fisharebest\Webtrees\Module\ModuleCustomInterface;
 use Fisharebest\Webtrees\Module\PedigreeChartModule;
 use Fisharebest\Webtrees\Registry;
@@ -28,6 +29,7 @@ use MagicSunday\Webtrees\ModuleBase\Processor\DateProcessor;
 use MagicSunday\Webtrees\ModuleBase\Processor\ImageProcessor;
 use MagicSunday\Webtrees\ModuleBase\Processor\NameProcessor;
 use MagicSunday\Webtrees\PedigreeChart\Traits\ModuleChartTrait;
+use MagicSunday\Webtrees\PedigreeChart\Traits\ModuleConfigTrait;
 use MagicSunday\Webtrees\PedigreeChart\Traits\ModuleCustomTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -39,10 +41,11 @@ use Psr\Http\Message\ServerRequestInterface;
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
  * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
-class Module extends PedigreeChartModule implements ModuleCustomInterface
+class Module extends PedigreeChartModule implements ModuleCustomInterface, ModuleConfigInterface
 {
     use ModuleCustomTrait;
     use ModuleChartTrait;
+    use ModuleConfigTrait;
 
     private const ROUTE_DEFAULT     = 'webtrees-pedigree-chart';
     private const ROUTE_DEFAULT_URL = '/tree/{tree}/webtrees-pedigree-chart/{xref}';
@@ -165,7 +168,7 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
         $individual = Registry::individualFactory()->make($xref, $tree);
         $individual = Auth::checkIndividualAccess($individual, false, true);
 
-        $this->configuration = new Configuration($request);
+        $this->configuration = new Configuration($request, $this);
 
         if ($ajax) {
             $this->layout = $this->name() . '::layouts/ajax';

@@ -11,7 +11,9 @@ declare(strict_types=1);
 
 namespace MagicSunday\Webtrees\PedigreeChart;
 
+use Fig\Http\Message\RequestMethodInterface;
 use Fisharebest\Webtrees\I18N;
+use Fisharebest\Webtrees\Module\AbstractModule;
 use Fisharebest\Webtrees\Module\PedigreeChartModule;
 use Fisharebest\Webtrees\Validator;
 use Psr\Http\Message\ServerRequestInterface;
@@ -40,28 +42,33 @@ class Configuration
      *
      * @var int
      */
-    private const DEFAULT_GENERATIONS = 4;
+    public const DEFAULT_GENERATIONS = 4;
 
     /**
      * Minimum number of displayable generations.
      *
      * @var int
      */
-    private const MIN_GENERATIONS = 2;
+    public const MIN_GENERATIONS = 2;
 
     /**
      * Maximum number of displayable generations.
      *
      * @var int
      */
-    private const MAX_GENERATIONS = 25;
+    public const MAX_GENERATIONS = 25;
 
     /**
      * Tree layout.
      *
      * @var string
      */
-    private const DEFAULT_TREE_LAYOUT = self::LAYOUT_LEFTRIGHT;
+    public const DEFAULT_TREE_LAYOUT = self::LAYOUT_LEFTRIGHT;
+
+    /**
+     * The calling module.
+     */
+    private AbstractModule $module;
 
     /**
      * The current request instance.
@@ -75,9 +82,10 @@ class Configuration
      *
      * @param ServerRequestInterface $request
      */
-    public function __construct(ServerRequestInterface $request)
+    public function __construct(ServerRequestInterface $request, AbstractModule $module)
     {
         $this->request = $request;
+        $this->module = $module;
     }
 
     /**
@@ -87,9 +95,15 @@ class Configuration
      */
     public function getGenerations(): int
     {
-        return Validator::queryParams($this->request)
+        if ($this->request->getMethod() === RequestMethodInterface::METHOD_POST) {
+            $validator = Validator::parsedBody($this->request);
+        } else {
+            $validator = Validator::queryParams($this->request);
+        }
+        return $validator
             ->isBetween(self::MIN_GENERATIONS, self::MAX_GENERATIONS)
-            ->integer('generations', self::DEFAULT_GENERATIONS);
+            ->integer('generations', (int) $this->module->getPreference('default_generations',
+                (string) self::DEFAULT_GENERATIONS));
     }
 
     /**
@@ -126,7 +140,16 @@ class Configuration
      */
     public function getLayout(): string
     {
-        return Validator::queryParams($this->request)
-            ->string('layout', self::DEFAULT_TREE_LAYOUT);
+        if ($this->request->getMethod() === RequestMethodInterface::METHOD_POST) {
+            $validator = Validator::parsedBody($this->request);
+        } else {
+            $validator = Validator::queryParams($this->request);
+        }
+
+        return $validator
+            ->isInArray([self::LAYOUT_BOTTOMTOP, self::LAYOUT_LEFTRIGHT, self::LAYOUT_RIGHTLEFT,
+                self::LAYOUT_TOPBOTTOM])
+            ->string('layout', $this->module->getPreference('default_tree_layout',
+                self::DEFAULT_TREE_LAYOUT));
     }
 }

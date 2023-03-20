@@ -1,0 +1,37 @@
+<?php
+
+declare(strict_types=1);
+
+use Fisharebest\Webtrees\Http\RequestHandlers\ControlPanel;
+use Fisharebest\Webtrees\Http\RequestHandlers\ModulesAllPage;
+use Fisharebest\Webtrees\I18N;
+use MagicSunday\Webtrees\PedigreeChart\Configuration;
+
+/**
+ * @var Configuration $configuration
+ * @var string $moduleName
+ * @var string $title
+ */
+
+?>
+
+<?= view('components/breadcrumbs', ['links' => [route(ControlPanel::class) => I18N::translate('Control panel'), route(ModulesAllPage::class) => I18N::translate('Modules'), $title]]) ?>
+
+<h1><?= $title ?></h1>
+
+<form method="post">
+    <?= view($moduleName.'::modules/pedigree-chart/form/generations', ['configuration' => $configuration]) ?>
+
+    <?= view($moduleName.'::modules/pedigree-chart/form/orientation', ['configuration' => $configuration]) ?>
+
+    <button type="submit" class="btn btn-primary">
+        <?= I18N::translate('save') ?>
+    </button>
+
+    <a href="<?= route(ControlPanel::class) ?>" class="btn btn-secondary">
+        <?= view('icons/cancel') ?>
+        <?= I18N::translate('cancel') ?>
+    </a>
+
+    <?= csrf_field() ?>
+</form>
