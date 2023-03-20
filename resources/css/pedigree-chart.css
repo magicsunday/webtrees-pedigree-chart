@@ -1,14 +1,14 @@
 /* Form */
 
 /* SVG */
-#webtrees-pedigree-chart-container {
+.webtrees-pedigree-chart-container {
     position: relative;
     font-size: unset;
     display: flex;
     flex: auto;
 }
 
-#webtrees-pedigree-chart-container svg {
+.webtrees-pedigree-chart-container svg {
     display: block;
     margin: auto;
     cursor: move;
@@ -19,21 +19,21 @@
     /*filter: drop-shadow(3px 1px 3px rgba(0, 0, 0, 0.4));*/
 }
 
-#webtrees-pedigree-chart-container svg:active {
+.webtrees-pedigree-chart-container svg:active {
     cursor: grabbing;
     /*cursor: -webkit-grabbing;*/
 }
 
-#webtrees-pedigree-chart-container svg .person {
+.webtrees-pedigree-chart-container svg .person {
     cursor: pointer;
 }
 
-#webtrees-pedigree-chart-container svg rect.background {
+.webtrees-pedigree-chart-container svg rect.background {
     fill: none;
     pointer-events: all;
 }
 
-#webtrees-pedigree-chart-container div.overlay {
+.webtrees-pedigree-chart-container div.overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -51,12 +51,12 @@
 }
 
 @supports (-webkit-backdrop-filter: none) {
-    #webtrees-pedigree-chart-container div.overlay {
+    .webtrees-pedigree-chart-container div.overlay {
         -webkit-backdrop-filter: blur(1em);
     }
 }
 
-#webtrees-pedigree-chart-container div.overlay .tooltip {
+.webtrees-pedigree-chart-container div.overlay .tooltip {
     font-size: 22px;
     color: #5a6268;
     position: relative;
@@ -70,11 +70,11 @@
 }
 
 @supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
-    #webtrees-pedigree-chart-container div.overlay {
+    .webtrees-pedigree-chart-container div.overlay {
         background: rgba(0, 0, 0, 0.5);
     }
 
-    #webtrees-pedigree-chart-container div.overlay .tooltip {
+    .webtrees-pedigree-chart-container div.overlay .tooltip {
         color: white;
     }--
 }

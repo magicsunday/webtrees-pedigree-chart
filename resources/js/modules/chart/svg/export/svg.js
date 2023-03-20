@@ -32,7 +32,7 @@ export default class SvgExport extends Export
             d3.text(cssFile)
                 .then((data) => {
                     // Remove parent container selector as the CSS is included directly into the SVG element
-                    data = data.replace(/#webtrees-pedigree-chart-container /g, "");
+                    data = data.replace(/.webtrees-pedigree-chart-container /g, "");
 
                     let style = document.createElementNS("http://www.w3.org/2000/svg", "style");
                     style.appendChild(document.createTextNode(data));
