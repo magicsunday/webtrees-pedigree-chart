@@ -121,7 +121,7 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
     }
 
     /**
-     * Where does this module store its resources
+     * Returns the path where this module stores its resources.
      *
      * @return string
      */
@@ -266,7 +266,7 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
         $fatherTree = $this->buildJsonTree($family->husband(), $generation + 1);
         $motherTree = $this->buildJsonTree($family->wife(), $generation + 1);
 
-        // Add array of child nodes
+        // Add an array of child nodes
         if (count($fatherTree) > 0) {
             $data['parents'][] = $fatherTree;
         }
