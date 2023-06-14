@@ -11,6 +11,8 @@ declare(strict_types=1);
 
 namespace MagicSunday\Webtrees\PedigreeChart;
 
+use Aura\Router\Exception\ImmutableProperty;
+use Aura\Router\Exception\RouteAlreadyExists;
 use Fig\Http\Message\RequestMethodInterface;
 use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\Family;
@@ -81,6 +83,11 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
 
     /**
      * Initialization.
+     *
+     * @return void
+     *
+     * @throws ImmutableProperty
+     * @throws RouteAlreadyExists
      */
     public function boot(): void
     {
@@ -386,7 +393,7 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
      */
     private function getExportStylesheets(): array
     {
-        $stylesheets   = app(ModuleThemeInterface::class)->stylesheets();
+        $stylesheets   = Registry::container()->get(ModuleThemeInterface::class)->stylesheets();
         $stylesheets[] = $this->assetUrl('css/svg.css');
 
         return $stylesheets;
