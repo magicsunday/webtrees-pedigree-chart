@@ -6,23 +6,11 @@
 <!-- TOC -->
 * [Pedigree chart](#pedigree-chart)
   * [Installation](#installation)
-    * [Using Composer](#using-composer)
-    * [Using Git](#using-git)
-    * [Manual installation](#manual-installation)
-  * [Enable module](#enable-module)
-  * [Usage](#usage)
-  * [Development](#development)
-    * [Run tests](#run-tests)
-<!-- TOC -->
-
-
-<!-- TOC -->
-* [Pedigree chart](#pedigree-chart)
-  * [Installation](#installation)
     * [Manual installation](#manual-installation)
       * [Configuration](#configuration)
       * [Usage](#usage)
     * [Using Composer](#using-composer)
+      * [Latest version](#latest-version)
     * [Using Git](#using-git)
   * [Development](#development)
     * [Run tests](#run-tests)
