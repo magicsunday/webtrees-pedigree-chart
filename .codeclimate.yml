@@ -1,4 +1,0 @@
-## Excluded files and folders
-exclude_patterns:
-  - "resources/js/pedigree-chart.min.js"
-  - "resources/js/pedigree-chart-storage.min.js"
