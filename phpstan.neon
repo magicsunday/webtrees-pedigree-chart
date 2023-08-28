@@ -10,4 +10,8 @@ parameters:
     fileExtensions:
         - php
 
-    checkMissingIterableValueType: false
+    excludePaths:
+        - vendor/
+
+    checkGenericClassInNonGenericObjectType: false
+    treatPhpDocTypesAsCertain: false

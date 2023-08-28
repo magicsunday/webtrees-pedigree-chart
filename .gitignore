@@ -6,3 +6,4 @@ node_modules/
 resources/js/pedigree-chart.js
 resources/js/pedigree-chart-storage.js
 .phpunit.result.cache
+webtrees-pedigree-chart.zip
