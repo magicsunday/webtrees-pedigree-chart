@@ -9,6 +9,7 @@
 
 declare(strict_types=1);
 
+use Fisharebest\Webtrees\Module\ModuleThemeInterface;
 use Fisharebest\Webtrees\View;
 use MagicSunday\Webtrees\PedigreeChart\Configuration;
 
@@ -35,7 +36,13 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
 <script>
 
 const chartParams = <?= $chartParams ?>;
-const cssUrl      = <?= json_encode($svgStylesheet) ?>;
+const cssFiles    = [];
+
+<?php foreach (app(ModuleThemeInterface::class)->stylesheets() as $stylesheet) : ?>
+cssFiles.push(<?= json_encode($stylesheet) ?>);
+<?php endforeach ?>
+
+cssFiles.push(<?= json_encode($svgStylesheet) ?>);
 
 const optionGenerations = typeof generations !== "undefined"
     ? generations
@@ -61,7 +68,7 @@ const pedigreeChart = new WebtreesPedigreeChart.PedigreeChart(
     }
 );
 
-pedigreeChart.cssFile = cssUrl;
+pedigreeChart.cssFiles = cssFiles;
 
 // Draw chart
 pedigreeChart.draw(<?= json_encode($data) ?>);
