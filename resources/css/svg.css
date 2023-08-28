@@ -11,10 +11,6 @@
     unicode-bidi: bidi-override !important;
 }
 
-#webtrees-pedigree-chart-container svg text {
-    font-weight: bold;
-}
-
 #webtrees-pedigree-chart-container svg rect.female {
     stroke: var(--sex-f-fg, rgb(255, 32, 128));
     stroke-dasharray: none;
@@ -47,16 +43,24 @@
     /*shape-rendering: crispEdges;*/
 }
 
-#webtrees-pedigree-chart-container svg g.name text {
-    font-weight: bold;
-}
-
 #webtrees-pedigree-chart-container svg g.name tspan.preferred {
     text-decoration: underline;
 }
 
 #webtrees-pedigree-chart-container svg text.date {
-    fill: rgb(127, 127, 127);
+    fill: currentColor;
     font-weight: normal;
     font-size: 13px;
+}
+
+#webtrees-pedigree-chart-container svg .wt-chart-box-name {
+    fill: var(--link-color, currentColor);
+}
+
+#webtrees-pedigree-chart-container svg .wt-chart-box-name-alt {
+    fill: currentColor;
+}
+
+#webtrees-pedigree-chart-container svg .wt-chart-box-name:hover:not(.wt-chart-box-name-alt) {
+    fill: var(--link-color-hover);
 }

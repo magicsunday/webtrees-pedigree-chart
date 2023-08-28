@@ -647,11 +647,13 @@ export default class Tree
         // Top/Bottom and Bottom/Top
         if (this._orientation.splittNames) {
             let text1 = name.append("text")
+                .attr("class", "wt-chart-box-name")
                 .attr("text-anchor", "middle")
                 .attr("alignment-baseline", "central")
                 .attr("dy", this._box.text.y);
 
             let text2 = name.append("text")
+                .attr("class", "wt-chart-box-name")
                 .attr("text-anchor", "middle")
                 .attr("alignment-baseline", "central")
                 .attr("dy", this._box.text.y + 20);
@@ -659,7 +661,7 @@ export default class Tree
             this.addFirstNames(text1, datum);
             this.addLastNames(text2, datum);
 
-            // If both first and last names are empty, add the full name as alternative
+            // If both first and last names are empty, add the full name as an alternative
             if (!datum.data.firstNames.length
                 && !datum.data.lastNames.length
             ) {
@@ -670,9 +672,10 @@ export default class Tree
             this.truncateNames(text1);
             this.truncateNames(text2);
 
-            // Left/Right and Right/Left
+        // Left/Right and Right/Left
         } else {
             let text1 = name.append("text")
+                .attr("class", "wt-chart-box-name")
                 .attr("text-anchor", this._configuration.rtl ? "end" : "start")
                 .attr("dx", this._box.text.x)
                 .attr("dy", this._box.text.y);
@@ -680,7 +683,7 @@ export default class Tree
             this.addFirstNames(text1, datum);
             this.addLastNames(text1, datum, 0.25);
 
-            // If both first and last names are empty, add the full name as alternative
+            // If both first and last names are empty, add the full name as an alternative
             if (!datum.data.firstNames.length
                 && !datum.data.lastNames.length
             ) {
@@ -733,7 +736,7 @@ export default class Tree
         if (datum.data.birth) {
             let col1 = table
                 .append("text")
-                .attr("class", "date")
+                .attr("fill", "currentColor")
                 .attr("text-anchor", "middle")
                 .attr("dominant-baseline", "middle")
                 .attr("x", this._box.text.x)
@@ -774,7 +777,7 @@ export default class Tree
 
             let col1 = table
                 .append("text")
-                .attr("class", "date")
+                .attr("fill", "currentColor")
                 .attr("text-anchor", "middle")
                 .attr("dominant-baseline", "middle")
                 .attr("x", this._box.text.x)
@@ -835,19 +838,18 @@ export default class Tree
      */
     drawLinks(links, source)
     {
-        // let that = this;
-
-        let link = this._svg.visual
+        let linkPath = this._svg.visual
             .selectAll("path.link")
             .data(links, person => person.target.id);
 
         // Add new links. Transition new links from the source's old position to
         // the links final position.
-        let linkEnter = link
+        let linkEnter = linkPath
             .enter()
             .append("path")
             .classed("link", true)
-            .attr("d", person => this._orientation.elbow(person));
+            .attr("d", link => this._orientation.elbow(link));
+
 
         // // Add new links. Transition new links from the source's old position to
         // // the links final position.
