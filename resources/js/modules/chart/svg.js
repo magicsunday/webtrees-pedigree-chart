@@ -46,7 +46,6 @@ export default class Svg
     {
         // Add SVG element
         this._element
-            .attr('class', 'wt-global')
             .attr("width", "100%")
             .attr("height", "100%")
             .attr("text-rendering", "optimizeLegibility")
