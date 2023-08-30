@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace MagicSunday\Webtrees\PedigreeChart;
 
-use Aura\Router\RouterContainer;
 use Fig\Http\Message\RequestMethodInterface;
 use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\Family;
@@ -84,10 +83,8 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
      */
     public function boot(): void
     {
-        /** @var RouterContainer $routerContainer */
-        $routerContainer = app(RouterContainer::class);
-
-        $routerContainer->getMap()
+        Registry::routeFactory()
+            ->routeMap()
             ->get(self::ROUTE_DEFAULT, self::ROUTE_DEFAULT_URL, $this)
             ->allows(RequestMethodInterface::METHOD_POST);
 
