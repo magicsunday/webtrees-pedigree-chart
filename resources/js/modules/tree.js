@@ -831,7 +831,7 @@ export default class Tree
     /**
      * Draw the connecting lines.
      *
-     * @param {Array}  links  Array of links
+     * @param {Link[]} links  Array of links
      * @param {Object} source The root object
      *
      * @private
@@ -840,7 +840,7 @@ export default class Tree
     {
         let linkPath = this._svg.visual
             .selectAll("path.link")
-            .data(links, person => person.target.id);
+            .data(links); //, person => person.target.id);
 
         // Add new links. Transition new links from the source's old position to
         // the links final position.

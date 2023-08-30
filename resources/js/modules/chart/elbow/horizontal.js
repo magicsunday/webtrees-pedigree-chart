@@ -5,22 +5,28 @@
  * LICENSE file that was distributed with this source code.
  */
 
+import * as d3 from "../../d3";
+
 /**
  * Draw the horizontal connecting lines between the profile boxes for Left/Right and Right/Left layout.
  *
- * @param {Object}      datum       D3 data object
+ * @param {Link}        link        The link object
  * @param {Orientation} orientation The current orientation
  */
-export default function(datum, orientation)
+export default function(link, orientation)
 {
-    // Left => Right, Right => Left
-    const sourceX = datum.source.x + (orientation.direction() * (orientation.boxWidth / 2)),
-          sourceY = datum.source.y,
-          targetX = datum.target.x - (orientation.direction() * (orientation.boxWidth / 2)),
-          targetY = datum.target.y;
+    const path = d3.path();
 
-    return "M " + sourceX + " " + sourceY +
-        " H " + (sourceX + ((targetX - sourceX) / 2)) +
-        " V " + targetY +
-        " H " + targetX;
+    // Left => Right, Right => Left
+    const sourceX = link.source.x + (orientation.direction() * (orientation.boxWidth / 2)),
+          sourceY = link.source.y,
+          targetX = link.target.x - (orientation.direction() * (orientation.boxWidth / 2)),
+          targetY = link.target.y;
+
+    path.moveTo(sourceX, sourceY);
+    path.lineTo((sourceX + ((targetX - sourceX) / 2)), sourceY);
+    path.lineTo((sourceX + ((targetX - sourceX) / 2)), targetY);
+    path.lineTo(targetX, targetY);
+
+    return path.toString();
 }

@@ -5,22 +5,28 @@
  * LICENSE file that was distributed with this source code.
  */
 
+import * as d3 from "../../d3";
+
 /**
  * Draw the vertical connecting lines between the profile boxes for Top/Bottom and Bottom/Top layout.
  *
- * @param {Object}      datum       D3 data object
+ * @param {Link}        link        The link object
  * @param {Orientation} orientation The current orientation
  */
-export default function(datum, orientation)
+export default function(link, orientation)
 {
-    // Top => Bottom, Bottom => Top
-    const sourceX = datum.source.x,
-          sourceY = datum.source.y + (orientation.direction() * (orientation.boxHeight / 2)),
-          targetX = datum.target.x,
-          targetY = datum.target.y - (orientation.direction() * (orientation.boxHeight / 2));
+    const path = d3.path();
 
-    return "M " + sourceX + " " + sourceY +
-        " V " + (sourceY + ((targetY - sourceY) / 2)) +
-        " H " + targetX +
-        " V " + targetY;
+    // Top => Bottom, Bottom => Top
+    const sourceX = link.source.x,
+          sourceY = link.source.y + (orientation.direction() * (orientation.boxHeight / 2)),
+          targetX = link.target.x,
+          targetY = link.target.y - (orientation.direction() * (orientation.boxHeight / 2));
+
+    path.moveTo(sourceX, sourceY);
+    path.lineTo(sourceX, (sourceY + ((targetY - sourceY) / 2)));
+    path.lineTo(targetX, (sourceY + ((targetY - sourceY) / 2)));
+    path.lineTo(targetX, targetY);
+
+    return path.toString();
 }
