@@ -25,10 +25,12 @@ export class PedigreeChart
      * @param {Object} options  A list of options passed from outside to the application
      *
      * @param {String[]} options.labels
+     * @param {Boolean}  options.rtl
      * @param {Number}   options.generations
      * @param {Boolean}  options.showEmptyBoxes
      * @param {String}   options.treeLayout
-     * @param {Boolean}  options.rtl
+     * @param {String[]} options.cssFiles
+     * @param {Data[]}   options.data
      */
     constructor(selector, options)
     {
@@ -44,10 +46,13 @@ export class PedigreeChart
             options.rtl
         );
 
+        this._cssFiles = options.cssFiles;
+
         // Set up chart instance
         this._chart = new Chart(this._parent, this._configuration);
 
         this.init();
+        this.draw(options.data);
     }
 
     /**
@@ -90,16 +95,6 @@ export class PedigreeChart
     get configuration()
     {
         return this._configuration;
-    }
-
-    /**
-     * Sets the URL to the CSS file used in SVG export.
-     *
-     * @param {String[]} cssFiles
-     */
-    set cssFiles(cssFiles)
-    {
-        this._cssFiles = cssFiles;
     }
 
     /**

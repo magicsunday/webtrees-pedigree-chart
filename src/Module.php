@@ -172,9 +172,10 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
             return $this->viewResponse(
                 $this->name() . '::modules/pedigree-chart/chart',
                 [
+                    'id'            => uniqid(),
                     'data'          => $this->buildJsonTree($individual),
                     'configuration' => $this->configuration,
-                    'chartParams'   => json_encode($this->getChartParameters(), JSON_THROW_ON_ERROR),
+                    'chartParams'   => $this->getChartParameters(),
                     'stylesheet'    => $this->assetUrl('css/pedigree-chart.css'),
                     'svgStylesheet' => $this->assetUrl('css/svg.css'),
                     'javascript'    => $this->assetUrl('js/pedigree-chart.min.js'),
