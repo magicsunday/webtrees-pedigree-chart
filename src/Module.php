@@ -19,6 +19,7 @@ use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Module\ModuleChartInterface;
 use Fisharebest\Webtrees\Module\ModuleCustomInterface;
+use Fisharebest\Webtrees\Module\ModuleThemeInterface;
 use Fisharebest\Webtrees\Module\PedigreeChartModule;
 use Fisharebest\Webtrees\Registry;
 use Fisharebest\Webtrees\Validator;
@@ -172,13 +173,12 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
             return $this->viewResponse(
                 $this->name() . '::modules/pedigree-chart/chart',
                 [
-                    'id'            => uniqid(),
-                    'data'          => $this->buildJsonTree($individual),
-                    'configuration' => $this->configuration,
-                    'chartParams'   => $this->getChartParameters(),
-                    'stylesheet'    => $this->assetUrl('css/pedigree-chart.css'),
-                    'svgStylesheet' => $this->assetUrl('css/svg.css'),
-                    'javascript'    => $this->assetUrl('js/pedigree-chart.min.js'),
+                    'id'                => uniqid(),
+                    'data'              => $this->buildJsonTree($individual),
+                    'configuration'     => $this->configuration,
+                    'chartParams'       => $this->getChartParameters(),
+                    'exportStylesheets' => $this->getExportStylesheets(),
+                    'javascript'        => $this->assetUrl('js/pedigree-chart.min.js'),
                 ]
             );
         }
@@ -192,8 +192,7 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
                 'individual'    => $individual,
                 'tree'          => $tree,
                 'configuration' => $this->configuration,
-                'stylesheet'    => $this->assetUrl('css/pedigree-chart.css'),
-                'svgStylesheet' => $this->assetUrl('css/svg.css'),
+                'stylesheets'   => $this->getStylesheets(),
                 'javascript'    => $this->assetUrl('js/pedigree-chart-storage.min.js'),
             ]
         );
@@ -329,5 +328,33 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
         }
 
         return false;
+    }
+
+    /**
+     * Returns a list of used stylesheets with this module.
+     *
+     * @return array<string>
+     */
+    private function getStylesheets(): array
+    {
+        $stylesheets = [];
+
+        $stylesheets[] = $this->assetUrl('css/pedigree-chart.css');
+        $stylesheets[] = $this->assetUrl('css/svg.css');
+
+        return $stylesheets;
+    }
+
+    /**
+     * Returns a list required stylesheets for the SVG export.
+     *
+     * @return array<string>
+     */
+    private function getExportStylesheets(): array
+    {
+        $stylesheets   = app(ModuleThemeInterface::class)->stylesheets();
+        $stylesheets[] = $this->assetUrl('css/svg.css');
+
+        return $stylesheets;
     }
 }
