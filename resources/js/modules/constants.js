@@ -10,7 +10,7 @@
  *
  * @type {Number}
  */
-export const LAYOUT_HORIZONTAL_NODE_WIDTH  = 300;
+export const LAYOUT_HORIZONTAL_NODE_WIDTH  = 325;
 export const LAYOUT_HORIZONTAL_NODE_HEIGHT = 80;
 export const LAYOUT_VERTICAL_NODE_WIDTH    = 150;
 export const LAYOUT_VERTICAL_NODE_HEIGHT   = 175;
