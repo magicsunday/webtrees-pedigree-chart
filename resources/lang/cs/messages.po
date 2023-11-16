@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pedigree chart\n"
 "POT-Creation-Date: 2023-01-11 08:15+0100\n"
-"PO-Revision-Date: 2023-11-16 10:29+0100\n"
+"PO-Revision-Date: 2023-11-16 10:51+0100\n"
 "Last-Translator: Jakub Cabal <jakubcabal@gmail.com>\n"
 "Language-Team: \n"
 "Language: cs\n"
@@ -102,7 +102,7 @@ msgstr "Skrýt další volby"
 
 #: resources/views/modules/pedigree-chart/page.phtml:124
 msgid "view"
-msgstr "pohled"
+msgstr "zobrazit"
 
 #: resources/views/modules/pedigree-chart/page.phtml:130
 msgid "Re center"
