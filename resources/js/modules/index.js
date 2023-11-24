@@ -2,12 +2,12 @@
  * This file is part of the package magicsunday/webtrees-pedigree-chart.
  *
  * For the full copyright and license information, please read the
- * LICENSE file that was distributed with this source code.
+ * LICENSE file distributed with this source code.
  */
 
-import * as d3 from "./d3";
-import Configuration from "./configuration";
-import Chart from "./chart";
+import * as d3 from "./lib/d3";
+import Configuration from "./custom/configuration";
+import Chart from "./lib/chart";
 
 /**
  * The application class.
@@ -140,6 +140,11 @@ export class PedigreeChart
     {
         this._chart.svg
             .export('svg')
-            .svgToImage(this._chart.svg, this._cssFiles, "pedigree-chart.svg");
+            .svgToImage(
+                this._chart.svg,
+                this._cssFiles,
+                "webtrees-pedigree-chart-container",
+                "pedigree-chart.svg"
+            );
     }
 }

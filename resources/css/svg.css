@@ -40,6 +40,7 @@
     fill: none;
     stroke: rgb(175, 175, 175);
     stroke-width: 1.5px;
+    stroke-linecap: butt;
     /*shape-rendering: crispEdges;*/
 }
 
@@ -59,6 +60,8 @@
 
 .webtrees-pedigree-chart-container svg .wt-chart-box-name-alt {
     fill: currentColor;
+    font-weight: 500;
+    font-size: 0.85em;
 }
 
 .webtrees-pedigree-chart-container svg .wt-chart-box-name:hover:not(.wt-chart-box-name-alt) {

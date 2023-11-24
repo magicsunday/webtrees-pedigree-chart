@@ -40,7 +40,7 @@ export default [
 
     // pedigree-chart-storage.js
     {
-        input: "resources/js/modules/storage.js",
+        input: "resources/js/modules/lib/storage.js",
         output: [
             {
                 name: "WebtreesPedigreeChart",
@@ -53,7 +53,7 @@ export default [
         ]
     },
     {
-        input: "resources/js/modules/storage.js",
+        input: "resources/js/modules/lib/storage.js",
         output: [
             {
                 name: "WebtreesPedigreeChart",

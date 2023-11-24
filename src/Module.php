@@ -4,7 +4,7 @@
  * This file is part of the package magicsunday/webtrees-pedigree-chart.
  *
  * For the full copyright and license information, please read the
- * LICENSE file that was distributed with this source code.
+ * LICENSE file distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -13,7 +13,6 @@ namespace MagicSunday\Webtrees\PedigreeChart;
 
 use Fig\Http\Message\RequestMethodInterface;
 use Fisharebest\Webtrees\Auth;
-use Fisharebest\Webtrees\Family;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Module\ModuleChartInterface;
@@ -21,10 +20,11 @@ use Fisharebest\Webtrees\Module\ModuleCustomInterface;
 use Fisharebest\Webtrees\Module\ModuleThemeInterface;
 use Fisharebest\Webtrees\Module\PedigreeChartModule;
 use Fisharebest\Webtrees\Registry;
+use Fisharebest\Webtrees\Services\ChartService;
 use Fisharebest\Webtrees\Validator;
 use Fisharebest\Webtrees\View;
 use JsonException;
-use MagicSunday\Webtrees\PedigreeChart\Traits\IndividualTrait;
+use MagicSunday\Webtrees\PedigreeChart\Facade\DataFacade;
 use MagicSunday\Webtrees\PedigreeChart\Traits\ModuleChartTrait;
 use MagicSunday\Webtrees\PedigreeChart\Traits\ModuleCustomTrait;
 use Psr\Http\Message\ResponseInterface;
@@ -41,7 +41,6 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
 {
     use ModuleCustomTrait;
     use ModuleChartTrait;
-    use IndividualTrait;
 
     private const ROUTE_DEFAULT     = 'webtrees-pedigree-chart';
     private const ROUTE_DEFAULT_URL = '/tree/{tree}/webtrees-pedigree-chart/{xref}';
@@ -79,6 +78,26 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
     private Configuration $configuration;
 
     /**
+     * @var DataFacade
+     */
+    private DataFacade $dataFacade;
+
+    /**
+     * Constructor.
+     *
+     * @param ChartService $chartService
+     * @param DataFacade   $dataFacade
+     */
+    public function __construct(
+        ChartService $chartService,
+        DataFacade $dataFacade
+    ) {
+        parent::__construct($chartService);
+
+        $this->dataFacade = $dataFacade;
+    }
+
+    /**
      * Initialization.
      */
     public function boot(): void
@@ -113,7 +132,7 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
     }
 
     /**
-     * Where does this module store its resources
+     * Where does this module store its resources?
      *
      * @return string
      */
@@ -167,11 +186,16 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
         if ($ajax) {
             $this->layout = $this->name() . '::layouts/ajax';
 
+            $this->dataFacade
+                ->setModule($this)
+                ->setConfiguration($this->configuration)
+                ->setRoute(self::ROUTE_DEFAULT);
+
             return $this->viewResponse(
                 $this->name() . '::modules/pedigree-chart/chart',
                 [
                     'id'                => uniqid(),
-                    'data'              => $this->buildJsonTree($individual),
+                    'data'              => $this->dataFacade->createTreeStructure($individual),
                     'configuration'     => $this->configuration,
                     'chartParams'       => $this->getChartParameters(),
                     'exportStylesheets' => $this->getExportStylesheets(),
@@ -230,47 +254,6 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
     }
 
     /**
-     * Recursively build the data array of the individual ancestors.
-     *
-     * @param null|Individual $individual The start person
-     * @param int             $generation The current generation
-     *
-     * @return mixed[]
-     */
-    private function buildJsonTree(?Individual $individual, int $generation = 1): array
-    {
-        // Maximum generation reached
-        if (($individual === null) || ($generation > $this->configuration->getGenerations())) {
-            return [];
-        }
-
-        /** @var array<string, array<string>> $data */
-        $data = $this->getIndividualData($individual, $generation);
-
-        /** @var null|Family $family */
-        $family = $individual->childFamilies()->first();
-
-        if ($family === null) {
-            return $data;
-        }
-
-        // Recursively call the method for the parents of the individual
-        $fatherTree = $this->buildJsonTree($family->husband(), $generation + 1);
-        $motherTree = $this->buildJsonTree($family->wife(), $generation + 1);
-
-        // Add array of child nodes
-        if ($fatherTree) {
-            $data['parents'][] = $fatherTree;
-        }
-
-        if ($motherTree) {
-            $data['parents'][] = $motherTree;
-        }
-
-        return $data;
-    }
-
-    /**
      *
      * @param Individual $individual
      * @param string     $xref
@@ -288,43 +271,6 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface
                 'xref'        => $xref,
             ]
         );
-    }
-
-    /**
-     * Get the raw update URL. The "xref" parameter must be the last one as the URL gets appended
-     * with the clicked individual id in order to load the required chart data.
-     *
-     * @param Individual $individual
-     *
-     * @return string
-     */
-    private function getUpdateRoute(Individual $individual): string
-    {
-        return $this->chartUrl(
-            $individual,
-            [
-                'generations' => $this->configuration->getGenerations(),
-                'layout'      => $this->configuration->getLayout(),
-            ]
-        );
-    }
-
-    /**
-     * Returns whether the given text is in RTL style or not.
-     *
-     * @param string[] $text The text to check
-     *
-     * @return bool
-     */
-    private function isRtl(array $text): bool
-    {
-        foreach ($text as $entry) {
-            if (I18N::scriptDirection(I18N::textScript($entry)) === 'rtl') {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**
