@@ -100,10 +100,16 @@ class Configuration
         } else {
             $validator = Validator::queryParams($this->request);
         }
+
         return $validator
             ->isBetween(self::MIN_GENERATIONS, self::MAX_GENERATIONS)
-            ->integer('generations', (int) $this->module->getPreference('default_generations',
-                (string) self::DEFAULT_GENERATIONS));
+            ->integer(
+                'generations',
+                (int) $this->module->getPreference(
+                    'default_generations',
+                    (string) self::DEFAULT_GENERATIONS
+                )
+            );
     }
 
     /**
@@ -147,9 +153,18 @@ class Configuration
         }
 
         return $validator
-            ->isInArray([self::LAYOUT_BOTTOMTOP, self::LAYOUT_LEFTRIGHT, self::LAYOUT_RIGHTLEFT,
-                self::LAYOUT_TOPBOTTOM])
-            ->string('layout', $this->module->getPreference('default_tree_layout',
-                self::DEFAULT_TREE_LAYOUT));
+            ->isInArray([
+                self::LAYOUT_BOTTOMTOP,
+                self::LAYOUT_LEFTRIGHT,
+                self::LAYOUT_RIGHTLEFT,
+                self::LAYOUT_TOPBOTTOM,
+            ])
+            ->string(
+                'layout',
+                $this->module->getPreference(
+                    'default_tree_layout',
+                    self::DEFAULT_TREE_LAYOUT
+                )
+            );
     }
 }
