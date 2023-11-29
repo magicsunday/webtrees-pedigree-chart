@@ -202,6 +202,7 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface, Modul
                     'configuration'     => $this->configuration,
                     'chartParams'       => $this->getChartParameters(),
                     'exportStylesheets' => $this->getExportStylesheets(),
+                    'stylesheets'       => $this->getStylesheets(),
                     'javascript'        => $this->assetUrl('js/pedigree-chart.min.js'),
                 ]
             );
