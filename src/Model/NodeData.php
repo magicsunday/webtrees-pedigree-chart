@@ -143,6 +143,20 @@ class NodeData implements JsonSerializable
     protected string $timespan = '';
 
     /**
+     * The age of the father at birth of a child.
+     *
+     * @var string
+     */
+    protected string $fatherAge = '';
+
+    /**
+     * The age of the mother at birth of a child.
+     *
+     * @var string
+     */
+    protected string $motherAge = '';
+
+    /**
      * The underlying individual instance. Only used internally.
      *
      * @var null|Individual
@@ -353,6 +367,28 @@ class NodeData implements JsonSerializable
     }
 
     /**
+     * @param string $fatherAge
+     *
+     * @return NodeData
+     */
+    public function setFatherAge(string $fatherAge): NodeData
+    {
+        $this->fatherAge = $fatherAge;
+        return $this;
+    }
+
+    /**
+     * @param string $motherAge
+     *
+     * @return NodeData
+     */
+    public function setMotherAge(string $motherAge): NodeData
+    {
+        $this->motherAge = $motherAge;
+        return $this;
+    }
+
+    /**
      * @return null|Individual
      */
     public function getIndividual(): ?Individual
@@ -396,6 +432,8 @@ class NodeData implements JsonSerializable
             'birth'           => $this->birth,
             'death'           => $this->death,
             'timespan'        => $this->timespan,
+            'fatherAge'       => $this->fatherAge,
+            'motherAge'       => $this->motherAge,
         ];
     }
 }

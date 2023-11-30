@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace MagicSunday\Webtrees\PedigreeChart\Facade;
 
+use Fisharebest\Webtrees\Age;
 use Fisharebest\Webtrees\Family;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
@@ -132,6 +133,26 @@ class DataFacade
 
         if ($motherNode !== null) {
             $node->addParent($motherNode);
+        }
+
+        if (
+            $family->husband()
+            && $individual->getBirthDate()->isOK()
+            && $family->husband()->getBirthDate()->isOK()
+        ) {
+            $age = new Age($family->husband()->getBirthDate(), $individual->getBirthDate());
+
+            $node->getData()->setFatherAge(I18N::number($age->ageYears()));
+        }
+
+        if (
+            $family->wife()
+            && $individual->getBirthDate()->isOK()
+            && $family->wife()->getBirthDate()->isOK()
+        ) {
+            $age = new Age($family->wife()->getBirthDate(), $individual->getBirthDate());
+
+            $node->getData()->setMotherAge(I18N::number($age->ageYears()));
         }
 
         return $node;
