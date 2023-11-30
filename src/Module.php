@@ -24,7 +24,6 @@ use Fisharebest\Webtrees\Registry;
 use Fisharebest\Webtrees\Services\ChartService;
 use Fisharebest\Webtrees\Validator;
 use Fisharebest\Webtrees\View;
-use JsonException;
 use MagicSunday\Webtrees\PedigreeChart\Facade\DataFacade;
 use MagicSunday\Webtrees\PedigreeChart\Traits\ModuleChartTrait;
 use MagicSunday\Webtrees\PedigreeChart\Traits\ModuleConfigTrait;
@@ -150,8 +149,6 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface, Modul
      * @param ServerRequestInterface $request
      *
      * @return ResponseInterface
-     *
-     * @throws JsonException
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {

@@ -129,8 +129,7 @@ export default class Date
                 const tspan = col2.append("tspan");
 
                 tspan.text(d => this.truncateDate(tspan, d.label, this._text.width - (d.withImage ? this._image.width : 0) - 25))
-                    .attr("dx", (this._orientation.isDocumentRtl ? -1 : 1) * 15)
-                ;
+                    .attr("dx", (this._orientation.isDocumentRtl ? -1 : 1) * 15);
             });
     }
 

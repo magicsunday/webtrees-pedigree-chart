@@ -122,18 +122,16 @@ class DataFacade
         }
 
         // Recursively call the method for the parents of the individual
-        $fatherTree = $this->buildTreeStructure($family->husband(), $generation + 1);
-        $motherTree = $this->buildTreeStructure($family->wife(), $generation + 1);
+        $fatherNode = $this->buildTreeStructure($family->husband(), $generation + 1);
+        $motherNode = $this->buildTreeStructure($family->wife(), $generation + 1);
 
         // Add an array of child nodes
-        if ($fatherTree !== null) {
-            $node->addParent($fatherTree);
-//            $data['parents'][] = $fatherTree;
+        if ($fatherNode !== null) {
+            $node->addParent($fatherNode);
         }
 
-        if ($motherTree !== null) {
-            $node->addParent($motherTree);
-//            $data['parents'][] = $motherTree;
+        if ($motherNode !== null) {
+            $node->addParent($motherNode);
         }
 
         return $node;
@@ -154,24 +152,17 @@ class DataFacade
         // Create a unique ID for each individual
         static $id = 0;
 
-        $treeData = new NodeData();
-        $treeData->setId(++$id)
-            ->setGeneration($generation);
-
-        $nameProcessor = new NameProcessor(
-            $individual,
-            null,
-            false
-//            $this->configuration->getShowMarriedNames()
-        );
-
+        $nameProcessor  = new NameProcessor($individual);
         $dateProcessor  = new DateProcessor($individual);
         $imageProcessor = new ImageProcessor($this->module, $individual);
 
         $fullNN          = $nameProcessor->getFullName();
         $alternativeName = $nameProcessor->getAlternateName($individual);
 
+        $treeData = new NodeData();
         $treeData
+            ->setId(++$id)
+            ->setGeneration($generation)
             ->setXref($individual->xref())
             ->setUrl($individual->url())
             ->setUpdateUrl($this->getUpdateRoute($individual))
