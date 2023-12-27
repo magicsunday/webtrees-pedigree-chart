@@ -296,7 +296,9 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface, Modul
      */
     private function getExportStylesheets(): array
     {
-        $stylesheets   = app(ModuleThemeInterface::class)->stylesheets();
+        /** @var ModuleThemeInterface $moduleTheme */
+        $moduleTheme   = app(ModuleThemeInterface::class);
+        $stylesheets   = $moduleTheme->stylesheets();
         $stylesheets[] = $this->assetUrl('css/svg.css');
 
         return $stylesheets;
