@@ -29,6 +29,7 @@ export class PedigreeChart
      * @param {Number}   options.generations
      * @param {Boolean}  options.showEmptyBoxes
      * @param {String}   options.treeLayout
+     * @param {Boolean}  options.openNewTabOnClick
      * @param {String[]} options.cssFiles
      * @param {Data[]}   options.data
      */
@@ -43,6 +44,7 @@ export class PedigreeChart
             options.generations,
             options.showEmptyBoxes,
             options.treeLayout,
+            options.openNewTabOnClick,
             options.rtl
         );
 

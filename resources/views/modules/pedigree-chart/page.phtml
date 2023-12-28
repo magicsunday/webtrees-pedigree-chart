@@ -167,6 +167,7 @@ const storage = new WebtreesPedigreeChart.Storage("webtrees-pedigree-chart");
 storage.register("generations");
 storage.register("layout");
 storage.register("showEmptyBoxes");
+storage.register("openNewTabOnClick");
 
 // Handle option toggle button
 toggleMoreOptions(storage);
@@ -175,10 +176,11 @@ toggleMoreOptions(storage);
 let formElements = document.getElementById("webtrees-pedigree-chart-form").elements;
 formElements.namedItem("layout").value = storage.read("layout");
 
-const generations    = parseInt(storage.read("generations"));
-const showEmptyBoxes = storage.read("showEmptyBoxes");
-const treeLayout     = storage.read("layout");
-const ajaxUrl        = getUrl(<?= json_encode($ajaxUrl) ?>, storage.read("generations"));
+const generations       = parseInt(storage.read("generations"));
+const showEmptyBoxes    = storage.read("showEmptyBoxes");
+const treeLayout        = storage.read("layout");
+const openNewTabOnClick = storage.read("openNewTabOnClick");
+const ajaxUrl           = getUrl(<?= json_encode($ajaxUrl) ?>, storage.read("generations"));
 
 document.getElementById("pedigree-chart-url")
     .setAttribute('data-wt-ajax-url', ajaxUrl);

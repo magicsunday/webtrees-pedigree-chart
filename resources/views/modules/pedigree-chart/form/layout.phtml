@@ -31,5 +31,19 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
                 'unchecked' => '0',
             ])
         ?>
+
+        <div class="mt-3">
+            <?=
+            view($moduleName . '::modules/components/checkbox', [
+                'name'      => 'openNewTabOnClick',
+                'label'     => I18N::translate('Open individual in new browser window/tab'),
+                'checked'   => $configuration->getOpenNewTabOnClick(),
+                'unchecked' => '0',
+            ])
+            ?>
+            <small class="ps-4 form-text text-muted form-element-description">
+                <?= I18N::translate('Open the current individual\'s detail page in a new browser window/tab when it\'s left-clicked, otherwise the current window/tab is used.') ?>
+            </small>
+        </div>
     </div>
 </div>

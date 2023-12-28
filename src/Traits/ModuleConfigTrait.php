@@ -58,8 +58,9 @@ trait ModuleConfigTrait
         $configuration = new Configuration($request, $this);
 
         $this->setPreference('default_generations', (string) $configuration->getGenerations());
-        $this->setPreference('default_tree_layout', $configuration->getLayout());
-        $this->setPreference('default_show_empty_boxes', (string) $configuration->getShowEmptyBoxes());
+        $this->setPreference('default_layout', $configuration->getLayout());
+        $this->setPreference('default_showEmptyBoxes', (string) $configuration->getShowEmptyBoxes());
+        $this->setPreference('default_openNewTabOnClick', (string) $configuration->getOpenNewTabOnClick());
 
         FlashMessages::addMessage(
             I18N::translate(

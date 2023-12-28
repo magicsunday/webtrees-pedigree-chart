@@ -51,6 +51,10 @@ new WebtreesPedigreeChart.PedigreeChart(
             return treeLayout ?? <?= json_encode($configuration->getLayout()) ?>;
         },
 
+        get openNewTabOnClick() {
+            return openNewTabOnClick ?? <?= json_encode($configuration->getOpenNewTabOnClick()) ?>;
+        },
+
         data: <?= json_encode($data) ?>
     }
 );

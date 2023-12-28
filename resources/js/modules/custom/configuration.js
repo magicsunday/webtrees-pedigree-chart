@@ -24,6 +24,7 @@ export default class Configuration
      * @param {Number}   generations
      * @param {Boolean}  showEmptyBoxes
      * @param {String}   treeLayout
+     * @param {Boolean}  openNewTabOnClick
      * @param {Boolean}  rtl
      * @param {Number}   direction
      */
@@ -32,12 +33,15 @@ export default class Configuration
         generations = 4,
         showEmptyBoxes = false,
         treeLayout = LAYOUT_LEFTRIGHT,
+        openNewTabOnClick = true,
         rtl = false,
         direction = 1
     ) {
         // The layout/orientation of the tree
         this._treeLayout   = treeLayout;
         this._orientations = new OrientationCollection();
+
+        this._openNewTabOnClick = openNewTabOnClick;
 
         //
         this.duration = 750;
@@ -145,5 +149,15 @@ export default class Configuration
     get orientation()
     {
         return this._orientations.get()[this.treeLayout];
+    }
+
+    /**
+     * Returns TRUE or FALSE depending on whether to open the current individual's details page in a new tab.
+     *
+     * @returns {Boolean}
+     */
+    get openNewTabOnClick()
+    {
+        return this._openNewTabOnClick;
     }
 }

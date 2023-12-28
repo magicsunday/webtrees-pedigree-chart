@@ -166,11 +166,12 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface, Modul
                 route(
                     self::ROUTE_DEFAULT,
                     [
-                        'tree'           => $tree->name(),
-                        'xref'           => $validator->string('xref', ''),
-                        'generations'    => $validator->integer('generations', 4),
-                        'showEmptyBoxes' => $validator->boolean('showEmptyBoxes', false),
-                        'layout'         => $validator->string('layout', Configuration::LAYOUT_LEFTRIGHT),
+                        'tree'              => $tree->name(),
+                        'xref'              => $validator->string('xref', ''),
+                        'generations'       => $validator->integer('generations', 4),
+                        'showEmptyBoxes'    => $validator->boolean('showEmptyBoxes', false),
+                        'layout'            => $validator->string('layout', Configuration::LAYOUT_LEFTRIGHT),
+                        'openNewTabOnClick' => $validator->boolean('openNewTabOnClick', true),
                     ]
                 )
             );
@@ -266,10 +267,11 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface, Modul
         return $this->chartUrl(
             $individual,
             [
-                'ajax'        => true,
-                'generations' => $this->configuration->getGenerations(),
-                'layout'      => $this->configuration->getLayout(),
-                'xref'        => $xref,
+                'ajax'              => true,
+                'generations'       => $this->configuration->getGenerations(),
+                'layout'            => $this->configuration->getLayout(),
+                'openNewTabOnClick' => $this->configuration->getOpenNewTabOnClick(),
+                'xref'              => $xref,
             ]
         );
     }

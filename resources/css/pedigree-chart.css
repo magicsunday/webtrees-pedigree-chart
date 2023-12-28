@@ -1,10 +1,7 @@
 /* Form */
-.form-element-with-description {
-    padding-left: 1.5em;
-}
-
-.form-element-with-description .form-check {
-    padding-left: 0;
+.form-element-description {
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
 }
 
 #webtrees-pedigree-chart-form .row {

@@ -146,7 +146,7 @@ class Configuration
             ->boolean(
                 'showEmptyBoxes',
                 (bool) $this->module->getPreference(
-                    'default_show_empty_boxes',
+                    'default_showEmptyBoxes',
                     '0'
                 )
             );
@@ -175,7 +175,7 @@ class Configuration
             ->string(
                 'layout',
                 $this->module->getPreference(
-                    'default_tree_layout',
+                    'default_layout',
                     self::DEFAULT_TREE_LAYOUT
                 )
             );
@@ -203,5 +203,28 @@ class Configuration
             self::LAYOUT_BOTTOMTOP => view('icons/pedigree-up') . I18N::translate('up'),
             self::LAYOUT_TOPBOTTOM => view('icons/pedigree-down') . I18N::translate('down'),
         ];
+    }
+
+    /**
+     * Returns whether to open a new browser window/tab on left-click on an individual or not.
+     *
+     * @return bool
+     */
+    public function getOpenNewTabOnClick(): bool
+    {
+        if ($this->request->getMethod() === RequestMethodInterface::METHOD_POST) {
+            $validator = Validator::parsedBody($this->request);
+        } else {
+            $validator = Validator::queryParams($this->request);
+        }
+
+        return $validator
+            ->boolean(
+                'openNewTabOnClick',
+                (bool) $this->module->getPreference(
+                    'default_openNewTabOnClick',
+                    '1'
+                )
+            );
     }
 }
