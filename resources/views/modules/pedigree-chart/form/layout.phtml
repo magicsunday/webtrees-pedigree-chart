@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * This file is part of the package magicsunday/webtrees-pedigree-chart.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE file distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+use Fisharebest\Webtrees\I18N;
+use MagicSunday\Webtrees\PedigreeChart\Configuration;
+
+/**
+ * @var Configuration $configuration
+ * @var string        $moduleName
+ */
+?>
+
+<div class="form-group row">
+    <label class="col-form-label col-sm-3 wt-page-options-label">
+        <?= I18N::translate('Layout') ?>
+    </label>
+    <div class="col-sm-9 wt-page-options-value">
+        <?=
+            view($moduleName . '::modules/components/checkbox', [
+                'name'      => 'showEmptyBoxes',
+                'label'     => I18N::translate('Show empty boxes for missing individuals. Caution: May slow down your system!'),
+                'checked'   => $configuration->getShowEmptyBoxes(),
+                'unchecked' => '0',
+            ])
+        ?>
+    </div>
+</div>

@@ -136,8 +136,20 @@ class Configuration
      */
     public function getShowEmptyBoxes(): bool
     {
-        return Validator::queryParams($this->request)
-            ->boolean('showEmptyBoxes', false);
+        if ($this->request->getMethod() === RequestMethodInterface::METHOD_POST) {
+            $validator = Validator::parsedBody($this->request);
+        } else {
+            $validator = Validator::queryParams($this->request);
+        }
+
+        return $validator
+            ->boolean(
+                'showEmptyBoxes',
+                (bool) $this->module->getPreference(
+                    'default_show_empty_boxes',
+                    '0'
+                )
+            );
     }
 
     /**

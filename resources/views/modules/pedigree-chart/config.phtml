@@ -29,10 +29,13 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
 
 <form method="post">
     <div class="mb-3">
-        <?= view($moduleName.'::modules/pedigree-chart/form/generations', ['configuration' => $configuration]) ?>
+        <?= view($moduleName . '::modules/pedigree-chart/form/generations', ['configuration' => $configuration]) ?>
     </div>
     <div class="mb-3">
-        <?= view($moduleName.'::modules/pedigree-chart/form/orientation', ['configuration' => $configuration]) ?>
+        <?= view($moduleName . '::modules/pedigree-chart/form/orientation', ['configuration' => $configuration]) ?>
+    </div>
+    <div class="mb-3">
+        <?= view($moduleName . '::modules/pedigree-chart/form/layout', ['configuration' => $configuration, 'moduleName' => $moduleName]) ?>
     </div>
 
     <div class="row mb-3">

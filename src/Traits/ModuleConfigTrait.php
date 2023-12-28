@@ -59,6 +59,7 @@ trait ModuleConfigTrait
 
         $this->setPreference('default_generations', (string) $configuration->getGenerations());
         $this->setPreference('default_tree_layout', $configuration->getLayout());
+        $this->setPreference('default_show_empty_boxes', (string) $configuration->getShowEmptyBoxes());
 
         FlashMessages::addMessage(
             I18N::translate(

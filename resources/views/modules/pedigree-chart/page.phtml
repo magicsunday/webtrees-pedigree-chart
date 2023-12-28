@@ -50,25 +50,11 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
             </div>
         </div>
 
-        <?= view($moduleName.'::modules/pedigree-chart/form/generations', ['configuration' => $configuration]) ?>
-        <?= view($moduleName.'::modules/pedigree-chart/form/orientation', ['configuration' => $configuration]) ?>
+        <?= view($moduleName . '::modules/pedigree-chart/form/generations', ['configuration' => $configuration]) ?>
+        <?= view($moduleName . '::modules/pedigree-chart/form/orientation', ['configuration' => $configuration]) ?>
 
         <div class="collapse" id="showMoreOptions">
-            <div class="form-group row">
-                <label class="col-form-label col-sm-3 wt-page-options-label">
-                    <?= I18N::translate('Layout') ?>
-                </label>
-                <div class="col-sm-9 wt-page-options-value">
-                    <?=
-                    view($moduleName . '::modules/components/checkbox', [
-                        'name'      => 'showEmptyBoxes',
-                        'label'     => I18N::translate('Show empty boxes for missing individuals. Caution: May slow down your system!'),
-                        'checked'   => $configuration->getShowEmptyBoxes(),
-                        'unchecked' => '0',
-                    ])
-                    ?>
-                </div>
-            </div>
+            <?= view($moduleName . '::modules/pedigree-chart/form/layout', ['configuration' => $configuration, 'moduleName' => $moduleName]) ?>
         </div>
 
         <div class="form-group row mt-2">
@@ -179,8 +165,8 @@ const storage = new WebtreesPedigreeChart.Storage("webtrees-pedigree-chart");
 
 // Register all form elements valid for storing data
 storage.register("generations");
-storage.register("showEmptyBoxes");
 storage.register("layout");
+storage.register("showEmptyBoxes");
 
 // Handle option toggle button
 toggleMoreOptions(storage);
