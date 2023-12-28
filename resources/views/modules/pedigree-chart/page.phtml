@@ -41,7 +41,6 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
             <div class="col-sm-9 wt-page-options-value">
                 <?=
                     view('components/select-individual', [
-                        'id'         => 'xref',
                         'name'       => 'xref',
                         'individual' => $individual,
                         'tree'       => $tree,
@@ -61,11 +60,11 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
                 </label>
                 <div class="col-sm-9 wt-page-options-value">
                     <?=
-                    view('components/checkbox', [
-                        'id'      => 'showEmptyBoxes',
-                        'name'    => 'showEmptyBoxes',
-                        'label'   => I18N::translate('Show empty boxes for missing individuals. Caution: May slow down your system!'),
-                        'checked' => $configuration->getShowEmptyBoxes(),
+                    view($moduleName . '::modules/components/checkbox', [
+                        'name'      => 'showEmptyBoxes',
+                        'label'     => I18N::translate('Show empty boxes for missing individuals. Caution: May slow down your system!'),
+                        'checked'   => $configuration->getShowEmptyBoxes(),
+                        'unchecked' => '0',
                     ])
                     ?>
                 </div>

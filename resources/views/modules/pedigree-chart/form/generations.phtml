@@ -24,7 +24,6 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
     <div class="col-sm-9 wt-page-options-value">
         <?=
         view('components/select', [
-            'id'       => 'generations',
             'name'     => 'generations',
             'selected' => $configuration->getGenerations(),
             'options'  => $configuration->getGenerationsList(),

@@ -40,21 +40,15 @@ new WebtreesPedigreeChart.PedigreeChart(
         cssFiles: <?= json_encode($exportStylesheets) ?>,
 
         get generations() {
-            return typeof generations !== "undefined"
-                ? generations
-                : <?= $configuration->getGenerations() ?>
+            return generations ?? <?= $configuration->getGenerations() ?>
         },
 
         get showEmptyBoxes() {
-            return typeof showEmptyBoxes !== "undefined"
-                ? showEmptyBoxes
-                : <?= json_encode($configuration->getShowEmptyBoxes()) ?>;
+            return showEmptyBoxes ?? <?= json_encode($configuration->getShowEmptyBoxes()) ?>;
         },
 
         get treeLayout() {
-            return typeof treeLayout !== "undefined"
-                ? treeLayout
-                : <?= json_encode($configuration->getLayout()) ?>;
+            return treeLayout ?? <?= json_encode($configuration->getLayout()) ?>;
         },
 
         data: <?= json_encode($data) ?>
