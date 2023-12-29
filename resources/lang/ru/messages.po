@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pedigree chart\n"
-"POT-Creation-Date: 2023-01-11 08:15+0100\n"
-"PO-Revision-Date: 2023-01-11 08:15+0100\n"
+"POT-Creation-Date: 2023-12-29 12:36+0100\n"
+"PO-Revision-Date: 2023-12-29 12:36+0100\n"
 "Last-Translator: Rico Sonntag <mail@ricosonntag.de>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -11,109 +11,135 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.4.2\n"
 "X-Poedit-Basepath: ../../..\n"
 "X-Poedit-KeywordsList: translate\n"
-"X-Poedit-SearchPath-0: module.php\n"
-"X-Poedit-SearchPath-1: src\n"
-"X-Poedit-SearchPath-2: resources/views/modules/pedigree-chart/page.phtml\n"
-"X-Poedit-SearchPathExcluded-0: resources/lang/node_modules\n"
-"X-Poedit-SearchPathExcluded-1: resources/lang/.git\n"
-"X-Poedit-SearchPathExcluded-2: resources/lang/css\n"
-"X-Poedit-SearchPathExcluded-3: resources/lang/language\n"
+"X-Poedit-SearchPath-0: src\n"
+"X-Poedit-SearchPath-1: resources/views\n"
 
-#: src/Module.php:101 src/Module.php:207
+#: src/Configuration.php:193 src/Configuration.php:201
+msgid "left"
+msgstr "влево"
+
+#: src/Configuration.php:194 src/Configuration.php:202
+msgid "right"
+msgstr "вправо"
+
+#: src/Configuration.php:195 src/Configuration.php:203
+msgid "up"
+msgstr "вверх"
+
+#: src/Configuration.php:196 src/Configuration.php:204
+msgid "down"
+msgstr "вниз"
+
+#: src/Module.php:123 src/Module.php:233
 msgid "Pedigree chart"
 msgstr "Восходящее дерево"
 
-#: src/Module.php:111
+#: src/Module.php:133
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "Родословная карта предков в виде дерева."
 
-#: src/Module.php:210 src/Traits/ModuleChartTrait.php:38
+#: src/Module.php:236 src/Traits/ModuleChartTrait.php:41
 #, php-format
 msgid "Pedigree chart of %s"
 msgstr "Восходящее дерево %s"
 
-#: src/Module.php:226
+#: src/Module.php:252
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Используйте \"Ctrl + колесико мышки\" для увеличения"
 
-#: src/Module.php:227
+#: src/Module.php:253
 msgid "Move the view with two fingers"
 msgstr "Измените вид двумя пальцами"
 
-#: src/Traits/IndividualTrait.php:147
+#: src/Processor/DateProcessor.php:129
 #, php-format
 msgid "Born: %s"
 msgstr "Рождение: %s"
 
-#: src/Traits/IndividualTrait.php:151
+#: src/Processor/DateProcessor.php:133
 #, php-format
 msgid "Died: %s"
 msgstr "Смерть: %s"
 
-#: src/Traits/IndividualTrait.php:155
+#: src/Processor/DateProcessor.php:137
 msgid "Deceased"
 msgstr "Умерший"
 
-#: resources/views/modules/pedigree-chart/page.phtml:37
-msgid "Individual"
-msgstr "Человек"
+#: src/Traits/ModuleConfigTrait.php:67
+#, php-format
+msgid "The preferences for the module “%s” have been updated."
+msgstr ""
 
-#: resources/views/modules/pedigree-chart/page.phtml:54
+#: resources/views/modules/pedigree-chart/config.phtml:25
+msgid "Control panel"
+msgstr ""
+
+#: resources/views/modules/pedigree-chart/config.phtml:25
+msgid "Modules"
+msgstr ""
+
+#: resources/views/modules/pedigree-chart/config.phtml:44
+msgid "save"
+msgstr ""
+
+#: resources/views/modules/pedigree-chart/config.phtml:49
+msgid "cancel"
+msgstr ""
+
+#: resources/views/modules/pedigree-chart/form/generations.phtml:22
 msgid "Generations"
 msgstr "Поколения"
 
-#: resources/views/modules/pedigree-chart/page.phtml:71
-msgid "Orientation"
-msgstr "Ориентация"
-
-#: resources/views/modules/pedigree-chart/page.phtml:78
-msgid "left"
-msgstr "влево"
-
-#: resources/views/modules/pedigree-chart/page.phtml:79
-msgid "right"
-msgstr "вправо"
-
-#: resources/views/modules/pedigree-chart/page.phtml:80
-msgid "up"
-msgstr "вверх"
-
-#: resources/views/modules/pedigree-chart/page.phtml:81
-msgid "down"
-msgstr "вниз"
-
-#: resources/views/modules/pedigree-chart/page.phtml:92
+#: resources/views/modules/pedigree-chart/form/layout.phtml:23
 msgid "Layout"
 msgstr "Расстановка"
 
-#: resources/views/modules/pedigree-chart/page.phtml:99
+#: resources/views/modules/pedigree-chart/form/layout.phtml:29
 msgid ""
 "Show empty boxes for missing individuals. Caution: May slow down your system!"
 msgstr "Добавить отсутствующих"
 
-#: resources/views/modules/pedigree-chart/page.phtml:118
+#: resources/views/modules/pedigree-chart/form/layout.phtml:39
+msgid "Open individual in new browser window/tab"
+msgstr ""
+
+#: resources/views/modules/pedigree-chart/form/layout.phtml:45
+msgid ""
+"Open the current individual's detail page in a new browser window/tab when "
+"it's left-clicked, otherwise the current window/tab is used."
+msgstr ""
+
+#: resources/views/modules/pedigree-chart/form/orientation.phtml:22
+msgid "Orientation"
+msgstr "Ориентация"
+
+#: resources/views/modules/pedigree-chart/page.phtml:39
+msgid "Individual"
+msgstr "Человек"
+
+#: resources/views/modules/pedigree-chart/page.phtml:71
 msgid "Show more options"
 msgstr "Больше опций"
 
-#: resources/views/modules/pedigree-chart/page.phtml:119
+#: resources/views/modules/pedigree-chart/page.phtml:72
 msgid "Hide more options"
 msgstr "Меньше опций"
 
-#: resources/views/modules/pedigree-chart/page.phtml:124
+#: resources/views/modules/pedigree-chart/page.phtml:77
 msgid "view"
 msgstr "Обновить"
 
-#: resources/views/modules/pedigree-chart/page.phtml:130
+#: resources/views/modules/pedigree-chart/page.phtml:83
 msgid "Re center"
 msgstr "Центрировать"
 
-#: resources/views/modules/pedigree-chart/page.phtml:135
+#: resources/views/modules/pedigree-chart/page.phtml:88
 msgid "Export as PNG"
 msgstr "Экспорт в PNG"
 
-#: resources/views/modules/pedigree-chart/page.phtml:138
+#: resources/views/modules/pedigree-chart/page.phtml:91
 msgid "Export as SVG"
 msgstr "Экспорт в SVG"
