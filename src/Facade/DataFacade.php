@@ -11,7 +11,9 @@ declare(strict_types=1);
 
 namespace MagicSunday\Webtrees\PedigreeChart\Facade;
 
+use Fisharebest\Webtrees\Fact;
 use Fisharebest\Webtrees\Family;
+use Fisharebest\Webtrees\Gedcom;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Module\ModuleCustomInterface;
@@ -159,6 +161,43 @@ class DataFacade
         $fullNN          = $nameProcessor->getFullName();
         $alternativeName = $nameProcessor->getAlternateName($individual);
 
+        $chartBoxTags = preg_split(
+            '/\W/',
+            $individual->tree()->getPreference('CHART_BOX_TAGS'),
+            0,
+            PREG_SPLIT_NO_EMPTY
+        );
+
+//ini_set('xdebug.var_display_max_depth', '-1');
+//ini_set('xdebug.var_display_max_children', '-1');
+//ini_set('xdebug.var_display_max_data', '-1');
+//
+//var_dump($chartBoxTags);
+
+        $additionalTags = [];
+
+        // Show optional events (before death)
+        foreach ($chartBoxTags as $key => $tag) {
+            if (
+                !in_array($tag, Gedcom::BIRTH_EVENTS, true)
+                && !in_array($tag, Gedcom::DEATH_EVENTS, true)
+            ) {
+                $event = $individual->facts([$tag])->first();
+
+                if (
+                    ($event instanceof Fact)
+                    && ($event->value() !== '')
+                ) {
+                    $additionalTags[] = [
+                        'label' => $event->label(),
+                        'value' => $event->value(),
+                    ];
+                }
+            }
+        }
+
+//var_dump($additionalTags);
+
         $treeData = new NodeData();
         $treeData
             ->setId(++$id)
@@ -178,6 +217,7 @@ class DataFacade
             ->setBirth($dateProcessor->getBirthDate())
             ->setDeath($dateProcessor->getDeathDate())
             ->setTimespan($dateProcessor->getLifetimeDescription())
+            ->setAdditionalTags($additionalTags)
             ->setIndividual($individual);
 
         return $treeData;

@@ -48,6 +48,10 @@
     text-decoration: underline;
 }
 
+/*.webtrees-pedigree-chart-container svg text.icon {*/
+/*    filter: grayscale(1);*/
+/*}*/
+
 .webtrees-pedigree-chart-container svg text.date {
     fill: currentColor;
     font-weight: normal;

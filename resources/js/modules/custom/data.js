@@ -31,6 +31,7 @@ import {Node} from "../lib/d3";
  * @property {String[]} firstNames      The list of first names
  * @property {String[]} lastNames       The list of last names
  * @property {String}   alternativeName The alternative name of the individual
+ * @property {String[]} additionalTags  A list of additional tags to output
  */
 
 /**

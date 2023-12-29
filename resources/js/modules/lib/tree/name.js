@@ -110,7 +110,33 @@ export default class Name
                     );
                 });
 
-            // Left/Right and Right/Left
+            enter
+                // .filter(d => d.data.data.additionalTags !== [])
+                .call((g) => {
+                    const text = g.append("text")
+                        .attr("class", "additional")
+                        .attr("y", this._text.y + 50);
+
+                    const enterTags = text.selectAll("text")
+                        .data(d => d.data.data.additionalTags)
+                        .enter();
+
+                    enterTags
+                        .call((g) => {
+                            const text1 = g.append("text")
+                                .attr("y", 0);
+
+                            text1.append("tspan")
+                                .attr("class", "label")
+                                .text(datum => datum.label)
+
+                            text1.append("tspan")
+                                .attr("class", "value")
+                                .text(datum => datum.value);
+                        });
+                });
+
+        // Left/Right and Right/Left
         } else {
             const enter = name.selectAll("text")
                 .data(datum => [

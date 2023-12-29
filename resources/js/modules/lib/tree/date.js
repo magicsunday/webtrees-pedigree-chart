@@ -82,7 +82,7 @@ export default class Date
 
                 if (d.data.data.birth) {
                     data.push({
-                        icon: "★",
+                        icon: "★", // alternative: ⭐
                         label: d.data.data.birth,
                         birth: true,
                         withImage: d.data.data.thumbnail !== ""
@@ -91,7 +91,7 @@ export default class Date
 
                 if (d.data.data.death) {
                     data.push({
-                        icon: "†",
+                        icon: "†", // alternative: ⚱️ 🪦 (U+1FAA6)
                         label: d.data.data.death,
                         death: true,
                         withImage: d.data.data.thumbnail !== ""

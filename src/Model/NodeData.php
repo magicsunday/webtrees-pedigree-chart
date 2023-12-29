@@ -143,6 +143,13 @@ class NodeData implements JsonSerializable
     protected string $timespan = '';
 
     /**
+     * A list of additional tags to output.
+     *
+     * @var string[]
+     */
+    protected array $additionalTags = [];
+
+    /**
      * The underlying individual instance. Only used internally.
      *
      * @var null|Individual
@@ -353,6 +360,17 @@ class NodeData implements JsonSerializable
     }
 
     /**
+     * @param string[] $additionalTags
+     *
+     * @return NodeData
+     */
+    public function setAdditionalTags(array $additionalTags): NodeData
+    {
+        $this->additionalTags = $additionalTags;
+        return $this;
+    }
+
+    /**
      * @return null|Individual
      */
     public function getIndividual(): ?Individual
@@ -396,6 +414,7 @@ class NodeData implements JsonSerializable
             'birth'           => $this->birth,
             'death'           => $this->death,
             'timespan'        => $this->timespan,
+            'additionalTags'  => $this->additionalTags,
         ];
     }
 }
