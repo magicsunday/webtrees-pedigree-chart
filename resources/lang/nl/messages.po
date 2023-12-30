@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pedigree chart\n"
-"POT-Creation-Date: 2023-12-29 12:36+0100\n"
-"PO-Revision-Date: 2023-12-29 12:36+0100\n"
-"Last-Translator: Rico Sonntag <mail@ricosonntag.de>\n"
+"POT-Creation-Date: 2024-01-13 11:04+0100\n"
+"PO-Revision-Date: 2024-01-13 11:04+0100\n"
+"Last-Translator: TheDutchJewel <thedutchjewel@gmail.com>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
@@ -70,23 +70,23 @@ msgstr "Overleden"
 #: src/Traits/ModuleConfigTrait.php:67
 #, php-format
 msgid "The preferences for the module “%s” have been updated."
-msgstr ""
+msgstr "De voorkeuren voor de module \"%s\" zijn bijgewerkt."
 
 #: resources/views/modules/pedigree-chart/config.phtml:25
 msgid "Control panel"
-msgstr ""
+msgstr "Controlepaneel"
 
 #: resources/views/modules/pedigree-chart/config.phtml:25
 msgid "Modules"
-msgstr ""
+msgstr "Modules"
 
 #: resources/views/modules/pedigree-chart/config.phtml:44
 msgid "save"
-msgstr ""
+msgstr "opslaan"
 
 #: resources/views/modules/pedigree-chart/config.phtml:49
 msgid "cancel"
-msgstr ""
+msgstr "annuleren"
 
 #: resources/views/modules/pedigree-chart/form/generations.phtml:22
 msgid "Generations"
@@ -105,13 +105,16 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:39
 msgid "Open individual in new browser window/tab"
-msgstr ""
+msgstr "Open persoon in nieuw browservenster/tabblad"
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:45
 msgid ""
 "Open the current individual's detail page in a new browser window/tab when "
 "it's left-clicked, otherwise the current window/tab is used."
 msgstr ""
+"Open de detailpagina van de huidige persoon in een nieuw browservenster/"
+"tabblad als er met de linkermuisknop op wordt geklikt, anders wordt het "
+"huidige venster/tabblad gebruikt."
 
 #: resources/views/modules/pedigree-chart/form/orientation.phtml:22
 msgid "Orientation"
