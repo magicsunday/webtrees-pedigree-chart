@@ -32,45 +32,45 @@ export default class Hierarchy
     /**
      * Initialize the hierarchical chart data.
      *
-     * @param {Object} data The JSON encoded chart data
+     * @param {Object} datum The JSON encoded chart data
      */
-    init(data)
+    init(datum)
     {
         // Get the greatest depth
         const getDepth       = ({parents}) => 1 + (parents ? Math.max(...parents.map(getDepth)) : 0);
-        const maxGenerations = getDepth(data);
+        const maxGenerations = getDepth(datum);
 
         // Construct root node from the hierarchical data
         this._root = d3.hierarchy(
-            data,
-            data => {
+            datum,
+            datum => {
                 if (!this._configuration.showEmptyBoxes) {
-                    return data.parents;
+                    return datum.parents;
                 }
 
                 // Fill up the missing parents to the requested number of generations
-                if (!data.parents && (data.data.generation < maxGenerations)) {
-                // if (!data.parents && (data.data.generation < this._configuration.generations)) {
-                    data.parents = [
-                        this.createEmptyNode(data.data.generation + 1, SEX_MALE),
-                        this.createEmptyNode(data.data.generation + 1, SEX_FEMALE)
+                if (!datum.parents && (datum.data.generation < maxGenerations)) {
+                // if (!datum.parents && (datum.data.generation < this._configuration.generations)) {
+                    datum.parents = [
+                        this.createEmptyNode(datum.data.generation + 1, SEX_MALE),
+                        this.createEmptyNode(datum.data.generation + 1, SEX_FEMALE)
                     ];
                 }
 
                 // Add missing parent record if we got only one
-                if (data.parents && (data.parents.length < 2)) {
-                    if (data.parents[0].sex === SEX_MALE) {
-                        data.parents.push(
-                            this.createEmptyNode(data.data.generation + 1, SEX_FEMALE)
+                if (datum.parents && (datum.parents.length < 2)) {
+                    if (datum.parents[0].data.sex === SEX_MALE) {
+                        datum.parents.push(
+                            this.createEmptyNode(datum.data.generation + 1, SEX_FEMALE)
                         );
                     } else {
-                        data.parents.unshift(
-                            this.createEmptyNode(data.data.generation + 1, SEX_MALE)
+                        datum.parents.unshift(
+                            this.createEmptyNode(data.datum.generation + 1, SEX_MALE)
                         );
                     }
                 }
 
-                return data.parents;
+                return datum.parents;
             });
 
         // Assign a unique ID to each node
