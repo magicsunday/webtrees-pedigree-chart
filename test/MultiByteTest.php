@@ -4,15 +4,14 @@
  * This file is part of the package magicsunday/webtrees-pedigree-chart.
  *
  * For the full copyright and license information, please read the
- * LICENSE file distributed with this source code.
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
 
 namespace MagicSunday\Webtrees\PedigreeChart\Test;
 
-use Fisharebest\Webtrees\Services\ChartService;
-use MagicSunday\Webtrees\PedigreeChart\Module;
+use MagicSunday\Webtrees\PedigreeChart\Processor\NameProcessor;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
@@ -28,7 +27,7 @@ class MultiByteTest extends TestCase
     /**
      * @return string[][]
      */
-    public function convertToHtmlEntitiesDataProvider(): array
+    public static function convertToHtmlEntitiesDataProvider(): array
     {
         // [ input, expected ]
         return [
@@ -64,6 +63,7 @@ class MultiByteTest extends TestCase
      * Tests conversion of UTF-8 characters to HTML entities.
      *
      * @test
+     *
      * @dataProvider convertToHtmlEntitiesDataProvider
      *
      * @param string $input
@@ -73,12 +73,13 @@ class MultiByteTest extends TestCase
      */
     public function convertToHtmlEntities(string $input, string $expected): void
     {
-        $reflection = new ReflectionClass(Module::class);
-        $method = $reflection->getMethod('convertToHtmlEntities');
+        $nameProcessorMock = $this->createMock(NameProcessor::class);
+
+        $reflection = new ReflectionClass(NameProcessor::class);
+        $method     = $reflection->getMethod('convertToHtmlEntities');
         $method->setAccessible(true);
 
-        $module = new Module(new ChartService());
-        $result = $method->invokeArgs($module, [ $input ]);
+        $result = $method->invokeArgs($nameProcessorMock, [$input]);
 
         self::assertSame($expected, $result);
     }

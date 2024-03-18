@@ -4,7 +4,7 @@
  * This file is part of the package magicsunday/webtrees-pedigree-chart.
  *
  * For the full copyright and license information, please read the
- * LICENSE file distributed with this source code.
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -30,11 +30,14 @@ class Configuration
     /**
      * Tree layout variants.
      *
-     * @see \Fisharebest\Webtrees\Module\PedigreeChartModule
+     * @see PedigreeChartModule
      */
     public const LAYOUT_TOPBOTTOM = PedigreeChartModule::STYLE_DOWN;
+
     public const LAYOUT_BOTTOMTOP = PedigreeChartModule::STYLE_UP;
+
     public const LAYOUT_LEFTRIGHT = PedigreeChartModule::STYLE_RIGHT;
+
     public const LAYOUT_RIGHTLEFT = PedigreeChartModule::STYLE_LEFT;
 
     /**
@@ -86,7 +89,7 @@ class Configuration
     public function __construct(ServerRequestInterface $request, AbstractModule $module)
     {
         $this->request = $request;
-        $this->module = $module;
+        $this->module  = $module;
     }
 
     /**

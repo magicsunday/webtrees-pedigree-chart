@@ -4,7 +4,7 @@
  * This file is part of the package magicsunday/webtrees-pedigree-chart.
  *
  * For the full copyright and license information, please read the
- * LICENSE file distributed with this source code.
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -58,6 +58,7 @@ class DataFacade
     public function setModule(ModuleCustomInterface $module): DataFacade
     {
         $this->module = $module;
+
         return $this;
     }
 
@@ -69,6 +70,7 @@ class DataFacade
     public function setConfiguration(Configuration $configuration): DataFacade
     {
         $this->configuration = $configuration;
+
         return $this;
     }
 
@@ -80,6 +82,7 @@ class DataFacade
     public function setRoute(string $route): DataFacade
     {
         $this->route = $route;
+
         return $this;
     }
 
@@ -88,7 +91,7 @@ class DataFacade
      *
      * @param Individual $individual
      *
-     * @return null|Node
+     * @return Node|null
      */
     public function createTreeStructure(Individual $individual): ?Node
     {
@@ -98,15 +101,15 @@ class DataFacade
     /**
      * Recursively build the data array of the individual ancestors.
      *
-     * @param null|Individual $individual The start person
+     * @param Individual|null $individual The start person
      * @param int             $generation The current generation
      *
-     * @return null|Node
+     * @return Node|null
      */
     private function buildTreeStructure(?Individual $individual, int $generation = 1): ?Node
     {
         // Maximum generation reached
-        if (($individual === null) || ($generation > $this->configuration->getGenerations())) {
+        if ((!$individual instanceof Individual) || ($generation > $this->configuration->getGenerations())) {
             return null;
         }
 
@@ -114,7 +117,7 @@ class DataFacade
             $this->getNodeData($generation, $individual)
         );
 
-        /** @var null|Family $family */
+        /** @var Family|null $family */
         $family = $individual->childFamilies()->first();
 
         if ($family === null) {
@@ -126,11 +129,11 @@ class DataFacade
         $motherNode = $this->buildTreeStructure($family->wife(), $generation + 1);
 
         // Add an array of child nodes
-        if ($fatherNode !== null) {
+        if ($fatherNode instanceof Node) {
             $node->addParent($fatherNode);
         }
 
-        if ($motherNode !== null) {
+        if ($motherNode instanceof Node) {
             $node->addParent($motherNode);
         }
 

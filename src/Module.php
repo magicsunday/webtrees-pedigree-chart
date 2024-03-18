@@ -4,7 +4,7 @@
  * This file is part of the package magicsunday/webtrees-pedigree-chart.
  *
  * For the full copyright and license information, please read the
- * LICENSE file distributed with this source code.
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -44,7 +44,8 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface, Modul
     use ModuleChartTrait;
     use ModuleConfigTrait;
 
-    private const ROUTE_DEFAULT     = 'webtrees-pedigree-chart';
+    private const ROUTE_DEFAULT = 'webtrees-pedigree-chart';
+
     private const ROUTE_DEFAULT_URL = '/tree/{tree}/webtrees-pedigree-chart/{xref}';
 
     /**
@@ -230,13 +231,11 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface, Modul
      */
     private function getPageTitle(Individual $individual): string
     {
-        $title = I18N::translate('Pedigree chart');
-
         if ($individual->canShowName()) {
-            $title = I18N::translate('Pedigree chart of %s', $individual->fullName());
+            return I18N::translate('Pedigree chart of %s', $individual->fullName());
         }
 
-        return $title;
+        return I18N::translate('Pedigree chart');
     }
 
     /**
@@ -256,7 +255,6 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface, Modul
     }
 
     /**
-     *
      * @param Individual $individual
      * @param string     $xref
      *
@@ -283,12 +281,7 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface, Modul
      */
     private function getStylesheets(): array
     {
-        $stylesheets = [];
-
-        $stylesheets[] = $this->assetUrl('css/pedigree-chart.css');
-        $stylesheets[] = $this->assetUrl('css/svg.css');
-
-        return $stylesheets;
+        return [$this->assetUrl('css/pedigree-chart.css'), $this->assetUrl('css/svg.css')];
     }
 
     /**
