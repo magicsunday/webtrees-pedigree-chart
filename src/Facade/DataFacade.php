@@ -140,8 +140,8 @@ class DataFacade
     /**
      * Get the node data required for display the chart.
      *
-     * @param int             $generation The generation the person belongs to
-     * @param null|Individual $individual The current individual
+     * @param int        $generation The generation the person belongs to
+     * @param Individual $individual The current individual
      *
      * @return NodeData
      */

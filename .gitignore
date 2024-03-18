@@ -1,9 +1,25 @@
-composer.lock
-package-lock.json
-.idea/
+# PHPStorm
+.idea
+
+# OSX
+.DS_Store
+
+# Composer
 vendor/
+composer.lock
+
+# Build stuff
+.build/
+package-lock.json
 node_modules/
+
+# Cache
+.php-cs-fixer.cache
+.phplint.cache
+.phpunit.result.cache
+.phpunit.cache
+
+# Custom
 resources/js/pedigree-chart.js
 resources/js/pedigree-chart-storage.js
-.phpunit.result.cache
 webtrees-pedigree-chart.zip

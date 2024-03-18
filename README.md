@@ -1,9 +1,19 @@
-![Latest version](https://img.shields.io/github/v/release/magicsunday/webtrees-pedigree-chart?sort=semver)
-![License](https://img.shields.io/github/license/magicsunday/webtrees-pedigree-chart)
-![PHPStan](https://github.com/magicsunday/webtrees-pedigree-chart/actions/workflows/phpstan.yml/badge.svg)
-![PHPUnit](https://github.com/magicsunday/webtrees-pedigree-chart/actions/workflows/phpunit.yml/badge.svg)
-![PHPCodeSniffer](https://github.com/magicsunday/webtrees-pedigree-chart/actions/workflows/phpcs.yml/badge.svg)
-![CodeQL](https://github.com/magicsunday/webtrees-pedigree-chart/actions/workflows/codeql-analysis.yml/badge.svg)
+[![Latest version](https://img.shields.io/github/v/release/magicsunday/webtrees-pedigree-chart?sort=semver)](https://github.com/magicsunday/webtrees-pedigree-chart/releases/latest)
+[![License](https://img.shields.io/github/license/magicsunday/webtrees-pedigree-chart)](https://github.com/magicsunday/webtrees-pedigree-chart/blob/main/LICENSE)
+[![CI](https://github.com/magicsunday/webtrees-pedigree-chart/actions/workflows/ci.yml/badge.svg)](https://github.com/magicsunday/webtrees-pedigree-chart/actions/workflows/ci.yml)
+
+
+<!-- TOC -->
+* [Pedigree chart](#pedigree-chart)
+  * [Installation](#installation)
+    * [Using Composer](#using-composer)
+    * [Using Git](#using-git)
+    * [Manual installation](#manual-installation)
+  * [Enable module](#enable-module)
+  * [Usage](#usage)
+  * [Development](#development)
+    * [Run tests](#run-tests)
+<!-- TOC -->
 
 
 # Pedigree chart
