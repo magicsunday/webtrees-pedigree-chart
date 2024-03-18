@@ -40,10 +40,10 @@ trait ModuleCustomTrait
         return self::CUSTOM_LATEST_VERSION;
     }
 
-//    protected function extractVersion(string $content): string
-//    {
-//        return json_decode($content, true)['tag_name'] ?? '';
-//    }
+    //    protected function extractVersion(string $content): string
+    //    {
+    //        return json_decode($content, true)['tag_name'] ?? '';
+    //    }
 
     public function customModuleLatestVersion(): string
     {
