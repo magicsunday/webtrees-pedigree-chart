@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pedigree chart\n"
-"POT-Creation-Date: 2023-12-29 12:37+0100\n"
-"PO-Revision-Date: 2023-12-29 12:37+0100\n"
+"POT-Creation-Date: 2024-03-20 13:49+0100\n"
+"PO-Revision-Date: 2024-03-20 13:49+0100\n"
 "Last-Translator: Rico Sonntag <mail@ricosonntag.de>\n"
 "Language-Team: \n"
 "Language: da\n"
@@ -16,27 +16,27 @@ msgstr ""
 "X-Poedit-SearchPath-0: src\n"
 "X-Poedit-SearchPath-1: resources/views\n"
 
-#: src/Configuration.php:193 src/Configuration.php:201
+#: src/Configuration.php:196 src/Configuration.php:204
 msgid "left"
 msgstr "venstre"
 
-#: src/Configuration.php:194 src/Configuration.php:202
+#: src/Configuration.php:197 src/Configuration.php:205
 msgid "right"
 msgstr "højre"
 
-#: src/Configuration.php:195 src/Configuration.php:203
+#: src/Configuration.php:198 src/Configuration.php:206
 msgid "up"
 msgstr "op"
 
-#: src/Configuration.php:196 src/Configuration.php:204
+#: src/Configuration.php:199 src/Configuration.php:207
 msgid "down"
 msgstr "ned"
 
-#: src/Module.php:123 src/Module.php:233
+#: src/Module.php:124 src/Module.php:239
 msgid "Pedigree chart"
 msgstr "Stamtavle"
 
-#: src/Module.php:133
+#: src/Module.php:134
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "En stamtavle over en persons forfædre."
 
@@ -67,7 +67,7 @@ msgstr "Død: %s"
 msgid "Deceased"
 msgstr "Død"
 
-#: src/Traits/ModuleConfigTrait.php:67
+#: src/Traits/ModuleConfigTrait.php:83
 #, php-format
 msgid "The preferences for the module “%s” have been updated."
 msgstr ""
@@ -111,6 +111,17 @@ msgstr ""
 msgid ""
 "Open the current individual's detail page in a new browser window/tab when "
 "it's left-clicked, otherwise the current window/tab is used."
+msgstr ""
+
+#: resources/views/modules/pedigree-chart/form/layout.phtml:53
+msgid "Show alternative name of individual"
+msgstr ""
+
+#: resources/views/modules/pedigree-chart/form/layout.phtml:59
+msgid ""
+"Displays a person's alternate name, if available. This simultaneously "
+"enlarges the individuals' respective boxes to create the necessary space for "
+"the display."
 msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/orientation.phtml:22
