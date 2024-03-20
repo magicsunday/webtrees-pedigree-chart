@@ -25,6 +25,7 @@ export default class Configuration
      * @param {Boolean}  showEmptyBoxes
      * @param {String}   treeLayout
      * @param {Boolean}  openNewTabOnClick
+     * @param {Boolean}  showAlternativeName
      * @param {Boolean}  rtl
      * @param {Number}   direction
      */
@@ -34,6 +35,7 @@ export default class Configuration
         showEmptyBoxes = false,
         treeLayout = LAYOUT_LEFTRIGHT,
         openNewTabOnClick = true,
+        showAlternativeName = true,
         rtl = false,
         direction = 1
     ) {
@@ -41,7 +43,9 @@ export default class Configuration
         this._treeLayout   = treeLayout;
         this._orientations = new OrientationCollection();
 
+        this._showEmptyBoxes = showEmptyBoxes;
         this._openNewTabOnClick = openNewTabOnClick;
+        this._showAlternativeName = showAlternativeName;
 
         //
         this.duration = 750;
@@ -49,19 +53,10 @@ export default class Configuration
         //
         this.padding   = 15;
 
-        // Padding around the image circle
-        this.imagePadding = 5;
-
-        // The radius of the image
-        // this.imageRadius = (this.orientation.boxHeight / 2) - this.imagePadding;
-
-        // The diameter of the image
-        // this.imageDiameter = this.imageRadius * 2;
-
         // Default number of generations to display
         this._generations = generations;
 
-        // Left/Right padding of text (used with truncation)
+        // Left/Right padding of a text (used with truncation)
         this.textPadding = 8;
 
         // // Default font size, color and scaling
@@ -69,15 +64,13 @@ export default class Configuration
         // this._fontScale = fontScale;
         this.fontColor = "rgb(0, 0, 0)";
 
-        this._showEmptyBoxes = showEmptyBoxes;
-
         // Duration of update animation if clicked on a person
         // this.updateDuration = 1250;
 
         this.rtl    = rtl;
         this.labels = labels;
 
-        // direction` is either 1 (forward) or -1 (backward)
+        // Direction is either 1 (forward) or -1 (backward)
         this.direction = direction;
     }
 
@@ -109,16 +102,6 @@ export default class Configuration
     get showEmptyBoxes()
     {
         return this._showEmptyBoxes;
-    }
-
-    /**
-     * Sets whether to show or hide empty boxes.
-     *
-     * @param {Boolean} value Either true or false
-     */
-    set showEmptyBoxes(value)
-    {
-        this._showEmptyBoxes = value;
     }
 
     /**
@@ -159,5 +142,15 @@ export default class Configuration
     get openNewTabOnClick()
     {
         return this._openNewTabOnClick;
+    }
+
+    /**
+     * Returns whether to show or hide the alternative name.
+     *
+     * @returns {Boolean}
+     */
+    get showAlternativeName()
+    {
+        return this._showAlternativeName;
     }
 }

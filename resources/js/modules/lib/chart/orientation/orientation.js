@@ -24,7 +24,7 @@ export default class Orientation
     {
         // The distance between single nodes
         this._xOffset = 30;
-        this._yOffset = 60;
+        this._yOffset = 40;
 
         this._boxWidth    = boxWidth;
         this._boxHeight   = boxHeight;
@@ -89,6 +89,16 @@ export default class Orientation
     get boxHeight()
     {
         return this._boxHeight;
+    }
+
+    /**
+     * Returns the height of the box.
+     *
+     * @params {Number} boxHeight
+     */
+    set boxHeight(boxHeight)
+    {
+        this._boxHeight = boxHeight;
     }
 
     /**

@@ -5,7 +5,7 @@
  * LICENSE file distributed with this source code.
  */
 
-import {SEX_FEMALE, SEX_MALE} from "../constants";
+import {LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET, SEX_FEMALE, SEX_MALE} from "../constants";
 import * as d3 from "../d3";
 import dataUrl from "../common/dataUrl";
 import Name from "./name";
@@ -106,7 +106,7 @@ export default class NodeDrawer
             // TODO Enable this to collapse/expand node on click
             // .on("click", (event, d) => this.togglePerson(event, d))
             .call(
-                // Draw the actual person rectangle with an opacity of 0.5
+                // Draw the actual person rectangle with opacity of 0.5
                 g => {
                     g.append("rect")
                         .attr(

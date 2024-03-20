@@ -11,10 +11,12 @@
  * @type {Number}
  * @const
  */
-export const LAYOUT_HORIZONTAL_NODE_WIDTH  = 325;
+export const LAYOUT_HORIZONTAL_NODE_WIDTH = 325;
 export const LAYOUT_HORIZONTAL_NODE_HEIGHT = 95;
-export const LAYOUT_VERTICAL_NODE_WIDTH    = 160;
-export const LAYOUT_VERTICAL_NODE_HEIGHT   = 205;
+export const LAYOUT_VERTICAL_NODE_WIDTH = 160;
+export const LAYOUT_VERTICAL_NODE_HEIGHT = 175;
+
+export const LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET = 30;
 
 /**
  * Tree layout variants.
@@ -35,6 +37,6 @@ export const LAYOUT_RIGHTLEFT = "left";
  * @type {String}
  * @const
  */
-export const SEX_MALE    = "M";
-export const SEX_FEMALE  = "F";
+export const SEX_MALE = "M";
+export const SEX_FEMALE = "F";
 export const SEX_UNKNOWN = "U";

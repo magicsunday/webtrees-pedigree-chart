@@ -230,4 +230,27 @@ class Configuration
                 )
             );
     }
+
+    /**
+     * Returns whether to show the alternative name of an individual or not.
+     *
+     * @return bool
+     */
+    public function getShowAlternativeName(): bool
+    {
+        if ($this->request->getMethod() === RequestMethodInterface::METHOD_POST) {
+            $validator = Validator::parsedBody($this->request);
+        } else {
+            $validator = Validator::queryParams($this->request);
+        }
+
+        return $validator
+            ->boolean(
+                'showAlternativeName',
+                (bool) $this->module->getPreference(
+                    'default_showAlternativeName',
+                    '1'
+                )
+            );
+    }
 }

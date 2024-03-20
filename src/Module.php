@@ -167,12 +167,13 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface, Modul
                 route(
                     self::ROUTE_DEFAULT,
                     [
-                        'tree'              => $tree->name(),
-                        'xref'              => $validator->string('xref', ''),
-                        'generations'       => $validator->integer('generations', 4),
-                        'showEmptyBoxes'    => $validator->boolean('showEmptyBoxes', false),
-                        'layout'            => $validator->string('layout', Configuration::LAYOUT_LEFTRIGHT),
-                        'openNewTabOnClick' => $validator->boolean('openNewTabOnClick', true),
+                        'tree'                => $tree->name(),
+                        'xref'                => $validator->string('xref', ''),
+                        'generations'         => $validator->integer('generations', 4),
+                        'showEmptyBoxes'      => $validator->boolean('showEmptyBoxes', false),
+                        'layout'              => $validator->string('layout', Configuration::LAYOUT_LEFTRIGHT),
+                        'openNewTabOnClick'   => $validator->boolean('openNewTabOnClick', true),
+                        'showAlternativeName' => $validator->boolean('showAlternativeName', true),
                     ]
                 )
             );

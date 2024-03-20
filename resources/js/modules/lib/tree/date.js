@@ -8,6 +8,7 @@
 import measureText from "../chart/text/measure"
 import OrientationTopBottom from "../chart/orientation/orientation-topBottom";
 import OrientationBottomTop from "../chart/orientation/orientation-bottomTop";
+import {LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET} from "../constants.js";
 
 /**
  * The class handles the creation of the tree.
@@ -58,11 +59,17 @@ export default class Date
                 }])
                 .enter()
 
+            let dateYOffset = this._text.y + 45;
+
+            if (this._svg._configuration.showAlternativeName) {
+                dateYOffset += LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET;
+            }
+
             const text = enter.append("text")
                 .attr("class", "date")
                 .attr("text-anchor", "middle")
                 .attr("alignment-baseline", "central")
-                .attr("y", this._text.y + 75);
+                .attr("y", dateYOffset);
 
             text.append("title")
                 .text(d => d.label);

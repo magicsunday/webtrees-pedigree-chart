@@ -34,15 +34,29 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
 
         <div class="mt-3">
             <?=
-            view($moduleName . '::modules/components/checkbox', [
-                'name'      => 'openNewTabOnClick',
-                'label'     => I18N::translate('Open individual in new browser window/tab'),
-                'checked'   => $configuration->getOpenNewTabOnClick(),
-                'unchecked' => '0',
-            ])
+                view($moduleName . '::modules/components/checkbox', [
+                    'name'      => 'openNewTabOnClick',
+                    'label'     => I18N::translate('Open individual in new browser window/tab'),
+                    'checked'   => $configuration->getOpenNewTabOnClick(),
+                    'unchecked' => '0',
+                ])
             ?>
             <small class="ps-4 form-text text-muted form-element-description">
                 <?= I18N::translate('Open the current individual\'s detail page in a new browser window/tab when it\'s left-clicked, otherwise the current window/tab is used.') ?>
+            </small>
+        </div>
+
+        <div class="mt-3">
+            <?=
+                view($moduleName . '::modules/components/checkbox', [
+                    'name'      => 'showAlternativeName',
+                    'label'     => I18N::translate('Show alternative name of individual'),
+                    'checked'   => $configuration->getShowAlternativeName(),
+                    'unchecked' => '0',
+                ])
+            ?>
+            <small class="ps-4 form-text text-muted form-element-description">
+                <?= I18N::translate('Displays a person\'s alternate name, if available. This simultaneously enlarges the individuals\' respective boxes to create the necessary space for the display.') ?>
             </small>
         </div>
     </div>

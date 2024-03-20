@@ -57,10 +57,26 @@ trait ModuleConfigTrait
     {
         $configuration = new Configuration($request, $this);
 
-        $this->setPreference('default_generations', (string) $configuration->getGenerations());
-        $this->setPreference('default_layout', $configuration->getLayout());
-        $this->setPreference('default_showEmptyBoxes', (string) $configuration->getShowEmptyBoxes());
-        $this->setPreference('default_openNewTabOnClick', (string) $configuration->getOpenNewTabOnClick());
+        $this->setPreference(
+            'default_generations',
+            (string) $configuration->getGenerations()
+        );
+        $this->setPreference(
+            'default_layout',
+            $configuration->getLayout()
+        );
+        $this->setPreference(
+            'default_showEmptyBoxes',
+            (string) $configuration->getShowEmptyBoxes()
+        );
+        $this->setPreference(
+            'default_openNewTabOnClick',
+            (string) $configuration->getOpenNewTabOnClick()
+        );
+        $this->setPreference(
+            'default_showAlternativeName',
+            (string) $configuration->getShowAlternativeName()
+        );
 
         FlashMessages::addMessage(
             I18N::translate(

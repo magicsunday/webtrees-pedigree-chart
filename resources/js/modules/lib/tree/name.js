@@ -93,22 +93,24 @@ export default class Name
                 });
 
             // Add alternative name if present
-            enter
-                .filter(d => d.data.data.alternativeName !== "")
-                .call((g) => {
-                    const text = g.append("text")
-                        .attr("class", "wt-chart-box-name")
-                        .attr("text-anchor", "middle")
-                        .attr("direction", d => d.isAltRtl ? "rtl" : "ltr")
-                        .attr("alignment-baseline", "central")
-                        .attr("y", this._text.y + 37)
-                        .classed("wt-chart-box-name-alt", true);
+            if (this._svg._configuration.showAlternativeName) {
+                enter
+                    .filter(d => d.data.data.alternativeName !== "")
+                    .call((g) => {
+                        const text = g.append("text")
+                            .attr("class", "wt-chart-box-name")
+                            .attr("text-anchor", "middle")
+                            .attr("direction", d => d.isAltRtl ? "rtl" : "ltr")
+                            .attr("alignment-baseline", "central")
+                            .attr("y", this._text.y + 40)
+                            .classed("wt-chart-box-name-alt", true);
 
-                    this.addNameElements(
-                        text,
-                        datum => this.createAlternativeNamesData(text, datum)
-                    );
-                });
+                        this.addNameElements(
+                            text,
+                            datum => this.createAlternativeNamesData(text, datum)
+                        );
+                    });
+            }
 
             // Left/Right and Right/Left
         } else {
@@ -162,32 +164,34 @@ export default class Name
                 });
 
             // Add alternative name if present
-            enter
-                .filter(datum => datum.data.data.alternativeName !== "")
-                .call((g) => {
-                    const text = g.append("text")
-                        .attr("class", "wt-chart-box-name")
-                        .attr("text-anchor", (d) => {
-                            if (d.isAltRtl && this._orientation.isDocumentRtl) {
+            if (this._svg._configuration.showAlternativeName) {
+                enter
+                    .filter(datum => datum.data.data.alternativeName !== "")
+                    .call((g) => {
+                        const text = g.append("text")
+                            .attr("class", "wt-chart-box-name")
+                            .attr("text-anchor", (d) => {
+                                if (d.isAltRtl && this._orientation.isDocumentRtl) {
+                                    return "start";
+                                }
+
+                                if (d.isAltRtl || this._orientation.isDocumentRtl) {
+                                    return "end";
+                                }
+
                                 return "start";
-                            }
+                            })
+                            .attr("direction", d => d.isAltRtl ? "rtl" : "ltr")
+                            .attr("x", d => this.textX(d))
+                            .attr("y", this._text.y + 8)
+                            .classed("wt-chart-box-name-alt", true);
 
-                            if (d.isAltRtl || this._orientation.isDocumentRtl) {
-                                return "end";
-                            }
-
-                            return "start";
-                        })
-                        .attr("direction", d => d.isAltRtl ? "rtl" : "ltr")
-                        .attr("x", d => this.textX(d))
-                        .attr("y", this._text.y + 8)
-                        .classed("wt-chart-box-name-alt", true);
-
-                    this.addNameElements(
-                        text,
-                        datum => this.createAlternativeNamesData(text, datum)
-                    );
-                });
+                        this.addNameElements(
+                            text,
+                            datum => this.createAlternativeNamesData(text, datum)
+                        );
+                    });
+            }
         }
     }
 
