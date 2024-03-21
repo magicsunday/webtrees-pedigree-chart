@@ -35,14 +35,14 @@ Requires webtrees 2.1.
 To install using [composer](https://getcomposer.org/), just run the following command from the command line 
 at the root directory of your webtrees installation.
 
-``` 
+```shell
 composer require magicsunday/webtrees-pedigree-chart:* --update-no-dev
 ```
 
 The module will automatically install into the ``modules_v4`` directory of your webtrees installation.
 
 To remove the module run:
-```
+```shell
 composer remove magicsunday/webtrees-pedigree-chart --update-no-dev
 ```
 
@@ -50,7 +50,7 @@ composer remove magicsunday/webtrees-pedigree-chart --update-no-dev
 If you are using ``git``, you could also clone the current master branch directly into your ``modules_v4`` directory 
 by calling:
 
-```
+```shell
 git clone https://github.com/magicsunday/webtrees-pedigree-chart.git modules_v4/webtrees-pedigree-chart
 ```
 
@@ -80,13 +80,14 @@ to adjust the layout of the charts according to your needs.
 ## Development
 To build/update the javascript, run the following commands:
 
-```
-npm install --unsafe-perm --save-dev
+```shell
+nvm install node
+npm install
 npm run prepare
 ```
 
 ### Run tests
-```
+```shell
 composer update
 
 composer ci:test
