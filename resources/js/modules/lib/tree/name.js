@@ -69,15 +69,16 @@ export default class Name
                 .enter();
 
             enter
-                .each(function (d) {
+                .each(function (datum) {
                     const element = d3.select(this);
-                    const nameGroups = that.createNamesData(d);
+                    const nameGroups = that.createNamesData(datum);
+                    const availableWidth = that.getAvailableWidth(datum);
 
                     nameGroups.forEach((nameGroup, index) => {
                         const text = element.append("text")
                             .attr("class", "wt-chart-box-name")
+                            .attr("direction", datum => datum.isRtl ? "rtl" : "ltr")
                             .attr("text-anchor", "middle")
-                            .attr("direction", d => d.isRtl ? "rtl" : "ltr")
                             .attr("alignment-baseline", "central")
                             .attr("y", that._text.y - 5 + (index * 20));
 
@@ -86,7 +87,7 @@ export default class Name
                             that.truncateNamesData(
                                 text,
                                 nameGroup,
-                                d.withImage
+                                availableWidth
                             )
                         );
                     });
@@ -95,19 +96,23 @@ export default class Name
             // Add alternative name if present
             if (this._svg._configuration.showAlternativeName) {
                 enter
-                    .filter(d => d.data.data.alternativeName !== "")
+                    .filter(datum => datum.data.data.alternativeName !== "")
                     .call((g) => {
                         const text = g.append("text")
+                            .classed("wt-chart-box-name-alt", true)
                             .attr("class", "wt-chart-box-name")
+                            .attr("direction", datum => datum.isAltRtl ? "rtl" : "ltr")
                             .attr("text-anchor", "middle")
-                            .attr("direction", d => d.isAltRtl ? "rtl" : "ltr")
                             .attr("alignment-baseline", "central")
-                            .attr("y", this._text.y + 40)
-                            .classed("wt-chart-box-name-alt", true);
+                            .attr("y", this._text.y + 40);
 
                         this.addNameElements(
                             text,
-                            datum => this.createAlternativeNamesData(text, datum)
+                            datum => this.truncateNamesData(
+                                text,
+                                this.createAlternativeNamesData(datum),
+                                this.getAvailableWidth(datum)
+                            )
                         );
                     });
             }
@@ -129,19 +134,19 @@ export default class Name
                 .call((g) => {
                     const text = g.append("text")
                         .attr("class", "wt-chart-box-name")
-                        .attr("text-anchor", (d) => {
-                            if (d.isRtl && this._orientation.isDocumentRtl) {
+                        .attr("direction", datum => datum.isRtl ? "rtl" : "ltr")
+                        .attr("text-anchor", (datum) => {
+                            if (datum.isRtl && this._orientation.isDocumentRtl) {
                                 return "start";
                             }
 
-                            if (d.isRtl || this._orientation.isDocumentRtl) {
+                            if (datum.isRtl || this._orientation.isDocumentRtl) {
                                 return "end";
                             }
 
                             return "start";
                         })
-                        .attr("direction", d => d.isRtl ? "rtl" : "ltr")
-                        .attr("x", d => this.textX(d))
+                        .attr("x", datum => this.textX(datum))
                         .attr("y", this._text.y - 10);
 
                     this.addNameElements(
@@ -157,7 +162,7 @@ export default class Name
                                     ...nameGroups[0],
                                     ...nameGroups[1],
                                 ],
-                                datum.withImage
+                                this.getAvailableWidth(datum)
                             )
                         }
                     );
@@ -169,30 +174,59 @@ export default class Name
                     .filter(datum => datum.data.data.alternativeName !== "")
                     .call((g) => {
                         const text = g.append("text")
+                            .classed("wt-chart-box-name-alt", true)
                             .attr("class", "wt-chart-box-name")
-                            .attr("text-anchor", (d) => {
-                                if (d.isAltRtl && this._orientation.isDocumentRtl) {
+                            .attr("direction", datum => datum.isAltRtl ? "rtl" : "ltr")
+                            .attr("text-anchor", (datum) => {
+                                if (datum.isAltRtl && this._orientation.isDocumentRtl) {
                                     return "start";
                                 }
 
-                                if (d.isAltRtl || this._orientation.isDocumentRtl) {
+                                if (datum.isAltRtl || this._orientation.isDocumentRtl) {
                                     return "end";
                                 }
 
                                 return "start";
                             })
-                            .attr("direction", d => d.isAltRtl ? "rtl" : "ltr")
-                            .attr("x", d => this.textX(d))
-                            .attr("y", this._text.y + 8)
-                            .classed("wt-chart-box-name-alt", true);
+                            .attr("x", datum => this.textX(datum))
+                            .attr("y", this._text.y + 8);
 
                         this.addNameElements(
                             text,
-                            datum => this.createAlternativeNamesData(text, datum)
+                            datum => this.truncateNamesData(
+                                text,
+                                this.createAlternativeNamesData(datum),
+                                this.getAvailableWidth(datum)
+                            )
                         );
                     });
             }
         }
+    }
+
+    /**
+     * Returns the total available width that the text can occupy.
+     *
+     * @param {NameElementData} datum
+     *
+     * @return {Number}
+     *
+     * @private
+     */
+    getAvailableWidth(datum)
+    {
+        // The total available width that the text can occupy
+        let availableWidth = this._text.width;
+
+        if (datum.withImage) {
+            if ((this._orientation instanceof OrientationLeftRight)
+                || (this._orientation instanceof OrientationRightLeft)
+            ) {
+                availableWidth -= this._image.width;
+            }
+        }
+
+        return availableWidth;
     }
 
     /**
@@ -292,27 +326,16 @@ export default class Name
      *
      * @param {Object}             parent
      * @param {LabelElementData[]} names
-     * @param {Boolean}            withImage
+     * @param {Number}             availableWidth
      *
      * @return {LabelElementData[]}
      *
      * @private
      */
-    truncateNamesData(parent, names, withImage)
+    truncateNamesData(parent, names, availableWidth)
     {
         const fontSize   = parent.style("font-size");
         const fontWeight = parent.style("font-weight");
-
-        // The total available width that the text can occupy
-        let availableWidth = this._text.width;
-
-        if (withImage) {
-            if ((this._orientation instanceof OrientationLeftRight)
-                || (this._orientation instanceof OrientationRightLeft)
-            ) {
-                availableWidth -= this._image.width;
-            }
-        }
 
         return this.truncateNames(names, fontSize, fontWeight, availableWidth);
     }
@@ -320,14 +343,13 @@ export default class Name
     /**
      * Creates the data array for the alternative name.
      *
-     * @param {Object}          parent
      * @param {NameElementData} datum
      *
      * @return {LabelElementData[]}
      *
      * @private
      */
-    createAlternativeNamesData(parent, datum)
+    createAlternativeNamesData(datum)
     {
         let words = datum.data.data.alternativeName.split(/\s+/);
 
@@ -346,21 +368,7 @@ export default class Name
             })
         );
 
-        const fontSize   = parent.style("font-size");
-        const fontWeight = parent.style("font-weight");
-
-        // The total available width that the text can occupy
-        let availableWidth = this._text.width;
-
-        if (datum.withImage) {
-            if ((this._orientation instanceof OrientationLeftRight)
-                || (this._orientation instanceof OrientationRightLeft)
-            ) {
-                availableWidth -= this._image.width;
-            }
-        }
-
-        return this.truncateNames(names, fontSize, fontWeight, availableWidth);
+        return names;
     }
 
     /**
