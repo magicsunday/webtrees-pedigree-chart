@@ -39,4 +39,3 @@ export const LAYOUT_RIGHTLEFT = "left";
  */
 export const SEX_MALE = "M";
 export const SEX_FEMALE = "F";
-export const SEX_UNKNOWN = "U";
