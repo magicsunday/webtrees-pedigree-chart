@@ -17,10 +17,10 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
  */
 ?>
 
-<div class="form-group row">
-    <label class="col-form-label col-sm-3 wt-page-options-label">
+<fieldset class="form-group row">
+    <legend class="col-form-label col-sm-3 wt-page-options-label">
         <?= I18N::translate('Orientation') ?>
-    </label>
+    </legend>
     <div class="col-sm-9 wt-page-options-value" id="layout">
         <?=
         view('components/radios-inline', [
@@ -30,4 +30,4 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
         ])
         ?>
     </div>
-</div>
+</fieldset>
