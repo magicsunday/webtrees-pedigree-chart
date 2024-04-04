@@ -17,18 +17,18 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
  */
 ?>
 
-<fieldset class="form-group row">
+<div class="row">
     <label class="col-sm-3 col-form-label wt-page-options-label" for="generations">
         <?= I18N::translate('Generations') ?>
     </label>
     <div class="col-sm-9 wt-page-options-value">
         <?=
-        view('components/select', [
-            'name'     => 'generations',
-            'selected' => $configuration->getGenerations(),
-            'options'  => $configuration->getGenerationsList(),
-            'class'    => 'form-control-sm',
-        ])
+            view('components/select', [
+                'name'     => 'generations',
+                'selected' => $configuration->getGenerations(),
+                'options'  => $configuration->getGenerationsList(),
+                'class'    => 'form-control-sm',
+            ])
         ?>
     </div>
-</fieldset>
+</div>

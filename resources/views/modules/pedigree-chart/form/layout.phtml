@@ -18,10 +18,10 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
  */
 ?>
 
-<fieldset class="form-group row">
-    <legend class="col-form-label col-sm-3 wt-page-options-label">
+<div class="row">
+    <div class="col-form-label col-sm-3 wt-page-options-label">
         <?= I18N::translate('Layout') ?>
-    </legend>
+    </div>
     <div class="col-sm-9 wt-page-options-value">
         <?=
             view($moduleName . '::modules/components/checkbox', [
@@ -60,4 +60,4 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
             </small>
         </div>
     </div>
-</fieldset>
+</div>

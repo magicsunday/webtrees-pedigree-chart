@@ -20,9 +20,6 @@
 .webtrees-pedigree-chart-container svg {
     display: block;
     margin: auto;
-    cursor: move;
-    /*cursor: -webkit-grab;*/
-    /*cursor: -moz-grab;*/
     cursor: grab;
     /*-webkit-filter: drop-shadow(3px 1px 3px rgba(0, 0, 0, 0.4));*/
     /*filter: drop-shadow(3px 1px 3px rgba(0, 0, 0, 0.4));*/
@@ -30,7 +27,6 @@
 
 .webtrees-pedigree-chart-container svg:active {
     cursor: grabbing;
-    /*cursor: -webkit-grabbing;*/
 }
 
 .webtrees-pedigree-chart-container svg .person {
@@ -71,8 +67,6 @@
     position: relative;
     margin: 0;
     top: 50%;
-    /*-webkit-transform: translateY(-50%);*/
-    /*-ms-transform: translateY(-50%);*/
     transform: translateY(-50%);
     opacity: 1;
     text-align: center;

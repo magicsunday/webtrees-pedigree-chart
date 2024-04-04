@@ -34,7 +34,7 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
     <form id="webtrees-pedigree-chart-form" method="post" class="wt-page-options wt-page-options-pedigree-chart d-print-none">
         <?= csrf_field() ?>
 
-        <fieldset class="form-group row">
+        <div class="row">
             <label class="col-sm-3 col-form-label wt-page-options-label" for="xref">
                 <?= I18N::translate('Individual') ?>
             </label>
@@ -48,7 +48,7 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
                     ])
                 ?>
             </div>
-        </fieldset>
+        </div>
 
         <?= view($moduleName . '::modules/pedigree-chart/form/generations', ['configuration' => $configuration]) ?>
         <?= view($moduleName . '::modules/pedigree-chart/form/orientation', ['configuration' => $configuration]) ?>
@@ -57,7 +57,7 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
             <?= view($moduleName . '::modules/pedigree-chart/form/layout', ['configuration' => $configuration, 'moduleName' => $moduleName]) ?>
         </div>
 
-        <fieldset class="form-group row mt-2">
+        <div class="row mt-3">
             <div class="col-sm-12 wt-page-options-value text-center">
                 <div class="btn-toolbar justify-content-between">
                     <div class="btn-group btn-group-sm">
@@ -94,7 +94,7 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
                     </div>
                 </div>
             </div>
-        </fieldset>
+        </div>
     </form>
 
     <div id="pedigree-chart-url" class="row wt-ajax-load wt-page-content wt-chart wt-pedigree-chart"></div>
