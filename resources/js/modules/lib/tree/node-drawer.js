@@ -97,7 +97,7 @@ export default class NodeDrawer
         enter
             .append("g")
             .attr("opacity", 0)
-            .attr("class", person => "person" + (person.data.spouse ? " spouse" : ""))
+            .attr("class", "person")
             .attr("transform", (person) => {
                 return "translate(" + (person.x) + "," + (person.y) + ")";
                 // TODO Enable this to zoom from source to person
@@ -115,6 +115,7 @@ export default class NodeDrawer
                                 ? "female"
                                 : (person.data.data.sex === SEX_MALE) ? "male" : "unknown"
                         )
+                        .classed("spouse", person => person.data.spouse)
                         .attr("rx", 20)
                         .attr("ry", 20)
                         .attr("x", -(this._orientation.boxWidth / 2))
