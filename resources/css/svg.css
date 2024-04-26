@@ -54,16 +54,16 @@
     font-size: 13px;
 }
 
-.webtrees-pedigree-chart-container svg .wt-chart-box-name {
+.webtrees-pedigree-chart-container svg text.wt-chart-box-name {
     fill: var(--link-color, currentColor);
 }
 
-.webtrees-pedigree-chart-container svg .wt-chart-box-name-alt {
+.webtrees-pedigree-chart-container svg text.wt-chart-box-name-alt {
     fill: currentColor;
     font-weight: 500;
     font-size: 0.85em;
 }
 
-.webtrees-pedigree-chart-container svg .wt-chart-box-name:hover:not(.wt-chart-box-name-alt) {
+.webtrees-pedigree-chart-container svg text.wt-chart-box-name:hover:not(.wt-chart-box-name-alt) {
     fill: var(--link-color-hover);
 }
