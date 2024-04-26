@@ -252,7 +252,7 @@ export default class NodeDrawer
                 let image = d3.select(this);
 
                 dataUrl(d.image)
-                    .then(dataUrl => image.attr("xlink:href", dataUrl))
+                    .then(dataUrl => image.attr("href", dataUrl))
                     .catch((exception) => {
                         console.error(exception);
                     });

@@ -40,23 +40,23 @@ new WebtreesPedigreeChart.PedigreeChart(
         cssFiles: <?= json_encode($exportStylesheets) ?>,
 
         get generations() {
-            return generations ?? <?= $configuration->getGenerations() ?>
+            return (typeof generations !== "undefined" && generations !== null) ? generations : <?= $configuration->getGenerations() ?>
         },
 
         get showEmptyBoxes() {
-            return showEmptyBoxes ?? <?= json_encode($configuration->getShowEmptyBoxes()) ?>;
+            return (typeof showEmptyBoxes !== "undefined" && showEmptyBoxes !== null) ? showEmptyBoxes : <?= json_encode($configuration->getShowEmptyBoxes()) ?>;
         },
 
         get treeLayout() {
-            return treeLayout ?? <?= json_encode($configuration->getLayout()) ?>;
+            return (typeof treeLayout !== "undefined" && treeLayout !== null) ? treeLayout : <?= json_encode($configuration->getLayout()) ?>;
         },
 
         get openNewTabOnClick() {
-            return openNewTabOnClick ?? <?= json_encode($configuration->getOpenNewTabOnClick()) ?>;
+            return (typeof openNewTabOnClick !== "undefined" && openNewTabOnClick !== null) ? openNewTabOnClick : <?= json_encode($configuration->getOpenNewTabOnClick()) ?>;
         },
 
         get showAlternativeName() {
-            return showAlternativeName ?? <?= json_encode($configuration->getShowAlternativeName()) ?>;
+            return (typeof showAlternativeName !== "undefined" && showAlternativeName !== null) ? showAlternativeName : <?= json_encode($configuration->getShowAlternativeName()) ?>;
         },
 
         data: <?= json_encode($data) ?>

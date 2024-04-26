@@ -45,8 +45,7 @@ export default class Date
     appendDate(parent)
     {
         const table = parent
-            .append("g")
-            .attr("class", "table");
+            .append("g");
 
         // Top/Bottom and Bottom/Top
         if ((this._orientation instanceof OrientationTopBottom)

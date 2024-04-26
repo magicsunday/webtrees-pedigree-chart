@@ -28,12 +28,14 @@ export class Storage
     /**
      * Register an HTML element.
      *
-     * @param {String} name The id or name of an HTML element
+     * @param {String} name The ID of an HTML element
      */
     register(name)
     {
-        // Use "querySelector" here as the ID of a checkbox elements may additionally contain a hyphen and the value
-        let input = document.querySelector('[id^="' + name + '"]');
+        // Use "querySelector" here as the ID of checkbox elements may additionally contain a hyphen and the value
+        // Query checked elements (radio and checkbox) separately
+        let input = document.querySelector('[id^="' + name + '"]:checked')
+            || document.querySelector('[id^="' + name + '"]');
 
         if (input === null) {
             return;
