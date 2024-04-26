@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pedigree chart\n"
 "POT-Creation-Date: 2024-03-20 13:49+0100\n"
-"PO-Revision-Date: 2024-03-20 13:49+0100\n"
+"PO-Revision-Date: 2024-04-06 07:52+0200\n"
 "Last-Translator: Rico Sonntag <mail@ricosonntag.de>\n"
 "Language-Team: \n"
 "Language: nb\n"
@@ -70,23 +70,23 @@ msgstr "Død"
 #: src/Traits/ModuleConfigTrait.php:83
 #, php-format
 msgid "The preferences for the module “%s” have been updated."
-msgstr ""
+msgstr "Innstillingene for modulen “%s” har blitt oppdatert."
 
 #: resources/views/modules/pedigree-chart/config.phtml:25
 msgid "Control panel"
-msgstr ""
+msgstr "Kontrollpanel"
 
 #: resources/views/modules/pedigree-chart/config.phtml:25
 msgid "Modules"
-msgstr ""
+msgstr "Moduler"
 
 #: resources/views/modules/pedigree-chart/config.phtml:44
 msgid "save"
-msgstr ""
+msgstr "lagre"
 
 #: resources/views/modules/pedigree-chart/config.phtml:49
 msgid "cancel"
-msgstr ""
+msgstr "avbryt"
 
 #: resources/views/modules/pedigree-chart/form/generations.phtml:22
 msgid "Generations"
@@ -101,21 +101,23 @@ msgid ""
 "Show empty boxes for missing individuals. Caution: May slow down your system!"
 msgstr ""
 "Vis tomme felt for manglende personer. Advarsel: Kan gi forsinkelser i "
-"systemet."
+"systemet!"
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:39
 msgid "Open individual in new browser window/tab"
-msgstr ""
+msgstr "Åpne person i nytt vindu/fane"
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:45
 msgid ""
 "Open the current individual's detail page in a new browser window/tab when "
 "it's left-clicked, otherwise the current window/tab is used."
 msgstr ""
+"Åpner gjeldende persons faktaside i nytt vindu/fane ved venstreklikk. Om "
+"ikke, åpnes siden i samme vindu/fane."
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:53
 msgid "Show alternative name of individual"
-msgstr ""
+msgstr "Vis alternativt navn på person"
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:59
 msgid ""
@@ -123,6 +125,8 @@ msgid ""
 "enlarges the individuals' respective boxes to create the necessary space for "
 "the display."
 msgstr ""
+"Viser alternative navn på personer, om dette er tilgjengelig. Dette vil "
+"samtidig utvide personbokser for å gi plass til visningen."
 
 #: resources/views/modules/pedigree-chart/form/orientation.phtml:22
 msgid "Orientation"
@@ -134,11 +138,11 @@ msgstr "Person"
 
 #: resources/views/modules/pedigree-chart/page.phtml:71
 msgid "Show more options"
-msgstr ""
+msgstr "Vis flere valg"
 
 #: resources/views/modules/pedigree-chart/page.phtml:72
 msgid "Hide more options"
-msgstr ""
+msgstr "Skjul flere valg"
 
 #: resources/views/modules/pedigree-chart/page.phtml:77
 msgid "view"

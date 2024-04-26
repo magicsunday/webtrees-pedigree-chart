@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pedigree chart\n"
 "POT-Creation-Date: 2024-03-20 13:49+0100\n"
-"PO-Revision-Date: 2024-03-20 13:49+0100\n"
+"PO-Revision-Date: 2024-04-06 08:34+0200\n"
 "Last-Translator: Rico Sonntag <mail@ricosonntag.de>\n"
 "Language-Team: \n"
 "Language: nn\n"
@@ -65,28 +65,28 @@ msgstr "Død: %s"
 
 #: src/Processor/DateProcessor.php:137
 msgid "Deceased"
-msgstr "Avliden"
+msgstr "Død"
 
 #: src/Traits/ModuleConfigTrait.php:83
 #, php-format
 msgid "The preferences for the module “%s” have been updated."
-msgstr ""
+msgstr "Innstillingane for modulen “%s” har blitt oppdatert."
 
 #: resources/views/modules/pedigree-chart/config.phtml:25
 msgid "Control panel"
-msgstr ""
+msgstr "Kontrollpanel"
 
 #: resources/views/modules/pedigree-chart/config.phtml:25
 msgid "Modules"
-msgstr ""
+msgstr "Modular"
 
 #: resources/views/modules/pedigree-chart/config.phtml:44
 msgid "save"
-msgstr ""
+msgstr "lagre"
 
 #: resources/views/modules/pedigree-chart/config.phtml:49
 msgid "cancel"
-msgstr ""
+msgstr "avbryt"
 
 #: resources/views/modules/pedigree-chart/form/generations.phtml:22
 msgid "Generations"
@@ -103,17 +103,19 @@ msgstr "Syn tomme felt for manglande personar. Varsel: Kan seinke sytemet!"
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:39
 msgid "Open individual in new browser window/tab"
-msgstr ""
+msgstr "Opne person i nytt vindauge/fane"
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:45
 msgid ""
 "Open the current individual's detail page in a new browser window/tab when "
 "it's left-clicked, otherwise the current window/tab is used."
 msgstr ""
+"Opnar gjeldande person si faktaside i nytt vindage/fane. Om ikkje, opnast "
+"sida i same vindauge/fane."
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:53
 msgid "Show alternative name of individual"
-msgstr ""
+msgstr "Syn alternativt namn på person"
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:59
 msgid ""
@@ -121,6 +123,8 @@ msgid ""
 "enlarges the individuals' respective boxes to create the necessary space for "
 "the display."
 msgstr ""
+"Syner alternativt namn på personar der dette er tilgjengeleg. Dette vil og "
+"utvide personboksar for å gi plass til syninga."
 
 #: resources/views/modules/pedigree-chart/form/orientation.phtml:22
 msgid "Orientation"
@@ -132,11 +136,11 @@ msgstr "Person"
 
 #: resources/views/modules/pedigree-chart/page.phtml:71
 msgid "Show more options"
-msgstr ""
+msgstr "Syn fleire val"
 
 #: resources/views/modules/pedigree-chart/page.phtml:72
 msgid "Hide more options"
-msgstr ""
+msgstr "Skjul fleire val"
 
 #: resources/views/modules/pedigree-chart/page.phtml:77
 msgid "view"
