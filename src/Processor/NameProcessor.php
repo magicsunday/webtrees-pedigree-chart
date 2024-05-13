@@ -109,7 +109,7 @@ class NameProcessor
     /**
      * Extracts the primary name from the individual.
      *
-     * @param null|Individual $spouse
+     * @param Individual|null $spouse
      * @param bool            $useMarriedName TRUE to return the married name instead of the primary one
      *
      * @return array<string, string>
@@ -288,7 +288,7 @@ class NameProcessor
             $individual->canShowName()
             && ($individual->getPrimaryName() !== $individual->getSecondaryName())
         ) {
-            $allNames = $individual->getAllNames();
+            $allNames        = $individual->getAllNames();
             $alternativeName = $allNames[$individual->getSecondaryName()][self::FULL_NAME_WITH_PLACEHOLDERS];
 
             return $this->replacePlaceholders($alternativeName);
