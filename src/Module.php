@@ -61,7 +61,7 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface, Modul
     /**
      * @var string
      */
-    public const CUSTOM_VERSION = '1.7.1';
+    public const CUSTOM_VERSION = '1.7.2-dev';
 
     /**
      * @var string
@@ -203,7 +203,7 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface, Modul
                     'chartParams'       => $this->getChartParameters(),
                     'exportStylesheets' => $this->getExportStylesheets(),
                     'stylesheets'       => $this->getStylesheets(),
-                    'javascript'        => $this->assetUrl('js/pedigree-chart.min.js'),
+                    'javascript'        => $this->assetUrl('js/pedigree-chart-' . self::CUSTOM_VERSION . '.min.js'),
                 ]
             );
         }
@@ -282,7 +282,10 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface, Modul
      */
     private function getStylesheets(): array
     {
-        return [$this->assetUrl('css/pedigree-chart.css'), $this->assetUrl('css/svg.css')];
+        return [
+            $this->assetUrl('css/pedigree-chart.css'),
+            $this->assetUrl('css/svg.css'),
+        ];
     }
 
     /**

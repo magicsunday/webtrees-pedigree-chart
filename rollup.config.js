@@ -1,5 +1,7 @@
-import resolve from '@rollup/plugin-node-resolve';
+import pkg from "./package.json" with {type: "json"};
+import resolve from "@rollup/plugin-node-resolve";
 import terser from "@rollup/plugin-terser";
+import license from "rollup-plugin-license";
 
 export default [
     // pedigree-chart.js
@@ -8,12 +10,22 @@ export default [
         output: [
             {
                 name: "WebtreesPedigreeChart",
-                file: "resources/js/pedigree-chart.js",
+                file: "resources/js/pedigree-chart-" + pkg.version + ".js",
                 format: "umd"
             }
         ],
         plugins: [
-            resolve()
+            resolve(),
+            license({
+                banner: `
+This file is part of the package magicsunday/<%= pkg.name %>.
+
+For the full copyright and license information, please read the
+LICENSE file that was distributed with this source code.
+
+Generated: <%= moment().format('YYYY-MM-DD HH:mm:ss') %>
+Version: <%= pkg.version %>`
+            })
         ]
     },
     {
@@ -21,7 +33,7 @@ export default [
         output: [
             {
                 name: "WebtreesPedigreeChart",
-                file: "resources/js/pedigree-chart.min.js",
+                file: "resources/js/pedigree-chart-" + pkg.version + ".min.js",
                 format: "umd"
             }
         ],
@@ -34,6 +46,16 @@ export default [
                 output: {
                     comments: false
                 }
+            }),
+            license({
+                banner: `
+This file is part of the package magicsunday/<%= pkg.name %>.
+
+For the full copyright and license information, please read the
+LICENSE file that was distributed with this source code.
+
+Generated: <%= moment().format('YYYY-MM-DD HH:mm:ss') %>
+Version: <%= pkg.version %>`
             })
         ]
     },
