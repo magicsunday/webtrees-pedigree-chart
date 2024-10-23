@@ -17,8 +17,8 @@ export default class Orientation
     /**
      * Constructor.
      *
-     * @param {Number} boxWidth  The width of a single individual box
-     * @param {Number} boxHeight The height of a single individual box
+     * @param {number} boxWidth  The width of a single individual box
+     * @param {number} boxHeight The height of a single individual box
      */
     constructor(boxWidth, boxHeight)
     {
@@ -34,7 +34,7 @@ export default class Orientation
     /**
      * Returns TRUE if the document is in RTL direction.
      *
-     * @return {Boolean}
+     * @returns {boolean}
      */
     get isDocumentRtl()
     {
@@ -44,7 +44,7 @@ export default class Orientation
     /**
      * Returns the x-offset between two boxes.
      *
-     * @returns {Number}
+     * @returns {number}
      */
     get xOffset()
     {
@@ -54,7 +54,7 @@ export default class Orientation
     /**
      * Returns the y-offset between two boxes.
      *
-     * @returns {Number}
+     * @returns {number}
      */
     get yOffset()
     {
@@ -64,7 +64,7 @@ export default class Orientation
     /**
      * Returns whether to splitt the names on multiple lines or not.
      *
-     * @returns {Boolean}
+     * @returns {boolean}
      */
     get splittNames()
     {
@@ -74,7 +74,7 @@ export default class Orientation
     /**
      * Returns the width of the box.
      *
-     * @returns {Number}
+     * @returns {number}
      */
     get boxWidth()
     {
@@ -84,7 +84,7 @@ export default class Orientation
     /**
      * Returns the height of the box.
      *
-     * @returns {Number}
+     * @returns {number}
      */
     get boxHeight()
     {
@@ -94,7 +94,7 @@ export default class Orientation
     /**
      * Returns the height of the box.
      *
-     * @params {Number} boxHeight
+     * @params {number} boxHeight
      */
     set boxHeight(boxHeight)
     {
@@ -104,7 +104,7 @@ export default class Orientation
     /**
      * Returns the direction.
      *
-     * @returns {Number}
+     * @returns {number}
      */
     get direction()
     {
@@ -114,7 +114,7 @@ export default class Orientation
     /**
      * Returns the width of the node.
      *
-     * @returns {Number}
+     * @returns {number}
      */
     get nodeWidth()
     {
@@ -124,7 +124,7 @@ export default class Orientation
     /**
      * Returns the height of the node.
      *
-     * @returns {Number}
+     * @returns {number}
      */
     get nodeHeight()
     {
@@ -146,7 +146,7 @@ export default class Orientation
      *
      * @param {Link} link
      *
-     * @returns {String}
+     * @returns {string}
      */
     elbow(link)
     {

@@ -21,7 +21,7 @@ export default class Image
      * Constructor.
      *
      * @param {Orientation} orientation  The current orientation
-     * @param {Number}      cornerRadius The corner radius of the box
+     * @param {number}      cornerRadius The corner radius of the box
      */
     constructor(orientation, cornerRadius)
     {
@@ -43,7 +43,7 @@ export default class Image
     /**
      * Returns the calculated X-coordinate.
      *
-     * @returns {Number}
+     * @returns {number}
      */
     calculateX()
     {
@@ -61,7 +61,7 @@ export default class Image
     /**
      * Returns the calculated Y-coordinate.
      *
-     * @returns {Number}
+     * @returns {number}
      */
     calculateY()
     {
@@ -77,7 +77,7 @@ export default class Image
     /**
      * Returns the calculated image width.
      *
-     * @returns {Number}
+     * @returns {number}
      */
     calculateImageWidth()
     {
@@ -87,7 +87,7 @@ export default class Image
     /**
      * Returns the calculated image height.
      *
-     * @returns {Number}
+     * @returns {number}
      */
     calculateImageHeight()
     {
@@ -97,7 +97,7 @@ export default class Image
     /**
      * Returns the calculated corner radius.
      *
-     * @returns {Number}
+     * @returns {number}
      */
     calculateCornerRadius()
     {
@@ -107,7 +107,7 @@ export default class Image
     /**
      * Returns the X-coordinate of the center of the image.
      *
-     * @returns {Number}
+     * @returns {number}
      */
     get x()
     {
@@ -117,7 +117,7 @@ export default class Image
     /**
      * Returns the Y-coordinate of the center of the image.
      *
-     * @returns {Number}
+     * @returns {number}
      */
     get y()
     {
@@ -127,7 +127,7 @@ export default class Image
     /**
      * Returns the horizontal corner radius of the image.
      *
-     * @returns {Number}
+     * @returns {number}
      */
     get rx()
     {
@@ -137,7 +137,7 @@ export default class Image
     /**
      * Returns the vertical corner radius of the image.
      *
-     * @returns {Number}
+     * @returns {number}
      */
     get ry()
     {
@@ -147,7 +147,7 @@ export default class Image
     /**
      * Returns the width of the image.
      *
-     * @returns {Number}
+     * @returns {number}
      */
     get width()
     {
@@ -157,7 +157,7 @@ export default class Image
     /**
      * Returns the height of the image.
      *
-     * @returns {Number}
+     * @returns {number}
      */
     get height()
     {

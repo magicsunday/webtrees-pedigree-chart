@@ -48,7 +48,7 @@ export default class Text
     /**
      * Returns the calculated X-coordinate.
      *
-     * @returns {Number}
+     * @returns {number}
      */
     calculateX()
     {
@@ -58,7 +58,7 @@ export default class Text
     /**
      * Returns the calculated Y-coordinate.
      *
-     * @returns {Number}
+     * @returns {number}
      */
     calculateY()
     {
@@ -74,7 +74,7 @@ export default class Text
     /**
      * Calculate the available text width.
      *
-     * @returns {Number}
+     * @returns {number}
      */
     calculateWidth()
     {
@@ -85,7 +85,7 @@ export default class Text
     /**
      * Returns the X-coordinate of the text start.
      *
-     * @returns {Number}
+     * @returns {number}
      */
     get x()
     {
@@ -95,7 +95,7 @@ export default class Text
     /**
      * Returns the Y-coordinate of the text start.
      *
-     * @returns {Number}
+     * @returns {number}
      */
     get y()
     {
@@ -105,7 +105,7 @@ export default class Text
     /**
      * Returns the width of the text.
      *
-     * @returns {Number}
+     * @returns {number}
      */
     get width()
     {

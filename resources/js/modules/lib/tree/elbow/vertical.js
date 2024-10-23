@@ -14,7 +14,7 @@ import * as d3 from "../../d3";
  * @param {Link}        link        The link object
  * @param {Orientation} orientation The current orientation
  *
- * @returns {String}
+ * @returns {string}
  */
 export default function(link, orientation)
 {
@@ -64,7 +64,7 @@ export default function(link, orientation)
  * @param {Link}        link        The link object
  * @param {Orientation} orientation The current orientation
  *
- * @return {String}
+ * @returns {string}
  */
 function createLinksBetweenSpouses(link, orientation)
 {
@@ -128,7 +128,7 @@ function createLinksBetweenSpouses(link, orientation)
  * @param {Link}        link        The link object
  * @param {Orientation} orientation The current orientation
  *
- * @return {Number}
+ * @returns {number}
  */
 function getFirstSpouseLinkOffset(link, orientation)
 {

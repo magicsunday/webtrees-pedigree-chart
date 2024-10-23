@@ -33,7 +33,7 @@ export default class Update
     /**
      * Update the chart with data loaded from AJAX.
      *
-     * @param {String}   url      The update URL
+     * @param {string}   url      The update URL
      * @param {Function} callback The callback method to execute after the update
      *
      * @public
@@ -42,7 +42,7 @@ export default class Update
     {
         let that = this;
 
-        this._svg.get()
+        this._svg
             .selectAll("g.person")
             .classed("hover", false)
             .on("click", null)

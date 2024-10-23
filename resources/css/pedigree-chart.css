@@ -1,3 +1,69 @@
+/* Button toolbar */
+.webtrees-pedigree-fullscreen-container::backdrop {
+    background-color: var(--bs-body-bg);
+}
+
+.webtrees-pedigree-fullscreen-container {
+    position: relative;
+}
+
+.webtrees-pedigree-fullscreen-container .btn-toolbar {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+[fullscreen] .webtrees-pedigree-fullscreen-container .wt-page-content {
+    padding: 0;
+}
+
+.webtrees-pedigree-fullscreen-container .chart-button {
+    color: var(--bs-btn-bg);
+    background: rgb(245, 245, 245);
+    border: 1px solid rgb(210, 210, 210);
+    width: 40px;
+    height: 32px;
+    border-radius: 30%;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+}
+
+.webtrees-pedigree-fullscreen-container .btn-primary:hover {
+    background: rgb(245, 245, 245);
+}
+
+.webtrees-pedigree-fullscreen-container .chart-button:hover {
+    color: var(--link-color-hover);
+}
+
+.webtrees-pedigree-fullscreen-container .chart-button .icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.webtrees-pedigree-fullscreen-container .chart-button .icon .svg-inline--fa {
+    height: 1.5em;
+    vertical-align: -0.375em;
+}
+
+.webtrees-pedigree-fullscreen-container .fullscreen-button span:nth-child(2) {
+    display: none;
+}
+
+[fullscreen] .webtrees-pedigree-fullscreen-container .fullscreen-button span:nth-child(1) {
+    display: none;
+}
+
+[fullscreen] .webtrees-pedigree-fullscreen-container .fullscreen-button span:nth-child(2) {
+    display: inline-block;
+}
+
 /* Form */
 .form-element-description {
     -webkit-box-decoration-break: clone;
@@ -17,12 +83,14 @@
     flex: auto;
 }
 
+[fullscreen] .webtrees-pedigree-chart-container {
+    min-height: 100dvh;
+    max-height: 100dvh;
+}
+
 .webtrees-pedigree-chart-container svg {
     display: block;
-    margin: auto;
     cursor: grab;
-    /*-webkit-filter: drop-shadow(3px 1px 3px rgba(0, 0, 0, 0.4));*/
-    /*filter: drop-shadow(3px 1px 3px rgba(0, 0, 0, 0.4));*/
 }
 
 .webtrees-pedigree-chart-container svg:active {

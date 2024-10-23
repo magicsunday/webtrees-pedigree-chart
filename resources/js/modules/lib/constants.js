@@ -8,7 +8,7 @@
 /**
  * The widths and heights of a single node in each tree layout.
  *
- * @type {Number}
+ * @type {number}
  * @const
  */
 export const LAYOUT_HORIZONTAL_NODE_WIDTH = 325;
@@ -21,7 +21,7 @@ export const LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET = 30;
 /**
  * Tree layout variants.
  *
- * @type {String}
+ * @type {string}
  * @const
  *
  * @see \Fisharebest\Webtrees\Module\PedigreeChartModule
@@ -34,7 +34,7 @@ export const LAYOUT_RIGHTLEFT = "left";
 /**
  * Gender types.
  *
- * @type {String}
+ * @type {string}
  * @const
  */
 export const SEX_MALE = "M";

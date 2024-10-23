@@ -40,7 +40,7 @@ export default class Name
     /**
      * Add the individual names to the given parent element.
      *
-     * @param {selection} parent The parent element to which the elements are to be attached
+     * @param {Selection} parent The parent element to which the elements are to be attached
      *
      * @public
      */
@@ -207,7 +207,7 @@ export default class Name
      *
      * @param {NameElementData} datum
      *
-     * @return {Number}
+     * @returns {number}
      *
      * @private
      */
@@ -232,7 +232,7 @@ export default class Name
      * parent element. The "tspan" element containing the preferred name gets an
      * additional underline style to highlight this one.
      *
-     * @param {selection}                       parent The parent element to which the <tspan> elements are to be attached
+     * @param {Selection}                       parent The parent element to which the <tspan> elements are to be attached
      * @param {function(*): LabelElementData[]} data
      *
      * @private
@@ -260,7 +260,7 @@ export default class Name
      *
      * @param {NameElementData} datum
      *
-     * @return {LabelElementData[][]}
+     * @returns {LabelElementData[][]}
      *
      * @private
      */
@@ -347,11 +347,11 @@ export default class Name
     /**
      * Creates the data array for the names.
      *
-     * @param {Object}             parent
+     * @param {object}             parent
      * @param {LabelElementData[]} names
-     * @param {Number}             availableWidth
+     * @param {number}             availableWidth
      *
-     * @return {LabelElementData[]}
+     * @returns {LabelElementData[]}
      *
      * @private
      */
@@ -368,7 +368,7 @@ export default class Name
      *
      * @param {NameElementData} datum
      *
-     * @return {LabelElementData[]}
+     * @returns {LabelElementData[]}
      *
      * @private
      */
@@ -398,11 +398,11 @@ export default class Name
      * Truncates the list of names.
      *
      * @param {LabelElementData[]} names          The names array
-     * @param {String}             fontSize       The font size
-     * @param {Number}             fontWeight     The font weight
-     * @param {Number}             availableWidth The available width
+     * @param {string}             fontSize       The font size
+     * @param {number}             fontWeight     The font weight
+     * @param {number}             availableWidth The available width
      *
-     * @return {LabelElementData[]}
+     * @returns {LabelElementData[]}
      *
      * @private
      */
@@ -428,7 +428,7 @@ export default class Name
                 return name;
             })
             .map((name) => {
-                // Afterward, the preferred ones, if text takes still too much space
+                // Afterward, the preferred ones, if the text takes still too much space
                 if (name.isPreferred === true) {
                     if (this.measureText(text, fontSize, fontWeight) > availableWidth) {
                         // Keep only the first letter
@@ -457,9 +457,9 @@ export default class Name
 
     /**
      *
-     * @param {Object} d
+     * @param {object} d
      *
-     * @return {Number}
+     * @returns {number}
      *
      * @private
      */
@@ -474,17 +474,17 @@ export default class Name
     /**
      * Measures the given text and return its width depending on the used font (including size and weight).
      *
-     * @param {String} text
-     * @param {String} fontSize
-     * @param {Number} fontWeight
+     * @param {string} text
+     * @param {string} fontSize
+     * @param {number} fontWeight
      *
-     * @returns {Number}
+     * @returns {number}
      *
      * @private
      */
     measureText(text, fontSize, fontWeight = 400)
     {
-        const fontFamily = this._svg.get().style("font-family");
+        const fontFamily = this._svg.style("font-family");
 
         return measureText(text, fontFamily, fontSize, fontWeight);
     }
