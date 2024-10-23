@@ -70,23 +70,23 @@ msgstr "Látin/-n"
 #: src/Traits/ModuleConfigTrait.php:83
 #, php-format
 msgid "The preferences for the module “%s” have been updated."
-msgstr ""
+msgstr "Kjörstillingar fyrir eininguna “%s“ hafa verið uppfærðar."
 
 #: resources/views/modules/pedigree-chart/config.phtml:25
 msgid "Control panel"
-msgstr ""
+msgstr "Stjórnborð"
 
 #: resources/views/modules/pedigree-chart/config.phtml:25
 msgid "Modules"
-msgstr ""
+msgstr "Einingar"
 
 #: resources/views/modules/pedigree-chart/config.phtml:44
 msgid "save"
-msgstr ""
+msgstr "vista"
 
 #: resources/views/modules/pedigree-chart/config.phtml:49
 msgid "cancel"
-msgstr ""
+msgstr "hætta"
 
 #: resources/views/modules/pedigree-chart/form/generations.phtml:22
 msgid "Generations"
@@ -105,24 +105,26 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:39
 msgid "Open individual in new browser window/tab"
-msgstr ""
+msgstr "Opnaðu einstakling í nýjum vafraglugga/flipa"
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:45
 msgid ""
 "Open the current individual's detail page in a new browser window/tab when "
 "it's left-clicked, otherwise the current window/tab is used."
-msgstr ""
+msgstr "Opnaðu upplýsingasíðu viðkomandi einstaklings í nýjum vafraglugga/flipa þegar "
+"vinstrismellt er á hann, annars er núverandi gluggi/flipi notaður."
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:53
 msgid "Show alternative name of individual"
-msgstr ""
+msgstr "Sýna aukanafn einstaklings"
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:59
 msgid ""
 "Displays a person's alternate name, if available. This simultaneously "
 "enlarges the individuals' respective boxes to create the necessary space for "
 "the display."
-msgstr ""
+msgstr "Sýnir aukanafn einstaklings, ef það er til staðar. Þetta stækkar samtímis "
+"kassa viðkomandi einstaklings til að skapa nauðsynlegt pláss fyrir skjáinn."
 
 #: resources/views/modules/pedigree-chart/form/orientation.phtml:22
 msgid "Orientation"
