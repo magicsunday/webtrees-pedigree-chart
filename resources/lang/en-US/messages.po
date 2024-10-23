@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pedigree chart\n"
-"POT-Creation-Date: 2024-03-20 13:49+0100\n"
-"PO-Revision-Date: 2024-03-20 13:49+0100\n"
+"POT-Creation-Date: 2024-10-23 18:34+0200\n"
+"PO-Revision-Date: 2024-10-23 18:34+0200\n"
 "Last-Translator: Rico Sonntag <mail@ricosonntag.de>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.5\n"
 "X-Poedit-Basepath: ../../..\n"
 "X-Poedit-KeywordsList: translate\n"
 "X-Poedit-SearchPath-0: src\n"
@@ -72,6 +72,26 @@ msgstr ""
 msgid "The preferences for the module “%s” have been updated."
 msgstr ""
 
+#: resources/views/modules/components/buttonbar/center-button.phtml:18
+msgid "Re center"
+msgstr ""
+
+#: resources/views/modules/components/buttonbar/fullscreen-button.phtml:18
+msgid "Switch between full screen mode and normal view"
+msgstr ""
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:17
+msgid "Show help"
+msgstr ""
+
+#: resources/views/modules/components/buttonbar/png-export-button.phtml:18
+msgid "Export as PNG"
+msgstr ""
+
+#: resources/views/modules/components/buttonbar/svg-export-button.phtml:18
+msgid "Export as SVG"
+msgstr ""
+
 #: resources/views/modules/pedigree-chart/config.phtml:25
 msgid "Control panel"
 msgstr ""
@@ -130,26 +150,14 @@ msgstr ""
 msgid "Individual"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/page.phtml:71
-msgid "Show more options"
-msgstr ""
-
-#: resources/views/modules/pedigree-chart/page.phtml:72
-msgid "Hide more options"
-msgstr ""
-
-#: resources/views/modules/pedigree-chart/page.phtml:77
+#: resources/views/modules/pedigree-chart/page.phtml:64
 msgid "view"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/page.phtml:83
-msgid "Re center"
+#: resources/views/modules/pedigree-chart/page.phtml:75
+msgid "Show more options"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/page.phtml:88
-msgid "Export as PNG"
-msgstr ""
-
-#: resources/views/modules/pedigree-chart/page.phtml:91
-msgid "Export as SVG"
+#: resources/views/modules/pedigree-chart/page.phtml:76
+msgid "Hide more options"
 msgstr ""
