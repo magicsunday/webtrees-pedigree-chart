@@ -35,3 +35,15 @@ declare(strict_types=1);
  */ ?>
     </div>
 </div>
+
+<script>
+
+// Hide fullscreen button if fullscreen mode is not available (e.g., iPhone)
+if (!document.fullscreenEnabled) {
+    document
+        .querySelector(".webtrees-pedigree-fullscreen-container .fullscreen-button")
+        .style
+        .display = 'none';
+}
+
+</script>

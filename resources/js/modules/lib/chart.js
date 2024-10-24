@@ -121,7 +121,7 @@ export default class Chart
 
         // Add additional padding in the fullscreen view coming from the button bar
         if (document.fullscreenElement) {
-            const buttonBarHeight = 40;
+            const buttonBarHeight = 32;
             const buttonBarOffset = (buttonBarHeight + this.convertRemToPixels(2));
 
             viewBoxTop += buttonBarHeight - (padding << 1);
