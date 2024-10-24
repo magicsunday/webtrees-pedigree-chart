@@ -101,15 +101,15 @@ export default class Chart
             .attr("width", "100%")
             .attr("height", "100%");
 
+        const padding = this.convertRemToPixels(MIN_PADDING);
+
         // Get bounding boxes
         let svgBoundingBox    = this.svg.visual.node().getBBox();
         let clientBoundingBox = this.parent.node().getBoundingClientRect();
 
         // View box should have at least the same width/height as the parent element
         let viewBoxWidth  = Math.max(clientBoundingBox.width, svgBoundingBox.width);
-        let viewBoxHeight = Math.max(clientBoundingBox.height, svgBoundingBox.height, MIN_HEIGHT);
-
-        const padding = this.convertRemToPixels(MIN_PADDING);
+        let viewBoxHeight = Math.max(clientBoundingBox.height, svgBoundingBox.height);
 
         // Calculate offset to center chart inside svg
         let offsetX = (viewBoxWidth - svgBoundingBox.width) >> 1;

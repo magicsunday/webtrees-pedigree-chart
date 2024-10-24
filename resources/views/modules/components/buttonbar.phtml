@@ -16,22 +16,12 @@ declare(strict_types=1);
 
 <div class="btn-toolbar justify-content-end">
     <div class="btn-group">
-        <div class="me-2">
-            <?= view($moduleName . '::modules/components/buttonbar/fullscreen-button') ?>
-        </div>
-        <div class="me-3">
-            <?= view($moduleName . '::modules/components/buttonbar/center-button') ?>
-        </div>
-        <div class="me-2">
-            <?= view($moduleName . '::modules/components/buttonbar/png-export-button') ?>
-        </div>
-        <div>
-            <?= view($moduleName . '::modules/components/buttonbar/svg-export-button') ?>
-        </div>
+        <?= view($moduleName . '::modules/components/buttonbar/fullscreen-button') ?>
+        <?= view($moduleName . '::modules/components/buttonbar/center-button') ?>
+        <?= view($moduleName . '::modules/components/buttonbar/png-export-button') ?>
+        <?= view($moduleName . '::modules/components/buttonbar/svg-export-button') ?>
 <?php /*
-        <div>
-            <?= view($moduleName . '::modules/components/buttonbar/help-button') ?>
-        </div>
+        <?= view($moduleName . '::modules/components/buttonbar/help-button') ?>
  */ ?>
     </div>
 </div>
@@ -41,7 +31,7 @@ declare(strict_types=1);
 // Hide fullscreen button if fullscreen mode is not available (e.g., iPhone)
 if (!document.fullscreenEnabled) {
     document
-        .querySelector(".webtrees-pedigree-fullscreen-container .fullscreen-button")
+        .querySelector(".webtrees-pedigree-fullscreen-container .btn-fullscreen")
         .style
         .display = 'none';
 }
