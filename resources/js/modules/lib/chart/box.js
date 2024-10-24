@@ -42,7 +42,7 @@ export default class Box
     /**
      * Returns the X-coordinate of the center of the box.
      *
-     * @returns {Number}
+     * @returns {number}
      */
     get x()
     {
@@ -52,7 +52,7 @@ export default class Box
     /**
      * Returns the Y-coordinate of the center of the box.
      *
-     * @returns {Number}
+     * @returns {number}
      */
     get y()
     {
@@ -62,7 +62,7 @@ export default class Box
     /**
      * Returns the horizontal corner radius of the box.
      *
-     * @returns {Number}
+     * @returns {number}
      */
     get rx()
     {
@@ -72,7 +72,7 @@ export default class Box
     /**
      * Returns the vertical corner radius of the box.
      *
-     * @returns {Number}
+     * @returns {number}
      */
     get ry()
     {
@@ -82,7 +82,7 @@ export default class Box
     /**
      * Returns the width of the box.
      *
-     * @returns {Number}
+     * @returns {number}
      */
     get width()
     {
@@ -92,7 +92,7 @@ export default class Box
     /**
      * Returns the height of the box.
      *
-     * @returns {Number}
+     * @returns {number}
      */
     get height()
     {

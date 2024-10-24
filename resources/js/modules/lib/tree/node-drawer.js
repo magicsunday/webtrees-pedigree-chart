@@ -46,7 +46,7 @@ export default class NodeDrawer
      * Draw the person boxes.
      *
      * @param {Array}  nodes  Array of descendant nodes
-     * @param {Object} source The root object
+     * @param {object} source The root object
      *
      * @public
      */
@@ -55,7 +55,6 @@ export default class NodeDrawer
         // Image clip path
         this._svg
             .defs
-            .get()
             .append("clipPath")
             .attr("id", "clip-image")
             .append("rect")
@@ -87,7 +86,7 @@ export default class NodeDrawer
     /**
      * Enter transition (new nodes).
      *
-     * @param {selection}  enter
+     * @param {Selection}  enter
      * @param {Individual} source
      *
      * @private
@@ -147,7 +146,7 @@ export default class NodeDrawer
     /**
      * Update transition (existing nodes).
      *
-     * @param {selection} update
+     * @param {Selection} update
      *
      * @private
      */
@@ -167,7 +166,7 @@ export default class NodeDrawer
     /**
      * Exit transition (nodes to be removed).
      *
-     * @param {selection}  exit
+     * @param {Selection}  exit
      * @param {Individual} source
      *
      * @private
@@ -190,7 +189,7 @@ export default class NodeDrawer
     /**
      * Draws the image and text nodes.
      *
-     * @param {selection} parent The parent element to which the elements are to be attached
+     * @param {Selection} parent The parent element to which the elements are to be attached
      *
      * @private
      */

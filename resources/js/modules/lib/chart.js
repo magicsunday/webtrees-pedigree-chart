@@ -11,7 +11,7 @@ import Overlay from "./chart/overlay";
 import Tree from "../custom/tree";
 
 const MIN_HEIGHT  = 300;
-const MIN_PADDING = 10;   // Minimum padding around view box
+const MIN_PADDING = 1;   // Minimum padding around view box in "rem"
 
 /**
  * This class handles the overall chart creation.
@@ -25,7 +25,7 @@ export default class Chart
     /**
      * Constructor.
      *
-     * @param {selection}     parent        The selected D3 parent element container
+     * @param {Selection}     parent        The selected D3 parent element container
      * @param {Configuration} configuration The application configuration
      */
     constructor(parent, configuration)
@@ -47,47 +47,13 @@ export default class Chart
     }
 
     /**
-     * Update/Calculate the viewBox attribute of the SVG element.
+     * Returns the parent container.
      *
-     * @private
+     * @returns {Selection}
      */
-    updateViewBox()
+    get parent()
     {
-        // Get bounding boxes
-        let svgBoundingBox    = this._svg.visual.node().getBBox();
-        let clientBoundingBox = this._parent.node().getBoundingClientRect();
-
-        // View box should have at least the same width/height as the parent element
-        let viewBoxWidth  = Math.max(clientBoundingBox.width, svgBoundingBox.width);
-        let viewBoxHeight = Math.max(clientBoundingBox.height, svgBoundingBox.height, MIN_HEIGHT);
-
-        // Calculate offset to center chart inside svg
-        let offsetX = (viewBoxWidth - svgBoundingBox.width) / 2;
-        let offsetY = (viewBoxHeight - svgBoundingBox.height) / 2;
-
-        // Adjust view box dimensions by padding and offset
-        let viewBoxLeft = Math.ceil(svgBoundingBox.x - offsetX - MIN_PADDING);
-        let viewBoxTop  = Math.ceil(svgBoundingBox.y - offsetY - MIN_PADDING);
-
-        // Final width/height of view box
-        viewBoxWidth  = Math.ceil(viewBoxWidth + (MIN_PADDING * 2));
-        viewBoxHeight = Math.ceil(viewBoxHeight + (MIN_PADDING * 2));
-
-        // this._svg.visual
-        //     .attr("transform", "translate(" + (-viewBoxLeft) + ", " + (-viewBoxTop) + ")");
-        //
-        // this._svg.get()
-        //     .attr("width", viewBoxWidth)
-        //     .attr("height", viewBoxHeight);
-
-        // Set view box attribute
-        this._svg.get()
-            .attr("viewBox", [
-                viewBoxLeft,
-                viewBoxTop,
-                viewBoxWidth,
-                viewBoxHeight
-            ]);
+        return this._parent;
     }
 
     /**
@@ -114,6 +80,87 @@ export default class Chart
     }
 
     /**
+     * Convert relative root element's font-size into pixel size.
+     *
+     * @param {number} rem The relative size
+     *
+     * @returns {number}
+     */
+    convertRemToPixels(rem)
+    {
+        return rem * parseFloat(window.getComputedStyle(document.documentElement).fontSize);
+    }
+
+    /**
+     * Update/Calculate the viewBox attribute of the SVG element.
+     */
+    updateViewBox()
+    {
+        // Set width/height attributes
+        this.svg
+            .attr("width", "100%")
+            .attr("height", "100%");
+
+        // Get bounding boxes
+        let svgBoundingBox    = this.svg.visual.node().getBBox();
+        let clientBoundingBox = this.parent.node().getBoundingClientRect();
+
+        // View box should have at least the same width/height as the parent element
+        let viewBoxWidth  = Math.max(clientBoundingBox.width, svgBoundingBox.width);
+        let viewBoxHeight = Math.max(clientBoundingBox.height, svgBoundingBox.height, MIN_HEIGHT);
+
+        const padding = this.convertRemToPixels(MIN_PADDING);
+
+        // Calculate offset to center chart inside svg
+        let offsetX = (viewBoxWidth - svgBoundingBox.width) >> 1;
+        let offsetY = (viewBoxHeight - svgBoundingBox.height) >> 1;
+
+        // Adjust view box dimensions by padding and offset
+        let viewBoxLeft = Math.ceil(svgBoundingBox.x - offsetX - padding);
+        let viewBoxTop  = Math.ceil(svgBoundingBox.y - offsetY - padding);
+
+        // Add additional padding in the fullscreen view coming from the button bar
+        if (document.fullscreenElement) {
+            const buttonBarHeight = 32;
+            const buttonBarOffset = (buttonBarHeight + this.convertRemToPixels(2));
+
+            viewBoxTop += buttonBarHeight - (padding << 1);
+
+            // Set width/height attributes
+            this.svg
+                .attr("width", clientBoundingBox.width)
+                .attr("height", clientBoundingBox.height - buttonBarOffset);
+        }
+
+        // Final width/height of view box
+        viewBoxWidth  = Math.ceil(viewBoxWidth + (padding << 1));
+        viewBoxHeight = Math.ceil(viewBoxHeight + (padding << 1));
+
+        // Set view box attribute
+        this.svg
+            .attr(
+                "viewBox",
+                [
+                    viewBoxLeft,
+                    viewBoxTop,
+                    viewBoxWidth,
+                    viewBoxHeight
+                ]
+            );
+    }
+
+    /**
+     * Resets the chart to initial zoom level and position.
+     */
+    center()
+    {
+        this.svg
+            .transition()
+            .duration(750)
+            .call(this.svg.zoom.get().transform, d3.zoomIdentity);
+    }
+
+    /**
      * This method draws the chart.
      */
     draw()
@@ -133,18 +180,10 @@ export default class Chart
         // Create tree
         new Tree(this._svg, this._configuration, this._hierarchy);
 
-        // TODO Add separate button to toggle transition to keep clicking?
-        this.bindClickEventListener();
-
         this.updateViewBox();
 
-//         const width = 1296;
-//         const height = (this._hierarchy.root.descendants().length + 1) * this._configuration.orientation.nodeWidth;
-//
-// console.log('viewBox', [-this._configuration.orientation.nodeWidth / 2, -this._configuration.orientation.nodeWidth * 3 / 2, width, height]);
-//
-//         this._svg.get()
-//             .attr("viewBox", [-this._configuration.orientation.nodeWidth / 2, -this._configuration.orientation.nodeWidth * 3 / 2, width, height])
+        // TODO Add separate button to toggle transition to keep clicking?
+        this.bindClickEventListener();
     }
 
     /**
@@ -158,14 +197,14 @@ export default class Chart
             .selectAll("g.person")
             .filter(person => person.data.data.xref !== "")
             .each(function (person) {
-                d3.select(this).on("click", function() { that.personClick(person.data); });
+                d3.select(this).on("click", () => that.personClick(person.data));
             });
     }
 
     /**
      * Method triggers either the "update" or "individual" method on the click on a person.
      *
-     * @param {Object} data The D3 data object
+     * @param {object} data The D3 data object
      *
      * @private
      */
@@ -178,7 +217,7 @@ export default class Chart
     /**
      * Redirects to the individual page.
      *
-     * @param {String} url The individual URL
+     * @param {string} url The individual URL
      *
      * @private
      */
@@ -192,7 +231,7 @@ export default class Chart
     /**
      * Updates the chart with the data of the selected individual.
      *
-     * @param {String} url The update URL
+     * @param {string} url The update URL
      */
     update(url)
     {

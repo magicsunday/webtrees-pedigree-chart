@@ -21,7 +21,7 @@ export default class Svg
     /**
      * Constructor.
      *
-     * @param {selection}     parent        The selected D3 parent element container
+     * @param {Selection}     parent        The selected D3 parent element container
      * @param {Configuration} configuration The application configuration
      */
     constructor(parent, configuration)
@@ -35,6 +35,36 @@ export default class Svg
         this._configuration = configuration;
 
         this.init();
+    }
+
+    /**
+     * Returns the SVG definition instance.
+     *
+     * @returns {Defs}
+     */
+    get defs()
+    {
+        return this._defs;
+    }
+
+    /**
+     * Returns the SVG definition instance.
+     *
+     * @returns {Zoom}
+     */
+    get zoom()
+    {
+        return this._zoom;
+    }
+
+    /**
+     *
+     *
+     * @returns {Selection}
+     */
+    get visual()
+    {
+        return this._visual;
     }
 
     /**
@@ -95,27 +125,12 @@ export default class Svg
             this._element.classed("rtl", true);
         }
 
-        // Add group
+        // Add a group
         this._visual = this._element.append("g");
 
-        // this._visual
-        //     .append("g")
-        //     .attr("class", "personGroup");
-
+        // Add zoom
         this._zoom = new Zoom(this._visual);
         this._element.call(this._zoom.get());
-
-        // // For Top/Bottom and Bottom/Top layout set the initial zoom level to the number
-        // // of displayed generations
-        // if ((this._configuration.generations > 4)
-        //     && ((this._configuration.treeLayout === LAYOUT_TOPBOTTOM)
-        //     || (this._configuration.treeLayout === LAYOUT_BOTTOMTOP))
-        // ) {
-        //     // this._element
-        //     //     .attr("transform", "translate(200, 200)")
-        //     //
-        //     // this._zoom.get().scaleTo(this._element, this._configuration.generations);
-        // }
     }
 
     /**
@@ -135,7 +150,7 @@ export default class Svg
     /**
      * Exports the chart as PNG image and triggers a download.
      *
-     * @param {String} type The export file type (either "png" or "svg")
+     * @param {string} type The export file type (either "png" or "svg")
      *
      * @returns {PngExport|SvgExport}
      */
@@ -146,42 +161,48 @@ export default class Svg
     }
 
     /**
-     * Returns the SVG definition instance.
-     *
-     * @returns {Defs}
+     * @returns {Node}
      */
-    get defs()
+    node()
     {
-        return this._defs;
+        return this._element.node();
     }
 
     /**
-     * Returns the SVG definition instance.
+     * @param {function|string|null} select
      *
-     * @returns {Zoom}
+     * @returns {Selection}
      */
-    get zoom()
+    selectAll(select)
     {
-        return this._zoom;
+        return this._element.selectAll(select);
     }
 
     /**
+     * @param {string} name
      *
-     *
-     * @returns {selection}
+     * @returns {string|this}
      */
-    get visual()
+    style(name)
     {
-        return this._visual;
+        return this._element.style(...arguments);
     }
 
     /**
-     * Returns the internal element.
+     * @param {string} name
      *
-     * @returns {selection}
+     * @returns {string|this}
      */
-    get()
+    attr(name)
     {
-        return this._element;
+        return this._element.attr(...arguments);
+    }
+
+    /**
+     * @returns {Transition}
+     */
+    transition()
+    {
+        return this._element.transition();
     }
 }

@@ -1,0 +1,49 @@
+<?php
+
+/**
+ * This file is part of the package magicsunday/webtrees-pedigree-chart.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE file distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+/**
+ * @var string $moduleName
+ */
+?>
+
+<div class="btn-toolbar justify-content-end">
+    <div class="btn-group">
+        <div class="me-2">
+            <?= view($moduleName . '::modules/components/buttonbar/fullscreen-button') ?>
+        </div>
+        <div class="me-3">
+            <?= view($moduleName . '::modules/components/buttonbar/center-button') ?>
+        </div>
+        <div class="me-2">
+            <?= view($moduleName . '::modules/components/buttonbar/png-export-button') ?>
+        </div>
+        <div>
+            <?= view($moduleName . '::modules/components/buttonbar/svg-export-button') ?>
+        </div>
+<?php /*
+        <div>
+            <?= view($moduleName . '::modules/components/buttonbar/help-button') ?>
+        </div>
+ */ ?>
+    </div>
+</div>
+
+<script>
+
+// Hide fullscreen button if fullscreen mode is not available (e.g., iPhone)
+if (!document.fullscreenEnabled) {
+    document
+        .querySelector(".webtrees-pedigree-fullscreen-container .fullscreen-button")
+        .style
+        .display = 'none';
+}
+
+</script>
