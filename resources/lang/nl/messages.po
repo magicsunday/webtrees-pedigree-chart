@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pedigree chart\n"
 "POT-Creation-Date: 2024-10-23 18:34+0200\n"
-"PO-Revision-Date: 2024-10-23 18:34+0200\n"
+"PO-Revision-Date: 2024-10-25 07:48+0200\n"
 "Last-Translator: TheDutchJewel <thedutchjewel@gmail.com>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -78,11 +78,11 @@ msgstr "Opnieuw centreren"
 
 #: resources/views/modules/components/buttonbar/fullscreen-button.phtml:18
 msgid "Switch between full screen mode and normal view"
-msgstr ""
+msgstr "Schakelen tussen volledig scherm en normale weergave"
 
 #: resources/views/modules/components/buttonbar/help-button.phtml:17
 msgid "Show help"
-msgstr ""
+msgstr "Toon help"
 
 #: resources/views/modules/components/buttonbar/png-export-button.phtml:18
 msgid "Export as PNG"
@@ -138,7 +138,7 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:53
 msgid "Show alternative name of individual"
-msgstr ""
+msgstr "Toon alternatieve naam van persoon"
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:59
 msgid ""
@@ -146,6 +146,9 @@ msgid ""
 "enlarges the individuals' respective boxes to create the necessary space for "
 "the display."
 msgstr ""
+"Toont de alternatieve naam van een persoon, indien beschikbaar. Dit vergroot "
+"tegelijkertijd de respectievelijke persoonsvakken om de nodige ruimte voor "
+"de weergave te maken."
 
 #: resources/views/modules/pedigree-chart/form/orientation.phtml:22
 msgid "Orientation"
