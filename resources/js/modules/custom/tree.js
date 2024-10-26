@@ -45,7 +45,7 @@ export default class Tree
     /**
      * Draw the tree.
      *
-     * @param {Object} source The root object
+     * @param {object} source The root object
      *
      * @public
      */

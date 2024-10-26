@@ -20,8 +20,8 @@ export default class OrientationRightLeft extends Orientation
     /**
      * Constructor.
      *
-     * @param {Number} boxWidth  The width of a single individual box
-     * @param {Number} boxHeight The height of a single individual box
+     * @param {number} boxWidth  The width of a single individual box
+     * @param {number} boxHeight The height of a single individual box
      */
     constructor(boxWidth, boxHeight)
     {

@@ -61,6 +61,10 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
             <div class="col-sm-12 wt-page-options-value text-center">
                 <div class="btn-toolbar justify-content-between">
                     <div class="btn-group btn-group-sm">
+                        <input class="btn btn-primary" type="submit" value="<?= I18N::translate('view') ?>">
+                    </div>
+
+                    <div class="btn-group btn-group-sm">
                         <button id="options"
                                 class="btn btn-primary"
                                 type="button"
@@ -72,32 +76,16 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
                             <span class="d-none"><?= I18N::translate('Hide more options') ?></span>
                         </button>
                     </div>
-
-                    <div class="btn-group btn-group-sm">
-                        <input class="btn btn-primary" type="submit" value="<?= I18N::translate('view') ?>">
-                    </div>
-
-                    <div class="justify-content-around">
-                        <div class="btn-group btn-group-sm mr-2">
-                            <button class="btn btn-secondary" type="button" id="centerButton">
-                                <?= I18N::translate('Re center') ?>
-                            </button>
-                        </div>
-                        <div class="btn-group btn-group-sm">
-                            <button class="btn btn-secondary border-end" type="button" id="exportPNG">
-                                <?= I18N::translate('Export as PNG') ?>
-                            </button>
-                            <button class="btn btn-secondary border-start" type="button" id="exportSVG">
-                                <?= I18N::translate('Export as SVG') ?>
-                            </button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
     </form>
 
-    <div id="pedigree-chart-url" class="row wt-ajax-load wt-page-content wt-chart wt-pedigree-chart"></div>
+    <div class="row webtrees-pedigree-fullscreen-container">
+        <?= view($moduleName . '::modules/components/buttonbar', ['moduleName' => $moduleName]) ?>
+
+        <div id="pedigree-chart-url" class="wt-ajax-load wt-page-content wt-chart wt-pedigree-chart mt-0"></div>
+    </div>
 </div>
 
 <?php View::push('styles') ?>

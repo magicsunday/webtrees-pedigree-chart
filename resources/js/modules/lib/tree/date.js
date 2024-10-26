@@ -38,7 +38,7 @@ export default class Date
     /**
      * Add the individual dates to the given parent element.
      *
-     * @param {selection} parent The parent element to which the elements are to be attached
+     * @param {Selection} parent The parent element to which the elements are to be attached
      *
      * @public
      */
@@ -142,11 +142,11 @@ export default class Date
     /**
      * Truncates a date value.
      *
-     * @param {Object} object         The D3 object containing the text value
-     * @param {String} date           The date value to truncate
-     * @param {Number} availableWidth The total available width the text could take
+     * @param {object} object         The D3 object containing the text value
+     * @param {string} date           The date value to truncate
+     * @param {number} availableWidth The total available width the text could take
      *
-     * @return {String}
+     * @returns {string}
      *
      * @private
      */
@@ -174,9 +174,9 @@ export default class Date
 
     /**
      *
-     * @param {Object} d
+     * @param {object} d
      *
-     * @return {Number}
+     * @returns {number}
      *
      * @private
      */
@@ -191,17 +191,17 @@ export default class Date
     /**
      * Measures the given text and return its width depending on the used font (including size and weight).
      *
-     * @param {String} text
-     * @param {String} fontSize
-     * @param {Number} fontWeight
+     * @param {string} text
+     * @param {string} fontSize
+     * @param {number} fontWeight
      *
-     * @returns {Number}
+     * @returns {number}
      *
      * @private
      */
     measureText(text, fontSize, fontWeight = 400)
     {
-        const fontFamily = this._svg.get().style("font-family");
+        const fontFamily = this._svg.style("font-family");
 
         return measureText(text, fontFamily, fontSize, fontWeight);
     }

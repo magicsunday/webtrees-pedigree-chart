@@ -34,7 +34,7 @@ export default class Hierarchy
     /**
      * Initialize the hierarchical chart data.
      *
-     * @param {Object} datum The JSON encoded chart data
+     * @param {object} datum The JSON encoded chart data
      */
     init(datum)
     {
@@ -130,8 +130,8 @@ export default class Hierarchy
     /**
      * Create an empty child node object.
      *
-     * @param {Number} generation Generation of the node
-     * @param {String} sex        The sex of the individual
+     * @param {number} generation Generation of the node
+     * @param {string} sex        The sex of the individual
      *
      * @returns {Data}
      *

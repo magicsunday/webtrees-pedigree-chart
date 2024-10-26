@@ -20,14 +20,14 @@ export default class Configuration
     /**
      * Constructor.
      *
-     * @param {String[]} labels
-     * @param {Number}   generations
-     * @param {Boolean}  showEmptyBoxes
-     * @param {String}   treeLayout
-     * @param {Boolean}  openNewTabOnClick
-     * @param {Boolean}  showAlternativeName
-     * @param {Boolean}  rtl
-     * @param {Number}   direction
+     * @param {string[]} labels
+     * @param {number}   generations
+     * @param {boolean}  showEmptyBoxes
+     * @param {string}   treeLayout
+     * @param {boolean}  openNewTabOnClick
+     * @param {boolean}  showAlternativeName
+     * @param {boolean}  rtl
+     * @param {number}   direction
      */
     constructor(
         labels,
@@ -77,7 +77,7 @@ export default class Configuration
     /**
      * Returns the number of generations to display.
      *
-     * @returns {Number}
+     * @returns {number}
      */
     get generations()
     {
@@ -87,7 +87,7 @@ export default class Configuration
     /**
      * Sets the number of generations to display.
      *
-     * @param {Number} value The number of generations to display
+     * @param {number} value The number of generations to display
      */
     set generations(value)
     {
@@ -97,7 +97,7 @@ export default class Configuration
     /**
      * Returns whether to show or hide empty boxes.
      *
-     * @returns {Boolean}
+     * @returns {boolean}
      */
     get showEmptyBoxes()
     {
@@ -107,7 +107,7 @@ export default class Configuration
     /**
      * Returns the tree layout.
      *
-     * @returns {String}
+     * @returns {string}
      */
     get treeLayout()
     {
@@ -117,7 +117,7 @@ export default class Configuration
     /**
      * Sets the tree layout.
      *
-     * @param {String} value Tree layout value
+     * @param {string} value Tree layout value
      */
     set treeLayout(value)
     {
@@ -137,7 +137,7 @@ export default class Configuration
     /**
      * Returns TRUE or FALSE depending on whether to open the current individual's details page in a new tab.
      *
-     * @returns {Boolean}
+     * @returns {boolean}
      */
     get openNewTabOnClick()
     {
@@ -147,7 +147,7 @@ export default class Configuration
     /**
      * Returns whether to show or hide the alternative name.
      *
-     * @returns {Boolean}
+     * @returns {boolean}
      */
     get showAlternativeName()
     {

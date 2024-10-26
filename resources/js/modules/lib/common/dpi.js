@@ -8,7 +8,7 @@
 /**
  * Returns the DPI of the current device.
  *
- * @returns {Number}
+ * @returns {number}
  */
 export default function()
 {

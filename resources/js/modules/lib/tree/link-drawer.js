@@ -50,7 +50,7 @@ export default class LinkDrawer
     /**
      * Enter transition (new links).
      *
-     * @param {selection}  enter
+     * @param {Selection}  enter
      * @param {Individual} source
      *
      * @private
@@ -71,7 +71,7 @@ export default class LinkDrawer
     /**
      * Update transition (existing links).
      *
-     * @param {selection} update
+     * @param {Selection} update
      *
      * @private
      */
@@ -100,7 +100,7 @@ export default class LinkDrawer
     /**
      * Exit transition (links to be removed).
      *
-     * @param {selection}  exit
+     * @param {Selection}  exit
      * @param {Individual} source
      *
      * @private
