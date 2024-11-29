@@ -26,6 +26,36 @@ export default class Defs
     }
 
     /**
+     * Returns the internal element.
+     *
+     * @returns {selection}
+     */
+    get()
+    {
+        return this._element;
+    }
+
+    /**
+     * @param {function|string} select
+     *
+     * @returns {Selection}
+     */
+    select(select)
+    {
+        return this._element.select(select);
+    }
+
+    /**
+     * @param {function|string|null} select
+     *
+     * @returns {Selection}
+     */
+    selectAll(select)
+    {
+        return this._element.selectAll(select);
+    }
+
+    /**
      * @param {string|function} name
      *
      * @returns {Selection}
