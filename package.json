@@ -1,6 +1,6 @@
 {
     "name": "webtrees-pedigree-chart",
-    "version": "2.0.0",
+    "version": "2.0.1-dev",
     "description": "This modules provides an SVG pedigree chart for the [webtrees](https://www.webtrees.net) genealogy application.",
     "keywords": [
         "webtrees",
