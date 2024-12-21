@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pedigree chart\n"
-"POT-Creation-Date: 2024-10-23 18:34+0200\n"
-"PO-Revision-Date: 2024-10-23 18:34+0200\n"
+"POT-Creation-Date: 2024-12-21 18:00+0100\n"
+"PO-Revision-Date: 2024-12-21 18:00+0100\n"
 "Last-Translator: Rico Sonntag <mail@ricosonntag.de>\n"
 "Language-Team: \n"
 "Language: is\n"
@@ -78,11 +78,11 @@ msgstr "Endurmiðja"
 
 #: resources/views/modules/components/buttonbar/fullscreen-button.phtml:18
 msgid "Switch between full screen mode and normal view"
-msgstr ""
+msgstr "Skiptu á milli fullsskjás og venjulegs skjás"
 
 #: resources/views/modules/components/buttonbar/help-button.phtml:17
 msgid "Show help"
-msgstr ""
+msgstr "Sýna hjálp"
 
 #: resources/views/modules/components/buttonbar/png-export-button.phtml:18
 msgid "Export as PNG"
@@ -131,8 +131,9 @@ msgstr "Opnaðu einstakling í nýjum vafraglugga/flipa"
 msgid ""
 "Open the current individual's detail page in a new browser window/tab when "
 "it's left-clicked, otherwise the current window/tab is used."
-msgstr "Opnaðu upplýsingasíðu viðkomandi einstaklings í nýjum vafraglugga/flipa þegar "
-"vinstrismellt er á hann, annars er núverandi gluggi/flipi notaður."
+msgstr ""
+"Opnaðu upplýsingasíðu viðkomandi einstaklings í nýjum vafraglugga/flipa "
+"þegar vinstrismellt er á hann, annars er núverandi gluggi/flipi notaður."
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:53
 msgid "Show alternative name of individual"
@@ -143,7 +144,8 @@ msgid ""
 "Displays a person's alternate name, if available. This simultaneously "
 "enlarges the individuals' respective boxes to create the necessary space for "
 "the display."
-msgstr "Sýnir aukanafn einstaklings, ef það er til staðar. Þetta stækkar samtímis "
+msgstr ""
+"Sýnir aukanafn einstaklings, ef það er til staðar. Þetta stækkar samtímis "
 "kassa viðkomandi einstaklings til að skapa nauðsynlegt pláss fyrir skjáinn."
 
 #: resources/views/modules/pedigree-chart/form/orientation.phtml:22
