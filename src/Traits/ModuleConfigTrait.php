@@ -77,6 +77,14 @@ trait ModuleConfigTrait
             'default_showAlternativeName',
             (string) $configuration->getShowAlternativeName()
         );
+        $this->setPreference(
+            'default_hideSvgExport',
+            (string) $configuration->getHideSvgExport()
+        );
+        $this->setPreference(
+            'default_hidePngExport',
+            (string) $configuration->getHidePngExport()
+        );
 
         FlashMessages::addMessage(
             I18N::translate(

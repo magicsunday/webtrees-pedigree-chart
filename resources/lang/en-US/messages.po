@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pedigree chart\n"
-"POT-Creation-Date: 2024-10-23 18:34+0200\n"
-"PO-Revision-Date: 2024-10-23 18:34+0200\n"
+"POT-Creation-Date: 2024-12-22 12:46+0100\n"
+"PO-Revision-Date: 2024-12-22 12:49+0100\n"
 "Last-Translator: Rico Sonntag <mail@ricosonntag.de>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -13,6 +13,7 @@ msgstr ""
 "X-Generator: Poedit 3.5\n"
 "X-Poedit-Basepath: ../../..\n"
 "X-Poedit-KeywordsList: translate\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: src\n"
 "X-Poedit-SearchPath-1: resources/views\n"
 
@@ -67,7 +68,7 @@ msgstr ""
 msgid "Deceased"
 msgstr ""
 
-#: src/Traits/ModuleConfigTrait.php:83
+#: src/Traits/ModuleConfigTrait.php:91
 #, php-format
 msgid "The preferences for the module “%s” have been updated."
 msgstr ""
@@ -101,10 +102,22 @@ msgid "Modules"
 msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:44
+msgid "General"
+msgstr ""
+
+#: resources/views/modules/pedigree-chart/config.phtml:50
+msgid "Hide the SVG export button"
+msgstr ""
+
+#: resources/views/modules/pedigree-chart/config.phtml:60
+msgid "Hide the PNG export button"
+msgstr ""
+
+#: resources/views/modules/pedigree-chart/config.phtml:73
 msgid "save"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/config.phtml:49
+#: resources/views/modules/pedigree-chart/config.phtml:78
 msgid "cancel"
 msgstr ""
 
