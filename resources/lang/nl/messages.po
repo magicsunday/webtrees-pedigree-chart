@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pedigree chart\n"
 "POT-Creation-Date: 2024-12-22 12:46+0100\n"
-"PO-Revision-Date: 2024-12-22 12:50+0100\n"
+"PO-Revision-Date: 2024-12-22 20:05+0100\n"
 "Last-Translator: TheDutchJewel <thedutchjewel@gmail.com>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -102,15 +102,15 @@ msgstr "Modules"
 
 #: resources/views/modules/pedigree-chart/config.phtml:44
 msgid "General"
-msgstr ""
+msgstr "Algemeen"
 
 #: resources/views/modules/pedigree-chart/config.phtml:50
 msgid "Hide the SVG export button"
-msgstr ""
+msgstr "Verberg de SVG-exportknop"
 
 #: resources/views/modules/pedigree-chart/config.phtml:60
 msgid "Hide the PNG export button"
-msgstr ""
+msgstr "Verberg de PNG-exportknop"
 
 #: resources/views/modules/pedigree-chart/config.phtml:73
 msgid "save"
