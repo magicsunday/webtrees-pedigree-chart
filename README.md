@@ -102,8 +102,22 @@ to adjust the layout of the charts according to your needs.
 
 
 ## Development
-To build/update the javascript, run the following commands:
+To build/update the JavaScript, you can either use a local Node.js installation or Docker.
 
+### Using Docker
+No local Node.js installation required. Just run:
+
+```shell
+make install
+make build
+```
+
+To watch for changes and rebuild automatically:
+```shell
+make watch
+```
+
+### Using local Node.js
 ```shell
 nvm install node
 npm install
