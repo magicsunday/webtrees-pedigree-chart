@@ -2,7 +2,7 @@
 # TARGETS
 # =============================================================================
 
-#### Translations
+#### Language & Translations
 
 .PHONY: lang
 
