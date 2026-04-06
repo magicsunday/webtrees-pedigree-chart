@@ -1,13 +1,19 @@
 {
     "name": "magicsunday/webtrees-pedigree-chart",
-    "description": "This modules provides an SVG pedigree chart for the [webtrees](https://www.webtrees.net) genealogy application.",
+    "description": "This module provides an SVG pedigree chart for the webtrees genealogy application.",
     "license": "GPL-3.0-or-later",
     "type": "webtrees-module",
     "keywords": [
         "webtrees",
         "module",
-        "pedigree",
-        "chart"
+        "pedigree-chart",
+        "chart",
+        "svg",
+        "d3",
+        "genealogy",
+        "ancestors",
+        "family-tree",
+        "visualization"
     ],
     "authors": [
         {
