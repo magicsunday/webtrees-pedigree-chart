@@ -4,16 +4,18 @@
     "license": "GPL-3.0-or-later",
     "type": "webtrees-module",
     "keywords": [
-        "webtrees",
+        "ancestors",
+        "chart",
+        "d3",
+        "d3js",
+        "data-visualization",
+        "family-tree",
+        "genealogy",
         "module",
         "pedigree-chart",
-        "chart",
         "svg",
-        "d3",
-        "genealogy",
-        "ancestors",
-        "family-tree",
-        "visualization"
+        "visualization",
+        "webtrees"
     ],
     "authors": [
         {
