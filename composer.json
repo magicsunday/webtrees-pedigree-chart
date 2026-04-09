@@ -85,36 +85,46 @@
             "### Create archive",
             "zip --quiet --recurse-paths --move -9 webtrees-pedigree-chart.zip webtrees-pedigree-chart"
         ],
-        "ci:test:php:lint": [
-            "phplint"
-        ],
-        "ci:test:php:phpstan": [
-            "phpstan analyze"
-        ],
-        "ci:test:php:phpstan:baseline": [
-            "phpstan analyze --generate-baseline phpstan-baseline.neon --allow-empty-baseline"
-        ],
-        "ci:test:php:rector": [
-            "rector process --config rector.php --dry-run"
+        "module:check": [
+            "@ci:test"
         ],
         "ci:cgl": [
-            "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --diff --verbose"
+            "php-cs-fixer fix --config .php-cs-fixer.dist.php --diff --verbose"
         ],
         "ci:rector": [
             "rector process --config rector.php"
+        ],
+        "ci:test:php:cgl": [
+            "@ci:cgl --dry-run"
+        ],
+        "ci:test:php:lint": [
+            "phplint --configuration .phplint.yml"
+        ],
+        "ci:test:php:phpstan": [
+            "phpstan analyze --configuration phpstan.neon --memory-limit=-1"
+        ],
+        "ci:test:php:phpstan:baseline": [
+            "phpstan analyze --configuration phpstan.neon --memory-limit=-1 --generate-baseline phpstan-baseline.neon --allow-empty-baseline"
+        ],
+        "ci:test:php:rector": [
+            "@ci:rector --dry-run"
+        ],
+        "ci:test:php:cpd": [
+            "npx jscpd --config .jscpd.json"
         ],
         "ci:test:js:lint": [
             "npm run lint"
         ],
         "ci:test": [
             "@ci:test:php:lint",
+            "@ci:test:js:lint",
             "@ci:test:php:phpstan",
             "@ci:test:php:rector",
-            "@ci:test:js:lint",
-            "@ci:cgl --dry-run"
+            "@ci:test:php:cpd",
+            "@ci:test:php:cgl"
         ],
-        "module:check": [
-            "@ci:test"
+        "post-update-cmd": [
+            "npm install jscpd"
         ]
     },
     "scripts-descriptions": {
