@@ -75,6 +75,7 @@
             "rm -f webtrees-pedigree-chart/.gitignore",
             "rm -f webtrees-pedigree-chart/composer.json",
             "rm -f webtrees-pedigree-chart/package.json",
+            "rm -f webtrees-pedigree-chart/eslint.config.js",
             "rm -f webtrees-pedigree-chart/rollup.config.js",
             "rm -f webtrees-pedigree-chart/phpstan.neon",
             "rm -f webtrees-pedigree-chart/phpstan-baseline.neon",
@@ -102,10 +103,14 @@
         "ci:rector": [
             "rector process --config rector.php"
         ],
+        "ci:test:js:lint": [
+            "npm run lint"
+        ],
         "ci:test": [
             "@ci:test:php:lint",
             "@ci:test:php:phpstan",
             "@ci:test:php:rector",
+            "@ci:test:js:lint",
             "@ci:cgl --dry-run"
         ],
         "module:check": [
