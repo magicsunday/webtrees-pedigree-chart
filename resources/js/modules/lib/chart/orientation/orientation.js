@@ -12,22 +12,20 @@
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
  * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
-export default class Orientation
-{
+export default class Orientation {
     /**
      * Constructor.
      *
      * @param {number} boxWidth  The width of a single individual box
      * @param {number} boxHeight The height of a single individual box
      */
-    constructor(boxWidth, boxHeight)
-    {
+    constructor(boxWidth, boxHeight) {
         // The distance between single nodes
         this._xOffset = 30;
         this._yOffset = 40;
 
-        this._boxWidth    = boxWidth;
-        this._boxHeight   = boxHeight;
+        this._boxWidth = boxWidth;
+        this._boxHeight = boxHeight;
         this._splittNames = false;
     }
 
@@ -36,8 +34,7 @@ export default class Orientation
      *
      * @returns {boolean}
      */
-    get isDocumentRtl()
-    {
+    get isDocumentRtl() {
         return document.dir === "rtl";
     }
 
@@ -46,8 +43,7 @@ export default class Orientation
      *
      * @returns {number}
      */
-    get xOffset()
-    {
+    get xOffset() {
         return this._xOffset;
     }
 
@@ -56,8 +52,7 @@ export default class Orientation
      *
      * @returns {number}
      */
-    get yOffset()
-    {
+    get yOffset() {
         return this._yOffset;
     }
 
@@ -66,8 +61,7 @@ export default class Orientation
      *
      * @returns {boolean}
      */
-    get splittNames()
-    {
+    get splittNames() {
         return this._splittNames;
     }
 
@@ -76,8 +70,7 @@ export default class Orientation
      *
      * @returns {number}
      */
-    get boxWidth()
-    {
+    get boxWidth() {
         return this._boxWidth;
     }
 
@@ -86,8 +79,7 @@ export default class Orientation
      *
      * @returns {number}
      */
-    get boxHeight()
-    {
+    get boxHeight() {
         return this._boxHeight;
     }
 
@@ -96,8 +88,7 @@ export default class Orientation
      *
      * @params {number} boxHeight
      */
-    set boxHeight(boxHeight)
-    {
+    set boxHeight(boxHeight) {
         this._boxHeight = boxHeight;
     }
 
@@ -106,8 +97,7 @@ export default class Orientation
      *
      * @returns {number}
      */
-    get direction()
-    {
+    get direction() {
         throw "Abstract method direction() not implemented";
     }
 
@@ -116,8 +106,7 @@ export default class Orientation
      *
      * @returns {number}
      */
-    get nodeWidth()
-    {
+    get nodeWidth() {
         throw "Abstract method nodeWidth() not implemented";
     }
 
@@ -126,8 +115,7 @@ export default class Orientation
      *
      * @returns {number}
      */
-    get nodeHeight()
-    {
+    get nodeHeight() {
         throw "Abstract method nodeHeight() not implemented";
     }
 
@@ -136,8 +124,7 @@ export default class Orientation
      *
      * @param {Individual} d
      */
-    norm(d)
-    {
+    norm(d) {
         throw "Abstract method norm() not implemented";
     }
 
@@ -148,8 +135,7 @@ export default class Orientation
      *
      * @returns {string}
      */
-    elbow(link)
-    {
+    elbow(link) {
         throw "Abstract method elbow() not implemented";
     }
 }

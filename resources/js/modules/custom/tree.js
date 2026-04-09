@@ -16,8 +16,7 @@ import LinkDrawer from "../lib/tree/link-drawer";
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
  * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
-export default class Tree
-{
+export default class Tree {
     /**
      * Constructor.
      *
@@ -25,11 +24,10 @@ export default class Tree
      * @param {Configuration} configuration The configuration
      * @param {Hierarchy}     hierarchy     The hierarchical data
      */
-    constructor(svg, configuration, hierarchy)
-    {
-        this._svg           = svg;
+    constructor(svg, configuration, hierarchy) {
+        this._svg = svg;
         this._configuration = configuration;
-        this._hierarchy     = hierarchy;
+        this._hierarchy = hierarchy;
 
         this._hierarchy.root.x0 = 0;
         this._hierarchy.root.y0 = 0;
@@ -49,8 +47,7 @@ export default class Tree
      *
      * @public
      */
-    draw(source)
-    {
+    draw(source) {
         /** @type {Individual[]} */
         const nodes = this._hierarchy.root.descendants();
 
@@ -73,8 +70,7 @@ export default class Tree
     /**
      * Centers the tree around all visible nodes.
      */
-    centerTree()
-    {
+    centerTree() {
         // TODO Doesn't work
 
         console.log("centerTree");
@@ -93,8 +89,7 @@ export default class Tree
     /**
      * Update a person's state when they are clicked.
      */
-    togglePerson(event, person)
-    {
+    togglePerson(event, person) {
         if (person.parents) {
             person._parents = person.parents;
             person.parents = null;
@@ -112,8 +107,7 @@ export default class Tree
      * the person is clicked on again to expand, all ancestors that were previously showing will be shown again.
      * If you want that behavior then just remove the recursion by removing the if block.
      */
-    collapse(person)
-    {
+    collapse(person) {
         if (person.parents) {
             person._parents = person.parents;
             person._parents.forEach((parent) => this.collapse(parent));

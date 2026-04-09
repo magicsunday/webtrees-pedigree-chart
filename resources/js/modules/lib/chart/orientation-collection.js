@@ -13,7 +13,7 @@ import {
     LAYOUT_VERTICAL_NODE_WIDTH,
     LAYOUT_VERTICAL_NODE_HEIGHT,
     LAYOUT_HORIZONTAL_NODE_WIDTH,
-    LAYOUT_HORIZONTAL_NODE_HEIGHT
+    LAYOUT_HORIZONTAL_NODE_HEIGHT,
 } from "../constants";
 
 import OrientationTopBottom from "./orientation/orientation-topBottom";
@@ -28,18 +28,16 @@ import OrientationRightLeft from "./orientation/orientation-rightLeft";
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
  * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
-export default class OrientationCollection
-{
+export default class OrientationCollection {
     /**
      * Constructor.
      */
-    constructor()
-    {
+    constructor() {
         this._orientations = {
             [LAYOUT_TOPBOTTOM]: new OrientationTopBottom(LAYOUT_VERTICAL_NODE_WIDTH, LAYOUT_VERTICAL_NODE_HEIGHT),
             [LAYOUT_BOTTOMTOP]: new OrientationBottomTop(LAYOUT_VERTICAL_NODE_WIDTH, LAYOUT_VERTICAL_NODE_HEIGHT),
             [LAYOUT_LEFTRIGHT]: new OrientationLeftRight(LAYOUT_HORIZONTAL_NODE_WIDTH, LAYOUT_HORIZONTAL_NODE_HEIGHT),
-            [LAYOUT_RIGHTLEFT]: new OrientationRightLeft(LAYOUT_HORIZONTAL_NODE_WIDTH, LAYOUT_HORIZONTAL_NODE_HEIGHT)
+            [LAYOUT_RIGHTLEFT]: new OrientationRightLeft(LAYOUT_HORIZONTAL_NODE_WIDTH, LAYOUT_HORIZONTAL_NODE_HEIGHT),
         };
     }
 
@@ -48,8 +46,7 @@ export default class OrientationCollection
      *
      * @returns {Array}
      */
-    get()
-    {
+    get() {
         return this._orientations;
     }
 }

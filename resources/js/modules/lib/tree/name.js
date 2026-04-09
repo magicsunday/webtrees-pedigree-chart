@@ -5,7 +5,7 @@
  * LICENSE file distributed with this source code.
  */
 
-import measureText from "../chart/text/measure"
+import measureText from "../chart/text/measure";
 import OrientationTopBottom from "../chart/orientation/orientation-topBottom";
 import OrientationBottomTop from "../chart/orientation/orientation-bottomTop";
 import OrientationLeftRight from "../chart/orientation/orientation-leftRight";
@@ -19,8 +19,7 @@ import * as d3 from "../d3.js";
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
  * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
-export default class Name
-{
+export default class Name {
     /**
      * Constructor.
      *
@@ -29,12 +28,11 @@ export default class Name
      * @param {Image}       image
      * @param {Text}        text
      */
-    constructor(svg, orientation, image, text)
-    {
-        this._svg         = svg;
+    constructor(svg, orientation, image, text) {
+        this._svg = svg;
         this._orientation = orientation;
-        this._image       = image;
-        this._text        = text;
+        this._image = image;
+        this._text = text;
     }
 
     /**
@@ -44,8 +42,7 @@ export default class Name
      *
      * @public
      */
-    appendName(parent)
-    {
+    appendName(parent) {
         const name = parent
             .append("g")
             .attr("class", "name");
@@ -63,8 +60,8 @@ export default class Name
                         isRtl: datum.data.data.isNameRtl,
                         isAltRtl: datum.data.data.isAltRtl,
                         // Always arrange the text at the same position regardless if an image is displayed or not
-                        withImage: true
-                    }
+                        withImage: true,
+                    },
                 ])
                 .enter();
 
@@ -87,8 +84,8 @@ export default class Name
                             that.truncateNamesData(
                                 text,
                                 nameGroup,
-                                availableWidth
-                            )
+                                availableWidth,
+                            ),
                         );
                     });
                 });
@@ -111,8 +108,8 @@ export default class Name
                             datum => this.truncateNamesData(
                                 text,
                                 this.createAlternativeNamesData(datum),
-                                this.getAvailableWidth(datum)
-                            )
+                                this.getAvailableWidth(datum),
+                            ),
                         );
                     });
             }
@@ -125,8 +122,8 @@ export default class Name
                         data: datum.data,
                         isRtl: datum.data.data.isNameRtl,
                         isAltRtl: datum.data.data.isAltRtl,
-                        withImage: datum.data.data.thumbnail !== ""
-                    }
+                        withImage: datum.data.data.thumbnail !== "",
+                    },
                 ])
                 .enter();
 
@@ -160,9 +157,9 @@ export default class Name
                             return this.truncateNamesData(
                                 text,
                                 combined,
-                                this.getAvailableWidth(datum)
-                            )
-                        }
+                                this.getAvailableWidth(datum),
+                            );
+                        },
                     );
                 });
 
@@ -194,8 +191,8 @@ export default class Name
                             datum => this.truncateNamesData(
                                 text,
                                 this.createAlternativeNamesData(datum),
-                                this.getAvailableWidth(datum)
-                            )
+                                this.getAvailableWidth(datum),
+                            ),
                         );
                     });
             }
@@ -211,8 +208,7 @@ export default class Name
      *
      * @private
      */
-    getAvailableWidth(datum)
-    {
+    getAvailableWidth(datum) {
         // The total available width that the text can occupy
         let availableWidth = this._text.width;
 
@@ -237,8 +233,7 @@ export default class Name
      *
      * @private
      */
-    addNameElements(parent, data)
-    {
+    addNameElements(parent, data) {
         parent.selectAll("tspan")
             .data(data)
             .enter()
@@ -264,23 +259,22 @@ export default class Name
      *
      * @private
      */
-    createNamesData(datum)
-    {
+    createNamesData(datum) {
         /** @var {LabelElementData[][]} names */
-        let names = {};
+        const names = {};
         /** @var {LabelElementData[]} firstnames */
-        let firstnames = {};
+        const firstnames = {};
         /** @var {LabelElementData[]} lastnames */
-        let lastnames = {};
+        const lastnames = {};
         let minPosFirstnames = Number.MAX_SAFE_INTEGER;
         let minPosLastnames = Number.MAX_SAFE_INTEGER;
 
         let firstnameOffset = 0;
-        let firstnameMap = new Map();
+        const firstnameMap = new Map();
 
         // Iterate over the individual name components and determine their position in the overall
         // name and insert the component at the corresponding position in the result object.
-        for (let i in datum.data.data.firstNames) {
+        for (const i in datum.data.data.firstNames) {
             const pos = datum.data.data.name.indexOf(datum.data.data.firstNames[i], firstnameOffset);
 
             if (pos !== -1) {
@@ -296,8 +290,8 @@ export default class Name
                         label: datum.data.data.firstNames[i],
                         isPreferred: datum.data.data.firstNames[i] === datum.data.data.preferredName,
                         isLastName: false,
-                        isNameRtl: datum.data.data.isNameRtl
-                    }
+                        isNameRtl: datum.data.data.isNameRtl,
+                    },
                 );
             }
         }
@@ -305,9 +299,9 @@ export default class Name
         names[minPosFirstnames] = [...firstnameMap].map(([, value]) => ( value ));
 
         let lastnameOffset = 0;
-        let lastnameMap = new Map();
+        const lastnameMap = new Map();
 
-        for (let i in datum.data.data.lastNames) {
+        for (const i in datum.data.data.lastNames) {
             let pos;
 
             // Check if last name already exists in first names list, in case first name equals last name
@@ -332,8 +326,8 @@ export default class Name
                         label: datum.data.data.lastNames[i],
                         isPreferred: false,
                         isLastName: true,
-                        isNameRtl: datum.data.data.isNameRtl
-                    }
+                        isNameRtl: datum.data.data.isNameRtl,
+                    },
                 );
             }
         }
@@ -355,9 +349,8 @@ export default class Name
      *
      * @private
      */
-    truncateNamesData(parent, names, availableWidth)
-    {
-        const fontSize   = parent.style("font-size");
+    truncateNamesData(parent, names, availableWidth) {
+        const fontSize = parent.style("font-size");
         const fontWeight = parent.style("font-weight");
 
         return this.truncateNames(names, fontSize, fontWeight, availableWidth);
@@ -372,9 +365,8 @@ export default class Name
      *
      * @private
      */
-    createAlternativeNamesData(datum)
-    {
-        let words = datum.data.data.alternativeName.split(/\s+/);
+    createAlternativeNamesData(datum) {
+        const words = datum.data.data.alternativeName.split(/\s+/);
 
         /** @var {LabelElementData[]} names */
         let names = [];
@@ -386,9 +378,9 @@ export default class Name
                     label: word,
                     isPreferred: false,
                     isLastName: false,
-                    isNameRtl: datum.data.data.isAltRtl
-                }
-            })
+                    isNameRtl: datum.data.data.isAltRtl,
+                };
+            }),
         );
 
         return names;
@@ -406,8 +398,7 @@ export default class Name
      *
      * @private
      */
-    truncateNames(names, fontSize, fontWeight, availableWidth)
-    {
+    truncateNames(names, fontSize, fontWeight, availableWidth) {
         let text = names.map(item => item.label).join(" ");
 
         return names
@@ -421,7 +412,7 @@ export default class Name
                     if (this.measureText(text, fontSize, fontWeight) > availableWidth) {
                         // Keep only the first letter
                         name.label = name.label.slice(0, 1) + ".";
-                        text       = names.map(item => item.label).join(" ");
+                        text = names.map(item => item.label).join(" ");
                     }
                 }
 
@@ -433,7 +424,7 @@ export default class Name
                     if (this.measureText(text, fontSize, fontWeight) > availableWidth) {
                         // Keep only the first letter
                         name.label = name.label.slice(0, 1) + ".";
-                        text       = names.map(item => item.label).join(" ");
+                        text = names.map(item => item.label).join(" ");
                     }
                 }
 
@@ -445,7 +436,7 @@ export default class Name
                     if (this.measureText(text, fontSize, fontWeight) > availableWidth) {
                         // Keep only the first letter
                         name.label = name.label.slice(0, 1) + ".";
-                        text       = names.map(item => item.label).join(" ");
+                        text = names.map(item => item.label).join(" ");
                     }
                 }
 
@@ -463,8 +454,7 @@ export default class Name
      *
      * @private
      */
-    textX(d)
-    {
+    textX(d) {
         const xPos = this._text.x + (d.withImage ? this._image.width : 0);
 
         // Reverse direction of text elements for RTL layouts
@@ -482,8 +472,7 @@ export default class Name
      *
      * @private
      */
-    measureText(text, fontSize, fontWeight = 400)
-    {
+    measureText(text, fontSize, fontWeight = 400) {
         const fontFamily = this._svg.style("font-family");
 
         return measureText(text, fontFamily, fontSize, fontWeight);

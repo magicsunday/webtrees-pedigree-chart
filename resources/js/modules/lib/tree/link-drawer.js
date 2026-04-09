@@ -12,19 +12,17 @@
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
  * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
-export default class LinkDrawer
-{
+export default class LinkDrawer {
     /**
      * Constructor.
      *
      * @param {Svg}           svg
      * @param {Configuration} configuration The configuration
      */
-    constructor(svg, configuration)
-    {
-        this._svg           = svg;
+    constructor(svg, configuration) {
+        this._svg = svg;
         this._configuration = configuration;
-        this._orientation   = this._configuration.orientation;
+        this._orientation = this._configuration.orientation;
     }
 
     /**
@@ -35,15 +33,14 @@ export default class LinkDrawer
      *
      * @public
      */
-    drawLinks(links, source)
-    {
+    drawLinks(links, source) {
         this._svg.visual
             .selectAll("path.link")
             .data(links)
             .join(
-                enter  => this.linkEnter(enter, source),
+                enter => this.linkEnter(enter, source),
                 update => this.linkUpdate(update),
-                exit   => this.linkExit(exit, source)
+                exit => this.linkExit(exit, source),
             );
     }
 
@@ -55,8 +52,7 @@ export default class LinkDrawer
      *
      * @private
      */
-    linkEnter(enter, source)
-    {
+    linkEnter(enter, source) {
         enter
             .append("path")
             .classed("link", true)
@@ -64,7 +60,7 @@ export default class LinkDrawer
             .call(
                 g => g.transition()
                     .duration(this._configuration.duration)
-                    .attr("opacity", 1)
+                    .attr("opacity", 1),
             );
     }
 
@@ -75,8 +71,7 @@ export default class LinkDrawer
      *
      * @private
      */
-    linkUpdate(update)
-    {
+    linkUpdate(update) {
         // TODO Enable for transitions
         // update
         //     .call(
@@ -105,8 +100,7 @@ export default class LinkDrawer
      *
      * @private
      */
-    linkExit(exit, source)
-    {
+    linkExit(exit, source) {
         // TODO Enable for transitions
         // exit
         //     .call(

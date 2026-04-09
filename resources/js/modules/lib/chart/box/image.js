@@ -15,29 +15,27 @@ import OrientationRightLeft from "../orientation/orientation-rightLeft";
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
  * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
-export default class Image
-{
+export default class Image {
     /**
      * Constructor.
      *
      * @param {Orientation} orientation  The current orientation
      * @param {number}      cornerRadius The corner radius of the box
      */
-    constructor(orientation, cornerRadius)
-    {
-        this._orientation  = orientation;
+    constructor(orientation, cornerRadius) {
+        this._orientation = orientation;
         this._cornerRadius = cornerRadius;
 
         this._imagePadding = 5;
-        this._imageRadius  = Math.min(40, (this._orientation.boxHeight / 2) - this._imagePadding);
+        this._imageRadius = Math.min(40, (this._orientation.boxHeight / 2) - this._imagePadding);
 
         // Calculate values
-        this._width  = this.calculateImageWidth();
+        this._width = this.calculateImageWidth();
         this._height = this.calculateImageHeight();
-        this._rx     = this.calculateCornerRadius();
-        this._ry     = this.calculateCornerRadius();
-        this._x      = this.calculateX();
-        this._y      = this.calculateY();
+        this._rx = this.calculateCornerRadius();
+        this._ry = this.calculateCornerRadius();
+        this._x = this.calculateX();
+        this._y = this.calculateY();
     }
 
     /**
@@ -45,8 +43,7 @@ export default class Image
      *
      * @returns {number}
      */
-    calculateX()
-    {
+    calculateX() {
         if ((this._orientation instanceof OrientationLeftRight)
             || (this._orientation instanceof OrientationRightLeft)
         ) {
@@ -63,8 +60,7 @@ export default class Image
      *
      * @returns {number}
      */
-    calculateY()
-    {
+    calculateY() {
         if ((this._orientation instanceof OrientationLeftRight)
             || (this._orientation instanceof OrientationRightLeft)
         ) {
@@ -79,8 +75,7 @@ export default class Image
      *
      * @returns {number}
      */
-    calculateImageWidth()
-    {
+    calculateImageWidth() {
         return this._imageRadius * 2;
     }
 
@@ -89,8 +84,7 @@ export default class Image
      *
      * @returns {number}
      */
-    calculateImageHeight()
-    {
+    calculateImageHeight() {
         return this._imageRadius * 2;
     }
 
@@ -99,8 +93,7 @@ export default class Image
      *
      * @returns {number}
      */
-    calculateCornerRadius()
-    {
+    calculateCornerRadius() {
         return this._cornerRadius - this._imagePadding;
     }
 
@@ -109,8 +102,7 @@ export default class Image
      *
      * @returns {number}
      */
-    get x()
-    {
+    get x() {
         return this._x;
     }
 
@@ -119,8 +111,7 @@ export default class Image
      *
      * @returns {number}
      */
-    get y()
-    {
+    get y() {
         return this._y;
     }
 
@@ -129,8 +120,7 @@ export default class Image
      *
      * @returns {number}
      */
-    get rx()
-    {
+    get rx() {
         return this._rx;
     }
 
@@ -139,8 +129,7 @@ export default class Image
      *
      * @returns {number}
      */
-    get ry()
-    {
+    get ry() {
         return this._ry;
     }
 
@@ -149,8 +138,7 @@ export default class Image
      *
      * @returns {number}
      */
-    get width()
-    {
+    get width() {
         return this._width;
     }
 
@@ -159,8 +147,7 @@ export default class Image
      *
      * @returns {number}
      */
-    get height()
-    {
+    get height() {
         return this._height;
     }
 }

@@ -15,43 +15,36 @@ import elbowVertical from "../../tree/elbow/vertical";
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
  * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
-export default class OrientationBottomTop extends Orientation
-{
+export default class OrientationBottomTop extends Orientation {
     /**
      * Constructor.
      *
      * @param {number} boxWidth  The width of a single individual box
      * @param {number} boxHeight The height of a single individual box
      */
-    constructor(boxWidth, boxHeight)
-    {
+    constructor(boxWidth, boxHeight) {
         super(boxWidth, boxHeight);
 
         this._splittNames = true;
     }
 
-    get direction()
-    {
+    get direction() {
         return -1;
     }
 
-    get nodeWidth()
-    {
+    get nodeWidth() {
         return this._boxWidth + this._xOffset;
     }
 
-    get nodeHeight()
-    {
+    get nodeHeight() {
         return this._boxHeight + this._yOffset;
     }
 
-    norm(d)
-    {
+    norm(d) {
         d.y *= this.direction;
     }
 
-    elbow(link)
-    {
+    elbow(link) {
         return elbowVertical(link, this);
     }
 }

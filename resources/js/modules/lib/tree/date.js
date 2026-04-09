@@ -5,7 +5,7 @@
  * LICENSE file distributed with this source code.
  */
 
-import measureText from "../chart/text/measure"
+import measureText from "../chart/text/measure";
 import OrientationTopBottom from "../chart/orientation/orientation-topBottom";
 import OrientationBottomTop from "../chart/orientation/orientation-bottomTop";
 import {LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET} from "../constants.js";
@@ -17,8 +17,7 @@ import {LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET} from "../constants.js";
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
  * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
-export default class Date
-{
+export default class Date {
     /**
      * Constructor.
      *
@@ -27,12 +26,11 @@ export default class Date
      * @param {Image}       image
      * @param {Text}        text
      */
-    constructor(svg, orientation, image, text)
-    {
-        this._svg         = svg;
+    constructor(svg, orientation, image, text) {
+        this._svg = svg;
         this._orientation = orientation;
-        this._image       = image;
-        this._text        = text;
+        this._image = image;
+        this._text = text;
     }
 
     /**
@@ -42,8 +40,7 @@ export default class Date
      *
      * @public
      */
-    appendDate(parent)
-    {
+    appendDate(parent) {
         const table = parent
             .append("g");
 
@@ -54,9 +51,9 @@ export default class Date
             const enter = table.selectAll("text.date")
                 .data(d => [{
                     label: d.data.data.timespan,
-                    withImage: true
+                    withImage: true,
                 }])
-                .enter()
+                .enter();
 
             let dateYOffset = this._text.y + 45;
 
@@ -84,14 +81,14 @@ export default class Date
 
         const enter = table.selectAll("text")
             .data((d) => {
-                let data = [];
+                const data = [];
 
                 if (d.data.data.birth) {
                     data.push({
                         icon: "★",
                         label: d.data.data.birth,
                         birth: true,
-                        withImage: d.data.data.thumbnail !== ""
+                        withImage: d.data.data.thumbnail !== "",
                     });
                 }
 
@@ -100,7 +97,7 @@ export default class Date
                         icon: "†",
                         label: d.data.data.death,
                         death: true,
-                        withImage: d.data.data.thumbnail !== ""
+                        withImage: d.data.data.thumbnail !== "",
                     });
                 }
 
@@ -150,9 +147,8 @@ export default class Date
      *
      * @private
      */
-    truncateDate(object, date, availableWidth)
-    {
-        const fontSize   = object.style("font-size");
+    truncateDate(object, date, availableWidth) {
+        const fontSize = object.style("font-size");
         const fontWeight = object.style("font-weight");
 
         let truncated = false;
@@ -160,7 +156,7 @@ export default class Date
         // Repeat removing the last char until the width matches
         while ((this.measureText(date, fontSize, fontWeight) > availableWidth) && (date.length > 1)) {
             // Remove last char
-            date      = date.slice(0, -1).trim();
+            date = date.slice(0, -1).trim();
             truncated = true;
         }
 
@@ -180,8 +176,7 @@ export default class Date
      *
      * @private
      */
-    textX(d)
-    {
+    textX(d) {
         const xPos = this._text.x + (d.withImage ? this._image.width : 0);
 
         // Reverse direction of text elements for RTL layouts
@@ -199,8 +194,7 @@ export default class Date
      *
      * @private
      */
-    measureText(text, fontSize, fontWeight = 400)
-    {
+    measureText(text, fontSize, fontWeight = 400) {
         const fontFamily = this._svg.style("font-family");
 
         return measureText(text, fontFamily, fontSize, fontWeight);

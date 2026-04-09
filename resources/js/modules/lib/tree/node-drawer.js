@@ -20,8 +20,7 @@ import Text from "../chart/box/text";
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
  * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
-export default class NodeDrawer
-{
+export default class NodeDrawer {
     /**
      * Constructor.
      *
@@ -29,17 +28,16 @@ export default class NodeDrawer
      * @param {Hierarchy}     hierarchy     The hierarchical data
      * @param {Configuration} configuration The configuration
      */
-    constructor(svg, hierarchy, configuration)
-    {
-        this._svg           = svg;
-        this._hierarchy     = hierarchy;
+    constructor(svg, hierarchy, configuration) {
+        this._svg = svg;
+        this._hierarchy = hierarchy;
         this._configuration = configuration;
-        this._orientation   = this._configuration.orientation;
+        this._orientation = this._configuration.orientation;
 
         this._image = new Image(this._orientation, 20);
-        this._text  = new Text(this._orientation, this._image);
-        this._name  = new Name(this._svg, this._orientation, this._image, this._text);
-        this._date  = new Date(this._svg, this._orientation, this._image, this._text);
+        this._text = new Text(this._orientation, this._image);
+        this._name = new Name(this._svg, this._orientation, this._image, this._text);
+        this._date = new Date(this._svg, this._orientation, this._image, this._text);
     }
 
     /**
@@ -50,8 +48,7 @@ export default class NodeDrawer
      *
      * @public
      */
-    drawNodes(nodes, source)
-    {
+    drawNodes(nodes, source) {
         // Image clip path
         this._svg
             .defs
@@ -69,9 +66,9 @@ export default class NodeDrawer
             .selectAll("g.person")
             .data(nodes, person => person.id)
             .join(
-                enter  => this.nodeEnter(enter, source),
+                enter => this.nodeEnter(enter, source),
                 update => this.nodeUpdate(update),
-                exit   => this.nodeExit(exit, source)
+                exit => this.nodeExit(exit, source),
             );
 
         // this.centerTree();
@@ -91,8 +88,7 @@ export default class NodeDrawer
      *
      * @private
      */
-    nodeEnter(enter, source)
-    {
+    nodeEnter(enter, source) {
         enter
             .append("g")
             .attr("opacity", 0)
@@ -112,7 +108,7 @@ export default class NodeDrawer
                             "class",
                             person => (person.data.data.sex === SEX_FEMALE)
                                 ? "female"
-                                : (person.data.data.sex === SEX_MALE) ? "male" : "unknown"
+                                : (person.data.data.sex === SEX_MALE) ? "male" : "unknown",
                         )
                         .classed("spouse", person => person.data.spouse)
                         .attr("rx", 20)
@@ -125,17 +121,17 @@ export default class NodeDrawer
 
                     g.append("title")
                         .text(person => person.data.data.name);
-                }
+                },
             )
             .call(
                 // Draws the node (including image, names and dates)
-                g => this.drawNode(g)
+                g => this.drawNode(g),
             )
             .call(
                 g => g.transition()
                     .duration(this._configuration.duration)
                     // .delay(1000)
-                    .attr("opacity", 1)
+                    .attr("opacity", 1),
                 // TODO Enable this to zoom from source to person
                 // .attr("transform", (person) => {
                 //     return "translate(" + (person.x) + "," + (person.y) + ")";
@@ -150,8 +146,7 @@ export default class NodeDrawer
      *
      * @private
      */
-    nodeUpdate(update)
-    {
+    nodeUpdate(update) {
         update
             .call(
                 g => g.transition()
@@ -159,7 +154,7 @@ export default class NodeDrawer
                     .attr("opacity", 1)
                     .attr("transform", (person) => {
                         return "translate(" + (person.x) + "," + (person.y) + ")";
-                    })
+                    }),
             );
     }
 
@@ -171,8 +166,7 @@ export default class NodeDrawer
      *
      * @private
      */
-    nodeExit(exit, source)
-    {
+    nodeExit(exit, source) {
         exit
             .call(
                 g => g.transition()
@@ -182,7 +176,7 @@ export default class NodeDrawer
                         // Transition exit nodes to the source's position
                         return "translate(" + (source.x0) + "," + (source.y0) + ")";
                     })
-                    .remove()
+                    .remove(),
             );
     }
 
@@ -193,16 +187,15 @@ export default class NodeDrawer
      *
      * @private
      */
-    drawNode(parent)
-    {
+    drawNode(parent) {
         const enter = parent.selectAll("g.image")
             .data((d) => {
-                let images = [];
+                const images = [];
 
                 if (d.data.data.thumbnail) {
                     images.push({
-                        image: d.data.data.thumbnail
-                    })
+                        image: d.data.data.thumbnail,
+                    });
                 }
 
                 return images;
@@ -248,7 +241,7 @@ export default class NodeDrawer
         // Asynchronously load the images
         d3.selectAll("g.image image")
             .each(function (d) {
-                let image = d3.select(this);
+                const image = d3.select(this);
 
                 dataUrl(d.image)
                     .then(dataUrl => image.attr("href", dataUrl))

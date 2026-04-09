@@ -16,8 +16,7 @@ import Chart from "./lib/chart";
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
  * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
-export class PedigreeChart
-{
+export class PedigreeChart {
     /**
      * Constructor.
      *
@@ -34,10 +33,9 @@ export class PedigreeChart
      * @param {string[]} options.cssFiles
      * @param {Data[]}   options.data
      */
-    constructor(selector, options)
-    {
+    constructor(selector, options) {
         this._selector = selector;
-        this._parent   = d3.select(this._selector);
+        this._parent = d3.select(this._selector);
 
         // Set up configuration
         this._configuration = new Configuration(
@@ -47,7 +45,7 @@ export class PedigreeChart
             options.treeLayout,
             options.openNewTabOnClick,
             options.showAlternativeName,
-            options.rtl
+            options.rtl,
         );
 
         this._cssFiles = options.cssFiles;
@@ -64,16 +62,14 @@ export class PedigreeChart
      *
      * @returns {Configuration}
      */
-    get configuration()
-    {
+    get configuration() {
         return this._configuration;
     }
 
     /**
      * @private
      */
-    init()
-    {
+    init() {
         // Bind click event on center button
         d3.select("#centerButton")
             .on("click", () => this._chart.center());
@@ -92,8 +88,7 @@ export class PedigreeChart
     /**
      * Add event listeners.
      */
-    addEventListeners()
-    {
+    addEventListeners() {
         // Listen for fullscreen change event
         document.addEventListener(
             "fullscreenchange",
@@ -106,7 +101,7 @@ export class PedigreeChart
                 }
 
                 this._chart.updateViewBox();
-            }
+            },
         );
 
         // Listen for orientation change event
@@ -122,8 +117,7 @@ export class PedigreeChart
      *
      * @param {string} url The update url
      */
-    update(url)
-    {
+    update(url) {
         this._chart.update(url);
     }
 
@@ -132,8 +126,7 @@ export class PedigreeChart
      *
      * @param {object} data The JSON encoded chart data
      */
-    draw(data)
-    {
+    draw(data) {
         this._chart.data = data;
         this._chart.draw();
     }
@@ -143,10 +136,9 @@ export class PedigreeChart
      *
      * @private
      */
-    exportPNG()
-    {
+    exportPNG() {
         this._chart.svg
-            .export('png')
+            .export("png")
             .svgToImage(this._chart.svg, "pedigree-chart.png");
     }
 
@@ -155,15 +147,14 @@ export class PedigreeChart
      *
      * @private
      */
-    exportSVG()
-    {
+    exportSVG() {
         this._chart.svg
-            .export('svg')
+            .export("svg")
             .svgToImage(
                 this._chart.svg,
                 this._cssFiles,
                 "webtrees-pedigree-chart-container",
-                "pedigree-chart.svg"
+                "pedigree-chart.svg",
             );
     }
 }

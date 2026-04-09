@@ -17,18 +17,16 @@ import OrientationBottomTop from "../lib/chart/orientation/orientation-bottomTop
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
  * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
-export default class Hierarchy
-{
+export default class Hierarchy {
     /**
      * Constructor.
      *
      * @param {Configuration} configuration The application configuration
      */
-    constructor(configuration)
-    {
+    constructor(configuration) {
         this._configuration = configuration;
-        this._nodes         = null;
-        this._root          = null;
+        this._nodes = null;
+        this._root = null;
     }
 
     /**
@@ -36,8 +34,7 @@ export default class Hierarchy
      *
      * @param {object} datum The JSON encoded chart data
      */
-    init(datum)
-    {
+    init(datum) {
         // Adjust box height if we are going to display the alternative names
         if (this._configuration.showAlternativeName) {
             if ((this._configuration.orientation instanceof OrientationTopBottom)
@@ -48,7 +45,7 @@ export default class Hierarchy
         }
 
         // Get the greatest depth
-        const getDepth       = ({parents}) => 1 + (parents ? Math.max(...parents.map(getDepth)) : 0);
+        const getDepth = ({parents}) => 1 + (parents ? Math.max(...parents.map(getDepth)) : 0);
         const maxGenerations = getDepth(datum);
 
         // Construct root node from the hierarchical data
@@ -64,7 +61,7 @@ export default class Hierarchy
                 // if (!datum.parents && (datum.data.generation < this._configuration.generations)) {
                     datum.parents = [
                         this.createEmptyNode(datum.data.generation + 1, SEX_MALE),
-                        this.createEmptyNode(datum.data.generation + 1, SEX_FEMALE)
+                        this.createEmptyNode(datum.data.generation + 1, SEX_FEMALE),
                     ];
                 }
 
@@ -72,11 +69,11 @@ export default class Hierarchy
                 if (datum.parents && (datum.parents.length < 2)) {
                     if (datum.parents[0].data.sex === SEX_MALE) {
                         datum.parents.push(
-                            this.createEmptyNode(datum.data.generation + 1, SEX_FEMALE)
+                            this.createEmptyNode(datum.data.generation + 1, SEX_FEMALE),
                         );
                     } else {
                         datum.parents.unshift(
-                            this.createEmptyNode(data.datum.generation + 1, SEX_MALE)
+                            this.createEmptyNode(data.datum.generation + 1, SEX_MALE),
                         );
                     }
                 }
@@ -110,8 +107,7 @@ export default class Hierarchy
      *
      * @public
      */
-    get nodes()
-    {
+    get nodes() {
         return this._nodes;
     }
 
@@ -122,8 +118,7 @@ export default class Hierarchy
      *
      * @public
      */
-    get root()
-    {
+    get root() {
         return this._root;
     }
 
@@ -137,8 +132,7 @@ export default class Hierarchy
      *
      * @private
      */
-    createEmptyNode(generation, sex)
-    {
+    createEmptyNode(generation, sex) {
         return {
             data: {
                 id              : 0,
@@ -154,8 +148,8 @@ export default class Hierarchy
                 alternativeName : "",
                 isAltRtl        : false,
                 sex             : "U", // sex
-                timespan        : ""
-            }
+                timespan        : "",
+            },
         };
     }
 }

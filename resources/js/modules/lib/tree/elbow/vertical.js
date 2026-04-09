@@ -16,8 +16,7 @@ import * as d3 from "../../d3";
  *
  * @returns {string}
  */
-export default function(link, orientation)
-{
+export default function(link, orientation) {
     const halfXOffset = orientation.xOffset / 2;
     const halfYOffset = orientation.yOffset / 2;
 
@@ -41,7 +40,7 @@ export default function(link, orientation)
     }
 
     if (link.target !== null) {
-        let targetX = link.target.x,
+        const targetX = link.target.x,
             targetY = link.target.y - (orientation.direction * ((orientation.boxHeight / 2) + halfYOffset));
 
         const path = d3.path();
@@ -66,8 +65,7 @@ export default function(link, orientation)
  *
  * @returns {string}
  */
-function createLinksBetweenSpouses(link, orientation)
-{
+function createLinksBetweenSpouses(link, orientation) {
     const path = d3.path();
 
     // The distance from the line to the node. Causes the line to stop or begin just before the node,
@@ -94,14 +92,14 @@ function createLinksBetweenSpouses(link, orientation)
     if (link.coords && (link.coords.length > 0)) {
         for (let i = 0; i < link.coords.length; ++i) {
             let startX = link.spouse.x + boxWidthHalf;
-            let endX   = link.coords[i].x - boxWidthHalf;
+            const endX = link.coords[i].x - boxWidthHalf;
 
             if (i > 0) {
                 startX = link.coords[i - 1].x + boxWidthHalf;
             }
 
-            let startPosOffset = ((i > 0) ? lineStartOffset : 0);
-            let endPosOffset   = (((i + 1) <= link.coords.length) ? lineStartOffset : 0);
+            const startPosOffset = ((i > 0) ? lineStartOffset : 0);
+            const endPosOffset = (((i + 1) <= link.coords.length) ? lineStartOffset : 0);
 
             path.moveTo(startX + startPosOffset, sourceY);
             path.lineTo(endX - endPosOffset, sourceY);
@@ -110,12 +108,12 @@ function createLinksBetweenSpouses(link, orientation)
         // Add last part from previous spouse to actual spouse
         path.moveTo(
             link.coords[link.coords.length - 1].x + boxWidthHalf + lineStartOffset,
-            sourceY
+            sourceY,
         );
 
         path.lineTo(
             link.source.x - boxWidthHalf,
-            sourceY
+            sourceY,
         );
     }
 
@@ -130,8 +128,7 @@ function createLinksBetweenSpouses(link, orientation)
  *
  * @returns {number}
  */
-function getFirstSpouseLinkOffset(link, orientation)
-{
+function getFirstSpouseLinkOffset(link, orientation) {
     // The distance between the connecting lines when there are multiple spouses
     const spouseLineOffset = 5;
 

@@ -10,8 +10,8 @@ import Svg from "./chart/svg";
 import Overlay from "./chart/overlay";
 import Tree from "../custom/tree";
 
-const MIN_HEIGHT  = 300;
-const MIN_PADDING = 1;   // Minimum padding around view box in "rem"
+const MIN_HEIGHT = 300;
+const MIN_PADDING = 1; // Minimum padding around view box in "rem"
 
 /**
  * This class handles the overall chart creation.
@@ -20,20 +20,18 @@ const MIN_PADDING = 1;   // Minimum padding around view box in "rem"
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
  * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
-export default class Chart
-{
+export default class Chart {
     /**
      * Constructor.
      *
      * @param {Selection}     parent        The selected D3 parent element container
      * @param {Configuration} configuration The application configuration
      */
-    constructor(parent, configuration)
-    {
+    constructor(parent, configuration) {
         this._configuration = configuration;
-        this._parent        = parent;
-        this._hierarchy     = new Hierarchy(this._configuration);
-        this._data          = {};
+        this._parent = parent;
+        this._hierarchy = new Hierarchy(this._configuration);
+        this._data = {};
     }
 
     /**
@@ -41,8 +39,7 @@ export default class Chart
      *
      * @returns {Svg}
      */
-    get svg()
-    {
+    get svg() {
         return this._svg;
     }
 
@@ -51,8 +48,7 @@ export default class Chart
      *
      * @returns {Selection}
      */
-    get parent()
-    {
+    get parent() {
         return this._parent;
     }
 
@@ -61,8 +57,7 @@ export default class Chart
      *
      * @returns {Data}
      */
-    get data()
-    {
+    get data() {
         return this._data;
     }
 
@@ -71,8 +66,7 @@ export default class Chart
      *
      * @param {Data} value The chart data
      */
-    set data(value)
-    {
+    set data(value) {
         this._data = value;
 
         // Create the hierarchical data structure
@@ -86,16 +80,14 @@ export default class Chart
      *
      * @returns {number}
      */
-    convertRemToPixels(rem)
-    {
+    convertRemToPixels(rem) {
         return rem * parseFloat(window.getComputedStyle(document.documentElement).fontSize);
     }
 
     /**
      * Update/Calculate the viewBox attribute of the SVG element.
      */
-    updateViewBox()
-    {
+    updateViewBox() {
         // Set width/height attributes
         this.svg
             .attr("width", "100%")
@@ -104,20 +96,20 @@ export default class Chart
         const padding = this.convertRemToPixels(MIN_PADDING);
 
         // Get bounding boxes
-        let svgBoundingBox    = this.svg.visual.node().getBBox();
-        let clientBoundingBox = this.parent.node().getBoundingClientRect();
+        const svgBoundingBox = this.svg.visual.node().getBBox();
+        const clientBoundingBox = this.parent.node().getBoundingClientRect();
 
         // View box should have at least the same width/height as the parent element
-        let viewBoxWidth  = Math.max(clientBoundingBox.width, svgBoundingBox.width);
+        let viewBoxWidth = Math.max(clientBoundingBox.width, svgBoundingBox.width);
         let viewBoxHeight = Math.max(clientBoundingBox.height, svgBoundingBox.height);
 
         // Calculate offset to center chart inside svg
-        let offsetX = (viewBoxWidth - svgBoundingBox.width) >> 1;
-        let offsetY = (viewBoxHeight - svgBoundingBox.height) >> 1;
+        const offsetX = (viewBoxWidth - svgBoundingBox.width) >> 1;
+        const offsetY = (viewBoxHeight - svgBoundingBox.height) >> 1;
 
         // Adjust view box dimensions by padding and offset
-        let viewBoxLeft = Math.ceil(svgBoundingBox.x - offsetX - padding);
-        let viewBoxTop  = Math.ceil(svgBoundingBox.y - offsetY - padding);
+        const viewBoxLeft = Math.ceil(svgBoundingBox.x - offsetX - padding);
+        const viewBoxTop = Math.ceil(svgBoundingBox.y - offsetY - padding);
 
         // In fullscreen mode, use the full available height
         // (buttonbar is now overlayed, so no offset needed)
@@ -129,7 +121,7 @@ export default class Chart
         }
 
         // Final width/height of view box
-        viewBoxWidth  = Math.ceil(viewBoxWidth + (padding << 1));
+        viewBoxWidth = Math.ceil(viewBoxWidth + (padding << 1));
         viewBoxHeight = Math.ceil(viewBoxHeight + (padding << 1));
 
         // Set view box attribute
@@ -140,16 +132,15 @@ export default class Chart
                     viewBoxLeft,
                     viewBoxTop,
                     viewBoxWidth,
-                    viewBoxHeight
-                ]
+                    viewBoxHeight,
+                ],
             );
     }
 
     /**
      * Resets the chart to initial zoom level and position.
      */
-    center()
-    {
+    center() {
         this.svg
             .transition()
             .duration(750)
@@ -159,8 +150,7 @@ export default class Chart
     /**
      * This method draws the chart.
      */
-    draw()
-    {
+    draw() {
         // Remove previously created content
         this._parent.html("");
 
@@ -185,9 +175,8 @@ export default class Chart
     /**
      * This method bind the "click" event listeners to a "person" element.
      */
-    bindClickEventListener()
-    {
-        let that = this;
+    bindClickEventListener() {
+        const that = this;
 
         this._svg.visual
             .selectAll("g.person")
@@ -204,8 +193,7 @@ export default class Chart
      *
      * @private
      */
-    personClick(data)
-    {
+    personClick(data) {
         // Trigger either "update" or "redirectToIndividual" method on click depending on person in chart
         (data.data.generation === 1) ? this.redirectToIndividual(data.data.url) : this.update(data.data.updateUrl);
     }
@@ -217,8 +205,7 @@ export default class Chart
      *
      * @private
      */
-    redirectToIndividual(url)
-    {
+    redirectToIndividual(url) {
         this._configuration.openNewTabOnClick
             ? window.open(url, "_blank")
             : window.location = url;
@@ -229,8 +216,7 @@ export default class Chart
      *
      * @param {string} url The update URL
      */
-    update(url)
-    {
+    update(url) {
         // See update.js for a possible AJAX only update solution, but which requires some additional work
         window.location = url;
     }

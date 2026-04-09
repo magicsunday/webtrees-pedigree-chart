@@ -17,18 +17,16 @@ import OrientationBottomTop from "../orientation/orientation-bottomTop";
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
  * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
-export default class Text
-{
+export default class Text {
     /**
      * Constructor.
      *
      * @param {Orientation} orientation The current orientation
      * @param {null|Image}  image       The image
      */
-    constructor(orientation, image = null)
-    {
-        this._orientation  = orientation;
-        this._image        = image;
+    constructor(orientation, image = null) {
+        this._orientation = orientation;
+        this._image = image;
         this._textPaddingX = 15;
         this._textPaddingY = 15;
 
@@ -40,8 +38,8 @@ export default class Text
         }
 
         // Calculate values
-        this._x     = this.calculateX();
-        this._y     = this.calculateY();
+        this._x = this.calculateX();
+        this._y = this.calculateY();
         this._width = this.calculateWidth();
     }
 
@@ -50,8 +48,7 @@ export default class Text
      *
      * @returns {number}
      */
-    calculateX()
-    {
+    calculateX() {
         return -(this._orientation.boxWidth / 2) + this._textPaddingX;
     }
 
@@ -60,8 +57,7 @@ export default class Text
      *
      * @returns {number}
      */
-    calculateY()
-    {
+    calculateY() {
         if ((this._orientation instanceof OrientationLeftRight)
             || (this._orientation instanceof OrientationRightLeft)
         ) {
@@ -76,8 +72,7 @@ export default class Text
      *
      * @returns {number}
      */
-    calculateWidth()
-    {
+    calculateWidth() {
         // Width of the text minus the right/left padding
         return this._orientation.boxWidth - (this._textPaddingX * 2);
     }
@@ -87,8 +82,7 @@ export default class Text
      *
      * @returns {number}
      */
-    get x()
-    {
+    get x() {
         return this._x;
     }
 
@@ -97,8 +91,7 @@ export default class Text
      *
      * @returns {number}
      */
-    get y()
-    {
+    get y() {
         return this._y;
     }
 
@@ -107,8 +100,7 @@ export default class Text
      *
      * @returns {number}
      */
-    get width()
-    {
+    get width() {
         return this._width;
 
     }

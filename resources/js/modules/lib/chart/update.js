@@ -14,8 +14,7 @@ import * as d3 from "./../d3";
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
  * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
-export default class Update
-{
+export default class Update {
     /**
      * Constructor.
      *
@@ -23,11 +22,10 @@ export default class Update
      * @param {Configuration} configuration The application configuration
      * @param {Hierarchy}     hierarchy
      */
-    constructor(svg, configuration, hierarchy)
-    {
-        this._svg           = svg;
+    constructor(svg, configuration, hierarchy) {
+        this._svg = svg;
         this._configuration = configuration;
-        this._hierarchy     = hierarchy;
+        this._hierarchy = hierarchy;
     }
 
     /**
@@ -38,9 +36,8 @@ export default class Update
      *
      * @public
      */
-    update(url, callback)
-    {
-        let that = this;
+    update(url, callback) {
+        const that = this;
 
         this._svg
             .selectAll("g.person")
@@ -50,23 +47,23 @@ export default class Update
             .on("mouseout", null);
 
         d3.json(
-            url
+            url,
         ).then((data) => {
             // Initialize the new loaded data
             this._hierarchy.init(data);
             this.draw();
 
-            let indSelector = $(document.getElementById("xref"));
+            const indSelector = $(document.getElementById("xref"));
 
             $.ajax({
                 type: "POST",
                 url: indSelector.attr("data-ajax--url"),
                 data: {
-                    q : data.data.xref
-                }
+                    q : data.data.xref,
+                },
             }).then(function (data) {
                 // Create the option and append to Select2
-                let option = new Option(data.results[0].text, data.results[0].id, true, true);
+                const option = new Option(data.results[0].text, data.results[0].id, true, true);
 
                 indSelector.append(option);
                 indSelector.trigger("change");

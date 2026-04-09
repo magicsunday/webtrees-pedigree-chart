@@ -15,25 +15,23 @@ import Text from "./box/text";
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
  * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
-export default class Box
-{
+export default class Box {
     /**
      * Constructor.
      *
      * @param {Orientation} orientation The current orientation
      */
-    constructor(orientation)
-    {
+    constructor(orientation) {
         // The default corner radius
         this._cornerRadius = 20;
-        this._orientation  = orientation;
+        this._orientation = orientation;
 
         // Calculate values
-        this._x      = -(orientation.boxWidth / 2);
-        this._y      = -(orientation.boxHeight / 2);
-        this._rx     = this._cornerRadius;
-        this._ry     = this._cornerRadius;
-        this._width  = orientation.boxWidth;
+        this._x = -(orientation.boxWidth / 2);
+        this._y = -(orientation.boxHeight / 2);
+        this._rx = this._cornerRadius;
+        this._ry = this._cornerRadius;
+        this._width = orientation.boxWidth;
         this._height = orientation.boxHeight;
 
         this._image = new Image(orientation, this._cornerRadius);
@@ -44,8 +42,7 @@ export default class Box
      *
      * @returns {number}
      */
-    get x()
-    {
+    get x() {
         return this._x;
     }
 
@@ -54,8 +51,7 @@ export default class Box
      *
      * @returns {number}
      */
-    get y()
-    {
+    get y() {
         return this._y;
     }
 
@@ -64,8 +60,7 @@ export default class Box
      *
      * @returns {number}
      */
-    get rx()
-    {
+    get rx() {
         return this._rx;
     }
 
@@ -74,8 +69,7 @@ export default class Box
      *
      * @returns {number}
      */
-    get ry()
-    {
+    get ry() {
         return this._ry;
     }
 
@@ -84,8 +78,7 @@ export default class Box
      *
      * @returns {number}
      */
-    get width()
-    {
+    get width() {
         return this._width;
     }
 
@@ -94,8 +87,7 @@ export default class Box
      *
      * @returns {number}
      */
-    get height()
-    {
+    get height() {
         return this._height;
     }
 
@@ -104,8 +96,7 @@ export default class Box
      *
      * @returns {Image}
      */
-    get image()
-    {
+    get image() {
         return this._image;
     }
 
@@ -114,11 +105,10 @@ export default class Box
      *
      * @returns {Text}
      */
-    get text()
-    {
+    get text() {
         return new Text(
             this._orientation,
-            this._image
+            this._image,
         );
     }
 }

@@ -13,8 +13,7 @@
  *
  * @returns {Promise<unknown>}
  */
-export default function(input, init = null)
-{
+export default function(input, init = null) {
     return fetch(input, init)
         .then(response => response.blob())
         .then(blob => new Promise(
@@ -23,7 +22,7 @@ export default function(input, init = null)
                 reader.onloadend = () => resolve(reader.result);
                 reader.onerror = reject;
                 reader.readAsDataURL(blob);
-            }
-        )
-    );
+            },
+        ),
+        );
 }

@@ -16,22 +16,20 @@ import ExportFactory from "./svg/export-factory";
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
  * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
-export default class Svg
-{
+export default class Svg {
     /**
      * Constructor.
      *
      * @param {Selection}     parent        The selected D3 parent element container
      * @param {Configuration} configuration The application configuration
      */
-    constructor(parent, configuration)
-    {
+    constructor(parent, configuration) {
         // Create the <svg> element
-        this._element       = parent.append("svg");
-        this._defs          = new Defs(this._element);
+        this._element = parent.append("svg");
+        this._defs = new Defs(this._element);
 
-        this._visual        = null;
-        this._zoom          = null;
+        this._visual = null;
+        this._zoom = null;
         this._configuration = configuration;
 
         this.init();
@@ -42,8 +40,7 @@ export default class Svg
      *
      * @returns {Defs}
      */
-    get defs()
-    {
+    get defs() {
         return this._defs;
     }
 
@@ -52,8 +49,7 @@ export default class Svg
      *
      * @returns {Zoom}
      */
-    get zoom()
-    {
+    get zoom() {
         return this._zoom;
     }
 
@@ -62,8 +58,7 @@ export default class Svg
      *
      * @returns {Selection}
      */
-    get visual()
-    {
+    get visual() {
         return this._visual;
     }
 
@@ -72,8 +67,7 @@ export default class Svg
      *
      * @private
      */
-    init()
-    {
+    init() {
         // Add SVG element
         this._element
             .attr("width", "100%")
@@ -90,8 +84,7 @@ export default class Svg
      *
      * @param {Overlay} overlay
      */
-    initEvents(overlay)
-    {
+    initEvents(overlay) {
         this._element
             .on("contextmenu", (event) => event.preventDefault())
             .on("wheel", (event) => {
@@ -101,7 +94,7 @@ export default class Svg
                         300,
                         () => {
                             overlay.hide(200, 600);
-                        }
+                        },
                     );
                 }
             })
@@ -140,8 +133,7 @@ export default class Svg
      *
      * @private
      */
-    doStopPropagation(event)
-    {
+    doStopPropagation(event) {
         if (event.defaultPrevented) {
             event.stopPropagation();
         }
@@ -154,17 +146,16 @@ export default class Svg
      *
      * @returns {PngExport|SvgExport}
      */
-    export(type )
-    {
+    export(type ) {
         const factory = new ExportFactory();
+
         return factory.createExport(type);
     }
 
     /**
      * @returns {Node}
      */
-    node()
-    {
+    node() {
         return this._element.node();
     }
 
@@ -173,8 +164,7 @@ export default class Svg
      *
      * @returns {Selection}
      */
-    selectAll(select)
-    {
+    selectAll(select) {
         return this._element.selectAll(select);
     }
 
@@ -183,8 +173,7 @@ export default class Svg
      *
      * @returns {string|this}
      */
-    style(name)
-    {
+    style(name) {
         return this._element.style(...arguments);
     }
 
@@ -193,16 +182,14 @@ export default class Svg
      *
      * @returns {string|this}
      */
-    attr(name)
-    {
+    attr(name) {
         return this._element.attr(...arguments);
     }
 
     /**
      * @returns {Transition}
      */
-    transition()
-    {
+    transition() {
         return this._element.transition();
     }
 }
