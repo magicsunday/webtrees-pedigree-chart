@@ -19,7 +19,7 @@
     "scripts": {
         "prepare": "rollup --config rollup.config.js",
         "watch": "rollup --watch --config rollup.config.js",
-        "lint": "eslint resources/js/modules/",
+        "lint": "eslint --max-warnings 0 resources/js/modules/",
         "lint:fix": "eslint --fix resources/js/modules/"
     },
     "devDependencies": {
