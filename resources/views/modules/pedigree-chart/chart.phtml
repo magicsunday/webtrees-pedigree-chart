@@ -27,8 +27,7 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
 <?php View::push('javascript'); ?>
 <script type="module">
 
-import(<?= json_encode(e($javascript)) ?>).then((module) => {
-    const { PedigreeChart } = module.default || module;
+import(<?= json_encode($javascript) ?>).then(({ PedigreeChart }) => {
     new PedigreeChart(
         "#webtrees-pedigree-chart-container-<?= $id ?>",
         {
