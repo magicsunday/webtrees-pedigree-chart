@@ -53,21 +53,46 @@ export default class Update {
             this._hierarchy.init(data);
             this.draw();
 
-            const indSelector = $(document.getElementById("xref"));
-
-            $.ajax({
-                type: "POST",
-                url: indSelector.attr("data-ajax--url"),
-                data: {
-                    q : data.data.xref,
-                },
-            }).then(function (data) {
-                // Create the option and append to Select2
-                const option = new Option(data.results[0].text, data.results[0].id, true, true);
-
-                indSelector.append(option);
-                indSelector.trigger("change");
-            });
+            this.updateIndividualSelector(data.data.xref);
         });
+    }
+
+    /**
+     * Updates the individual selector (TomSelect) to reflect the currently
+     * displayed person after navigating in the chart.
+     *
+     * @param {string} xref The XREF of the individual to select
+     *
+     * @private
+     */
+    updateIndividualSelector(xref) {
+        const indSelector = document.getElementById("xref");
+        const ajaxUrl = indSelector.getAttribute("data-ajax--url");
+        const csrfToken = document.head.querySelector("meta[name=csrf]").getAttribute("content");
+
+        fetch(ajaxUrl, {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "X-CSRF-TOKEN": csrfToken,
+                "x-requested-with": "XMLHttpRequest",
+            },
+            body: new URLSearchParams({ q: xref }),
+        })
+            .then((response) => response.json())
+            .then((result) => {
+                if (indSelector.tomselect && result.results.length > 0) {
+                    const item = result.results[0];
+                    const tomSelect = indSelector.tomselect;
+
+                    tomSelect.clear(true);
+                    tomSelect.clearOptions();
+                    tomSelect.addOption({ value: item.id, text: item.text });
+                    tomSelect.refreshOptions();
+                    tomSelect.addItem(item.id, true);
+                    tomSelect.refreshItems();
+                }
+            });
     }
 }
