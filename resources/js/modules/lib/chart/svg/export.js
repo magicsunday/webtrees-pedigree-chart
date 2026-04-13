@@ -6,7 +6,9 @@
  */
 
 /**
- * Base export class.
+ * Abstract base class for chart export. Provides shared helpers for inlining
+ * external images as base64 data URIs and for triggering a file download
+ * via a programmatically created anchor element.
  *
  * @author  Rico Sonntag <mail@ricosonntag.de>
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
@@ -14,10 +16,56 @@
  */
 export default class Export {
     /**
-     * Triggers the download by creating a new anchor element and simulate a mouse click on it.
+     * Fetches each external <image href> in the SVG node and replaces it with
+     * a base64 data URI. Images that fail to load have their href removed so
+     * the exported file does not contain broken references. Resolves to the
+     * same svgNode once all fetches have settled.
      *
-     * @param {string} imgURI   The image URI data stream
-     * @param {string} fileName The file name to use in the download dialog
+     * @param {Node} svgNode The SVG element (or a clone) whose images to inline
+     *
+     * @return {Promise<Node>}
+     */
+    inlineImages(svgNode) {
+        const images = svgNode.querySelectorAll("image");
+
+        const promises = Array.from(images).map(img => {
+            const href = img.getAttribute("href") || img.getAttributeNS("http://www.w3.org/1999/xlink", "href");
+
+            if (!href || href.startsWith("data:")) {
+                return Promise.resolve();
+            }
+
+            return fetch(href)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(response.status);
+                    }
+
+                    return response.blob();
+                })
+                .then(blob => new Promise(resolve => {
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                        img.setAttribute("href", reader.result);
+                        resolve();
+                    };
+                    reader.readAsDataURL(blob);
+                }))
+                .catch(() => {
+                    // Remove href so exported file shows no broken image
+                    img.removeAttribute("href");
+                });
+        });
+
+        return Promise.all(promises).then(() => svgNode);
+    }
+
+    /**
+     * Initiates a file download by creating a temporary <a> element with the
+     * given href and filename, then dispatching a synthetic click on it.
+     *
+     * @param {string} imgURI   The data URI or object URL to download
+     * @param {string} fileName The suggested filename shown in the save dialog
      */
     triggerDownload(imgURI, fileName) {
         const event = new MouseEvent("click", {
@@ -26,10 +74,10 @@ export default class Export {
             cancelable: true,
         });
 
-        const a = document.createElement("a");
-        a.setAttribute("download", fileName);
-        a.setAttribute("href", imgURI);
-        a.setAttribute("target", "_blank");
-        a.dispatchEvent(event);
+        const anchor = document.createElement("a");
+        anchor.setAttribute("download", fileName);
+        anchor.setAttribute("href", imgURI);
+        anchor.setAttribute("target", "_blank");
+        anchor.dispatchEvent(event);
     }
 }
