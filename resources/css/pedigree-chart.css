@@ -2,6 +2,13 @@
     min-height: 50dvh;
 }
 
+#pedigree-chart-url:has(.wt-icon-spinner) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50dvh;
+}
+
 .webtrees-pedigree-fullscreen-container::backdrop {
     background-color: var(--bs-body-bg);
 }
@@ -77,6 +84,7 @@
 
 .webtrees-pedigree-chart-container svg {
     display: block;
+    min-height: unset;
     cursor: grab;
 }
 
