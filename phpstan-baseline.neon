@@ -1,0 +1,13 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Cannot use \+\+ on mixed\.$#'
+			identifier: preInc.type
+			count: 1
+			path: src/Facade/DataFacade.php
+
+		-
+			message: '#^Method MagicSunday\\Webtrees\\PedigreeChart\\Module\:\:customTranslations\(\) should return array\<string, string\> but returns array\<string\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Module.php
