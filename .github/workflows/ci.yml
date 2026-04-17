@@ -87,6 +87,18 @@ jobs:
                 run: |
                     composer ci:test:php:cpd
 
+            -   id: php-unit
+                name: PHP Unit Tests
+                if: ${{ always() && steps.install.conclusion == 'success' }}
+                run: |
+                    composer ci:test:php:unit
+
+            -   id: js-unit
+                name: JS Unit Tests
+                if: ${{ always() && steps.install.conclusion == 'success' }}
+                run: |
+                    composer ci:test:js:unit
+
             -   id: cgl
                 name: CGL
                 if: ${{ always() && steps.install.conclusion == 'success' }}
