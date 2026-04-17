@@ -5,7 +5,7 @@
  * LICENSE file distributed with this source code.
  */
 
-import measureText from "../chart/text/measure";
+import { measureText } from "@magicsunday/webtrees-chart-lib";
 import OrientationTopBottom from "../chart/orientation/orientation-topBottom";
 import OrientationBottomTop from "../chart/orientation/orientation-bottomTop";
 import {LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET} from "../constants.js";

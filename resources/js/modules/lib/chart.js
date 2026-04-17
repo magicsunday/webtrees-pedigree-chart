@@ -7,7 +7,7 @@
 import * as d3 from "./d3";
 import Hierarchy from "../custom/hierarchy";
 import Svg from "./chart/svg";
-import Overlay from "./chart/overlay";
+import { ChartOverlay as Overlay } from "@magicsunday/webtrees-chart-lib";
 import Tree from "../custom/tree";
 
 const MIN_HEIGHT = 300;

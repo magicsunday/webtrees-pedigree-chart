@@ -5,9 +5,11 @@
  * LICENSE file distributed with this source code.
  */
 
-import Defs from "./svg/defs";
-import Zoom from "./svg/zoom";
-import ExportFactory from "./svg/export-factory";
+import {
+    ChartExportFactory as ExportFactory,
+    ChartZoom as Zoom,
+    SvgDefs as Defs,
+} from "@magicsunday/webtrees-chart-lib";
 
 /**
  * SVG class
