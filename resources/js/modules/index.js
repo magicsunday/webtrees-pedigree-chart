@@ -5,9 +5,9 @@
  * LICENSE file distributed with this source code.
  */
 
-import * as d3 from "./lib/d3";
-import Configuration from "./custom/configuration";
-import Chart from "./lib/chart";
+import * as d3 from "./lib/d3.js";
+import Configuration from "./custom/configuration.js";
+import Chart from "./lib/chart.js";
 
 /**
  * The application class.

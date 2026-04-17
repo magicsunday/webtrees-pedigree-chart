@@ -175,7 +175,7 @@ export default class Svg {
      *
      * @returns {string|this}
      */
-    style(name) {
+    style(_name) {
         return this._element.style(...arguments);
     }
 
@@ -184,7 +184,7 @@ export default class Svg {
      *
      * @returns {string|this}
      */
-    attr(name) {
+    attr(_name) {
         return this._element.attr(...arguments);
     }
 

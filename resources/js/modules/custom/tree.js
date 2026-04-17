@@ -5,9 +5,8 @@
  * LICENSE file distributed with this source code.
  */
 
-import * as d3 from "../lib/d3";
-import NodeDrawer from "../lib/tree/node-drawer";
-import LinkDrawer from "../lib/tree/link-drawer";
+import NodeDrawer from "../lib/tree/node-drawer.js";
+import LinkDrawer from "../lib/tree/link-drawer.js";
 
 /**
  * The class handles the creation of the tree.
@@ -89,7 +88,7 @@ export default class Tree {
     /**
      * Update a person's state when they are clicked.
      */
-    togglePerson(event, person) {
+    togglePerson(_event, person) {
         if (person.parents) {
             person._parents = person.parents;
             person.parents = null;
@@ -110,7 +109,9 @@ export default class Tree {
     collapse(person) {
         if (person.parents) {
             person._parents = person.parents;
-            person._parents.forEach((parent) => this.collapse(parent));
+            person._parents.forEach((parent) => {
+                this.collapse(parent);
+            });
             // person._parents.forEach(this.collapse);
             person.parents = null;
         }

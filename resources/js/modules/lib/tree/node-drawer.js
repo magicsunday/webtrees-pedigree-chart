@@ -5,13 +5,13 @@
  * LICENSE file distributed with this source code.
  */
 
-import {LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET, SEX_FEMALE, SEX_MALE} from "../constants";
-import * as d3 from "../d3";
-import dataUrl from "../common/dataUrl";
-import Name from "./name";
-import Date from "./date";
-import Image from "../chart/box/image";
-import Text from "../chart/box/text";
+import {SEX_FEMALE, SEX_MALE} from "../constants.js";
+import * as d3 from "../d3.js";
+import dataUrl from "../common/dataUrl.js";
+import Name from "./name.js";
+import Date from "./date.js";
+import Image from "../chart/box/image.js";
+import Text from "../chart/box/text.js";
 
 /**
  * The class handles the creation of the tree.
@@ -88,13 +88,13 @@ export default class NodeDrawer {
      *
      * @private
      */
-    nodeEnter(enter, source) {
+    nodeEnter(enter, _source) {
         enter
             .append("g")
             .attr("opacity", 0)
             .attr("class", "person")
             .attr("transform", (person) => {
-                return "translate(" + (person.x) + "," + (person.y) + ")";
+                return `translate(${person.x},${person.y})`;
                 // TODO Enable this to zoom from source to person
                 // return "translate(" + (source.x0) + "," + (source.y0) + ")";
             })
@@ -153,7 +153,7 @@ export default class NodeDrawer {
                     .duration(this._configuration.duration)
                     .attr("opacity", 1)
                     .attr("transform", (person) => {
-                        return "translate(" + (person.x) + "," + (person.y) + ")";
+                        return `translate(${person.x},${person.y})`;
                     }),
             );
     }
@@ -174,7 +174,7 @@ export default class NodeDrawer {
                     .attr("opacity", 0)
                     .attr("transform", () => {
                         // Transition exit nodes to the source's position
-                        return "translate(" + (source.x0) + "," + (source.y0) + ")";
+                        return `translate(${source.x0},${source.y0})`;
                     })
                     .remove(),
             );

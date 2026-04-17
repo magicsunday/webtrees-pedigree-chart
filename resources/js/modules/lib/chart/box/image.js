@@ -5,8 +5,8 @@
  * LICENSE file distributed with this source code.
  */
 
-import OrientationLeftRight from "../orientation/orientation-leftRight";
-import OrientationRightLeft from "../orientation/orientation-rightLeft";
+import OrientationLeftRight from "../orientation/orientation-leftRight.js";
+import OrientationRightLeft from "../orientation/orientation-rightLeft.js";
 
 /**
  * The person image box container.

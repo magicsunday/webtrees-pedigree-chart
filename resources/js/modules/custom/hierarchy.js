@@ -5,7 +5,7 @@
  * LICENSE file distributed with this source code.
  */
 
-import * as d3 from "../lib/d3";
+import * as d3 from "../lib/d3.js";
 import {LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET, SEX_FEMALE, SEX_MALE} from "../lib/constants.js";
 import OrientationTopBottom from "../lib/chart/orientation/orientation-topBottom.js";
 import OrientationBottomTop from "../lib/chart/orientation/orientation-bottomTop.js";
@@ -132,7 +132,7 @@ export default class Hierarchy {
      *
      * @private
      */
-    createEmptyNode(generation, sex) {
+    createEmptyNode(generation, _sex) {
         return {
             data: {
                 id              : 0,

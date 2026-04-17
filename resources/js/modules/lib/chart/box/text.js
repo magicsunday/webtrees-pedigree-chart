@@ -5,10 +5,10 @@
  * LICENSE file distributed with this source code.
  */
 
-import OrientationLeftRight from "../orientation/orientation-leftRight";
-import OrientationRightLeft from "../orientation/orientation-rightLeft";
-import OrientationTopBottom from "../orientation/orientation-topBottom";
-import OrientationBottomTop from "../orientation/orientation-bottomTop";
+import OrientationLeftRight from "../orientation/orientation-leftRight.js";
+import OrientationRightLeft from "../orientation/orientation-rightLeft.js";
+import OrientationTopBottom from "../orientation/orientation-topBottom.js";
+import OrientationBottomTop from "../orientation/orientation-bottomTop.js";
 
 /**
  * The person text box container.

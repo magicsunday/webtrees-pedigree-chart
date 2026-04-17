@@ -5,8 +5,8 @@
  * LICENSE file distributed with this source code.
  */
 
-import Orientation from "./orientation";
-import elbowHorizontal from "../../tree/elbow/horizontal";
+import Orientation from "./orientation.js";
+import elbowHorizontal from "../../tree/elbow/horizontal.js";
 
 /**
  * This class handles the orientation of the tree.

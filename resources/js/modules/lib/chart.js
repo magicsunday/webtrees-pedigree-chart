@@ -4,13 +4,13 @@
  * For the full copyright and license information, please read the
  * LICENSE file distributed with this source code.
  */
-import * as d3 from "./d3";
-import Hierarchy from "../custom/hierarchy";
-import Svg from "./chart/svg";
+import * as d3 from "./d3.js";
+import Hierarchy from "../custom/hierarchy.js";
+import Svg from "./chart/svg.js";
 import { ChartOverlay as Overlay } from "@magicsunday/webtrees-chart-lib";
-import Tree from "../custom/tree";
+import Tree from "../custom/tree.js";
 
-const MIN_HEIGHT = 300;
+const _MIN_HEIGHT = 300;
 const MIN_PADDING = 1; // Minimum padding around view box in "rem"
 
 /**

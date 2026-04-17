@@ -14,12 +14,12 @@ import {
     LAYOUT_VERTICAL_NODE_HEIGHT,
     LAYOUT_HORIZONTAL_NODE_WIDTH,
     LAYOUT_HORIZONTAL_NODE_HEIGHT,
-} from "../constants";
+} from "../constants.js";
 
-import OrientationTopBottom from "./orientation/orientation-topBottom";
-import OrientationBottomTop from "./orientation/orientation-bottomTop";
-import OrientationLeftRight from "./orientation/orientation-leftRight";
-import OrientationRightLeft from "./orientation/orientation-rightLeft";
+import OrientationTopBottom from "./orientation/orientation-topBottom.js";
+import OrientationBottomTop from "./orientation/orientation-bottomTop.js";
+import OrientationLeftRight from "./orientation/orientation-leftRight.js";
+import OrientationRightLeft from "./orientation/orientation-rightLeft.js";
 
 /**
  * This class handles the orientation of the tree.

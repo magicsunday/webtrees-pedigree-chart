@@ -42,7 +42,7 @@
         "ext-dom": "*",
         "ext-json": "*",
         "fisharebest/webtrees": "~2.2.0 || dev-main",
-        "magicsunday/webtrees-module-base": "^1.0",
+        "magicsunday/webtrees-module-base": "^1.1",
         "magicsunday/webtrees-module-installer-plugin": "^1.3"
     },
     "require-dev": {
@@ -65,7 +65,7 @@
             "### Checkout latest version of repository",
             "git archive --prefix=webtrees-pedigree-chart/ HEAD --format=tar | tar -x",
             "### Install required components",
-            "@composer require magicsunday/webtrees-module-base:^1.0",
+            "@composer require magicsunday/webtrees-module-base:^1.1",
             "### Copy base module to vendor directory",
             "mkdir -p webtrees-pedigree-chart/vendor/magicsunday",
             "cp -r .build/vendor/magicsunday/webtrees-module-base webtrees-pedigree-chart/vendor/magicsunday/webtrees-module-base",

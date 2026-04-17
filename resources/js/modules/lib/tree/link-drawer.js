@@ -52,7 +52,7 @@ export default class LinkDrawer {
      *
      * @private
      */
-    linkEnter(enter, source) {
+    linkEnter(enter, _source) {
         enter
             .append("path")
             .classed("link", true)
@@ -71,7 +71,7 @@ export default class LinkDrawer {
      *
      * @private
      */
-    linkUpdate(update) {
+    linkUpdate(_update) {
         // TODO Enable for transitions
         // update
         //     .call(
@@ -100,7 +100,7 @@ export default class LinkDrawer {
      *
      * @private
      */
-    linkExit(exit, source) {
+    linkExit(_exit, _source) {
         // TODO Enable for transitions
         // exit
         //     .call(

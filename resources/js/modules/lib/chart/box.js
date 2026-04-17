@@ -5,8 +5,8 @@
  * LICENSE file distributed with this source code.
  */
 
-import Image from "./box/image";
-import Text from "./box/text";
+import Image from "./box/image.js";
+import Text from "./box/text.js";
 
 /**
  * A person box.

@@ -6,8 +6,8 @@
  */
 
 import { measureText } from "@magicsunday/webtrees-chart-lib";
-import OrientationTopBottom from "../chart/orientation/orientation-topBottom";
-import OrientationBottomTop from "../chart/orientation/orientation-bottomTop";
+import OrientationTopBottom from "../chart/orientation/orientation-topBottom.js";
+import OrientationBottomTop from "../chart/orientation/orientation-bottomTop.js";
 import {LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET} from "../constants.js";
 
 /**
@@ -113,7 +113,7 @@ export default class Date {
                     .attr("dominant-baseline", "middle")
                     .attr("x", d => this.textX(d))
                     // Minor offset here to better center the icon
-                    .attr("y", (d, i) => ((this._text.y + offset) + (i === 0 ? 0 : 21)));
+                    .attr("y", (_d, i) => ((this._text.y + offset) + (i === 0 ? 0 : 21)));
 
                 col1.append("tspan")
                     .text(d => d.icon)
@@ -124,7 +124,7 @@ export default class Date {
                     .attr("text-anchor", "start")
                     .attr("dominant-baseline", "middle")
                     .attr("x", d => this.textX(d))
-                    .attr("y", (d, i) => ((this._text.y + offset) + (i === 0 ? 0 : 20)));
+                    .attr("y", (_d, i) => ((this._text.y + offset) + (i === 0 ? 0 : 20)));
 
                 col2.append("title")
                     .text(d => d.label);
@@ -165,7 +165,7 @@ export default class Date {
             date = date.slice(0, -1).trim();
         }
 
-        return truncated ? (date + "…") : date;
+        return truncated ? (`${date}…`) : date;
     }
 
     /**

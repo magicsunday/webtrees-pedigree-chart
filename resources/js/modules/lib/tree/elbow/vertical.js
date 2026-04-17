@@ -5,7 +5,7 @@
  * LICENSE file distributed with this source code.
  */
 
-import * as d3 from "../../d3";
+import * as d3 from "../../d3.js";
 
 /**
  * Returns the path to draw the vertical connecting lines between the profile

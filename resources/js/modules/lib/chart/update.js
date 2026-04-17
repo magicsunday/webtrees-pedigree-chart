@@ -5,7 +5,7 @@
  * LICENSE file distributed with this source code.
  */
 
-import * as d3 from "./../d3";
+import * as d3 from "./../d3.js";
 
 /**
  * This class handles the visual update of all text and path elements.
@@ -36,8 +36,7 @@ export default class Update {
      *
      * @public
      */
-    update(url, callback) {
-        const that = this;
+    update(url, _callback) {
 
         this._svg
             .selectAll("g.person")

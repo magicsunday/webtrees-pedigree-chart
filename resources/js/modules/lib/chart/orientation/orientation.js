@@ -124,7 +124,7 @@ export default class Orientation {
      *
      * @param {Individual} d
      */
-    norm(d) {
+    norm(_d) {
         throw "Abstract method norm() not implemented";
     }
 
@@ -135,7 +135,7 @@ export default class Orientation {
      *
      * @returns {string}
      */
-    elbow(link) {
+    elbow(_link) {
         throw "Abstract method elbow() not implemented";
     }
 }

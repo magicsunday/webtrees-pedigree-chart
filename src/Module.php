@@ -30,6 +30,7 @@ use MagicSunday\Webtrees\PedigreeChart\Facade\DataFacade;
 use MagicSunday\Webtrees\PedigreeChart\Traits\ModuleChartTrait;
 use MagicSunday\Webtrees\PedigreeChart\Traits\ModuleConfigTrait;
 use MagicSunday\Webtrees\PedigreeChart\Traits\ModuleCustomTrait;
+use Override;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -46,14 +47,11 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface, Modul
     use ModuleChartTrait;
     use ModuleConfigTrait;
 
-    private const ROUTE_DEFAULT = 'webtrees-pedigree-chart';
+    private const string ROUTE_DEFAULT = 'webtrees-pedigree-chart';
 
-    private const ROUTE_DEFAULT_URL = '/tree/{tree}/webtrees-pedigree-chart/{xref}';
+    private const string ROUTE_DEFAULT_URL = '/tree/{tree}/webtrees-pedigree-chart/{xref}';
 
-    /**
-     * @var string
-     */
-    private const GITHUB_REPO = 'magicsunday/webtrees-pedigree-chart';
+    private const string GITHUB_REPO = 'magicsunday/webtrees-pedigree-chart';
 
     /**
      * @var string
@@ -77,15 +75,8 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface, Modul
 
     /**
      * The configuration instance.
-     *
-     * @var Configuration
      */
     private Configuration $configuration;
-
-    /**
-     * @var DataFacade
-     */
-    private DataFacade $dataFacade;
 
     /**
      * Constructor.
@@ -95,11 +86,9 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface, Modul
      */
     public function __construct(
         ChartService $chartService,
-        DataFacade $dataFacade
+        private DataFacade $dataFacade,
     ) {
         parent::__construct($chartService);
-
-        $this->dataFacade = $dataFacade;
     }
 
     /**
@@ -110,6 +99,7 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface, Modul
      * @throws ImmutableProperty
      * @throws RouteAlreadyExists
      */
+    #[Override]
     public function boot(): void
     {
         Registry::routeFactory()
@@ -125,6 +115,7 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface, Modul
      *
      * @return string
      */
+    #[Override]
     public function title(): string
     {
         return I18N::translate('Pedigree chart');
@@ -135,6 +126,7 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface, Modul
      *
      * @return string
      */
+    #[Override]
     public function description(): string
     {
         return I18N::translate('A pedigree chart of an individual’s ancestors.');
@@ -145,6 +137,7 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface, Modul
      *
      * @return string
      */
+    #[Override]
     public function resourcesFolder(): string
     {
         return __DIR__ . '/../resources/';
@@ -157,6 +150,7 @@ class Module extends PedigreeChartModule implements ModuleCustomInterface, Modul
      *
      * @return ResponseInterface
      */
+    #[Override]
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $tree = Validator::attributes($request)->tree();

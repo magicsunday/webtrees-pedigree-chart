@@ -6,10 +6,10 @@
  */
 
 import { measureText } from "@magicsunday/webtrees-chart-lib";
-import OrientationTopBottom from "../chart/orientation/orientation-topBottom";
-import OrientationBottomTop from "../chart/orientation/orientation-bottomTop";
-import OrientationLeftRight from "../chart/orientation/orientation-leftRight";
-import OrientationRightLeft from "../chart/orientation/orientation-rightLeft";
+import OrientationTopBottom from "../chart/orientation/orientation-topBottom.js";
+import OrientationBottomTop from "../chart/orientation/orientation-bottomTop.js";
+import OrientationLeftRight from "../chart/orientation/orientation-leftRight.js";
+import OrientationRightLeft from "../chart/orientation/orientation-rightLeft.js";
 import * as d3 from "../d3.js";
 
 /**
@@ -152,7 +152,7 @@ export default class Name {
                             const [first, ...last] = this.createNamesData(datum);
 
                             // Merge the firstname and lastname groups, as we display the whole name in one line
-                            const combined = [].concat(first, typeof last[0] !== "undefined" ? last[0] : []);
+                            const combined = [].concat(first, typeof last[0] === "undefined" ? [] : last[0]);
 
                             return this.truncateNamesData(
                                 text,
@@ -242,7 +242,7 @@ export default class Name {
                     .text(datum => datum.label)
                     // Add some spacing between the elements
                     .attr("dx", (datum, index) => {
-                        return index !== 0 ? ((datum.isNameRtl ? -1 : 1) * 0.25) + "em" : null;
+                        return index === 0 ? null : `${(datum.isNameRtl ? -1 : 1) * 0.25}em`;
                     })
                     // Highlight the preferred and last name
                     .attr("text-decoration", datum => datum.isPreferred ? "underline" : null)
@@ -263,9 +263,9 @@ export default class Name {
         /** @var {LabelElementData[][]} names */
         const names = {};
         /** @var {LabelElementData[]} firstnames */
-        const firstnames = {};
+        const _firstnames = {};
         /** @var {LabelElementData[]} lastnames */
-        const lastnames = {};
+        const _lastnames = {};
         let minPosFirstnames = Number.MAX_SAFE_INTEGER;
         let minPosLastnames = Number.MAX_SAFE_INTEGER;
 
@@ -411,7 +411,7 @@ export default class Name {
                 ) {
                     if (this.measureText(text, fontSize, fontWeight) > availableWidth) {
                         // Keep only the first letter
-                        name.label = name.label.slice(0, 1) + ".";
+                        name.label = `${name.label.slice(0, 1)}.`;
                         text = names.map(item => item.label).join(" ");
                     }
                 }
@@ -423,7 +423,7 @@ export default class Name {
                 if (name.isPreferred === true) {
                     if (this.measureText(text, fontSize, fontWeight) > availableWidth) {
                         // Keep only the first letter
-                        name.label = name.label.slice(0, 1) + ".";
+                        name.label = `${name.label.slice(0, 1)}.`;
                         text = names.map(item => item.label).join(" ");
                     }
                 }
@@ -435,7 +435,7 @@ export default class Name {
                 if (name.isLastName === true) {
                     if (this.measureText(text, fontSize, fontWeight) > availableWidth) {
                         // Keep only the first letter
-                        name.label = name.label.slice(0, 1) + ".";
+                        name.label = `${name.label.slice(0, 1)}.`;
                         text = names.map(item => item.label).join(" ");
                     }
                 }
