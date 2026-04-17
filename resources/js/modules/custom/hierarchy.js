@@ -73,7 +73,7 @@ export default class Hierarchy {
                         );
                     } else {
                         datum.parents.unshift(
-                            this.createEmptyNode(data.datum.generation + 1, SEX_MALE),
+                            this.createEmptyNode(datum.data.generation + 1, SEX_MALE),
                         );
                     }
                 }
