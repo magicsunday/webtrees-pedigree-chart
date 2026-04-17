@@ -19,6 +19,9 @@
     "scripts": {
         "prepare": "rollup --config rollup.config.js",
         "watch": "rollup --watch --config rollup.config.js",
+        "test": "node --no-warnings --experimental-vm-modules node_modules/jest/bin/jest.js --passWithNoTests",
+        "test:coverage": "node --no-warnings --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
+        "test:watch": "node --no-warnings --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
         "lint": "biome lint resources/js/modules/",
         "lint:fix": "biome lint --fix --unsafe resources/js/modules/"
     },
@@ -35,6 +38,8 @@
         "d3-timer": "^3.0",
         "d3-transition": "^3.0",
         "d3-zoom": "^3.0",
+        "jest": "^30.0",
+        "jest-environment-jsdom": "^30.0",
         "rollup": "^4.0",
         "rollup-plugin-license": "^3.0"
     },

@@ -49,13 +49,20 @@
         "friendsofphp/php-cs-fixer": "^3.0",
         "overtrue/phplint": "^9.0",
         "phpstan/phpstan": "^2.0",
-        "phpstan/phpstan-strict-rules": "^2.0",
         "phpstan/phpstan-deprecation-rules": "^2.0",
+        "phpstan/phpstan-phpunit": "^2.0",
+        "phpstan/phpstan-strict-rules": "^2.0",
+        "phpunit/phpunit": "^12.0 || ^13.0",
         "rector/rector": "^2.0"
     },
     "autoload": {
         "psr-4": {
             "MagicSunday\\Webtrees\\PedigreeChart\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MagicSunday\\Webtrees\\PedigreeChart\\Test\\": "tests/"
         }
     },
     "scripts": {
@@ -113,8 +120,17 @@
         "ci:test:php:cpd": [
             "npx jscpd --config .jscpd.json"
         ],
+        "ci:test:php:unit": [
+            "phpunit --configuration phpunit.xml --display-all-issues"
+        ],
+        "ci:test:php:unit:coverage": [
+            "XDEBUG_MODE=coverage phpunit --configuration phpunit.xml --display-all-issues --coverage-html .build/coverage/"
+        ],
         "ci:test:js:lint": [
             "npm run lint"
+        ],
+        "ci:test:js:unit": [
+            "node --experimental-vm-modules node_modules/jest/bin/jest.js --passWithNoTests"
         ],
         "ci:test": [
             "@ci:test:php:lint",
@@ -122,6 +138,8 @@
             "@ci:test:php:phpstan",
             "@ci:test:php:rector",
             "@ci:test:php:cpd",
+            "@ci:test:php:unit",
+            "@ci:test:js:unit",
             "@ci:test:php:cgl"
         ],
         "post-update-cmd": [
