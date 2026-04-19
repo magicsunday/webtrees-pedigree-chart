@@ -67,12 +67,19 @@ Module.php (entry point, registers routes)
 - **Block template**: Overrides core `modules/charts/chart.phtml` — must stay in sync with webtrees core changes (e.g. VanillaJS conversion).
 
 ## Release process
-Runs inside the buildbox (requires git, node, npm, jq, zip, gh):
+Runs inside the buildbox (requires git, node, npm, composer, jq, zip, gh, sed):
 ```
 make release 2.1.0
-make release 2.1.0 NOTES="Bug fix release"
+make release 2.1.0 NOTES_FILE=/tmp/notes.md
+make release VERSION=2.1.0 NOTES="Bug fix release"
 ```
-Pipeline: version bump (via `jq` for package.json, `sed` for Module.php) → clean old bundles (`git rm` + `rm`) → npm ci → rollup → commit → tag → git archive → zip → gh release → bump to next dev.
+Pipeline (`make release X.Y.Z`):
+- `release-check` — tools, semver, clean tree, no detached HEAD, no active `make link-base` symlink, gh auth (or `GH_TOKEN`).
+- `release-prepare` — `sed_edit` macro updates `CUSTOM_VERSION` in `src/Module.php` with a post-write assertion; `jq_edit` macro (with `--indent 4` and post-write assertion) updates `package.json` version + `composer.json` webtrees pin → clean+rebuild JS bundles via `build-js-fresh` → commit → `dist` → tag (only after dist succeeds, so a dist failure does not leave a dangling tag).
+- `dist` — symlink guard fires before composer touches anything, `composer install --no-dev --no-interaction`, `git archive HEAD` (respects `.gitattributes` export-ignore), bundles `magicsunday/webtrees-module-base` into the zip's `vendor/` so manual ZIP installs work without composer, strips all `composer.json` files (`find vendor -name composer.json -delete`), atomic write via `.tmp` + rename + `zip -T` integrity check.
+- `dist-smoke` — separate target, asserts required entries (module.php, LICENSE, the versioned JS bundle, module-base `src/`) are present and forbidden ones (composer.json, assets/) are absent. CI runs this on every push.
+- `release-publish` — `git push --tags`, `gh release create` with the zip + notes, emits `RELEASE_PUBLISHED version=X` marker for agent observers.
+- `release-bump` — bump to `VERSION+1-dev`, restore `~2.2.0 || dev-main` constraint, push.
 
 ## Code style
 
@@ -120,4 +127,4 @@ Pipeline: version bump (via `jq` for package.json, `sed` for Module.php) → cle
 - Prefer interfaces where sensible; mark data-only classes as `readonly`.
 - Avoid external JavaScript libraries beyond D3.
 - Always use Playwright to verify JS changes in the browser — don't just trust the tests.
-- Use `jq` (not `sed`) for JSON manipulation in build scripts — Alpine `sed` does not support GNU syntax.
+- Use `jq` (not `sed`) for **JSON file** manipulation in build scripts — Alpine `sed` does not support the GNU regex extensions needed for nested JSON edits. `sed` is fine for non-JSON files (PHP, YAML); see the `sed_edit` and `jq_edit` macros in `Make/release.mk`.
