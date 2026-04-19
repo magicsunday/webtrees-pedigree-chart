@@ -7,8 +7,8 @@
 /.php-cs-fixer.dist.php export-ignore
 /.phplint.yml          export-ignore
 /AGENTS.md             export-ignore
+/biome.json            export-ignore
 /compose.yaml          export-ignore
-/eslint.config.js      export-ignore
 /jest.config.mjs       export-ignore
 /Make/                 export-ignore
 /Makefile              export-ignore
@@ -18,5 +18,7 @@
 /phpstan-baseline.neon export-ignore
 /phpunit.xml           export-ignore
 /rector.php            export-ignore
+/resources/js/modules/ export-ignore
+/resources/js/tests/   export-ignore
 /rollup.config.js      export-ignore
 /tests/                export-ignore
