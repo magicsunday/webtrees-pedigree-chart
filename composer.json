@@ -66,36 +66,6 @@
         }
     },
     "scripts": {
-        "module:build": [
-            "### Remove any left over files",
-            "rm -Rf webtrees-pedigree-chart/",
-            "### Checkout latest version of repository",
-            "git archive --prefix=webtrees-pedigree-chart/ HEAD --format=tar | tar -x",
-            "### Install required components",
-            "@composer require magicsunday/webtrees-module-base:^1.1",
-            "### Copy base module to vendor directory",
-            "mkdir -p webtrees-pedigree-chart/vendor/magicsunday",
-            "cp -r .build/vendor/magicsunday/webtrees-module-base webtrees-pedigree-chart/vendor/magicsunday/webtrees-module-base",
-            "### Remove all not required files from archive",
-            "rm -rf webtrees-pedigree-chart/.github",
-            "rm -rf webtrees-pedigree-chart/resources/js/modules",
-            "rm -f webtrees-pedigree-chart/.gitattributes",
-            "rm -f webtrees-pedigree-chart/.gitignore",
-            "rm -f webtrees-pedigree-chart/composer.json",
-            "rm -f webtrees-pedigree-chart/package.json",
-            "rm -f webtrees-pedigree-chart/eslint.config.js",
-            "rm -f webtrees-pedigree-chart/rollup.config.js",
-            "rm -f webtrees-pedigree-chart/phpstan.neon",
-            "rm -f webtrees-pedigree-chart/phpstan-baseline.neon",
-            "rm -f webtrees-pedigree-chart/.php-cs-fixer.dist.php",
-            "rm -f webtrees-pedigree-chart/.phplint.yml",
-            "rm -f webtrees-pedigree-chart/rector.php",
-            "### Create archive",
-            "zip --quiet --recurse-paths --move -9 webtrees-pedigree-chart.zip webtrees-pedigree-chart"
-        ],
-        "module:check": [
-            "@ci:test"
-        ],
         "ci:cgl": [
             "php-cs-fixer fix --config .php-cs-fixer.dist.php --diff --verbose"
         ],
@@ -145,9 +115,5 @@
         "post-update-cmd": [
             "npm install jscpd"
         ]
-    },
-    "scripts-descriptions": {
-        "module:build": "Create a distribution file (webtrees-pedigree-chart.zip)",
-        "module:check": "Run various static analysis tools"
     }
 }

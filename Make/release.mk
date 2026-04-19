@@ -2,7 +2,8 @@
 # Release pipeline
 #
 # Requires:
-#   git  — version control, tagging, archive
+#   git      — version control, tagging, archive
+#   composer — PHP dependency manager (bundles webtrees-module-base into vendor/)
 #   node — JavaScript runtime for Rollup bundling
 #   npm  — package manager for JS dependencies
 #   jq   — JSON manipulation for package.json version updates
@@ -15,10 +16,10 @@
 
 MODULE_NAME := webtrees-pedigree-chart
 
-# Extract version from arguments: "make release 2.1.0"
+# Extract version from arguments: "make release 3.1.0"
 VERSION := $(filter-out release release-% dist,$(MAKECMDGOALS))
 
-REQUIRED_TOOLS := git node npm jq zip gh sed
+REQUIRED_TOOLS := git node npm composer jq zip gh sed
 
 .PHONY: release release-check release-prepare release-publish release-bump dist clean-js release-clean
 
@@ -38,11 +39,11 @@ release-check:
 		exit 1; \
 	fi
 	@if [ -z "$(VERSION)" ]; then \
-		echo "Usage: make release 2.1.0"; \
+		echo "Usage: make release 3.1.0"; \
 		exit 1; \
 	fi
 	@if ! echo "$(VERSION)" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+$$'; then \
-		echo "Error: VERSION must be semver (e.g. 2.1.0)"; \
+		echo "Error: VERSION must be semver (e.g. 3.1.0)"; \
 		exit 1; \
 	fi
 	@if [ -n "$$(git status --porcelain --untracked-files=no)" ]; then \
@@ -62,9 +63,17 @@ clean-js:
 	@echo -e "${FGREEN} ✔${FRESET} Old JS bundles removed"
 
 ## Build distribution zip from git archive (respects .gitattributes export-ignore)
+## and bundle magicsunday/webtrees-module-base into the zip's vendor/ so ZIP
+## installs work without requiring the user to run composer themselves.
 dist:
 	@rm -rf $(MODULE_NAME)/ $(MODULE_NAME).zip
+	@composer install --no-dev --no-progress --quiet
 	@git archive --prefix=$(MODULE_NAME)/ HEAD --format=tar | tar -x
+	@if [ -d .build/vendor/magicsunday/webtrees-module-base ]; then \
+		mkdir -p $(MODULE_NAME)/vendor/magicsunday; \
+		cp -r .build/vendor/magicsunday/webtrees-module-base $(MODULE_NAME)/vendor/magicsunday/webtrees-module-base; \
+		echo "  Bundled webtrees-module-base into vendor/"; \
+	fi
 	@cd $(MODULE_NAME) && zip --quiet --recurse-paths --move -9 ../$(MODULE_NAME).zip .
 	@rm -rf $(MODULE_NAME)/
 	@echo -e "${FGREEN} ✔${FRESET} $(MODULE_NAME).zip created"
@@ -91,8 +100,8 @@ release-prepare: release-check
 ## Publish: push, create GitHub release with zip.
 ## Pass NOTES_FILE=path for release notes from a file (recommended for multi-line notes).
 ## Pass NOTES="..." for a short inline note, or omit both for auto-generated notes.
-## Example: make release 2.1.0 NOTES_FILE=/tmp/release-notes.md
-## Example: make release 2.1.0 NOTES="Bug fix release"
+## Example: make release 3.1.1 NOTES_FILE=/tmp/release-notes.md
+## Example: make release 3.1.1 NOTES="Bug fix release"
 release-publish:
 	@echo -e "${FYELLOW}[5/5]${FRESET} Publishing to GitHub..."
 	@git push origin main --tags
@@ -139,6 +148,6 @@ release-clean:
 	@rm -rf $(MODULE_NAME)/ $(MODULE_NAME).zip
 
 ## Full release pipeline
-release: release-prepare release-publish release-bump release-clean ## Create and publish a release (usage: make release 2.1.0)
+release: release-prepare release-publish release-bump release-clean ## Create and publish a release (usage: make release 3.1.0)
 	@echo ""
 	@echo -e "${FGREEN} ✔ Release $(VERSION) complete!${FRESET}"
