@@ -5,4 +5,6 @@
  * LICENSE file that was distributed with this source code.
  */
 
-export { Storage } from "@magicsunday/webtrees-chart-lib";
+import { Storage } from "@magicsunday/webtrees-chart-lib";
+
+export { Storage };

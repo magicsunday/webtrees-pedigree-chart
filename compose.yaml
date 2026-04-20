@@ -4,3 +4,10 @@ services:
         working_dir: /app
         volumes:
             - ./:/app
+            # Make the chart-lib symlink target resolvable inside the container.
+            # node_modules/@magicsunday/webtrees-chart-lib symlinks to
+            # ../../../webtrees-chart-lib which resolves to /webtrees-chart-lib
+            # from the container perspective. Without this mount rollup treats
+            # @magicsunday/webtrees-chart-lib as external and the UMD bundle
+            # breaks in the browser.
+            - ../webtrees-chart-lib:/webtrees-chart-lib
