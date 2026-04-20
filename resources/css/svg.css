@@ -58,6 +58,8 @@
     font-size: 0.85em;
 }
 
-.webtrees-pedigree-chart-container svg text.wt-chart-box-name:hover:not(.wt-chart-box-name-alt) {
-    fill: var(--link-color-hover);
+.webtrees-pedigree-chart-container svg g.person:hover rect.male,
+.webtrees-pedigree-chart-container svg g.person:hover rect.female,
+.webtrees-pedigree-chart-container svg g.person:hover rect.unknown {
+    filter: saturate(1.5) brightness(0.92);
 }
