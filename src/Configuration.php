@@ -319,7 +319,7 @@ class Configuration
                 'showFamilyColors',
                 (bool) $this->module->getPreference(
                     'default_showFamilyColors',
-                    '0'
+                    '1'
                 )
             );
     }
