@@ -30,6 +30,7 @@ use MagicSunday\Webtrees\PedigreeChart\Facade\DataFacade;
 use MagicSunday\Webtrees\PedigreeChart\Traits\ModuleChartTrait;
 use MagicSunday\Webtrees\PedigreeChart\Traits\ModuleConfigTrait;
 use MagicSunday\Webtrees\PedigreeChart\Traits\ModuleCustomTrait;
+use MagicSunday\Webtrees\ModuleBase\Contract\ModuleAssetUrlInterface;
 use Override;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -41,7 +42,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
  * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
-class Module extends PedigreeChartModule implements ModuleCustomInterface, ModuleConfigInterface
+class Module extends PedigreeChartModule implements ModuleAssetUrlInterface, ModuleCustomInterface, ModuleConfigInterface
 {
     use ModuleCustomTrait;
     use ModuleChartTrait;
