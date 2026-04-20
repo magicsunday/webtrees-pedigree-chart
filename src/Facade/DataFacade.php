@@ -18,6 +18,7 @@ use Fisharebest\Webtrees\Module\ModuleCustomInterface;
 use MagicSunday\Webtrees\ModuleBase\Processor\DateProcessor;
 use MagicSunday\Webtrees\ModuleBase\Processor\ImageProcessor;
 use MagicSunday\Webtrees\ModuleBase\Processor\NameProcessor;
+use MagicSunday\Webtrees\ModuleBase\Contract\ModuleAssetUrlInterface;
 use MagicSunday\Webtrees\PedigreeChart\Configuration;
 use MagicSunday\Webtrees\PedigreeChart\Model\Node;
 use MagicSunday\Webtrees\PedigreeChart\Model\NodeData;
@@ -34,7 +35,7 @@ class DataFacade
     /**
      * The module.
      */
-    private ModuleCustomInterface $module;
+    private ModuleCustomInterface&ModuleAssetUrlInterface $module;
 
     /**
      * The configuration instance.
@@ -44,11 +45,11 @@ class DataFacade
     private string $route;
 
     /**
-     * @param ModuleCustomInterface $module
+     * @param ModuleCustomInterface&ModuleAssetUrlInterface $module
      *
      * @return DataFacade
      */
-    public function setModule(ModuleCustomInterface $module): DataFacade
+    public function setModule(ModuleCustomInterface&ModuleAssetUrlInterface $module): DataFacade
     {
         $this->module = $module;
 
