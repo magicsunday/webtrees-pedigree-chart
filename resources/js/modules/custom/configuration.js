@@ -25,6 +25,9 @@ export default class Configuration {
      * @param {string}   treeLayout
      * @param {boolean}  openNewTabOnClick
      * @param {boolean}  showAlternativeName
+     * @param {boolean}  showFamilyColors
+     * @param {string}   paternalColor
+     * @param {string}   maternalColor
      * @param {boolean}  rtl
      * @param {number}   direction
      */
@@ -35,6 +38,9 @@ export default class Configuration {
         treeLayout = LAYOUT_LEFTRIGHT,
         openNewTabOnClick = true,
         showAlternativeName = true,
+        showFamilyColors = false,
+        paternalColor = "#70a9cf",
+        maternalColor = "#d06f94",
         rtl = false,
         direction = 1,
     ) {
@@ -45,6 +51,9 @@ export default class Configuration {
         this._showEmptyBoxes = showEmptyBoxes;
         this._openNewTabOnClick = openNewTabOnClick;
         this._showAlternativeName = showAlternativeName;
+        this._showFamilyColors = showFamilyColors;
+        this._paternalColor = paternalColor;
+        this._maternalColor = maternalColor;
 
         //
         this.duration = 750;
@@ -143,5 +152,32 @@ export default class Configuration {
      */
     get showAlternativeName() {
         return this._showAlternativeName;
+    }
+
+    /**
+     * Returns TRUE if person boxes should be tinted by paternal/maternal lineage.
+     *
+     * @returns {boolean}
+     */
+    get showFamilyColors() {
+        return this._showFamilyColors;
+    }
+
+    /**
+     * Returns the configured paternal-side base color (hex).
+     *
+     * @returns {string}
+     */
+    get paternalColor() {
+        return this._paternalColor;
+    }
+
+    /**
+     * Returns the configured maternal-side base color (hex).
+     *
+     * @returns {string}
+     */
+    get maternalColor() {
+        return this._maternalColor;
     }
 }

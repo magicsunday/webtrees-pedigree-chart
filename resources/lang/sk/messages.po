@@ -177,3 +177,15 @@ msgstr ""
 #: resources/views/modules/pedigree-chart/page.phtml:76
 msgid "Hide more options"
 msgstr ""
+
+msgid "Show family colors"
+msgstr "Zobraziť rodinné farby"
+
+msgid "Colors the person boxes by family branch. Each couple shares the same color, derived from the chosen base colors."
+msgstr "Ofarbí rámčeky osôb podľa rodinnej vetvy. Každý pár zdieľa rovnakú farbu odvodenú zo zvolených základných farieb."
+
+msgid "Paternal"
+msgstr "Otcovská"
+
+msgid "Maternal"
+msgstr "Materinská"

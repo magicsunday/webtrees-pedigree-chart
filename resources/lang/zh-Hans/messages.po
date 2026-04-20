@@ -173,3 +173,19 @@ msgstr "显示更多选项"
 #: resources/views/modules/pedigree-chart/page.phtml:76
 msgid "Hide more options"
 msgstr "隐藏更多选项"
+
+#: resources/views/modules/pedigree-chart/form/layout.phtml:67
+msgid "Show family colors"
+msgstr "显示家族颜色"
+
+#: resources/views/modules/pedigree-chart/form/layout.phtml:73
+msgid "Colors the person boxes by family branch. Each couple shares the same color, derived from the chosen base colors."
+msgstr "按家族分支为人物方框着色。每对夫妇共享同一种颜色，颜色由所选基础颜色派生。"
+
+#: resources/views/modules/pedigree-chart/form/layout.phtml:78
+msgid "Paternal"
+msgstr "父系"
+
+#: resources/views/modules/pedigree-chart/form/layout.phtml:82
+msgid "Maternal"
+msgstr "母系"

@@ -175,3 +175,19 @@ msgstr ""
 #: resources/views/modules/pedigree-chart/page.phtml:76
 msgid "Hide more options"
 msgstr ""
+
+#: resources/views/modules/pedigree-chart/form/layout.phtml:67
+msgid "Show family colors"
+msgstr "Mostrar colores familiares"
+
+#: resources/views/modules/pedigree-chart/form/layout.phtml:73
+msgid "Colors the person boxes by family branch. Each couple shares the same color, derived from the chosen base colors."
+msgstr "Colorea los recuadros de las personas según la rama familiar. Cada pareja comparte el mismo color, derivado de los colores base elegidos."
+
+#: resources/views/modules/pedigree-chart/form/layout.phtml:78
+msgid "Paternal"
+msgstr "Paterno"
+
+#: resources/views/modules/pedigree-chart/form/layout.phtml:82
+msgid "Maternal"
+msgstr "Materno"

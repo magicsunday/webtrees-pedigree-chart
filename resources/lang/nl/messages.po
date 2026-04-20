@@ -181,3 +181,19 @@ msgstr "Meer opties"
 #: resources/views/modules/pedigree-chart/page.phtml:76
 msgid "Hide more options"
 msgstr "Minder opties"
+
+#: resources/views/modules/pedigree-chart/form/layout.phtml:67
+msgid "Show family colors"
+msgstr "Toon familiekleuren"
+
+#: resources/views/modules/pedigree-chart/form/layout.phtml:73
+msgid "Colors the person boxes by family branch. Each couple shares the same color, derived from the chosen base colors."
+msgstr "Kleurt de persoonsvakken op basis van familietak. Elk paar deelt dezelfde kleur, afgeleid van de gekozen basiskleuren."
+
+#: resources/views/modules/pedigree-chart/form/layout.phtml:78
+msgid "Paternal"
+msgstr "Vaderlijk"
+
+#: resources/views/modules/pedigree-chart/form/layout.phtml:82
+msgid "Maternal"
+msgstr "Moederlijk"

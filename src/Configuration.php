@@ -69,6 +69,16 @@ class Configuration
     public const DEFAULT_TREE_LAYOUT = self::LAYOUT_LEFTRIGHT;
 
     /**
+     * Default base color for the paternal lineage (hex).
+     */
+    public const string PATERNAL_COLOR_DEFAULT = '#70a9cf';
+
+    /**
+     * Default base color for the maternal lineage (hex).
+     */
+    public const string MATERNAL_COLOR_DEFAULT = '#d06f94';
+
+    /**
      * Configuration constructor.
      *
      * @param ServerRequestInterface $request
@@ -287,6 +297,75 @@ class Configuration
                 (bool) $this->module->getPreference(
                     'default_hidePngExport',
                     '0'
+                )
+            );
+    }
+
+    /**
+     * Returns whether to color person boxes by paternal/maternal lineage.
+     *
+     * @return bool
+     */
+    public function getShowFamilyColors(): bool
+    {
+        if ($this->request->getMethod() === RequestMethodInterface::METHOD_POST) {
+            $validator = Validator::parsedBody($this->request);
+        } else {
+            $validator = Validator::queryParams($this->request);
+        }
+
+        return $validator
+            ->boolean(
+                'showFamilyColors',
+                (bool) $this->module->getPreference(
+                    'default_showFamilyColors',
+                    '0'
+                )
+            );
+    }
+
+    /**
+     * Returns the CSS hex color used to tint paternal-side person boxes.
+     *
+     * @return string
+     */
+    public function getPaternalColor(): string
+    {
+        if ($this->request->getMethod() === RequestMethodInterface::METHOD_POST) {
+            $validator = Validator::parsedBody($this->request);
+        } else {
+            $validator = Validator::queryParams($this->request);
+        }
+
+        return $validator
+            ->string(
+                'paternalColor',
+                $this->module->getPreference(
+                    'default_paternalColor',
+                    self::PATERNAL_COLOR_DEFAULT
+                )
+            );
+    }
+
+    /**
+     * Returns the CSS hex color used to tint maternal-side person boxes.
+     *
+     * @return string
+     */
+    public function getMaternalColor(): string
+    {
+        if ($this->request->getMethod() === RequestMethodInterface::METHOD_POST) {
+            $validator = Validator::parsedBody($this->request);
+        } else {
+            $validator = Validator::queryParams($this->request);
+        }
+
+        return $validator
+            ->string(
+                'maternalColor',
+                $this->module->getPreference(
+                    'default_maternalColor',
+                    self::MATERNAL_COLOR_DEFAULT
                 )
             );
     }

@@ -175,6 +175,9 @@ class Module extends PedigreeChartModule implements ModuleAssetUrlInterface, Mod
                         'layout'              => $validator->string('layout', Configuration::LAYOUT_LEFTRIGHT),
                         'openNewTabOnClick'   => $validator->boolean('openNewTabOnClick', true),
                         'showAlternativeName' => $validator->boolean('showAlternativeName', true),
+                        'showFamilyColors'    => $validator->boolean('showFamilyColors', false),
+                        'paternalColor'       => $validator->string('paternalColor', Configuration::PATERNAL_COLOR_DEFAULT),
+                        'maternalColor'       => $validator->string('maternalColor', Configuration::MATERNAL_COLOR_DEFAULT),
                     ]
                 )
             );

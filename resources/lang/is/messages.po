@@ -179,3 +179,19 @@ msgstr "Sýna fleiri valkosti"
 #: resources/views/modules/pedigree-chart/page.phtml:76
 msgid "Hide more options"
 msgstr "Fela fleiri valkosti"
+
+#: resources/views/modules/pedigree-chart/form/layout.phtml:67
+msgid "Show family colors"
+msgstr "Sýna fjölskylduliti"
+
+#: resources/views/modules/pedigree-chart/form/layout.phtml:73
+msgid "Colors the person boxes by family branch. Each couple shares the same color, derived from the chosen base colors."
+msgstr "Litar persónurammana eftir fjölskyldugrein. Hvert par deilir sama lit, sem er leiddur af völdu grunnlitunum."
+
+#: resources/views/modules/pedigree-chart/form/layout.phtml:78
+msgid "Paternal"
+msgstr "Föður"
+
+#: resources/views/modules/pedigree-chart/form/layout.phtml:82
+msgid "Maternal"
+msgstr "Móður"

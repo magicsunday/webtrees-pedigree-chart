@@ -175,3 +175,19 @@ msgstr "Zobrazit další volby"
 #: resources/views/modules/pedigree-chart/page.phtml:76
 msgid "Hide more options"
 msgstr "Skrýt další volby"
+
+#: resources/views/modules/pedigree-chart/form/layout.phtml:67
+msgid "Show family colors"
+msgstr "Zobrazit barvy rodin"
+
+#: resources/views/modules/pedigree-chart/form/layout.phtml:73
+msgid "Colors the person boxes by family branch. Each couple shares the same color, derived from the chosen base colors."
+msgstr "Obarví rámečky osob podle rodinné větve. Každý pár sdílí stejnou barvu odvozenou ze zvolených základních barev."
+
+#: resources/views/modules/pedigree-chart/form/layout.phtml:78
+msgid "Paternal"
+msgstr "Otcovská"
+
+#: resources/views/modules/pedigree-chart/form/layout.phtml:82
+msgid "Maternal"
+msgstr "Mateřská"

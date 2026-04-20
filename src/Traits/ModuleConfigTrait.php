@@ -85,6 +85,18 @@ trait ModuleConfigTrait
             'default_hidePngExport',
             (string) $configuration->getHidePngExport()
         );
+        $this->setPreference(
+            'default_showFamilyColors',
+            (string) $configuration->getShowFamilyColors()
+        );
+        $this->setPreference(
+            'default_paternalColor',
+            $configuration->getPaternalColor()
+        );
+        $this->setPreference(
+            'default_maternalColor',
+            $configuration->getMaternalColor()
+        );
 
         FlashMessages::addMessage(
             I18N::translate(

@@ -181,3 +181,19 @@ msgstr "Zeige weitere Optionen"
 #: resources/views/modules/pedigree-chart/page.phtml:76
 msgid "Hide more options"
 msgstr "Verstecke weitere Optionen"
+
+#: resources/views/modules/pedigree-chart/form/layout.phtml:67
+msgid "Show family colors"
+msgstr "Familienfarben anzeigen"
+
+#: resources/views/modules/pedigree-chart/form/layout.phtml:73
+msgid "Colors the person boxes by family branch. Each couple shares the same color, derived from the chosen base colors."
+msgstr "Färbt die Personenboxen nach Familienzweig. Jedes Paar teilt sich die gleiche Farbe, abgeleitet von den gewählten Basisfarben."
+
+#: resources/views/modules/pedigree-chart/form/layout.phtml:78
+msgid "Paternal"
+msgstr "Väterlich"
+
+#: resources/views/modules/pedigree-chart/form/layout.phtml:82
+msgid "Maternal"
+msgstr "Mütterlich"

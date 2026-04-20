@@ -55,6 +55,18 @@ import(<?= json_encode($javascript) ?>).then(({ PedigreeChart }) => {
                 return (typeof showAlternativeName !== "undefined" && showAlternativeName !== null) ? showAlternativeName : <?= json_encode($configuration->getShowAlternativeName()) ?>;
             },
 
+            get showFamilyColors() {
+                return (typeof showFamilyColors !== "undefined" && showFamilyColors !== null) ? showFamilyColors : <?= json_encode($configuration->getShowFamilyColors()) ?>;
+            },
+
+            get paternalColor() {
+                return (typeof paternalColor !== "undefined" && paternalColor !== null) ? paternalColor : <?= json_encode($configuration->getPaternalColor()) ?>;
+            },
+
+            get maternalColor() {
+                return (typeof maternalColor !== "undefined" && maternalColor !== null) ? maternalColor : <?= json_encode($configuration->getMaternalColor()) ?>;
+            },
+
             data: <?= json_encode($data) ?>
         }
     );

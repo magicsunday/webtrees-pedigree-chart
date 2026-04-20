@@ -173,3 +173,15 @@ msgstr ""
 #: resources/views/modules/pedigree-chart/page.phtml:76
 msgid "Hide more options"
 msgstr ""
+
+msgid "Show family colors"
+msgstr "Show family colors"
+
+msgid "Colors the person boxes by family branch. Each couple shares the same color, derived from the chosen base colors."
+msgstr "Colours the person boxes by family branch. Each couple shares the same colour, derived from the chosen base colours."
+
+msgid "Paternal"
+msgstr "Paternal"
+
+msgid "Maternal"
+msgstr "Maternal"

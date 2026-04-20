@@ -168,6 +168,9 @@ storage.register("layout");
 storage.register("showEmptyBoxes");
 storage.register("openNewTabOnClick");
 storage.register("showAlternativeName");
+storage.register("showFamilyColors");
+storage.register("paternalColor");
+storage.register("maternalColor");
 
 // Handle option toggle button
 toggleMoreOptions(storage);
@@ -181,6 +184,9 @@ const showEmptyBoxes      = storage.read("showEmptyBoxes");
 const treeLayout          = storage.read("layout");
 const openNewTabOnClick   = storage.read("openNewTabOnClick");
 const showAlternativeName = storage.read("showAlternativeName");
+const showFamilyColors    = storage.read("showFamilyColors");
+const paternalColor       = storage.read("paternalColor");
+const maternalColor       = storage.read("maternalColor");
 const ajaxUrl             = getUrl(<?= json_encode($ajaxUrl) ?>, storage.read("generations"));
 
 document.getElementById("pedigree-chart-url")

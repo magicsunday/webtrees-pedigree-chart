@@ -9,6 +9,7 @@ import {SEX_FEMALE, SEX_MALE} from "../constants.js";
 import * as d3 from "../d3.js";
 import Name from "./name.js";
 import Date from "./date.js";
+import FamilyColor from "./family-color.js";
 import Image from "../chart/box/image.js";
 import Text from "../chart/box/text.js";
 
@@ -37,6 +38,9 @@ export default class NodeDrawer {
         this._text = new Text(this._orientation, this._image);
         this._name = new Name(this._svg, this._orientation, this._image, this._text);
         this._date = new Date(this._svg, this._orientation, this._image, this._text);
+        this._familyColor = configuration.showFamilyColors
+            ? new FamilyColor(configuration)
+            : null;
     }
 
     /**
@@ -116,7 +120,17 @@ export default class NodeDrawer {
                         .attr("y", -(this._orientation.boxHeight / 2))
                         .attr("width", this._orientation.boxWidth)
                         .attr("height", this._orientation.boxHeight)
-                        .attr("fill-opacity", 0.5);
+                        // Apply paternal/maternal coloring when enabled — overrides
+                        // the default sex-based CSS fill via inline style. We use
+                        // .style() (not .attr()) because the rect.male/.female CSS
+                        // rule in svg.css would otherwise override an SVG fill
+                        // attribute.
+                        .style("fill", (person) => {
+                            if (this._familyColor === null) {
+                                return null;
+                            }
+                            return this._familyColor.getColor(person);
+                        });
 
                     g.append("title")
                         .text(person => person.data.data.name);

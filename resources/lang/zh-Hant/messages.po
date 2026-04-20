@@ -173,3 +173,15 @@ msgstr "顯示更多選項"
 #: resources/views/modules/pedigree-chart/page.phtml:76
 msgid "Hide more options"
 msgstr "隱藏更多選項"
+
+msgid "Show family colors"
+msgstr "顯示家族顏色"
+
+msgid "Colors the person boxes by family branch. Each couple shares the same color, derived from the chosen base colors."
+msgstr "按家族分支為人物方框著色。每對夫妻共享同一種顏色，顏色由所選基礎顏色衍生。"
+
+msgid "Paternal"
+msgstr "父系"
+
+msgid "Maternal"
+msgstr "母系"

@@ -45,6 +45,9 @@ export class PedigreeChart {
             options.treeLayout,
             options.openNewTabOnClick,
             options.showAlternativeName,
+            options.showFamilyColors,
+            options.paternalColor,
+            options.maternalColor,
             options.rtl,
         );
 
