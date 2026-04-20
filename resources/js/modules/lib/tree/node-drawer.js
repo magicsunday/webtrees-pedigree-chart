@@ -7,7 +7,6 @@
 
 import {SEX_FEMALE, SEX_MALE} from "../constants.js";
 import * as d3 from "../d3.js";
-import dataUrl from "../common/dataUrl.js";
 import Name from "./name.js";
 import Date from "./date.js";
 import Image from "../chart/box/image.js";
@@ -219,6 +218,7 @@ export default class NodeDrawer {
         // The individual image
         group
             .append("image")
+            .attr("href", (d) => d.image)
             .attr("x", this._image.x)
             .attr("y", this._image.y)
             .attr("width", this._image.width)
@@ -237,18 +237,6 @@ export default class NodeDrawer {
             .attr("fill", "none")
             .attr("stroke", "rgb(200, 200, 200)")
             .attr("stroke-width", 1.5);
-
-        // Asynchronously load the images
-        d3.selectAll("g.image image")
-            .each(function (d) {
-                const image = d3.select(this);
-
-                dataUrl(d.image)
-                    .then(dataUrl => image.attr("href", dataUrl))
-                    .catch((exception) => {
-                        console.error(exception);
-                    });
-            });
 
         this._name.appendName(parent);
         this._date.appendDate(parent);
