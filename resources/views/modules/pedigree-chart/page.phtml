@@ -54,7 +54,9 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
         <?= view($moduleName . '::modules/pedigree-chart/form/orientation', ['configuration' => $configuration]) ?>
 
         <div class="collapse" id="showMoreOptions">
-            <?= view($moduleName . '::modules/pedigree-chart/form/layout', ['configuration' => $configuration, 'moduleName' => $moduleName]) ?>
+            <?= view($moduleName . '::modules/pedigree-chart/form/display', ['configuration' => $configuration, 'moduleName' => $moduleName]) ?>
+            <?= view($moduleName . '::modules/pedigree-chart/form/details', ['configuration' => $configuration, 'moduleName' => $moduleName]) ?>
+            <?= view($moduleName . '::modules/pedigree-chart/form/colors', ['configuration' => $configuration, 'moduleName' => $moduleName]) ?>
         </div>
 
         <div class="row mt-3">
