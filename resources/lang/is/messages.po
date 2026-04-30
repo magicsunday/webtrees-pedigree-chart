@@ -102,15 +102,15 @@ msgstr "Einingar"
 
 #: resources/views/modules/pedigree-chart/config.phtml:44
 msgid "General"
-msgstr ""
+msgstr "Almennt"
 
 #: resources/views/modules/pedigree-chart/config.phtml:50
 msgid "Hide the SVG export button"
-msgstr ""
+msgstr "Fela SVG útflutningshnappinn"
 
 #: resources/views/modules/pedigree-chart/config.phtml:60
 msgid "Hide the PNG export button"
-msgstr ""
+msgstr "Fela PNG útflutningshnappinn"
 
 #: resources/views/modules/pedigree-chart/config.phtml:73
 msgid "save"
