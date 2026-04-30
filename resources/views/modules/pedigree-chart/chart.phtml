@@ -67,6 +67,8 @@ import(<?= json_encode($javascript) ?>).then(({ PedigreeChart }) => {
                 return (typeof maternalColor !== "undefined" && maternalColor !== null) ? maternalColor : <?= json_encode($configuration->getMaternalColor()) ?>;
             },
 
+            nameAbbreviation: <?= json_encode($chartParams['nameAbbreviation']) ?>,
+
             data: <?= json_encode($data) ?>
         }
     );

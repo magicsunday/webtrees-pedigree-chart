@@ -48,6 +48,7 @@ export class PedigreeChart {
             options.showFamilyColors,
             options.paternalColor,
             options.maternalColor,
+            options.nameAbbreviation,
             options.rtl,
         );
 

@@ -189,3 +189,18 @@ msgstr "Otcovská"
 
 msgid "Maternal"
 msgstr "Materinská"
+
+msgid "Name abbreviation when space is tight"
+msgstr "Skracovanie mena pri nedostatku miesta"
+
+msgid "Automatic (based on tree's surname tradition)"
+msgstr "Automaticky (podľa tradície priezvisk stromu)"
+
+msgid "Abbreviate given names first"
+msgstr "Najprv skrátiť krstné mená"
+
+msgid "Abbreviate surnames first"
+msgstr "Najprv skrátiť priezviská"
+
+msgid "Controls which name part shrinks first when a box is too narrow for the full name. \"Automatic\" uses the tree's surname tradition (Icelandic abbreviates surnames; everything else abbreviates given names)."
+msgstr "Riadi, ktorá časť mena sa najprv skráti, keď je rámček príliš úzky pre celé meno. „Automaticky“ používa tradíciu priezvisk stromu (islandská tradícia skracuje priezviská; všetky ostatné skracujú krstné mená)."

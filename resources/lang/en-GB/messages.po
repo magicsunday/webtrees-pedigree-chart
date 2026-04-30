@@ -185,3 +185,18 @@ msgstr "Paternal"
 
 msgid "Maternal"
 msgstr "Maternal"
+
+msgid "Name abbreviation when space is tight"
+msgstr "Name abbreviation when space is tight"
+
+msgid "Automatic (based on tree's surname tradition)"
+msgstr "Automatic (based on tree's surname tradition)"
+
+msgid "Abbreviate given names first"
+msgstr "Abbreviate given names first"
+
+msgid "Abbreviate surnames first"
+msgstr "Abbreviate surnames first"
+
+msgid "Controls which name part shrinks first when a box is too narrow for the full name. \"Automatic\" uses the tree's surname tradition (Icelandic abbreviates surnames; everything else abbreviates given names)."
+msgstr "Controls which name part shrinks first when a box is too narrow for the full name. \"Automatic\" uses the tree's surname tradition (Icelandic abbreviates surnames; everything else abbreviates given names)."

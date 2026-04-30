@@ -191,3 +191,18 @@ msgstr "Fædrene"
 #: resources/views/modules/pedigree-chart/form/layout.phtml:82
 msgid "Maternal"
 msgstr "Mødrene"
+
+msgid "Name abbreviation when space is tight"
+msgstr "Navneforkortelse når pladsen er trang"
+
+msgid "Automatic (based on tree's surname tradition)"
+msgstr "Automatisk (baseret på træets efternavnstradition)"
+
+msgid "Abbreviate given names first"
+msgstr "Forkort fornavne først"
+
+msgid "Abbreviate surnames first"
+msgstr "Forkort efternavne først"
+
+msgid "Controls which name part shrinks first when a box is too narrow for the full name. \"Automatic\" uses the tree's surname tradition (Icelandic abbreviates surnames; everything else abbreviates given names)."
+msgstr "Styrer hvilken navnedel der forkortes først, når en boks er for smal til det fulde navn. „Automatisk“ bruger træets efternavnstradition (islandsk forkorter efternavne; alle andre forkorter fornavne)."

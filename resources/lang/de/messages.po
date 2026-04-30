@@ -197,3 +197,18 @@ msgstr "Väterlich"
 #: resources/views/modules/pedigree-chart/form/layout.phtml:82
 msgid "Maternal"
 msgstr "Mütterlich"
+
+msgid "Name abbreviation when space is tight"
+msgstr "Namensabkürzung bei knappem Platz"
+
+msgid "Automatic (based on tree's surname tradition)"
+msgstr "Automatisch (basierend auf der Nachnamen-Tradition des Stammbaums)"
+
+msgid "Abbreviate given names first"
+msgstr "Zuerst Vornamen abkürzen"
+
+msgid "Abbreviate surnames first"
+msgstr "Zuerst Nachnamen abkürzen"
+
+msgid "Controls which name part shrinks first when a box is too narrow for the full name. \"Automatic\" uses the tree's surname tradition (Icelandic abbreviates surnames; everything else abbreviates given names)."
+msgstr "Steuert, welcher Namensteil zuerst gekürzt wird, wenn ein Feld zu schmal für den vollen Namen ist. „Automatisch“ verwendet die Nachnamen-Tradition des Stammbaums (Isländisch kürzt Nachnamen; alles andere kürzt Vornamen)."

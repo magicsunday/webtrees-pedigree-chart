@@ -97,6 +97,10 @@ trait ModuleConfigTrait
             'default_maternalColor',
             $configuration->getMaternalColor()
         );
+        $this->setPreference(
+            'default_nameAbbreviation',
+            $configuration->getNameAbbreviation()
+        );
 
         FlashMessages::addMessage(
             I18N::translate(

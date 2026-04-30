@@ -24,6 +24,7 @@ use Fisharebest\Webtrees\Module\ModuleThemeInterface;
 use Fisharebest\Webtrees\Module\PedigreeChartModule;
 use Fisharebest\Webtrees\Registry;
 use Fisharebest\Webtrees\Services\ChartService;
+use Fisharebest\Webtrees\Tree;
 use Fisharebest\Webtrees\Validator;
 use Fisharebest\Webtrees\View;
 use MagicSunday\Webtrees\ModuleBase\Contract\ModuleAssetUrlInterface;
@@ -204,7 +205,7 @@ class Module extends PedigreeChartModule implements ModuleAssetUrlInterface, Mod
                     'id'                => uniqid(),
                     'data'              => $this->dataFacade->createTreeStructure($individual),
                     'configuration'     => $this->configuration,
-                    'chartParams'       => $this->getChartParameters(),
+                    'chartParams'       => $this->getChartParameters($tree),
                     'exportStylesheets' => $this->getExportStylesheets(),
                     'stylesheets'       => $this->getStylesheets(),
                     'javascript'        => $this->assetUrl('js/pedigree-chart-' . self::CUSTOM_VERSION . '.min.js'),
@@ -246,17 +247,44 @@ class Module extends PedigreeChartModule implements ModuleAssetUrlInterface, Mod
     /**
      * Collects and returns the required chart data.
      *
-     * @return array<string, bool|array<string, string>>
+     * @param Tree $tree
+     *
+     * @return array<string, string|bool|array<string, string>>
      */
-    private function getChartParameters(): array
+    private function getChartParameters(Tree $tree): array
     {
         return [
-            'rtl'    => I18N::direction() === 'rtl',
-            'labels' => [
+            'rtl'              => I18N::direction() === 'rtl',
+            'nameAbbreviation' => $this->resolveNameAbbreviation($tree),
+            'labels'           => [
                 'zoom' => I18N::translate('Use Ctrl + scroll to zoom in the view'),
                 'move' => I18N::translate('Move the view with two fingers'),
             ],
         ];
+    }
+
+    /**
+     * Resolves the configured name-abbreviation strategy into a concrete
+     * GIVEN or SURNAME value the JS layer can use directly. AUTO maps to
+     * SURNAME for Icelandic-tradition trees (where surnames are typically
+     * patronymics and people are addressed by given name) and GIVEN for
+     * everything else.
+     *
+     * @param Tree $tree
+     *
+     * @return string Configuration::NAME_ABBREV_GIVEN or NAME_ABBREV_SURNAME
+     */
+    private function resolveNameAbbreviation(Tree $tree): string
+    {
+        $configured = $this->configuration->getNameAbbreviation();
+
+        if ($configured !== Configuration::NAME_ABBREV_AUTO) {
+            return $configured;
+        }
+
+        return $tree->getPreference('SURNAME_TRADITION') === 'icelandic'
+            ? Configuration::NAME_ABBREV_SURNAME
+            : Configuration::NAME_ABBREV_GIVEN;
     }
 
     /**
