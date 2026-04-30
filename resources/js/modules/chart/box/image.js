@@ -60,10 +60,9 @@ export default class Image {
      * @returns {number}
      */
     calculateY() {
-        if (!this._orientation.isVertical) {
-            return -this._imageRadius;
-        }
-
+        // Top-anchored for all orientations. When the box grows vertically
+        // (extra fact rows), the image stays glued to the top of the box
+        // with a small padding, instead of sliding to the middle.
         return -((this._orientation.boxHeight - this._imagePadding) / 2) + this._imagePadding;
     }
 

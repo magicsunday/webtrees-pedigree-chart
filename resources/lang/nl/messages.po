@@ -211,5 +211,17 @@ msgstr "Plaatshouders \"ouder toevoegen\" tonen voor ontbrekende voorouders"
 msgid "When enabled, an empty box with a \"+\" icon is rendered in place of each missing father or mother. Editors can click it to jump straight to the webtrees \"add a parent\" form for the corresponding child. The placeholders are only shown to users who have edit rights on the individual."
 msgstr "Als ingeschakeld wordt op de plaats van elke ontbrekende vader of moeder een leeg vak met \"+\"-pictogram getoond. Bewerkers kunnen erop klikken om rechtstreeks naar het webtrees-formulier \"ouder toevoegen\" voor het bijbehorende kind te gaan. De plaatshouders worden alleen getoond aan gebruikers met bewerkrechten op de persoon."
 
-msgid "Behavior"
-msgstr "Gedrag"
+msgid "Display"
+msgstr "Weergave"
+
+msgid "Details"
+msgstr "Details"
+
+msgid "Colors"
+msgstr "Kleuren"
+
+msgid "Show additional facts"
+msgstr "Aanvullende feiten tonen"
+
+msgid "Shows birth and death places, plus any extra facts configured for chart boxes in the tree settings (Control panel → Trees → Preferences → \"Other facts to show in charts\"). When disabled, only the lifespan line is shown."
+msgstr "Toont geboorte- en sterfteplaatsen, plus extra feiten die zijn geconfigureerd voor diagramkaders in de stamboominstellingen (Configuratiescherm → Stambomen → Voorkeuren → „Overige feiten om in diagrammen te tonen”). Wanneer uitgeschakeld, wordt alleen de levensduurregel weergegeven."

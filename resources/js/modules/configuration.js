@@ -32,6 +32,8 @@ export default class Configuration {
      * @param {string}   paternalColor
      * @param {string}   maternalColor
      * @param {string}   nameAbbreviation One of "GIVEN" or "SURNAME". Resolved server-side from the tree's SURNAME_TRADITION when admin sets it to AUTO.
+     * @param {boolean}  showAdditionalFacts
+     * @param {string[]} factSlots
      * @param {boolean}  rtl
      * @param {number}   direction
      */
@@ -45,6 +47,8 @@ export default class Configuration {
         paternalColor = "#70a9cf",
         maternalColor = "#d06f94",
         nameAbbreviation = "GIVEN",
+        showAdditionalFacts = true,
+        factSlots = ["BIRT", "DEAT"],
         rtl = false,
         direction = 1,
     ) {
@@ -58,6 +62,8 @@ export default class Configuration {
         this._paternalColor = paternalColor;
         this._maternalColor = maternalColor;
         this._nameAbbreviation = nameAbbreviation;
+        this._showAdditionalFacts = showAdditionalFacts;
+        this._factSlots = factSlots;
 
         //
         this.duration = 750;
@@ -185,5 +191,25 @@ export default class Configuration {
      */
     get nameAbbreviation() {
         return this._nameAbbreviation;
+    }
+
+    /**
+     * Returns TRUE when the box should display extra fact rows (BIRT/DEAT
+     * with places, plus any tags from the tree's CHART_BOX_TAGS preference).
+     *
+     * @returns {boolean}
+     */
+    get showAdditionalFacts() {
+        return this._showAdditionalFacts;
+    }
+
+    /**
+     * Returns the per-chart list of fact-slot tags. Drives uniform box
+     * height: `factSlots.length` rows are reserved in every box.
+     *
+     * @returns {string[]}
+     */
+    get factSlots() {
+        return this._factSlots;
     }
 }

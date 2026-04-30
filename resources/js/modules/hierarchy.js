@@ -6,7 +6,7 @@
  */
 
 import * as d3 from "./d3.js";
-import { LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET } from "./constants.js";
+import { LAYOUT_FACT_ROW_HEIGHT, LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET } from "./constants.js";
 
 /**
  * @import { HierarchyNode, HierarchyPointNode } from "d3-hierarchy"
@@ -43,6 +43,17 @@ export default class Hierarchy {
         // Adjust box height if we are going to display the alternative names
         if (this._configuration.showAlternativeName && this._configuration.orientation.isVertical) {
             this._configuration.orientation.boxHeight += LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET;
+        }
+
+        // Reserve vertical space for the additional-fact rows. The slot
+        // count comes from the chart-level factSlots; one line per slot
+        // (BIRT + any CHART_BOX_TAGS + DEAT) beyond the original single
+        // lifespan line.
+        if (this._configuration.showAdditionalFacts && this._configuration.factSlots.length > 0) {
+            const extraRows = this._configuration.factSlots.length - 1;
+            if (extraRows > 0) {
+                this._configuration.orientation.boxHeight += extraRows * LAYOUT_FACT_ROW_HEIGHT;
+            }
         }
 
         this._root = d3.hierarchy(datum, (datum) => datum.parents);

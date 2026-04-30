@@ -305,6 +305,30 @@ class Configuration
     }
 
     /**
+     * Returns whether to render extra fact rows (from the tree's
+     * CHART_BOX_TAGS preference) inside each person box.
+     *
+     * @return bool
+     */
+    public function getShowAdditionalFacts(): bool
+    {
+        if ($this->request->getMethod() === RequestMethodInterface::METHOD_POST) {
+            $validator = Validator::parsedBody($this->request);
+        } else {
+            $validator = Validator::queryParams($this->request);
+        }
+
+        return $validator
+            ->boolean(
+                'showAdditionalFacts',
+                (bool) $this->module->getPreference(
+                    'default_showAdditionalFacts',
+                    '1'
+                )
+            );
+    }
+
+    /**
      * Returns whether to color person boxes by paternal/maternal lineage.
      *
      * @return bool

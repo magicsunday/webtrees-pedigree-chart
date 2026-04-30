@@ -222,5 +222,17 @@ msgstr "Platzhalter „Elternteil hinzufügen\" für fehlende Vorfahren anzeigen
 msgid "When enabled, an empty box with a \"+\" icon is rendered in place of each missing father or mother. Editors can click it to jump straight to the webtrees \"add a parent\" form for the corresponding child. The placeholders are only shown to users who have edit rights on the individual."
 msgstr "Wenn aktiviert, wird an Stelle jedes fehlenden Vaters oder jeder fehlenden Mutter eine leere Box mit „+\"-Symbol angezeigt. Bearbeiter können sie anklicken, um direkt zum webtrees-Formular „Elternteil hinzufügen\" für das entsprechende Kind zu springen. Die Platzhalter werden nur Benutzern angezeigt, die Bearbeitungsrechte für die Person haben."
 
-msgid "Behavior"
-msgstr "Verhalten"
+msgid "Display"
+msgstr "Anzeige"
+
+msgid "Details"
+msgstr "Details"
+
+msgid "Colors"
+msgstr "Farben"
+
+msgid "Show additional facts"
+msgstr "Zusätzliche Fakten anzeigen"
+
+msgid "Shows birth and death places, plus any extra facts configured for chart boxes in the tree settings (Control panel → Trees → Preferences → \"Other facts to show in charts\"). When disabled, only the lifespan line is shown."
+msgstr "Zeigt Geburts- und Sterbeorte sowie alle in den Stammbaum-Einstellungen konfigurierten Zusatzfakten für Diagramm-Boxen an (Verwaltungsbereich → Stammbäume → Einstellungen → „Weitere Fakten in Diagrammen anzeigen“). Wenn deaktiviert, wird nur die Lebenszeile angezeigt."

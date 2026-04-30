@@ -57,7 +57,10 @@ export default class Text {
      */
     calculateY() {
         if (!this._orientation.isVertical) {
-            return -this._textPaddingY;
+            // Horizontal layouts: text sits next to the image (to its right),
+            // anchored to the image so it stays aligned when the box grows
+            // vertically to fit extra fact rows.
+            return this._image.y + this._image.height / 2 - this._textPaddingY;
         }
 
         return this._image.y + this._image.height + this._textPaddingY * 2;

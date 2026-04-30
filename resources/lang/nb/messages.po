@@ -78,11 +78,11 @@ msgstr "Tibakestill"
 
 #: resources/views/modules/components/buttonbar/fullscreen-button.phtml:18
 msgid "Switch between full screen mode and normal view"
-msgstr "Bytt mellom fullskjerm og normal visning"
+msgstr ""
 
 #: resources/views/modules/components/buttonbar/help-button.phtml:17
 msgid "Show help"
-msgstr "Vis hjelp"
+msgstr ""
 
 #: resources/views/modules/components/buttonbar/png-export-button.phtml:18
 msgid "Export as PNG"
@@ -102,15 +102,15 @@ msgstr "Moduler"
 
 #: resources/views/modules/pedigree-chart/config.phtml:44
 msgid "General"
-msgstr "Generelt"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:50
 msgid "Hide the SVG export button"
-msgstr "Skjul SVG-eksportknappen"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:60
 msgid "Hide the PNG export button"
-msgstr "Skjul PNG-eksportknappen"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:73
 msgid "save"
@@ -220,5 +220,17 @@ msgstr "Vis \"legg til forelder\"-plassholdere for manglende aner"
 msgid "When enabled, an empty box with a \"+\" icon is rendered in place of each missing father or mother. Editors can click it to jump straight to the webtrees \"add a parent\" form for the corresponding child. The placeholders are only shown to users who have edit rights on the individual."
 msgstr "Når aktivert, vises en tom boks med \"+\"-ikon i stedet for hver manglende far eller mor. Redaktører kan klikke på den for å gå direkte til webtrees-skjemaet \"legg til forelder\" for det tilsvarende barnet. Plassholderne vises kun for brukere med redigeringsrettigheter på personen."
 
-msgid "Behavior"
-msgstr "Atferd"
+msgid "Display"
+msgstr "Visning"
+
+msgid "Details"
+msgstr "Detaljer"
+
+msgid "Colors"
+msgstr "Farger"
+
+msgid "Show additional facts"
+msgstr "Vis flere fakta"
+
+msgid "Shows birth and death places, plus any extra facts configured for chart boxes in the tree settings (Control panel → Trees → Preferences → \"Other facts to show in charts\"). When disabled, only the lifespan line is shown."
+msgstr "Viser fødsels- og dødssteder, samt ekstra fakta som er konfigurert for diagrambokser i treinnstillingene (Kontrollpanel → Trær → Innstillinger → «Andre fakta som skal vises i diagrammer»). Når deaktivert, vises kun levetidslinjen."

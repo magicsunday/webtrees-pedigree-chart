@@ -78,11 +78,11 @@ msgstr "Re centrer"
 
 #: resources/views/modules/components/buttonbar/fullscreen-button.phtml:18
 msgid "Switch between full screen mode and normal view"
-msgstr "Basculer entre le plein écran et la vue normale"
+msgstr ""
 
 #: resources/views/modules/components/buttonbar/help-button.phtml:17
 msgid "Show help"
-msgstr "Afficher l’aide"
+msgstr ""
 
 #: resources/views/modules/components/buttonbar/png-export-button.phtml:18
 msgid "Export as PNG"
@@ -102,23 +102,23 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:44
 msgid "General"
-msgstr "Général"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:50
 msgid "Hide the SVG export button"
-msgstr "Masquer le bouton d’export SVG"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:60
 msgid "Hide the PNG export button"
-msgstr "Masquer le bouton d’export PNG"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:73
 msgid "save"
-msgstr "enregistrer"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:78
 msgid "cancel"
-msgstr "annuler"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/generations.phtml:22
 msgid "Generations"
@@ -130,7 +130,7 @@ msgstr "Disposition"
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:39
 msgid "Open individual in new browser window/tab"
-msgstr "Ouvrir la personne dans une nouvelle fenêtre/onglet du navigateur"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:45
 msgid ""
@@ -140,7 +140,7 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:53
 msgid "Show alternative name of individual"
-msgstr "Afficher le nom alternatif de la personne"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:59
 msgid ""
@@ -163,11 +163,11 @@ msgstr "afficher"
 
 #: resources/views/modules/pedigree-chart/page.phtml:75
 msgid "Show more options"
-msgstr "Afficher plus d’options"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:76
 msgid "Hide more options"
-msgstr "Masquer plus d’options"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:67
 msgid "Show family colors"
@@ -216,5 +216,17 @@ msgstr "Afficher les emplacements « ajouter un parent » pour les ancêtres man
 msgid "When enabled, an empty box with a \"+\" icon is rendered in place of each missing father or mother. Editors can click it to jump straight to the webtrees \"add a parent\" form for the corresponding child. The placeholders are only shown to users who have edit rights on the individual."
 msgstr "Lorsque cette option est activée, une boîte vide avec une icône « + » est affichée à la place de chaque père ou mère manquant. Les éditeurs peuvent cliquer dessus pour accéder directement au formulaire webtrees « ajouter un parent » pour l'enfant correspondant. Les emplacements ne sont visibles que pour les utilisateurs disposant des droits d'édition sur la personne."
 
-msgid "Behavior"
-msgstr "Comportement"
+msgid "Display"
+msgstr "Affichage"
+
+msgid "Details"
+msgstr "Détails"
+
+msgid "Colors"
+msgstr "Couleurs"
+
+msgid "Show additional facts"
+msgstr "Afficher des faits supplémentaires"
+
+msgid "Shows birth and death places, plus any extra facts configured for chart boxes in the tree settings (Control panel → Trees → Preferences → \"Other facts to show in charts\"). When disabled, only the lifespan line is shown."
+msgstr "Affiche les lieux de naissance et de décès, ainsi que les faits supplémentaires configurés pour les cases du diagramme dans les paramètres de l'arbre (Panneau d'administration → Arbres → Préférences → « Autres faits à afficher dans les diagrammes »). Lorsqu'il est désactivé, seule la ligne de durée de vie est affichée."
