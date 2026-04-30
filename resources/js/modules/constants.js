@@ -19,6 +19,16 @@ export const LAYOUT_VERTICAL_NODE_HEIGHT = 175;
 export const LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET = 30;
 
 /**
+ * Vertical space reserved per fact row when "Show additional facts" is on.
+ * Used to scale the box height so every box stays aligned regardless of how
+ * many facts each individual carries.
+ *
+ * @type {number}
+ * @const
+ */
+export const LAYOUT_FACT_ROW_HEIGHT = 20;
+
+/**
  * Tree layout variants.
  *
  * @type {string}

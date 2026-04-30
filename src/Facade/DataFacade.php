@@ -19,6 +19,7 @@ use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Module\ModuleCustomInterface;
 use MagicSunday\Webtrees\ModuleBase\Contract\ModuleAssetUrlInterface;
 use MagicSunday\Webtrees\ModuleBase\Processor\DateProcessor;
+use MagicSunday\Webtrees\ModuleBase\Processor\FactResolver;
 use MagicSunday\Webtrees\ModuleBase\Processor\ImageProcessor;
 use MagicSunday\Webtrees\ModuleBase\Processor\NameProcessor;
 use MagicSunday\Webtrees\PedigreeChart\Configuration;
@@ -45,6 +46,12 @@ class DataFacade
     private Configuration $configuration;
 
     private string $route;
+
+    /**
+     * Cached fact resolver (set lazily on first person build). Pedigree charts
+     * are ancestor-only, so MARR is always filtered out.
+     */
+    private ?FactResolver $factResolver = null;
 
     /**
      * @param ModuleCustomInterface&ModuleAssetUrlInterface $module
@@ -264,6 +271,9 @@ class DataFacade
             : $nameProcessor->getFullName();
         $alternativeName = $nameProcessor->getAlternateName($individual);
 
+        $showAdditionalFacts = $this->configuration->getShowAdditionalFacts();
+        $factResolver        = $this->getFactResolver($individual);
+
         $treeData = new NodeData();
         $treeData
             ->setId(++$id)
@@ -285,9 +295,23 @@ class DataFacade
             ->setBirth($dateProcessor->getBirthDate())
             ->setDeath($dateProcessor->getDeathDate())
             ->setTimespan($dateProcessor->getLifetimeDescription())
+            ->setFacts($factResolver->factsFor($individual, $showAdditionalFacts, ['MARR']))
             ->setIndividual($individual);
 
         return $treeData;
+    }
+
+    /**
+     * Returns the cached FactResolver for the current tree, instantiating it
+     * on first call.
+     */
+    private function getFactResolver(Individual $individual): FactResolver
+    {
+        if (!$this->factResolver instanceof FactResolver) {
+            $this->factResolver = new FactResolver($individual->tree());
+        }
+
+        return $this->factResolver;
     }
 
     /**

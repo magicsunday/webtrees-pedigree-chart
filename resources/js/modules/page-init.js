@@ -76,6 +76,7 @@ export function initPage(config) {
     storage.register("showAlternativeName");
     storage.register("showNicknames");
     storage.register("showFamilyColors");
+    storage.register("showAdditionalFacts");
     storage.register("paternalColor");
     storage.register("maternalColor");
 
@@ -105,6 +106,7 @@ export function initPage(config) {
      *   openNewTabOnClick: boolean|null,
      *   showAlternativeName: boolean|null,
      *   showFamilyColors: boolean|null,
+     *   showAdditionalFacts: boolean|null,
      *   paternalColor: string|null,
      *   maternalColor: string|null,
      * }}
@@ -115,6 +117,7 @@ export function initPage(config) {
         openNewTabOnClick: storage.readBool("openNewTabOnClick"),
         showAlternativeName: storage.readBool("showAlternativeName"),
         showFamilyColors: storage.readBool("showFamilyColors"),
+        showAdditionalFacts: storage.readBool("showAdditionalFacts"),
         paternalColor: storage.readString("paternalColor"),
         maternalColor: storage.readString("maternalColor"),
     };

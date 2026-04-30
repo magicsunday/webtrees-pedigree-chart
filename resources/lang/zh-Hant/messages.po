@@ -78,11 +78,11 @@ msgstr "居中"
 
 #: resources/views/modules/components/buttonbar/fullscreen-button.phtml:18
 msgid "Switch between full screen mode and normal view"
-msgstr "切換全螢幕與一般檢視"
+msgstr ""
 
 #: resources/views/modules/components/buttonbar/help-button.phtml:17
 msgid "Show help"
-msgstr "顯示說明"
+msgstr ""
 
 #: resources/views/modules/components/buttonbar/png-export-button.phtml:18
 msgid "Export as PNG"
@@ -102,23 +102,23 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:44
 msgid "General"
-msgstr "常規"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:50
 msgid "Hide the SVG export button"
-msgstr "隱藏 SVG 匯出按鈕"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:60
 msgid "Hide the PNG export button"
-msgstr "隱藏 PNG 匯出按鈕"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:73
 msgid "save"
-msgstr "保存"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:78
 msgid "cancel"
-msgstr "取消"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/generations.phtml:22
 msgid "Generations"
@@ -130,7 +130,7 @@ msgstr "佈局"
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:39
 msgid "Open individual in new browser window/tab"
-msgstr "在新瀏覽器視窗/分頁中開啟個人"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:45
 msgid ""
@@ -140,7 +140,7 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:53
 msgid "Show alternative name of individual"
-msgstr "顯示個人的別名"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:59
 msgid ""
@@ -212,5 +212,17 @@ msgstr "為缺失的祖先顯示「新增父母」佔位符"
 msgid "When enabled, an empty box with a \"+\" icon is rendered in place of each missing father or mother. Editors can click it to jump straight to the webtrees \"add a parent\" form for the corresponding child. The placeholders are only shown to users who have edit rights on the individual."
 msgstr "啟用後，將在每個缺失的父親或母親位置顯示帶「+」圖示的空框。編輯者可點擊直接跳轉到對應子女的 webtrees「新增父母」表單。僅向對相關人員有編輯權限的使用者顯示這些佔位符。"
 
-msgid "Behavior"
-msgstr "行為"
+msgid "Display"
+msgstr "顯示"
+
+msgid "Details"
+msgstr "詳細資料"
+
+msgid "Colors"
+msgstr "顏色"
+
+msgid "Show additional facts"
+msgstr "顯示其他事實"
+
+msgid "Shows birth and death places, plus any extra facts configured for chart boxes in the tree settings (Control panel → Trees → Preferences → \"Other facts to show in charts\"). When disabled, only the lifespan line is shown."
+msgstr "顯示出生和死亡地點，以及在族譜設定中為圖表方框配置的任何附加事實（控制面板 → 族譜 → 偏好設定 → 「在圖表中顯示的其他事實」）。停用時，僅顯示壽命行。"
