@@ -86,10 +86,13 @@ export default class Hierarchy {
             d.id = i;
         });
 
-        // Declares a tree layout and assigns the size
+        // Declares a tree layout and assigns the size.
+        // Same-parent siblings sit adjacent (1.0 × nodeWidth); cross-parent
+        // cousin branches use 1.25 × nodeWidth so distinct family lines stay
+        // visually distinguishable without wasting horizontal space (issue #74).
         const tree = d3.tree()
             .nodeSize([this._configuration.orientation.nodeWidth, this._configuration.orientation.nodeHeight])
-            .separation(() => 1.0);
+            .separation((left, right) => left.parent === right.parent ? 1.0 : 1.25);
 
         // Map the root node data to the tree layout
         this._nodes = tree(this._root);
