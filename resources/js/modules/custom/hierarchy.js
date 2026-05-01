@@ -7,8 +7,6 @@
 
 import * as d3 from "../lib/d3.js";
 import {LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET, SEX_FEMALE, SEX_MALE} from "../lib/constants.js";
-import OrientationTopBottom from "../lib/chart/orientation/orientation-topBottom.js";
-import OrientationBottomTop from "../lib/chart/orientation/orientation-bottomTop.js";
 
 /**
  * This class handles the hierarchical data.
@@ -36,12 +34,8 @@ export default class Hierarchy {
      */
     init(datum) {
         // Adjust box height if we are going to display the alternative names
-        if (this._configuration.showAlternativeName) {
-            if ((this._configuration.orientation instanceof OrientationTopBottom)
-                || (this._configuration.orientation instanceof OrientationBottomTop)
-            ) {
-                this._configuration.orientation.boxHeight += LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET;
-            }
+        if (this._configuration.showAlternativeName && this._configuration.orientation.isVertical) {
+            this._configuration.orientation.boxHeight += LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET;
         }
 
         // Get the greatest depth

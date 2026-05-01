@@ -6,10 +6,6 @@
  */
 
 import { measureText, truncateNames } from "@magicsunday/webtrees-chart-lib";
-import OrientationTopBottom from "../chart/orientation/orientation-topBottom.js";
-import OrientationBottomTop from "../chart/orientation/orientation-bottomTop.js";
-import OrientationLeftRight from "../chart/orientation/orientation-leftRight.js";
-import OrientationRightLeft from "../chart/orientation/orientation-rightLeft.js";
 import * as d3 from "../d3.js";
 
 /**
@@ -48,9 +44,7 @@ export default class Name {
             .attr("class", "name");
 
         // Top/Bottom and Bottom/Top
-        if ((this._orientation instanceof OrientationTopBottom)
-            || (this._orientation instanceof OrientationBottomTop)
-        ) {
+        if (this._orientation.isVertical) {
             const that = this;
 
             const enter = name.selectAll("text")
@@ -212,12 +206,8 @@ export default class Name {
         // The total available width that the text can occupy
         let availableWidth = this._text.width;
 
-        if (datum.withImage) {
-            if ((this._orientation instanceof OrientationLeftRight)
-                || (this._orientation instanceof OrientationRightLeft)
-            ) {
-                availableWidth -= this._image.width;
-            }
+        if (datum.withImage && !this._orientation.isVertical) {
+            availableWidth -= this._image.width;
         }
 
         return availableWidth;

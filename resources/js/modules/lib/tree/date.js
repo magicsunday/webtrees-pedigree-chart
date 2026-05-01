@@ -6,8 +6,6 @@
  */
 
 import { measureText } from "@magicsunday/webtrees-chart-lib";
-import OrientationTopBottom from "../chart/orientation/orientation-topBottom.js";
-import OrientationBottomTop from "../chart/orientation/orientation-bottomTop.js";
 import {LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET} from "../constants.js";
 
 /**
@@ -45,9 +43,7 @@ export default class Date {
             .append("g");
 
         // Top/Bottom and Bottom/Top
-        if ((this._orientation instanceof OrientationTopBottom)
-            || (this._orientation instanceof OrientationBottomTop)
-        ) {
+        if (this._orientation.isVertical) {
             const enter = table.selectAll("text.date")
                 .data(d => [{
                     label: d.data.data.timespan,

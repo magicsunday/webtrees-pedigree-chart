@@ -16,10 +16,12 @@ import {
     LAYOUT_HORIZONTAL_NODE_HEIGHT,
 } from "../constants.js";
 
-import OrientationTopBottom from "./orientation/orientation-topBottom.js";
-import OrientationBottomTop from "./orientation/orientation-bottomTop.js";
-import OrientationLeftRight from "./orientation/orientation-leftRight.js";
-import OrientationRightLeft from "./orientation/orientation-rightLeft.js";
+import {
+    OrientationBottomTop,
+    OrientationLeftRight,
+    OrientationRightLeft,
+    OrientationTopBottom,
+} from "@magicsunday/webtrees-chart-lib";
 
 /**
  * This class handles the orientation of the tree.

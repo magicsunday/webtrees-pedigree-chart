@@ -5,8 +5,6 @@
  * LICENSE file distributed with this source code.
  */
 
-import OrientationLeftRight from "../orientation/orientation-leftRight.js";
-import OrientationRightLeft from "../orientation/orientation-rightLeft.js";
 
 /**
  * The person image box container.
@@ -44,9 +42,7 @@ export default class Image {
      * @returns {number}
      */
     calculateX() {
-        if ((this._orientation instanceof OrientationLeftRight)
-            || (this._orientation instanceof OrientationRightLeft)
-        ) {
+        if (!this._orientation.isVertical) {
             return this._orientation.isDocumentRtl
                 ? (this._width - this._imagePadding)
                 : (-(this._orientation.boxWidth - this._imagePadding) / 2) + this._imagePadding;
@@ -61,9 +57,7 @@ export default class Image {
      * @returns {number}
      */
     calculateY() {
-        if ((this._orientation instanceof OrientationLeftRight)
-            || (this._orientation instanceof OrientationRightLeft)
-        ) {
+        if (!this._orientation.isVertical) {
             return -this._imageRadius;
         }
 
