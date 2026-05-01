@@ -207,7 +207,8 @@ export default class NodeDrawer {
 
                 if (d.data.data.thumbnail) {
                     images.push({
-                        image: d.data.data.thumbnail,
+                        image:      d.data.data.thumbnail,
+                        silhouette: d.data.data.silhouette,
                     });
                 }
 
@@ -227,7 +228,7 @@ export default class NodeDrawer {
             .attr("height", this._image.height)
             .attr("rx", this._image.rx)
             .attr("ry", this._image.ry)
-            .attr("fill", "rgb(255, 255, 255)");
+            .attr("fill", "#F5F0E6");
 
         // The individual image
         group

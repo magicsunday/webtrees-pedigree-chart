@@ -93,6 +93,12 @@ class NodeData implements JsonSerializable
     protected string $thumbnail = '';
 
     /**
+     * The URL of the sex-specific silhouette image. Used as a client-side
+     * onerror fallback when the highlight image's media file is missing.
+     */
+    protected string $silhouette = '';
+
+    /**
      * The sex of the individual.
      */
     protected string $sex = 'U';
@@ -290,6 +296,18 @@ class NodeData implements JsonSerializable
     }
 
     /**
+     * @param string $silhouette
+     *
+     * @return NodeData
+     */
+    public function setSilhouette(string $silhouette): NodeData
+    {
+        $this->silhouette = $silhouette;
+
+        return $this;
+    }
+
+    /**
      * @param string $sex
      *
      * @return NodeData
@@ -378,6 +396,7 @@ class NodeData implements JsonSerializable
             'alternativeName' => $this->alternativeName,
             'isAltRtl'        => $this->isAltRtl,
             'thumbnail'       => $this->thumbnail,
+            'silhouette'      => $this->silhouette,
             'sex'             => $this->sex,
             'birth'           => $this->birth,
             'death'           => $this->death,
