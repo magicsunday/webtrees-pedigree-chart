@@ -276,14 +276,22 @@ class Module extends PedigreeChartModule implements ModuleAssetUrlInterface, Mod
      */
     private function getAjaxRoute(Individual $individual, string $xref): string
     {
+        // Forward every parameter the user can change on the form so the AJAX
+        // request rebuilding the chart partial sees the current selection
+        // instead of falling back to module preference defaults — `showNicknames`
+        // and `showAlternativeName` change the rendered names in DataFacade.
         return $this->chartUrl(
             $individual,
             [
-                'ajax'              => true,
-                'generations'       => $this->configuration->getGenerations(),
-                'layout'            => $this->configuration->getLayout(),
-                'openNewTabOnClick' => $this->configuration->getOpenNewTabOnClick(),
-                'xref'              => $xref,
+                'ajax'                => true,
+                'generations'         => $this->configuration->getGenerations(),
+                'layout'              => $this->configuration->getLayout(),
+                'openNewTabOnClick'   => $this->configuration->getOpenNewTabOnClick(),
+                'showAlternativeName' => $this->configuration->getShowAlternativeName(),
+                'showNicknames'       => $this->configuration->getShowNicknames(),
+                'showFamilyColors'    => $this->configuration->getShowFamilyColors(),
+                'showEmptyBoxes'      => $this->configuration->getShowEmptyBoxes(),
+                'xref'                => $xref,
             ]
         );
     }

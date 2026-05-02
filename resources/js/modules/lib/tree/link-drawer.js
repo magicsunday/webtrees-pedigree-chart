@@ -40,11 +40,9 @@ export default class LinkDrawer {
         this._svg.visual
             .selectAll("path.link")
             .data(links)
-            .join(
-                (enter) => this._linkEnter(enter, source),
-                (update) => this._linkUpdate(update),
-                (exit) => this._linkExit(exit, source),
-            );
+            .join((enter) => this._linkEnter(enter, source));
+        // d3 join() falls back to identity for update and selection.remove for
+        // exit — both are the desired behaviour here.
     }
 
     _linkEnter(enter, _source) {
@@ -53,14 +51,6 @@ export default class LinkDrawer {
             .classed("link", true)
             .attr("d", (link) => this._buildPath(link))
             .call((g) => g.transition().duration(this._configuration.duration).attr("opacity", 1));
-    }
-
-    _linkUpdate(_update) {
-        // TODO Re-enable transitions on update; previously commented out
-    }
-
-    _linkExit(_exit, _source) {
-        // TODO Re-enable transitions on exit; previously commented out
     }
 
     /**

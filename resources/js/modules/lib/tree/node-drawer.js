@@ -229,7 +229,10 @@ export default class NodeDrawer {
             .attr("ry", this._image.ry)
             .attr("fill", "#FFFFFF");
 
-        // The individual image (crisp foreground)
+        // The individual image (crisp foreground). On load failure (broken
+        // thumbnail URL, deleted media, network error) swap in the silhouette
+        // — otherwise the box renders an empty/broken-image marker that the
+        // user can't recover from without reloading.
         group
             .append("image")
             .attr("href", (d) => d.image)
@@ -237,7 +240,12 @@ export default class NodeDrawer {
             .attr("y", this._image.y)
             .attr("width", this._image.width)
             .attr("height", this._image.height)
-            .attr("clip-path", "url(#clip-image)");
+            .attr("clip-path", "url(#clip-image)")
+            .on("error", function (_event, d) {
+                if (d.silhouette) {
+                    this.setAttribute("href", d.silhouette);
+                }
+            });
 
         // Border around image
         group
