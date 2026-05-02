@@ -153,8 +153,8 @@ class DataFacade
         $dateProcessor  = new DateProcessor($individual);
         $imageProcessor = new ImageProcessor($this->module, $individual);
 
-        $showNicknames   = $this->configuration->getShowNicknames();
-        $fullNN          = $showNicknames
+        $showNicknames = $this->configuration->getShowNicknames();
+        $fullNN        = $showNicknames
             ? $nameProcessor->getFullNameWithNickname()
             : $nameProcessor->getFullName();
         $alternativeName = $nameProcessor->getAlternateName($individual);
