@@ -65,18 +65,6 @@ export default class NodeDrawer {
             .attr("width", this._image.width)
             .attr("height", this._image.height);
 
-        // Blur filter for the soft backdrop layer behind real photos.
-        this._svg
-            .defs
-            .append("filter")
-            .attr("id", "image-backdrop-blur")
-            .attr("x", "-50%")
-            .attr("y", "-50%")
-            .attr("width", "200%")
-            .attr("height", "200%")
-            .append("feGaussianBlur")
-            .attr("stdDeviation", 6);
-
         this._svg.visual
             .selectAll("g.person")
             .data(nodes, person => person.id)
@@ -231,19 +219,17 @@ export default class NodeDrawer {
         const group = enter.append("g")
             .attr("class", "image");
 
-        // Blur backdrop: a copy of the photo, scaled to fill (slice) and
-        // blurred. Skipped for silhouettes (they bake in their own bg).
+        // Plain white background behind the (possibly letterboxed)
+        // foreground photo so the boundary against the box is uniform.
         group
-            .filter((d) => d.image !== d.silhouette)
-            .append("image")
-            .attr("href", (d) => d.image)
+            .append("rect")
             .attr("x", this._image.x)
             .attr("y", this._image.y)
             .attr("width", this._image.width)
             .attr("height", this._image.height)
-            .attr("preserveAspectRatio", "xMidYMid slice")
-            .attr("clip-path", "url(#clip-image)")
-            .attr("filter", "url(#image-backdrop-blur)");
+            .attr("rx", this._image.rx)
+            .attr("ry", this._image.ry)
+            .attr("fill", "#FFFFFF");
 
         // The individual image (crisp foreground)
         group
