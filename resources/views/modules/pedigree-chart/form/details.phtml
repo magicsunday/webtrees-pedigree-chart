@@ -20,19 +20,18 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
 
 <div class="row mt-3">
     <div class="col-form-label col-sm-3 wt-page-options-label">
-        <?= I18N::translate('Details') ?>
+        <?php echo I18N::translate('Details'); ?>
     </div>
     <div class="col-sm-9 wt-page-options-value">
-        <?=
-            view($moduleName . '::modules/components/checkbox', [
-                'name'      => 'showAlternativeName',
-                'label'     => I18N::translate('Show alternative name of individual'),
-                'checked'   => $configuration->getShowAlternativeName(),
-                'unchecked' => '0',
-            ])
-        ?>
+        <?php echo view($moduleName . '::modules/components/checkbox', [
+            'name'      => 'showAlternativeName',
+            'label'     => I18N::translate('Show alternative name of individual'),
+            'checked'   => $configuration->getShowAlternativeName(),
+            'unchecked' => '0',
+        ]);
+?>
         <small class="ps-4 form-text text-muted form-element-description" style="box-decoration-break: clone;">
-            <?= I18N::translate('Displays a person\'s alternate name, if available. This simultaneously enlarges the individuals\' respective boxes to create the necessary space for the display.') ?>
+            <?php echo I18N::translate("Displays a person's alternate name, if available. This simultaneously enlarges the individuals' respective boxes to create the necessary space for the display."); ?>
         </small>
     </div>
 </div>

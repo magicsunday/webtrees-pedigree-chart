@@ -19,15 +19,14 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
 
 <div class="row">
     <div class="col-form-label col-sm-3 wt-page-options-label">
-        <?= I18N::translate('Orientation') ?>
+        <?php echo I18N::translate('Orientation'); ?>
     </div>
     <div class="col-sm-9 wt-page-options-value" id="layout">
-        <?=
-            view('components/radios-inline', [
-                'name'     => 'layout',
-                'options'  => $configuration->getLayouts(),
-                'selected' => $configuration->getLayout(),
-            ])
-        ?>
+        <?php echo view('components/radios-inline', [
+            'name'     => 'layout',
+            'options'  => $configuration->getLayouts(),
+            'selected' => $configuration->getLayout(),
+        ]);
+?>
     </div>
 </div>

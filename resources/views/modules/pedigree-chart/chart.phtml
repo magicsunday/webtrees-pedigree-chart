@@ -22,54 +22,54 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
  */
 ?>
 
-<div class="webtrees-pedigree-chart-container" id="webtrees-pedigree-chart-container-<?= $id ?>"></div>
+<div class="webtrees-pedigree-chart-container" id="webtrees-pedigree-chart-container-<?php echo $id; ?>"></div>
 
 <?php View::push('javascript'); ?>
 <script type="module">
 
-import(<?= json_encode($javascript) ?>).then(({ PedigreeChart }) => {
+import(<?php echo json_encode($javascript); ?>).then(({ PedigreeChart }) => {
     new PedigreeChart(
-        "#webtrees-pedigree-chart-container-<?= $id ?>",
+        "#webtrees-pedigree-chart-container-<?php echo $id; ?>",
         {
-            labels: <?= json_encode($chartParams['labels']) ?>,
-            rtl: <?= json_encode($chartParams['rtl']) ?>,
-            cssFiles: <?= json_encode($exportStylesheets) ?>,
+            labels: <?php echo json_encode($chartParams['labels']); ?>,
+            rtl: <?php echo json_encode($chartParams['rtl']); ?>,
+            cssFiles: <?php echo json_encode($exportStylesheets); ?>,
 
             get generations() {
-                return (typeof generations !== "undefined" && generations !== null) ? generations : <?= $configuration->getGenerations() ?>
+                return (typeof generations !== "undefined" && generations !== null) ? generations : <?php echo $configuration->getGenerations(); ?>
             },
 
             get showEmptyBoxes() {
-                return (typeof showEmptyBoxes !== "undefined" && showEmptyBoxes !== null) ? showEmptyBoxes : <?= json_encode($configuration->getShowEmptyBoxes()) ?>;
+                return (typeof showEmptyBoxes !== "undefined" && showEmptyBoxes !== null) ? showEmptyBoxes : <?php echo json_encode($configuration->getShowEmptyBoxes()); ?>;
             },
 
             get treeLayout() {
-                return (typeof treeLayout !== "undefined" && treeLayout !== null) ? treeLayout : <?= json_encode($configuration->getLayout()) ?>;
+                return (typeof treeLayout !== "undefined" && treeLayout !== null) ? treeLayout : <?php echo json_encode($configuration->getLayout()); ?>;
             },
 
             get openNewTabOnClick() {
-                return (typeof openNewTabOnClick !== "undefined" && openNewTabOnClick !== null) ? openNewTabOnClick : <?= json_encode($configuration->getOpenNewTabOnClick()) ?>;
+                return (typeof openNewTabOnClick !== "undefined" && openNewTabOnClick !== null) ? openNewTabOnClick : <?php echo json_encode($configuration->getOpenNewTabOnClick()); ?>;
             },
 
             get showAlternativeName() {
-                return (typeof showAlternativeName !== "undefined" && showAlternativeName !== null) ? showAlternativeName : <?= json_encode($configuration->getShowAlternativeName()) ?>;
+                return (typeof showAlternativeName !== "undefined" && showAlternativeName !== null) ? showAlternativeName : <?php echo json_encode($configuration->getShowAlternativeName()); ?>;
             },
 
             get showFamilyColors() {
-                return (typeof showFamilyColors !== "undefined" && showFamilyColors !== null) ? showFamilyColors : <?= json_encode($configuration->getShowFamilyColors()) ?>;
+                return (typeof showFamilyColors !== "undefined" && showFamilyColors !== null) ? showFamilyColors : <?php echo json_encode($configuration->getShowFamilyColors()); ?>;
             },
 
             get paternalColor() {
-                return (typeof paternalColor !== "undefined" && paternalColor !== null) ? paternalColor : <?= json_encode($configuration->getPaternalColor()) ?>;
+                return (typeof paternalColor !== "undefined" && paternalColor !== null) ? paternalColor : <?php echo json_encode($configuration->getPaternalColor()); ?>;
             },
 
             get maternalColor() {
-                return (typeof maternalColor !== "undefined" && maternalColor !== null) ? maternalColor : <?= json_encode($configuration->getMaternalColor()) ?>;
+                return (typeof maternalColor !== "undefined" && maternalColor !== null) ? maternalColor : <?php echo json_encode($configuration->getMaternalColor()); ?>;
             },
 
-            nameAbbreviation: <?= json_encode($chartParams['nameAbbreviation']) ?>,
+            nameAbbreviation: <?php echo json_encode($chartParams['nameAbbreviation']); ?>,
 
-            data: <?= json_encode($data) ?>
+            data: <?php echo json_encode($data); ?>
         }
     );
 });
