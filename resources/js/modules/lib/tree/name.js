@@ -279,6 +279,28 @@ export default class Name {
             }
         }
 
+        // Insert the optional nickname (e.g. "Chalky") into the first-names
+        // group when getShowNicknames is enabled and the GEDCOM has a NICK.
+        // Adding it to the firstname map keeps it inside the same slot as the
+        // given names; position-keyed iteration places it after the given names
+        // before the surname slot starts.
+        const nickname = datum.data.data.nickname;
+
+        if (nickname && nickname !== "") {
+            const nickQuoted = `"${nickname}"`;
+            const nickPos = datum.data.data.name.indexOf(nickQuoted);
+
+            if (nickPos !== -1) {
+                firstnameMap.set(nickPos, {
+                    label: nickQuoted,
+                    isPreferred: false,
+                    isLastName: false,
+                    isNickname: true,
+                    isNameRtl: datum.data.data.isNameRtl,
+                });
+            }
+        }
+
         names[minPosFirstnames] = [...firstnameMap].map(([, value]) => value);
 
         let lastnameOffset = 0;

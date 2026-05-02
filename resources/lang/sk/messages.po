@@ -204,3 +204,11 @@ msgstr "Najprv skrátiť priezviská"
 
 msgid "Controls which name part shrinks first when a box is too narrow for the full name. \"Automatic\" uses the tree's surname tradition (Icelandic abbreviates surnames; everything else abbreviates given names)."
 msgstr "Riadi, ktorá časť mena sa najprv skráti, keď je rámček príliš úzky pre celé meno. „Automaticky“ používa tradíciu priezvisk stromu (islandská tradícia skracuje priezviská; všetky ostatné skracujú krstné mená)."
+
+#: resources/views/modules/fan-chart/form/display.phtml
+msgid "Show nicknames in display names"
+msgstr "Show nicknames in display names"
+
+#: resources/views/modules/fan-chart/form/display.phtml
+msgid "Inserts the GEDCOM NICK value in quotes between the given names and the surname (e.g. Martin \"Chalky\" White). Mirrors the legacy webtrees behaviour for trees that store nicknames in the separate GEDCOM NICK field."
+msgstr "Inserts the GEDCOM NICK value in quotes between the given names and the surname (e.g. Martin \"Chalky\" White). Mirrors the legacy webtrees behaviour for trees that store nicknames in the separate GEDCOM NICK field."
