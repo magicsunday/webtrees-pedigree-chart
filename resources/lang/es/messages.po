@@ -128,13 +128,6 @@ msgstr "Generaciones"
 msgid "Layout"
 msgstr "Presentación"
 
-#: resources/views/modules/pedigree-chart/form/layout.phtml:29
-msgid ""
-"Show empty boxes for missing individuals. Caution: May slow down your system!"
-msgstr ""
-"Muestre casillas vacías para los individuos faltantes. Precaución: ¡Puede "
-"ralentizar su sistema!"
-
 #: resources/views/modules/pedigree-chart/form/layout.phtml:39
 msgid "Open individual in new browser window/tab"
 msgstr ""

@@ -128,11 +128,6 @@ msgstr "幾代"
 msgid "Layout"
 msgstr "佈局"
 
-#: resources/views/modules/pedigree-chart/form/layout.phtml:29
-msgid ""
-"Show empty boxes for missing individuals. Caution: May slow down your system!"
-msgstr "顯示丟失人員的空框。注意。可能會降低你的系統速度!"
-
 #: resources/views/modules/pedigree-chart/form/layout.phtml:39
 msgid "Open individual in new browser window/tab"
 msgstr ""

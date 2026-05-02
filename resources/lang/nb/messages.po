@@ -128,13 +128,6 @@ msgstr "Generasjoner"
 msgid "Layout"
 msgstr "Utseende"
 
-#: resources/views/modules/pedigree-chart/form/layout.phtml:29
-msgid ""
-"Show empty boxes for missing individuals. Caution: May slow down your system!"
-msgstr ""
-"Vis tomme felt for manglende personer. Advarsel: Kan gi forsinkelser i "
-"systemet!"
-
 #: resources/views/modules/pedigree-chart/form/layout.phtml:39
 msgid "Open individual in new browser window/tab"
 msgstr "Åpne person i nytt vindu/fane"

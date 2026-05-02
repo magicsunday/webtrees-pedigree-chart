@@ -66,10 +66,6 @@ trait ModuleConfigTrait
             $configuration->getLayout()
         );
         $this->setPreference(
-            'default_showEmptyBoxes',
-            (string) $configuration->getShowEmptyBoxes()
-        );
-        $this->setPreference(
             'default_openNewTabOnClick',
             (string) $configuration->getOpenNewTabOnClick()
         );

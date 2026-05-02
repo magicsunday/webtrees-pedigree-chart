@@ -166,7 +166,6 @@ const storage = new WebtreesPedigreeChart.Storage("webtrees-pedigree-chart");
 // Register all form elements valid for storing data
 storage.register("generations");
 storage.register("layout");
-storage.register("showEmptyBoxes");
 storage.register("openNewTabOnClick");
 storage.register("showAlternativeName");
 storage.register("showNicknames");
@@ -182,7 +181,6 @@ let formElements = document.getElementById("webtrees-pedigree-chart-form").eleme
 formElements.namedItem("layout").value = storage.read("layout");
 
 const generations         = parseInt(storage.read("generations"));
-const showEmptyBoxes      = storage.read("showEmptyBoxes");
 const treeLayout          = storage.read("layout");
 const openNewTabOnClick   = storage.read("openNewTabOnClick");
 const showAlternativeName = storage.read("showAlternativeName");

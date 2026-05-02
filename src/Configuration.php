@@ -135,29 +135,6 @@ class Configuration
     }
 
     /**
-     * Returns whether to show empty boxes or not.
-     *
-     * @return bool
-     */
-    public function getShowEmptyBoxes(): bool
-    {
-        if ($this->request->getMethod() === RequestMethodInterface::METHOD_POST) {
-            $validator = Validator::parsedBody($this->request);
-        } else {
-            $validator = Validator::queryParams($this->request);
-        }
-
-        return $validator
-            ->boolean(
-                'showEmptyBoxes',
-                (bool) $this->module->getPreference(
-                    'default_showEmptyBoxes',
-                    '0'
-                )
-            );
-    }
-
-    /**
      * Returns the tree layout.
      *
      * @return string

@@ -21,7 +21,6 @@ export default class Configuration {
      *
      * @param {string[]} labels
      * @param {number}   generations
-     * @param {boolean}  showEmptyBoxes
      * @param {string}   treeLayout
      * @param {boolean}  openNewTabOnClick
      * @param {boolean}  showAlternativeName
@@ -35,7 +34,6 @@ export default class Configuration {
     constructor(
         labels,
         generations = 4,
-        showEmptyBoxes = false,
         treeLayout = LAYOUT_LEFTRIGHT,
         openNewTabOnClick = true,
         showAlternativeName = true,
@@ -50,7 +48,6 @@ export default class Configuration {
         this._treeLayout = treeLayout;
         this._orientations = new OrientationCollection();
 
-        this._showEmptyBoxes = showEmptyBoxes;
         this._openNewTabOnClick = openNewTabOnClick;
         this._showAlternativeName = showAlternativeName;
         this._showFamilyColors = showFamilyColors;
@@ -101,15 +98,6 @@ export default class Configuration {
      */
     set generations(value) {
         this._generations = value;
-    }
-
-    /**
-     * Returns whether to show or hide empty boxes.
-     *
-     * @returns {boolean}
-     */
-    get showEmptyBoxes() {
-        return this._showEmptyBoxes;
     }
 
     /**

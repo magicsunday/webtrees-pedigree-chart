@@ -128,11 +128,6 @@ msgstr "Generasjonar"
 msgid "Layout"
 msgstr "Utsjånad"
 
-#: resources/views/modules/pedigree-chart/form/layout.phtml:29
-msgid ""
-"Show empty boxes for missing individuals. Caution: May slow down your system!"
-msgstr "Syn tomme felt for manglande personar. Varsel: Kan seinke sytemet!"
-
 #: resources/views/modules/pedigree-chart/form/layout.phtml:39
 msgid "Open individual in new browser window/tab"
 msgstr "Opne person i nytt vindauge/fane"

@@ -6,7 +6,7 @@
  */
 
 import * as d3 from "../lib/d3.js";
-import { LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET, SEX_FEMALE, SEX_MALE } from "../lib/constants.js";
+import { LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET } from "../lib/constants.js";
 
 /**
  * This class handles the hierarchical data.
@@ -38,38 +38,7 @@ export default class Hierarchy {
             this._configuration.orientation.boxHeight += LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET;
         }
 
-        // Get the greatest depth
-        const getDepth = ({ parents }) => 1 + (parents ? Math.max(...parents.map(getDepth)) : 0);
-        const maxGenerations = getDepth(datum);
-
-        // Construct root node from the hierarchical data
-        this._root = d3.hierarchy(datum, (datum) => {
-            if (!this._configuration.showEmptyBoxes) {
-                return datum.parents;
-            }
-
-            // Fill up the missing parents to the requested number of generations
-            if (!datum.parents && datum.data.generation < maxGenerations) {
-                // if (!datum.parents && (datum.data.generation < this._configuration.generations)) {
-                datum.parents = [
-                    this.createEmptyNode(datum.data.generation + 1, SEX_MALE),
-                    this.createEmptyNode(datum.data.generation + 1, SEX_FEMALE),
-                ];
-            }
-
-            // Add missing parent record if we got only one
-            if (datum.parents && datum.parents.length < 2) {
-                if (datum.parents[0].data.sex === SEX_MALE) {
-                    datum.parents.push(this.createEmptyNode(datum.data.generation + 1, SEX_FEMALE));
-                } else {
-                    datum.parents.unshift(
-                        this.createEmptyNode(datum.data.generation + 1, SEX_MALE),
-                    );
-                }
-            }
-
-            return datum.parents;
-        });
+        this._root = d3.hierarchy(datum, (datum) => datum.parents);
 
         // Assign a unique ID to each node
         this._root.ancestors().forEach((d, i) => {
@@ -117,36 +86,5 @@ export default class Hierarchy {
      */
     get root() {
         return this._root;
-    }
-
-    /**
-     * Create an empty child node object.
-     *
-     * @param {number} generation Generation of the node
-     * @param {string} sex        The sex of the individual
-     *
-     * @returns {Data}
-     *
-     * @private
-     */
-    createEmptyNode(generation, _sex) {
-        return {
-            data: {
-                id: 0,
-                xref: "",
-                url: "",
-                updateUrl: "",
-                generation: generation,
-                name: "",
-                isNameRtl: false,
-                firstNames: [],
-                lastNames: [],
-                preferredName: "",
-                alternativeName: "",
-                isAltRtl: false,
-                sex: "U", // sex
-                timespan: "",
-            },
-        };
     }
 }

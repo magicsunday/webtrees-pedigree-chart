@@ -39,10 +39,6 @@ import(<?php echo json_encode($javascript); ?>).then(({ PedigreeChart }) => {
                 return (typeof generations !== "undefined" && generations !== null) ? generations : <?php echo $configuration->getGenerations(); ?>
             },
 
-            get showEmptyBoxes() {
-                return (typeof showEmptyBoxes !== "undefined" && showEmptyBoxes !== null) ? showEmptyBoxes : <?php echo json_encode($configuration->getShowEmptyBoxes()); ?>;
-            },
-
             get treeLayout() {
                 return (typeof treeLayout !== "undefined" && treeLayout !== null) ? treeLayout : <?php echo json_encode($configuration->getLayout()); ?>;
             },

@@ -128,13 +128,6 @@ msgstr "Các thế hệ"
 msgid "Layout"
 msgstr "Hiển thị biểu đồ theo:"
 
-#: resources/views/modules/pedigree-chart/form/layout.phtml:29
-msgid ""
-"Show empty boxes for missing individuals. Caution: May slow down your system!"
-msgstr ""
-"Hiển thị các ô trống cho các cá nhân không có thông tin. Thận trọng: Có thể "
-"làm chậm hệ thống của bạn!"
-
 #: resources/views/modules/pedigree-chart/form/layout.phtml:39
 msgid "Open individual in new browser window/tab"
 msgstr ""

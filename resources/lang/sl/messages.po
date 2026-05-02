@@ -132,12 +132,6 @@ msgstr "Generacije"
 msgid "Layout"
 msgstr "Postavitev"
 
-#: resources/views/modules/pedigree-chart/form/layout.phtml:29
-msgid ""
-"Show empty boxes for missing individuals. Caution: May slow down your system!"
-msgstr ""
-"Prikaži prazna polja za manjkajoče osebe. Pozor: Lahko upočasni sistem!"
-
 #: resources/views/modules/pedigree-chart/form/layout.phtml:39
 msgid "Open individual in new browser window/tab"
 msgstr "Odpri osebo v novem oknu/zavihku brskalnika"

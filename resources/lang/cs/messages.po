@@ -128,13 +128,6 @@ msgstr "Generace"
 msgid "Layout"
 msgstr "Rozložení"
 
-#: resources/views/modules/pedigree-chart/form/layout.phtml:29
-msgid ""
-"Show empty boxes for missing individuals. Caution: May slow down your system!"
-msgstr ""
-"Zobrazit prázdná pole pro chybějící osoby. Upozornění: Může zpomalit váš "
-"systém!"
-
 #: resources/views/modules/pedigree-chart/form/layout.phtml:39
 msgid "Open individual in new browser window/tab"
 msgstr ""

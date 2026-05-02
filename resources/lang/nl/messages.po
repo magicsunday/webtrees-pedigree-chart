@@ -128,13 +128,6 @@ msgstr "Generaties"
 msgid "Layout"
 msgstr "Indeling"
 
-#: resources/views/modules/pedigree-chart/form/layout.phtml:29
-msgid ""
-"Show empty boxes for missing individuals. Caution: May slow down your system!"
-msgstr ""
-"Lege vakken weergeven voor ontbrekende personen. Let op: kan uw systeem "
-"vertragen!"
-
 #: resources/views/modules/pedigree-chart/form/layout.phtml:39
 msgid "Open individual in new browser window/tab"
 msgstr "Open persoon in nieuw browservenster/tabblad"

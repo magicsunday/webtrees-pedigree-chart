@@ -128,13 +128,6 @@ msgstr "Ættliðir"
 msgid "Layout"
 msgstr "Útlit"
 
-#: resources/views/modules/pedigree-chart/form/layout.phtml:29
-msgid ""
-"Show empty boxes for missing individuals. Caution: May slow down your system!"
-msgstr ""
-"Sýndu tóma kassa fyrir einstaklinga sem vantar. Varúð: Getur hægt á kerfinu "
-"þínu!"
-
 #: resources/views/modules/pedigree-chart/form/layout.phtml:39
 msgid "Open individual in new browser window/tab"
 msgstr "Opnaðu einstakling í nýjum vafraglugga/flipa"
