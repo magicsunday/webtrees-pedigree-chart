@@ -89,9 +89,7 @@ export default class Chart {
      */
     updateViewBox() {
         // Set width/height attributes
-        this.svg
-            .attr("width", "100%")
-            .attr("height", "100%");
+        this.svg.attr("width", "100%").attr("height", "100%");
 
         const padding = this.convertRemToPixels(MIN_PADDING);
 
@@ -125,26 +123,14 @@ export default class Chart {
         viewBoxHeight = Math.ceil(viewBoxHeight + (padding << 1));
 
         // Set view box attribute
-        this.svg
-            .attr(
-                "viewBox",
-                [
-                    viewBoxLeft,
-                    viewBoxTop,
-                    viewBoxWidth,
-                    viewBoxHeight,
-                ],
-            );
+        this.svg.attr("viewBox", [viewBoxLeft, viewBoxTop, viewBoxWidth, viewBoxHeight]);
     }
 
     /**
      * Resets the chart to initial zoom level and position.
      */
     center() {
-        this.svg
-            .transition()
-            .duration(750)
-            .call(this.svg.zoom.get().transform, d3.zoomIdentity);
+        this.svg.transition().duration(750).call(this.svg.zoom.get().transform, d3.zoomIdentity);
     }
 
     /**
@@ -180,7 +166,7 @@ export default class Chart {
 
         this._svg.visual
             .selectAll("g.person")
-            .filter(person => person.data.data.xref !== "")
+            .filter((person) => person.data.data.xref !== "")
             .each(function (person) {
                 d3.select(this).on("click", () => that.personClick(person.data));
             });
@@ -195,7 +181,9 @@ export default class Chart {
      */
     personClick(data) {
         // Trigger either "update" or "redirectToIndividual" method on click depending on person in chart
-        (data.data.generation === 1) ? this.redirectToIndividual(data.data.url) : this.update(data.data.updateUrl);
+        data.data.generation === 1
+            ? this.redirectToIndividual(data.data.url)
+            : this.update(data.data.updateUrl);
     }
 
     /**
@@ -208,7 +196,7 @@ export default class Chart {
     redirectToIndividual(url) {
         this._configuration.openNewTabOnClick
             ? window.open(url, "_blank")
-            : window.location = url;
+            : (window.location = url);
     }
 
     /**

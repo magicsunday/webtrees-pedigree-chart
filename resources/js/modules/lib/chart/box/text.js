@@ -5,7 +5,6 @@
  * LICENSE file distributed with this source code.
  */
 
-
 /**
  * The person text box container.
  *
@@ -56,7 +55,7 @@ export default class Text {
             return -this._textPaddingY;
         }
 
-        return this._image.y + this._image.height + (this._textPaddingY * 2);
+        return this._image.y + this._image.height + this._textPaddingY * 2;
     }
 
     /**
@@ -66,7 +65,7 @@ export default class Text {
      */
     calculateWidth() {
         // Width of the text minus the right/left padding
-        return this._orientation.boxWidth - (this._textPaddingX * 2);
+        return this._orientation.boxWidth - this._textPaddingX * 2;
     }
 
     /**
@@ -94,6 +93,5 @@ export default class Text {
      */
     get width() {
         return this._width;
-
     }
 }

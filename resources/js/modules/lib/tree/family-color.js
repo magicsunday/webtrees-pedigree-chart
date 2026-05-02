@@ -5,11 +5,7 @@
  * LICENSE file distributed with this source code.
  */
 
-import {
-    familyBranchHsl,
-    familyCenterHsl,
-    hexToHsl,
-} from "@magicsunday/webtrees-chart-lib";
+import { familyBranchHsl, familyCenterHsl, hexToHsl } from "@magicsunday/webtrees-chart-lib";
 import { SEX_FEMALE, SEX_MALE } from "../constants.js";
 
 /**
@@ -75,9 +71,8 @@ export default class FamilyColor {
         }
 
         const side = sideAncestor.data.data.sex;
-        const baseHsl = side === SEX_MALE
-            ? this._paternalHsl
-            : (side === SEX_FEMALE ? this._maternalHsl : null);
+        const baseHsl =
+            side === SEX_MALE ? this._paternalHsl : side === SEX_FEMALE ? this._maternalHsl : null;
 
         if (baseHsl === null) {
             return null;

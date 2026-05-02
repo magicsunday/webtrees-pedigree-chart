@@ -52,9 +52,7 @@ export default class LinkDrawer {
             .append("path")
             .classed("link", true)
             .attr("d", (link) => this._buildPath(link))
-            .call((g) => g.transition()
-                .duration(this._configuration.duration)
-                .attr("opacity", 1));
+            .call((g) => g.transition().duration(this._configuration.duration).attr("opacity", 1));
     }
 
     _linkUpdate(_update) {
@@ -70,9 +68,7 @@ export default class LinkDrawer {
      * (elbow to descendant) or not (marriage line between spouses).
      */
     _buildPath(link) {
-        return link.target === null
-            ? this._marriageChainPath(link)
-            : this._childElbowPath(link);
+        return link.target === null ? this._marriageChainPath(link) : this._childElbowPath(link);
     }
 
     /**
@@ -81,18 +77,18 @@ export default class LinkDrawer {
      * whether the source carries a real person or a placeholder.
      */
     _childElbowPath(link) {
-        const o            = this._orientation;
-        const isVertical   = o.isVertical;
+        const o = this._orientation;
+        const isVertical = o.isVertical;
         const halfBoxCross = isVertical ? o.boxHeight / 2 : o.boxWidth / 2;
         const halfOffsetCross = isVertical ? o.yOffset / 2 : o.xOffset / 2;
 
         return elbowsPath({
-            source:          this._sourcePosition(link),
-            children:        [{x: link.target.x, y: link.target.y}],
+            source: this._sourcePosition(link),
+            children: [{ x: link.target.x, y: link.target.y }],
             isVertical,
             halfBoxCross,
             halfOffsetCross,
-            direction:       o.direction,
+            direction: o.direction,
         });
     }
 
@@ -102,26 +98,24 @@ export default class LinkDrawer {
      * the inter-box gaps so the line never crosses an unrelated box.
      */
     _marriageChainPath(link) {
-        const o          = this._orientation;
+        const o = this._orientation;
         const isVertical = o.isVertical;
-        const halfBox    = isVertical ? o.boxWidth / 2 : o.boxHeight / 2;
+        const halfBox = isVertical ? o.boxWidth / 2 : o.boxHeight / 2;
 
         const sequence = [
-            {x: link.spouse.x, y: link.spouse.y},
-            ...((link.coords ?? []).map((c) => ({x: c.x, y: c.y}))),
-            {x: link.source.x, y: link.source.y},
+            { x: link.spouse.x, y: link.spouse.y },
+            ...(link.coords ?? []).map((c) => ({ x: c.x, y: c.y })),
+            { x: link.source.x, y: link.source.y },
         ];
 
-        const stagger        = this._spouseStagger(link);
-        const crossAxisCoord = isVertical
-            ? link.source.y - stagger
-            : link.source.x - stagger;
+        const stagger = this._spouseStagger(link);
+        const crossAxisCoord = isVertical ? link.source.y - stagger : link.source.x - stagger;
 
         return marriagePath({
             sequence,
             isVertical,
             halfBox,
-            trim:           LINE_END_TRIM_PX,
+            trim: LINE_END_TRIM_PX,
             crossAxisCoord,
         });
     }
@@ -136,8 +130,8 @@ export default class LinkDrawer {
      *   spouse so the line clears the box.
      */
     _sourcePosition(link) {
-        const o            = this._orientation;
-        const isVertical   = o.isVertical;
+        const o = this._orientation;
+        const isVertical = o.isVertical;
         const halfBoxCross = isVertical ? o.boxHeight / 2 : o.boxWidth / 2;
         const halfBoxSpread = isVertical ? o.boxWidth / 2 : o.boxHeight / 2;
         const halfOffsetSpread = isVertical ? o.xOffset / 2 : o.yOffset / 2;
@@ -165,15 +159,15 @@ export default class LinkDrawer {
         // No spouse data on the source — one step out so the line clears
         if (link.source.data.data === null) {
             if (isVertical) {
-                sourceX -= halfBoxSpread + (halfOffsetSpread / 2);
+                sourceX -= halfBoxSpread + halfOffsetSpread / 2;
                 sourceY += halfBoxCross * o.direction;
             } else {
                 sourceX += halfBoxCross * o.direction;
-                sourceY -= halfBoxSpread + (halfOffsetSpread / 2);
+                sourceY -= halfBoxSpread + halfOffsetSpread / 2;
             }
         }
 
-        return {x: sourceX, y: sourceY};
+        return { x: sourceX, y: sourceY };
     }
 
     /**
@@ -184,8 +178,8 @@ export default class LinkDrawer {
      */
     _spouseStagger(link) {
         const middle = Math.ceil(link.spouse.data.spouses.length / 2);
-        return (link.source.data.family - middle)
-            * this._orientation.direction
-            * MARRIAGE_STAGGER_PX;
+        return (
+            (link.source.data.family - middle) * this._orientation.direction * MARRIAGE_STAGGER_PX
+        );
     }
 }

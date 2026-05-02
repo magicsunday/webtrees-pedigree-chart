@@ -5,7 +5,6 @@
  * LICENSE file distributed with this source code.
  */
 
-
 /**
  * This files defines the internal used structures of objects.
  *

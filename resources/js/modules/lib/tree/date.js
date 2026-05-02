@@ -6,7 +6,7 @@
  */
 
 import { measureText } from "@magicsunday/webtrees-chart-lib";
-import {LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET} from "../constants.js";
+import { LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET } from "../constants.js";
 
 /**
  * The class handles the creation of the tree.
@@ -39,16 +39,18 @@ export default class Date {
      * @public
      */
     appendDate(parent) {
-        const table = parent
-            .append("g");
+        const table = parent.append("g");
 
         // Top/Bottom and Bottom/Top
         if (this._orientation.isVertical) {
-            const enter = table.selectAll("text.date")
-                .data(d => [{
-                    label: d.data.data.timespan,
-                    withImage: true,
-                }])
+            const enter = table
+                .selectAll("text.date")
+                .data((d) => [
+                    {
+                        label: d.data.data.timespan,
+                        withImage: true,
+                    },
+                ])
                 .enter();
 
             let dateYOffset = this._text.y + 45;
@@ -57,25 +59,26 @@ export default class Date {
                 dateYOffset += LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET;
             }
 
-            const text = enter.append("text")
+            const text = enter
+                .append("text")
                 .attr("class", "date")
                 .attr("text-anchor", "middle")
                 .attr("alignment-baseline", "central")
                 .attr("y", dateYOffset);
 
-            text.append("title")
-                .text(d => d.label);
+            text.append("title").text((d) => d.label);
 
             const tspan = text.append("tspan");
 
-            tspan.text(d => this.truncateDate(tspan, d.label, this._text.width));
+            tspan.text((d) => this.truncateDate(tspan, d.label, this._text.width));
 
             return;
         }
 
         const offset = 30;
 
-        const enter = table.selectAll("text")
+        const enter = table
+            .selectAll("text")
             .data((d) => {
                 const data = [];
 
@@ -101,35 +104,42 @@ export default class Date {
             })
             .enter();
 
-        enter
-            .call((g) => {
-                const col1 = g.append("text")
-                    .attr("fill", "currentColor")
-                    .attr("text-anchor", "middle")
-                    .attr("dominant-baseline", "middle")
-                    .attr("x", d => this.textX(d))
-                    // Minor offset here to better center the icon
-                    .attr("y", (_d, i) => ((this._text.y + offset) + (i === 0 ? 0 : 21)));
+        enter.call((g) => {
+            const col1 = g
+                .append("text")
+                .attr("fill", "currentColor")
+                .attr("text-anchor", "middle")
+                .attr("dominant-baseline", "middle")
+                .attr("x", (d) => this.textX(d))
+                // Minor offset here to better center the icon
+                .attr("y", (_d, i) => this._text.y + offset + (i === 0 ? 0 : 21));
 
-                col1.append("tspan")
-                    .text(d => d.icon)
-                    .attr("dx", (this._orientation.isDocumentRtl ? -1 : 1) * 5);
+            col1.append("tspan")
+                .text((d) => d.icon)
+                .attr("dx", (this._orientation.isDocumentRtl ? -1 : 1) * 5);
 
-                const col2 = g.append("text")
-                    .attr("class", "date")
-                    .attr("text-anchor", "start")
-                    .attr("dominant-baseline", "middle")
-                    .attr("x", d => this.textX(d))
-                    .attr("y", (_d, i) => ((this._text.y + offset) + (i === 0 ? 0 : 20)));
+            const col2 = g
+                .append("text")
+                .attr("class", "date")
+                .attr("text-anchor", "start")
+                .attr("dominant-baseline", "middle")
+                .attr("x", (d) => this.textX(d))
+                .attr("y", (_d, i) => this._text.y + offset + (i === 0 ? 0 : 20));
 
-                col2.append("title")
-                    .text(d => d.label);
+            col2.append("title").text((d) => d.label);
 
-                const tspan = col2.append("tspan");
+            const tspan = col2.append("tspan");
 
-                tspan.text(d => this.truncateDate(tspan, d.label, this._text.width - (d.withImage ? this._image.width : 0) - 25))
-                    .attr("dx", (this._orientation.isDocumentRtl ? -1 : 1) * 15);
-            });
+            tspan
+                .text((d) =>
+                    this.truncateDate(
+                        tspan,
+                        d.label,
+                        this._text.width - (d.withImage ? this._image.width : 0) - 25,
+                    ),
+                )
+                .attr("dx", (this._orientation.isDocumentRtl ? -1 : 1) * 15);
+        });
     }
 
     /**
@@ -150,7 +160,7 @@ export default class Date {
         let truncated = false;
 
         // Repeat removing the last char until the width matches
-        while ((this.measureText(date, fontSize, fontWeight) > availableWidth) && (date.length > 1)) {
+        while (this.measureText(date, fontSize, fontWeight) > availableWidth && date.length > 1) {
             // Remove last char
             date = date.slice(0, -1).trim();
             truncated = true;
@@ -161,7 +171,7 @@ export default class Date {
             date = date.slice(0, -1).trim();
         }
 
-        return truncated ? (`${date}…`) : date;
+        return truncated ? `${date}…` : date;
     }
 
     /**

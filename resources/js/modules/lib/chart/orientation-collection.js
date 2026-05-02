@@ -36,10 +36,22 @@ export default class OrientationCollection {
      */
     constructor() {
         this._orientations = {
-            [LAYOUT_TOPBOTTOM]: new OrientationTopBottom(LAYOUT_VERTICAL_NODE_WIDTH, LAYOUT_VERTICAL_NODE_HEIGHT),
-            [LAYOUT_BOTTOMTOP]: new OrientationBottomTop(LAYOUT_VERTICAL_NODE_WIDTH, LAYOUT_VERTICAL_NODE_HEIGHT),
-            [LAYOUT_LEFTRIGHT]: new OrientationLeftRight(LAYOUT_HORIZONTAL_NODE_WIDTH, LAYOUT_HORIZONTAL_NODE_HEIGHT),
-            [LAYOUT_RIGHTLEFT]: new OrientationRightLeft(LAYOUT_HORIZONTAL_NODE_WIDTH, LAYOUT_HORIZONTAL_NODE_HEIGHT),
+            [LAYOUT_TOPBOTTOM]: new OrientationTopBottom(
+                LAYOUT_VERTICAL_NODE_WIDTH,
+                LAYOUT_VERTICAL_NODE_HEIGHT,
+            ),
+            [LAYOUT_BOTTOMTOP]: new OrientationBottomTop(
+                LAYOUT_VERTICAL_NODE_WIDTH,
+                LAYOUT_VERTICAL_NODE_HEIGHT,
+            ),
+            [LAYOUT_LEFTRIGHT]: new OrientationLeftRight(
+                LAYOUT_HORIZONTAL_NODE_WIDTH,
+                LAYOUT_HORIZONTAL_NODE_HEIGHT,
+            ),
+            [LAYOUT_RIGHTLEFT]: new OrientationRightLeft(
+                LAYOUT_HORIZONTAL_NODE_WIDTH,
+                LAYOUT_HORIZONTAL_NODE_HEIGHT,
+            ),
         };
     }
 

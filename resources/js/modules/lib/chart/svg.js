@@ -91,13 +91,9 @@ export default class Svg {
             .on("contextmenu", (event) => event.preventDefault())
             .on("wheel", (event) => {
                 if (!event.ctrlKey) {
-                    overlay.show(
-                        this._configuration.labels.zoom,
-                        300,
-                        () => {
-                            overlay.hide(200, 600);
-                        },
-                    );
+                    overlay.show(this._configuration.labels.zoom, 300, () => {
+                        overlay.hide(200, 600);
+                    });
                 }
             })
             .on("touchend", (event) => {
@@ -148,7 +144,7 @@ export default class Svg {
      *
      * @returns {PngExport|SvgExport}
      */
-    export(type ) {
+    export(type) {
         const factory = new ExportFactory();
 
         return factory.createExport(type);

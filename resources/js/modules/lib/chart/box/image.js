@@ -5,7 +5,6 @@
  * LICENSE file distributed with this source code.
  */
 
-
 /**
  * The person image box container.
  *
@@ -25,7 +24,7 @@ export default class Image {
         this._cornerRadius = cornerRadius;
 
         this._imagePadding = 5;
-        this._imageRadius = Math.min(40, (this._orientation.boxHeight / 2) - this._imagePadding);
+        this._imageRadius = Math.min(40, this._orientation.boxHeight / 2 - this._imagePadding);
 
         // Calculate values
         this._width = this.calculateImageWidth();
@@ -44,11 +43,11 @@ export default class Image {
     calculateX() {
         if (!this._orientation.isVertical) {
             return this._orientation.isDocumentRtl
-                ? (this._width - this._imagePadding)
-                : (-(this._orientation.boxWidth - this._imagePadding) / 2) + this._imagePadding;
+                ? this._width - this._imagePadding
+                : -(this._orientation.boxWidth - this._imagePadding) / 2 + this._imagePadding;
         }
 
-        return -(this._orientation.boxWidth / 2) + (this._width / 2);
+        return -(this._orientation.boxWidth / 2) + this._width / 2;
     }
 
     /**

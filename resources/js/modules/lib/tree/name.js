@@ -39,16 +39,15 @@ export default class Name {
      * @public
      */
     appendName(parent) {
-        const name = parent
-            .append("g")
-            .attr("class", "name");
+        const name = parent.append("g").attr("class", "name");
 
         // Top/Bottom and Bottom/Top
         if (this._orientation.isVertical) {
             const that = this;
 
-            const enter = name.selectAll("text")
-                .data(datum => [
+            const enter = name
+                .selectAll("text")
+                .data((datum) => [
                     {
                         data: datum.data,
                         isRtl: datum.data.data.isNameRtl,
@@ -59,47 +58,43 @@ export default class Name {
                 ])
                 .enter();
 
-            enter
-                .each(function (datum) {
-                    const element = d3.select(this);
-                    const nameGroups = that.createNamesData(datum);
-                    const availableWidth = that.getAvailableWidth(datum);
+            enter.each(function (datum) {
+                const element = d3.select(this);
+                const nameGroups = that.createNamesData(datum);
+                const availableWidth = that.getAvailableWidth(datum);
 
-                    nameGroups.forEach((nameGroup, index) => {
-                        const text = element.append("text")
-                            .attr("class", "wt-chart-box-name")
-                            .attr("direction", datum => datum.isRtl ? "rtl" : "ltr")
-                            .attr("text-anchor", "middle")
-                            .attr("alignment-baseline", "central")
-                            .attr("y", that._text.y - 5 + (index * 20));
+                nameGroups.forEach((nameGroup, index) => {
+                    const text = element
+                        .append("text")
+                        .attr("class", "wt-chart-box-name")
+                        .attr("direction", (datum) => (datum.isRtl ? "rtl" : "ltr"))
+                        .attr("text-anchor", "middle")
+                        .attr("alignment-baseline", "central")
+                        .attr("y", that._text.y - 5 + index * 20);
 
-                        that.addNameElements(
-                            text,
-                            that.truncateNamesData(
-                                text,
-                                nameGroup,
-                                availableWidth,
-                            ),
-                        );
-                    });
+                    that.addNameElements(
+                        text,
+                        that.truncateNamesData(text, nameGroup, availableWidth),
+                    );
                 });
+            });
 
             // Add alternative name if present
             if (this._svg._configuration.showAlternativeName) {
                 enter
-                    .filter(datum => datum.data.data.alternativeName !== "")
+                    .filter((datum) => datum.data.data.alternativeName !== "")
                     .call((g) => {
-                        const text = g.append("text")
+                        const text = g
+                            .append("text")
                             .classed("wt-chart-box-name-alt", true)
                             .attr("class", "wt-chart-box-name")
-                            .attr("direction", datum => datum.isAltRtl ? "rtl" : "ltr")
+                            .attr("direction", (datum) => (datum.isAltRtl ? "rtl" : "ltr"))
                             .attr("text-anchor", "middle")
                             .attr("alignment-baseline", "central")
                             .attr("y", this._text.y + 40);
 
-                        this.addNameElements(
-                            text,
-                            datum => this.truncateNamesData(
+                        this.addNameElements(text, (datum) =>
+                            this.truncateNamesData(
                                 text,
                                 this.createAlternativeNamesData(datum),
                                 this.getAvailableWidth(datum),
@@ -110,8 +105,9 @@ export default class Name {
 
             // Left/Right and Right/Left
         } else {
-            const enter = name.selectAll("text")
-                .data(datum => [
+            const enter = name
+                .selectAll("text")
+                .data((datum) => [
                     {
                         data: datum.data,
                         isRtl: datum.data.data.isNameRtl,
@@ -121,51 +117,48 @@ export default class Name {
                 ])
                 .enter();
 
-            enter
-                .call((g) => {
-                    const text = g.append("text")
-                        .attr("class", "wt-chart-box-name")
-                        .attr("direction", datum => datum.isRtl ? "rtl" : "ltr")
-                        .attr("text-anchor", (datum) => {
-                            if (datum.isRtl && this._orientation.isDocumentRtl) {
-                                return "start";
-                            }
-
-                            if (datum.isRtl || this._orientation.isDocumentRtl) {
-                                return "end";
-                            }
-
+            enter.call((g) => {
+                const text = g
+                    .append("text")
+                    .attr("class", "wt-chart-box-name")
+                    .attr("direction", (datum) => (datum.isRtl ? "rtl" : "ltr"))
+                    .attr("text-anchor", (datum) => {
+                        if (datum.isRtl && this._orientation.isDocumentRtl) {
                             return "start";
-                        })
-                        .attr("x", datum => this.textX(datum))
-                        .attr("y", this._text.y - 10);
+                        }
 
-                    this.addNameElements(
-                        text,
-                        (datum) => {
-                            const [first, ...last] = this.createNamesData(datum);
+                        if (datum.isRtl || this._orientation.isDocumentRtl) {
+                            return "end";
+                        }
 
-                            // Merge the firstname and lastname groups, as we display the whole name in one line
-                            const combined = [].concat(first, typeof last[0] === "undefined" ? [] : last[0]);
+                        return "start";
+                    })
+                    .attr("x", (datum) => this.textX(datum))
+                    .attr("y", this._text.y - 10);
 
-                            return this.truncateNamesData(
-                                text,
-                                combined,
-                                this.getAvailableWidth(datum),
-                            );
-                        },
+                this.addNameElements(text, (datum) => {
+                    const [first, ...last] = this.createNamesData(datum);
+
+                    // Merge the firstname and lastname groups, as we display the whole name in one line
+                    const combined = [].concat(
+                        first,
+                        typeof last[0] === "undefined" ? [] : last[0],
                     );
+
+                    return this.truncateNamesData(text, combined, this.getAvailableWidth(datum));
                 });
+            });
 
             // Add alternative name if present
             if (this._svg._configuration.showAlternativeName) {
                 enter
-                    .filter(datum => datum.data.data.alternativeName !== "")
+                    .filter((datum) => datum.data.data.alternativeName !== "")
                     .call((g) => {
-                        const text = g.append("text")
+                        const text = g
+                            .append("text")
                             .classed("wt-chart-box-name-alt", true)
                             .attr("class", "wt-chart-box-name")
-                            .attr("direction", datum => datum.isAltRtl ? "rtl" : "ltr")
+                            .attr("direction", (datum) => (datum.isAltRtl ? "rtl" : "ltr"))
                             .attr("text-anchor", (datum) => {
                                 if (datum.isAltRtl && this._orientation.isDocumentRtl) {
                                     return "start";
@@ -177,12 +170,11 @@ export default class Name {
 
                                 return "start";
                             })
-                            .attr("x", datum => this.textX(datum))
+                            .attr("x", (datum) => this.textX(datum))
                             .attr("y", this._text.y + 8);
 
-                        this.addNameElements(
-                            text,
-                            datum => this.truncateNamesData(
+                        this.addNameElements(text, (datum) =>
+                            this.truncateNamesData(
                                 text,
                                 this.createAlternativeNamesData(datum),
                                 this.getAvailableWidth(datum),
@@ -224,19 +216,20 @@ export default class Name {
      * @private
      */
     addNameElements(parent, data) {
-        parent.selectAll("tspan")
+        parent
+            .selectAll("tspan")
             .data(data)
             .enter()
             .call((g) => {
                 g.append("tspan")
-                    .text(datum => datum.label)
+                    .text((datum) => datum.label)
                     // Add some spacing between the elements
                     .attr("dx", (datum, index) => {
                         return index === 0 ? null : `${(datum.isNameRtl ? -1 : 1) * 0.25}em`;
                     })
                     // Highlight the preferred and last name
-                    .attr("text-decoration", datum => datum.isPreferred ? "underline" : null)
-                    .classed("lastName", datum => datum.isLastName);
+                    .attr("text-decoration", (datum) => (datum.isPreferred ? "underline" : null))
+                    .classed("lastName", (datum) => datum.isLastName);
             });
     }
 
@@ -265,7 +258,10 @@ export default class Name {
         // Iterate over the individual name components and determine their position in the overall
         // name and insert the component at the corresponding position in the result object.
         for (const i in datum.data.data.firstNames) {
-            const pos = datum.data.data.name.indexOf(datum.data.data.firstNames[i], firstnameOffset);
+            const pos = datum.data.data.name.indexOf(
+                datum.data.data.firstNames[i],
+                firstnameOffset,
+            );
 
             if (pos !== -1) {
                 firstnameOffset = pos + datum.data.data.firstNames[i].length;
@@ -274,19 +270,16 @@ export default class Name {
                     minPosFirstnames = pos;
                 }
 
-                firstnameMap.set(
-                    pos,
-                    {
-                        label: datum.data.data.firstNames[i],
-                        isPreferred: datum.data.data.firstNames[i] === datum.data.data.preferredName,
-                        isLastName: false,
-                        isNameRtl: datum.data.data.isNameRtl,
-                    },
-                );
+                firstnameMap.set(pos, {
+                    label: datum.data.data.firstNames[i],
+                    isPreferred: datum.data.data.firstNames[i] === datum.data.data.preferredName,
+                    isLastName: false,
+                    isNameRtl: datum.data.data.isNameRtl,
+                });
             }
         }
 
-        names[minPosFirstnames] = [...firstnameMap].map(([, value]) => ( value ));
+        names[minPosFirstnames] = [...firstnameMap].map(([, value]) => value);
 
         let lastnameOffset = 0;
         const lastnameMap = new Map();
@@ -298,10 +291,10 @@ export default class Name {
             do {
                 pos = datum.data.data.name.indexOf(datum.data.data.lastNames[i], lastnameOffset);
 
-                if ((pos !== -1) && firstnameMap.has(pos)) {
+                if (pos !== -1 && firstnameMap.has(pos)) {
                     lastnameOffset += pos + datum.data.data.lastNames[i].length;
                 }
-            } while ((pos !== -1) && firstnameMap.has(pos));
+            } while (pos !== -1 && firstnameMap.has(pos));
 
             if (pos !== -1) {
                 lastnameOffset = pos;
@@ -310,19 +303,16 @@ export default class Name {
                     minPosLastnames = pos;
                 }
 
-                lastnameMap.set(
-                    pos,
-                    {
-                        label: datum.data.data.lastNames[i],
-                        isPreferred: false,
-                        isLastName: true,
-                        isNameRtl: datum.data.data.isNameRtl,
-                    },
-                );
+                lastnameMap.set(pos, {
+                    label: datum.data.data.lastNames[i],
+                    isPreferred: false,
+                    isLastName: true,
+                    isNameRtl: datum.data.data.isNameRtl,
+                });
             }
         }
 
-        names[minPosLastnames] = [...lastnameMap].map(([, value]) => ( value ));
+        names[minPosLastnames] = [...lastnameMap].map(([, value]) => value);
 
         // Extract the values (keys don't matter anymore)
         return Object.values(names);

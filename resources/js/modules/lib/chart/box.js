@@ -106,9 +106,6 @@ export default class Box {
      * @returns {Text}
      */
     get text() {
-        return new Text(
-            this._orientation,
-            this._image,
-        );
+        return new Text(this._orientation, this._image);
     }
 }

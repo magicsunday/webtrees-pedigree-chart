@@ -10,7 +10,7 @@
  *
  * @returns {number}
  */
-export default function() {
+export default function () {
     const element = document.createElement("div");
     element.style.width = "1in";
 

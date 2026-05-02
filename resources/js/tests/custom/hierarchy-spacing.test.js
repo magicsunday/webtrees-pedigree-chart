@@ -16,19 +16,16 @@
 import { tree, hierarchy } from "d3-hierarchy";
 
 // Production nodeSize for the vertical layout (boxWidth 160 + xOffset 30 / boxHeight 175 + yOffset 40).
-const NODE_WIDTH  = 190;
+const NODE_WIDTH = 190;
 const NODE_HEIGHT = 215;
-const BOX_WIDTH   = 160;
+const BOX_WIDTH = 160;
 
 // Mirror of hierarchy.js:95 — keep in sync with the production callback.
-const separationFn = (left, right) => left.parent === right.parent ? 1.0 : 1.25;
+const separationFn = (left, right) => (left.parent === right.parent ? 1.0 : 1.25);
 
 function layout(rootData) {
     const root = hierarchy(rootData);
-    return tree()
-        .nodeSize([NODE_WIDTH, NODE_HEIGHT])
-        .separation(separationFn)(root)
-        .descendants();
+    return tree().nodeSize([NODE_WIDTH, NODE_HEIGHT]).separation(separationFn)(root).descendants();
 }
 
 function findOverlaps(nodes) {
@@ -41,7 +38,7 @@ function findOverlaps(nodes) {
     for (const list of byDepth.values()) {
         list.sort((a, b) => a.x - b.x);
         for (let i = 1; i < list.length; i++) {
-            const gap = (list[i].x - list[i - 1].x) - BOX_WIDTH;
+            const gap = list[i].x - list[i - 1].x - BOX_WIDTH;
             if (gap < 0) {
                 overlaps.push({
                     depth: list[i].depth,
@@ -71,7 +68,7 @@ function minCousinGap(nodes) {
         list.sort((a, b) => a.x - b.x);
         for (let i = 1; i < list.length; i++) {
             if (list[i].parent !== list[i - 1].parent) {
-                const gap = (list[i].x - list[i - 1].x) - BOX_WIDTH;
+                const gap = list[i].x - list[i - 1].x - BOX_WIDTH;
                 if (gap < min) min = gap;
             }
         }
@@ -92,7 +89,9 @@ function pedigreeFractal(generations) {
 }
 
 describe("Hierarchy.init() separation — issue #74 regression suite", () => {
-    beforeEach(() => { _id = 0; });
+    beforeEach(() => {
+        _id = 0;
+    });
 
     test("4 generations of full ancestors: no overlaps, cousin gap distinct from sibling gap", () => {
         const data = pedigreeFractal(3); // 1 + 2 + 4 + 8 = 15 nodes

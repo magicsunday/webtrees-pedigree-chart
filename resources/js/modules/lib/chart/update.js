@@ -37,7 +37,6 @@ export default class Update {
      * @public
      */
     update(url, _callback) {
-
         this._svg
             .selectAll("g.person")
             .classed("hover", false)
@@ -45,9 +44,7 @@ export default class Update {
             .on("mouseover", null)
             .on("mouseout", null);
 
-        d3.json(
-            url,
-        ).then((data) => {
+        d3.json(url).then((data) => {
             // Initialize the new loaded data
             this._hierarchy.init(data);
             this.draw();

@@ -6,7 +6,7 @@
  */
 
 import OrientationCollection from "../lib/chart/orientation-collection.js";
-import {LAYOUT_LEFTRIGHT} from "../lib/constants.js";
+import { LAYOUT_LEFTRIGHT } from "../lib/constants.js";
 
 /**
  * This class handles the configuration of the application.
