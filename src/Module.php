@@ -64,7 +64,7 @@ class Module extends PedigreeChartModule implements ModuleAssetUrlInterface, Mod
     /**
      * @var string
      */
-    public const CUSTOM_VERSION = '2.5.0';
+    public const CUSTOM_VERSION = '2.5.1-dev';
 
     /**
      * @var string
