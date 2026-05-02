@@ -107,7 +107,7 @@ export default class FamilyColor {
 
         while (n && n.depth > 1) {
             const parent = n.parent;
-            if (!parent || !parent.children) {
+            if (!parent?.children) {
                 break;
             }
             const idx = parent.children.indexOf(n);
@@ -121,10 +121,10 @@ export default class FamilyColor {
 
         let pathSum = 0;
         for (let i = 0; i < path.length; i++) {
-            pathSum += path[i] * Math.pow(2, path.length - 1 - i);
+            pathSum += path[i] * 2 ** (path.length - 1 - i);
         }
 
-        return (pathSum + 0.5) / Math.pow(2, path.length);
+        return (pathSum + 0.5) / 2 ** path.length;
     }
 
     /**

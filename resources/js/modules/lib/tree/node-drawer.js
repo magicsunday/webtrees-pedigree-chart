@@ -6,7 +6,6 @@
  */
 
 import {SEX_FEMALE, SEX_MALE} from "../constants.js";
-import * as d3 from "../d3.js";
 import Name from "./name.js";
 import Date from "./date.js";
 import FamilyColor from "./family-color.js";

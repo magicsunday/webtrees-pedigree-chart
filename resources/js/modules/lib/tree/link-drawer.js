@@ -70,9 +70,9 @@ export default class LinkDrawer {
      * (elbow to descendant) or not (marriage line between spouses).
      */
     _buildPath(link) {
-        return link.target !== null
-            ? this._childElbowPath(link)
-            : this._marriageChainPath(link);
+        return link.target === null
+            ? this._marriageChainPath(link)
+            : this._childElbowPath(link);
     }
 
     /**
