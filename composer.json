@@ -100,7 +100,7 @@
             "npm run lint"
         ],
         "ci:test:js:unit": [
-            "node --experimental-vm-modules node_modules/jest/bin/jest.js --passWithNoTests"
+            "node --no-warnings --experimental-vm-modules node_modules/jest/bin/jest.js --passWithNoTests"
         ],
         "ci:test": [
             "@ci:test:php:lint",
