@@ -28,6 +28,8 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
 <script type="module">
 
 import(<?php echo json_encode($javascript); ?>).then(({ PedigreeChart }) => {
+    const opts = (typeof WebtreesPedigreeChart !== "undefined" && WebtreesPedigreeChart.chartOptions) || {};
+
     new PedigreeChart(
         "#webtrees-pedigree-chart-container-<?php echo $id; ?>",
         {
@@ -36,31 +38,31 @@ import(<?php echo json_encode($javascript); ?>).then(({ PedigreeChart }) => {
             cssFiles: <?php echo json_encode($exportStylesheets); ?>,
 
             get generations() {
-                return (typeof generations !== "undefined" && generations !== null) ? generations : <?php echo $configuration->getGenerations(); ?>
+                return opts.generations ?? <?php echo $configuration->getGenerations(); ?>;
             },
 
             get treeLayout() {
-                return (typeof treeLayout !== "undefined" && treeLayout !== null) ? treeLayout : <?php echo json_encode($configuration->getLayout()); ?>;
+                return opts.treeLayout ?? <?php echo json_encode($configuration->getLayout()); ?>;
             },
 
             get openNewTabOnClick() {
-                return (typeof openNewTabOnClick !== "undefined" && openNewTabOnClick !== null) ? openNewTabOnClick : <?php echo json_encode($configuration->getOpenNewTabOnClick()); ?>;
+                return opts.openNewTabOnClick ?? <?php echo json_encode($configuration->getOpenNewTabOnClick()); ?>;
             },
 
             get showAlternativeName() {
-                return (typeof showAlternativeName !== "undefined" && showAlternativeName !== null) ? showAlternativeName : <?php echo json_encode($configuration->getShowAlternativeName()); ?>;
+                return opts.showAlternativeName ?? <?php echo json_encode($configuration->getShowAlternativeName()); ?>;
             },
 
             get showFamilyColors() {
-                return (typeof showFamilyColors !== "undefined" && showFamilyColors !== null) ? showFamilyColors : <?php echo json_encode($configuration->getShowFamilyColors()); ?>;
+                return opts.showFamilyColors ?? <?php echo json_encode($configuration->getShowFamilyColors()); ?>;
             },
 
             get paternalColor() {
-                return (typeof paternalColor !== "undefined" && paternalColor !== null) ? paternalColor : <?php echo json_encode($configuration->getPaternalColor()); ?>;
+                return opts.paternalColor ?? <?php echo json_encode($configuration->getPaternalColor()); ?>;
             },
 
             get maternalColor() {
-                return (typeof maternalColor !== "undefined" && maternalColor !== null) ? maternalColor : <?php echo json_encode($configuration->getMaternalColor()); ?>;
+                return opts.maternalColor ?? <?php echo json_encode($configuration->getMaternalColor()); ?>;
             },
 
             nameAbbreviation: <?php echo json_encode($chartParams['nameAbbreviation']); ?>,
