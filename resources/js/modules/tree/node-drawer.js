@@ -48,6 +48,11 @@ export default class NodeDrawer {
         this._name = new Name(this._svg, this._orientation, this._image, this._text);
         this._date = new DateRenderer(this._svg, this._orientation, this._image, this._text);
         this._familyColor = configuration.showFamilyColors ? new FamilyColor(configuration) : null;
+
+        // Tag the visual group when family-colors is on so svg.css can soften
+        // the sex stroke from --sex-X-fg to --sex-X-bg, letting the lineage
+        // fill carry the dominant signal.
+        this._svg.visual.classed("family-colors", this._familyColor !== null);
     }
 
     /**
@@ -145,14 +150,14 @@ export default class NodeDrawer {
                             .attr("y", -(this._orientation.boxHeight / 2))
                             .attr("width", this._orientation.boxWidth)
                             .attr("height", this._orientation.boxHeight)
-                            // Apply paternal/maternal coloring when enabled — overrides
-                            // the default sex-based CSS fill via inline style. The
-                            // stroke (set via the rect.male/.female CSS rule in
-                            // svg.css) keeps showing the sex color, mirroring the
-                            // fan-chart's outer color band: family colors fill the
-                            // body, sex stays readable as a coloured border. We use
-                            // .style() (not .attr()) because the CSS rule would
-                            // otherwise win on specificity over an SVG attribute.
+                            // When family-colors is enabled, the paternal/maternal
+                            // tint fills the body. The CSS softens the stroke from
+                            // --sex-X-fg to --sex-X-bg in this mode (via the
+                            // .family-colors class on the SVG root, see svg.css)
+                            // so sex stays readable as a pale border without
+                            // competing with the family colour. .style() is
+                            // required (not .attr()) because the CSS rule would
+                            // otherwise win on specificity.
                             .style("fill", (person) => this._lineageColor(person));
 
                         g.append("title").text((person) => person.data.data.name);

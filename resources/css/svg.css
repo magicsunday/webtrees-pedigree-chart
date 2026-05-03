@@ -30,6 +30,21 @@
     fill: var(--sex-u-bg, rgb(255, 255, 255));
 }
 
+/* Family-colors mode: the lineage tint (paternal/maternal) drives the fill
+   via inline style, so soften the stroke to the matching pale sex shade —
+   sex stays readable as a border without competing with the family colour. */
+.webtrees-pedigree-chart-container svg g.family-colors rect.female {
+    stroke: var(--sex-f-bg, rgb(233, 218, 241));
+}
+
+.webtrees-pedigree-chart-container svg g.family-colors rect.male {
+    stroke: var(--sex-m-bg, rgb(237, 247, 253));
+}
+
+.webtrees-pedigree-chart-container svg g.family-colors rect.unknown {
+    stroke: var(--sex-u-bg, rgb(255, 255, 255));
+}
+
 .webtrees-pedigree-chart-container svg rect.image {
     stroke: rgb(175, 175, 175);
 }
