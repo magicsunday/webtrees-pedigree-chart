@@ -49,20 +49,23 @@ Module.php (entry point, registers routes)
   - For local edits to module-base while developing pedigree-chart, run `make link-base` (symlinks `.build/vendor/.../webtrees-module-base` → the sibling clone). Reverse with `make unlink-base` or any `composer install/update`.
 
 ### JS (`resources/js/modules/`)
+Flat layout — every file is pedigree-specific glue. Reusable base classes (Storage, ChartExport, ChartOverlay, ChartZoom, Orientations, measureText, truncateNames) live in the external [`@magicsunday/webtrees-chart-lib`](https://github.com/magicsunday/webtrees-chart-lib) package, shared with the fan- and descendants-chart modules. Consumed via Git URL pinned in `package.json` (`github:magicsunday/webtrees-chart-lib#vX.Y.Z`); chart-lib's `prepare` script builds its `dist/` during install, so `npm ci --ignore-scripts` will break the build.
 - **`index.js`** — Exports `PedigreeChart` class (ES module entry point for Rollup).
-- **`custom/`** — Pedigree-specific glue: `chart.js` (D3 hierarchy.tree layout, click handling), `update.js` (AJAX update, transitions), `hierarchy.js` (D3 hierarchy), `tree.js` (collapse/expand), `data.js`, `configuration.js`.
-- **`lib/`** — Reusable building blocks scoped to this module: `chart/box/{image,text}` (box rendering), `chart/orientation/{topBottom,bottomTop,leftRight,rightLeft}` (4 orientations + collection picker), `chart/{svg,update,box,orientation-collection}`, `tree/{date,name,node-drawer,link-drawer,elbow/{horizontal,vertical}}` (tree drawing primitives), `common/{dataUrl,dpi}`, `constants.js`.
-- **Reusable base classes** (export, overlay, storage, zoom) live in the external [`@magicsunday/webtrees-chart-lib`](https://github.com/magicsunday/webtrees-chart-lib) package, shared with the fan- and descendants-chart modules. Consumed via Git URL pinned in `package.json` (`github:magicsunday/webtrees-chart-lib#vX.Y.Z`); chart-lib's `prepare` script builds its `dist/` during install, so `npm ci --ignore-scripts` will break the build.
+- **`page-entry.js` / `page-init.js`** — UMD bundle (`pedigree-chart-page.min.js`) loaded by `page.phtml`. Owns localStorage form-state wiring; `initPage()` resolves user options and publishes them under `WebtreesPedigreeChart.chartOptions` for `chart.phtml` getters.
+- **`chart.js`** (D3 hierarchy.tree layout, click handling), **`hierarchy.js`** (D3 hierarchy), **`tree.js`** (collapse/expand), **`data.js`**, **`configuration.js`**.
+- **`chart/`** — `box.js` + `box/{image,text}.js` (box rendering), `orientation-collection.js` (picks the matching `Orientation*` class from chart-lib), `svg.js`, `update.js`.
+- **`tree/`** — `date.js` (DateRenderer), `name.js`, `node-drawer.js`, `link-drawer.js`, `family-color.js`.
+- **`common/dpi.js`**, **`constants.js`**, **`d3.js`** (re-export facade).
 
 ### Views (`resources/views/`)
-- **`pedigree-chart/page.phtml`** — Main page with form. `getUrl()` builds AJAX URL from localStorage values.
-- **`pedigree-chart/chart.phtml`** — AJAX response: `<script type="module">` with `import()` to load ES module bundle.
+- **`pedigree-chart/page.phtml`** — Form + AJAX container. Loads `pedigree-chart-page.min.js` and calls `WebtreesPedigreeChart.initPage({ ajaxUrl })`.
+- **`pedigree-chart/chart.phtml`** — AJAX response: `<script type="module">` with `import()` to load ES module bundle. Reads user overrides from `WebtreesPedigreeChart.chartOptions ?? PHP defaults`.
 - **`pedigree-chart/form/{generations,layout,orientation}.phtml`** — Form partials.
 - **`charts/chart.phtml`** — Block template override (home page widget), uses `data-wt-ajax-url` pattern.
 
 ## Key patterns
 - **ES module loading**: `import().then(({ PedigreeChart }) => ...)` in `<script type="module">`, avoiding the `webtrees.load()` race condition.
-- **Storage flow**: `page.phtml` reads localStorage → injects as JS variables → `chart.phtml` getter checks `typeof varName !== "undefined"` before falling back to PHP defaults.
+- **Storage flow**: `page-init.js` reads localStorage → publishes resolved options under `WebtreesPedigreeChart.chartOptions` → `chart.phtml` getter reads `opts.x ?? PHP default`.
 - **Orientation strategy**: chart layout is configurable in 4 directions (top-bottom, bottom-top, left-right, right-left). The orientation-collection.js picks the matching `Orientation*` class which provides node coordinate transforms and elbow connector geometry.
 - **Block template**: Overrides core `modules/charts/chart.phtml` — must stay in sync with webtrees core changes (e.g. VanillaJS conversion).
 
