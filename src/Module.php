@@ -224,7 +224,7 @@ class Module extends PedigreeChartModule implements ModuleAssetUrlInterface, Mod
                 'tree'          => $tree,
                 'configuration' => $this->configuration,
                 'stylesheets'   => $this->getStylesheets(),
-                'javascript'    => $this->assetUrl('js/pedigree-chart-storage.min.js'),
+                'javascript'    => $this->assetUrl('js/pedigree-chart-page.min.js'),
             ]
         );
     }

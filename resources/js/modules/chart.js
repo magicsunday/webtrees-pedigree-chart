@@ -5,10 +5,10 @@
  * LICENSE file distributed with this source code.
  */
 import * as d3 from "./d3.js";
-import Hierarchy from "../custom/hierarchy.js";
+import Hierarchy from "./hierarchy.js";
 import Svg from "./chart/svg.js";
 import { ChartOverlay as Overlay } from "@magicsunday/webtrees-chart-lib";
-import Tree from "../custom/tree.js";
+import Tree from "./tree.js";
 
 const _MIN_HEIGHT = 300;
 const MIN_PADDING = 1; // Minimum padding around view box in "rem"
@@ -194,9 +194,11 @@ export default class Chart {
      * @private
      */
     redirectToIndividual(url) {
-        this._configuration.openNewTabOnClick
-            ? window.open(url, "_blank")
-            : (window.location = url);
+        if (this._configuration.openNewTabOnClick) {
+            window.open(url, "_blank");
+        } else {
+            window.location = url;
+        }
     }
 
     /**

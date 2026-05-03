@@ -20,7 +20,7 @@ await jest.unstable_mockModule("@magicsunday/webtrees-chart-lib", () => ({
     truncateNames: truncateNamesMock,
 }));
 
-const { default: Name } = await import("resources/js/modules/lib/tree/name.js");
+const { default: Name } = await import("resources/js/modules/tree/name.js");
 
 /**
  * Builds a Name instance with the minimal collaborator stubs needed to

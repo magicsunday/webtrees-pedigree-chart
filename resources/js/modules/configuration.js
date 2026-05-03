@@ -5,8 +5,8 @@
  * LICENSE file distributed with this source code.
  */
 
-import OrientationCollection from "../lib/chart/orientation-collection.js";
-import { LAYOUT_LEFTRIGHT } from "../lib/constants.js";
+import OrientationCollection from "./chart/orientation-collection.js";
+import { LAYOUT_LEFTRIGHT } from "./constants.js";
 
 /**
  * This class handles the configuration of the application.

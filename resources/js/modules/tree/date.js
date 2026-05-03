@@ -15,7 +15,7 @@ import { LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET } from "../constants.js";
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
  * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
-export default class Date {
+export default class DateRenderer {
     /**
      * Constructor.
      *
@@ -157,21 +157,22 @@ export default class Date {
         const fontSize = object.style("font-size");
         const fontWeight = object.style("font-weight");
 
+        let working = date;
         let truncated = false;
 
-        // Repeat removing the last char until the width matches
-        while (this.measureText(date, fontSize, fontWeight) > availableWidth && date.length > 1) {
-            // Remove last char
-            date = date.slice(0, -1).trim();
+        while (
+            this.measureText(working, fontSize, fontWeight) > availableWidth &&
+            working.length > 1
+        ) {
+            working = working.slice(0, -1).trim();
             truncated = true;
         }
 
-        // Remove trailing dot if present
-        if (date[date.length - 1] === ".") {
-            date = date.slice(0, -1).trim();
+        if (working[working.length - 1] === ".") {
+            working = working.slice(0, -1).trim();
         }
 
-        return truncated ? `${date}…` : date;
+        return truncated ? `${working}…` : working;
     }
 
     /**

@@ -7,7 +7,7 @@
 
 import { SEX_FEMALE, SEX_MALE } from "../constants.js";
 import Name from "./name.js";
-import Date from "./date.js";
+import DateRenderer from "./date.js";
 import FamilyColor from "./family-color.js";
 import Image from "../chart/box/image.js";
 import Text from "../chart/box/text.js";
@@ -36,7 +36,7 @@ export default class NodeDrawer {
         this._image = new Image(this._orientation, 20);
         this._text = new Text(this._orientation, this._image);
         this._name = new Name(this._svg, this._orientation, this._image, this._text);
-        this._date = new Date(this._svg, this._orientation, this._image, this._text);
+        this._date = new DateRenderer(this._svg, this._orientation, this._image, this._text);
         this._familyColor = configuration.showFamilyColors ? new FamilyColor(configuration) : null;
     }
 

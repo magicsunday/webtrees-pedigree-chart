@@ -5,8 +5,8 @@
  * LICENSE file distributed with this source code.
  */
 
-import * as d3 from "../lib/d3.js";
-import { LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET } from "../lib/constants.js";
+import * as d3 from "./d3.js";
+import { LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET } from "./constants.js";
 
 /**
  * This class handles the hierarchical data.

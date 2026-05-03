@@ -58,13 +58,13 @@ Version: <%= pkg.version %>`
         ]
     },
 
-    // pedigree-chart-storage.js
+    // pedigree-chart-page.js (Storage + page initialisation)
     {
-        input: "resources/js/modules/lib/storage.js",
+        input: "resources/js/modules/page-entry.js",
         output: [
             {
                 name: "WebtreesPedigreeChart",
-                file: "resources/js/pedigree-chart-storage.js",
+                file: "resources/js/pedigree-chart-page.js",
                 format: "umd"
             }
         ],
@@ -73,11 +73,11 @@ Version: <%= pkg.version %>`
         ]
     },
     {
-        input: "resources/js/modules/lib/storage.js",
+        input: "resources/js/modules/page-entry.js",
         output: [
             {
                 name: "WebtreesPedigreeChart",
-                file: "resources/js/pedigree-chart-storage.min.js",
+                file: "resources/js/pedigree-chart-page.min.js",
                 format: "umd"
             }
         ],

@@ -5,8 +5,8 @@
  * LICENSE file distributed with this source code.
  */
 
-import NodeDrawer from "../lib/tree/node-drawer.js";
-import LinkDrawer from "../lib/tree/link-drawer.js";
+import NodeDrawer from "./tree/node-drawer.js";
+import LinkDrawer from "./tree/link-drawer.js";
 
 /**
  * The class handles the creation of the tree.
