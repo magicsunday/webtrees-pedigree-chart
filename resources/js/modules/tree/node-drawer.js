@@ -51,6 +51,21 @@ export default class NodeDrawer {
     }
 
     /**
+     * Returns the lineage-derived (paternal/maternal) color for a person, or
+     * `null` when family colors are disabled — leaving the CSS sex-based
+     * fill in place.
+     *
+     * @param {object} person The d3 hierarchy datum
+     *
+     * @return {string|null}
+     *
+     * @private
+     */
+    _lineageColor(person) {
+        return this._familyColor === null ? null : this._familyColor.getColor(person);
+    }
+
+    /**
      * Draw the person boxes.
      *
      * @param {Array}  nodes  Array of descendant nodes
@@ -131,16 +146,14 @@ export default class NodeDrawer {
                             .attr("width", this._orientation.boxWidth)
                             .attr("height", this._orientation.boxHeight)
                             // Apply paternal/maternal coloring when enabled — overrides
-                            // the default sex-based CSS fill via inline style. We use
-                            // .style() (not .attr()) because the rect.male/.female CSS
-                            // rule in svg.css would otherwise override an SVG fill
-                            // attribute.
-                            .style("fill", (person) => {
-                                if (this._familyColor === null) {
-                                    return null;
-                                }
-                                return this._familyColor.getColor(person);
-                            });
+                            // the default sex-based CSS fill via inline style. The
+                            // stroke (set via the rect.male/.female CSS rule in
+                            // svg.css) keeps showing the sex color, mirroring the
+                            // fan-chart's outer color band: family colors fill the
+                            // body, sex stays readable as a coloured border. We use
+                            // .style() (not .attr()) because the CSS rule would
+                            // otherwise win on specificity over an SVG attribute.
+                            .style("fill", (person) => this._lineageColor(person));
 
                         g.append("title").text((person) => person.data.data.name);
                     },

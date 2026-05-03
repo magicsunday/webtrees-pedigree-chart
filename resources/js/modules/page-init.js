@@ -19,7 +19,9 @@ function getUrl(baseUrl, generations) {
     const url = new URL(baseUrl);
     const xrefInput = /** @type {HTMLInputElement} */ (document.getElementById("xref"));
     url.searchParams.set("xref", xrefInput.value);
-    url.searchParams.set("generations", String(generations));
+    if (generations !== null) {
+        url.searchParams.set("generations", generations);
+    }
 
     return url.toString();
 }
@@ -84,32 +86,45 @@ export function initPage(config) {
     );
     const layoutInput = /** @type {HTMLInputElement|null} */ (form.elements.namedItem("layout"));
     if (layoutInput) {
-        layoutInput.value = String(storage.read("layout") ?? "");
+        layoutInput.value = storage.readString("layout", "");
     }
 
-    const generationsRaw = storage.read("generations");
-
+    /**
+     * Resolved user options. `null` here means "user has not overridden the
+     * server default"; chart.phtml falls back to the PHP-side value via `??`.
+     *
+     * @type {{
+     *   generations: number|null,
+     *   treeLayout: string|null,
+     *   openNewTabOnClick: boolean|null,
+     *   showAlternativeName: boolean|null,
+     *   showNicknames: boolean|null,
+     *   showFamilyColors: boolean|null,
+     *   paternalColor: string|null,
+     *   maternalColor: string|null,
+     * }}
+     */
     const chartOptions = {
-        generations: generationsRaw === null ? null : Number.parseInt(String(generationsRaw), 10),
-        treeLayout: storage.read("layout"),
-        openNewTabOnClick: storage.read("openNewTabOnClick"),
-        showAlternativeName: storage.read("showAlternativeName"),
-        showNicknames: storage.read("showNicknames"),
-        showFamilyColors: storage.read("showFamilyColors"),
-        paternalColor: storage.read("paternalColor"),
-        maternalColor: storage.read("maternalColor"),
+        generations: storage.readNumber("generations"),
+        treeLayout: storage.readString("layout"),
+        openNewTabOnClick: storage.readBool("openNewTabOnClick"),
+        showAlternativeName: storage.readBool("showAlternativeName"),
+        showNicknames: storage.readBool("showNicknames"),
+        showFamilyColors: storage.readBool("showFamilyColors"),
+        paternalColor: storage.readString("paternalColor"),
+        maternalColor: storage.readString("maternalColor"),
     };
 
-    const w = /** @type {any} */ (window);
+    // WebtreesPedigreeChart is the UMD global exposed by the chart-page
+    // bundle; chart.phtml reads chartOptions from it.
+    const w = /** @type {{WebtreesPedigreeChart?: {chartOptions?: object}}} */ (
+        /** @type {unknown} */ (window)
+    );
     if (typeof w.WebtreesPedigreeChart !== "undefined") {
         w.WebtreesPedigreeChart.chartOptions = chartOptions;
     }
 
-    const generationsForUrl = storage.read("generations");
-    const ajaxUrl = getUrl(
-        config.ajaxUrl,
-        generationsForUrl === null ? null : String(generationsForUrl),
-    );
+    const ajaxUrl = getUrl(config.ajaxUrl, storage.readString("generations"));
     const ajaxContainer = document.getElementById("pedigree-chart-url");
     if (ajaxContainer) {
         ajaxContainer.setAttribute("data-wt-ajax-url", ajaxUrl);
