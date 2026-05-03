@@ -6,6 +6,11 @@
  */
 
 /**
+ * @import { Orientation } from "@magicsunday/webtrees-chart-lib"
+ * @import ImageBox from "./image.js"
+ */
+
+/**
  * The person text box container.
  *
  * @author  Rico Sonntag <mail@ricosonntag.de>
@@ -16,8 +21,8 @@ export default class Text {
     /**
      * Constructor.
      *
-     * @param {Orientation} orientation The current orientation
-     * @param {null|Image}  image       The image
+     * @param {Orientation}    orientation The current orientation
+     * @param {null|ImageBox}  image       The image
      */
     constructor(orientation, image = null) {
         this._orientation = orientation;

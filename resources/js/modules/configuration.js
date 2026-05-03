@@ -9,6 +9,10 @@ import OrientationCollection from "./chart/orientation-collection.js";
 import { LAYOUT_LEFTRIGHT } from "./constants.js";
 
 /**
+ * @import { Orientation } from "@magicsunday/webtrees-chart-lib"
+ */
+
+/**
  * This class handles the configuration of the application.
  *
  * @author  Rico Sonntag <mail@ricosonntag.de>
@@ -19,7 +23,7 @@ export default class Configuration {
     /**
      * Constructor.
      *
-     * @param {string[]} labels
+     * @param {{zoom: string, move: string}} labels
      * @param {number}   generations
      * @param {string}   treeLayout
      * @param {boolean}  openNewTabOnClick

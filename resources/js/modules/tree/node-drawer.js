@@ -9,8 +9,18 @@ import { SEX_FEMALE, SEX_MALE } from "../constants.js";
 import Name from "./name.js";
 import DateRenderer from "./date.js";
 import FamilyColor from "./family-color.js";
-import Image from "../chart/box/image.js";
-import Text from "../chart/box/text.js";
+import ImageBox from "../chart/box/image.js";
+import TextBox from "../chart/box/text.js";
+
+/**
+ * @import { HierarchyNode } from "d3-hierarchy"
+ * @import { Selection } from "d3-selection"
+ * @import Svg from "../chart/svg.js"
+ * @import Hierarchy from "../hierarchy.js"
+ * @import Configuration from "../configuration.js"
+ *
+ * @typedef {HierarchyNode<any>} Individual
+ */
 
 /**
  * The class handles the creation of the tree.
@@ -33,8 +43,8 @@ export default class NodeDrawer {
         this._configuration = configuration;
         this._orientation = this._configuration.orientation;
 
-        this._image = new Image(this._orientation, 20);
-        this._text = new Text(this._orientation, this._image);
+        this._image = new ImageBox(this._orientation, 20);
+        this._text = new TextBox(this._orientation, this._image);
         this._name = new Name(this._svg, this._orientation, this._image, this._text);
         this._date = new DateRenderer(this._svg, this._orientation, this._image, this._text);
         this._familyColor = configuration.showFamilyColors ? new FamilyColor(configuration) : null;
@@ -72,8 +82,10 @@ export default class NodeDrawer {
 
         // this.centerTree();
 
-        // Stash the old positions for transition
-        this._hierarchy.root.eachBefore((d) => {
+        // Stash the old positions for transition. d3 HierarchyNode does not
+        // declare x0/y0 — they are pedigree-specific scratch props.
+        this._hierarchy.root.eachBefore((node) => {
+            const d = /** @type {any} */ (node);
             d.x0 = d.x;
             d.y0 = d.y;
         });
@@ -82,83 +94,85 @@ export default class NodeDrawer {
     /**
      * Enter transition (new nodes).
      *
-     * @param {Selection}  enter
-     * @param {Individual} source
+     * @param {Selection<any, any, any, any>}  enter
+     * @param {Individual}                     _source
      *
      * @private
      */
     nodeEnter(enter, _source) {
-        enter
-            .append("g")
-            .attr("opacity", 0)
-            .attr("class", "person")
-            .attr("transform", (person) => {
-                return `translate(${person.x},${person.y})`;
-                // TODO Enable this to zoom from source to person
-                // return "translate(" + (source.x0) + "," + (source.y0) + ")";
-            })
-            // TODO Enable this to collapse/expand node on click
-            // .on("click", (event, d) => this.togglePerson(event, d))
-            .call(
-                // Draw the actual person rectangle with opacity of 0.5
-                (g) => {
-                    g.append("rect")
-                        .attr("class", (person) =>
-                            person.data.data.sex === SEX_FEMALE
-                                ? "female"
-                                : person.data.data.sex === SEX_MALE
-                                  ? "male"
-                                  : "unknown",
-                        )
-                        .classed("spouse", (person) => person.data.spouse)
-                        .attr("rx", 20)
-                        .attr("ry", 20)
-                        .attr("x", -(this._orientation.boxWidth / 2))
-                        .attr("y", -(this._orientation.boxHeight / 2))
-                        .attr("width", this._orientation.boxWidth)
-                        .attr("height", this._orientation.boxHeight)
-                        // Apply paternal/maternal coloring when enabled — overrides
-                        // the default sex-based CSS fill via inline style. We use
-                        // .style() (not .attr()) because the rect.male/.female CSS
-                        // rule in svg.css would otherwise override an SVG fill
-                        // attribute.
-                        .style("fill", (person) => {
-                            if (this._familyColor === null) {
-                                return null;
-                            }
-                            return this._familyColor.getColor(person);
-                        });
+        return (
+            enter
+                .append("g")
+                .attr("opacity", 0)
+                .attr("class", "person")
+                .attr("transform", (person) => {
+                    return `translate(${person.x},${person.y})`;
+                    // TODO Enable this to zoom from source to person
+                    // return "translate(" + (source.x0) + "," + (source.y0) + ")";
+                })
+                // TODO Enable this to collapse/expand node on click
+                // .on("click", (event, d) => this.togglePerson(event, d))
+                .call(
+                    // Draw the actual person rectangle with opacity of 0.5
+                    (g) => {
+                        g.append("rect")
+                            .attr("class", (person) =>
+                                person.data.data.sex === SEX_FEMALE
+                                    ? "female"
+                                    : person.data.data.sex === SEX_MALE
+                                      ? "male"
+                                      : "unknown",
+                            )
+                            .classed("spouse", (person) => person.data.spouse)
+                            .attr("rx", 20)
+                            .attr("ry", 20)
+                            .attr("x", -(this._orientation.boxWidth / 2))
+                            .attr("y", -(this._orientation.boxHeight / 2))
+                            .attr("width", this._orientation.boxWidth)
+                            .attr("height", this._orientation.boxHeight)
+                            // Apply paternal/maternal coloring when enabled — overrides
+                            // the default sex-based CSS fill via inline style. We use
+                            // .style() (not .attr()) because the rect.male/.female CSS
+                            // rule in svg.css would otherwise override an SVG fill
+                            // attribute.
+                            .style("fill", (person) => {
+                                if (this._familyColor === null) {
+                                    return null;
+                                }
+                                return this._familyColor.getColor(person);
+                            });
 
-                    g.append("title").text((person) => person.data.data.name);
-                },
-            )
-            .call(
-                // Draws the node (including image, names and dates)
-                (g) => this.drawNode(g),
-            )
-            .call(
-                (g) =>
-                    g
-                        .transition()
-                        .duration(this._configuration.duration)
-                        // .delay(1000)
-                        .attr("opacity", 1),
-                // TODO Enable this to zoom from source to person
-                // .attr("transform", (person) => {
-                //     return "translate(" + (person.x) + "," + (person.y) + ")";
-                // })
-            );
+                        g.append("title").text((person) => person.data.data.name);
+                    },
+                )
+                .call(
+                    // Draws the node (including image, names and dates)
+                    (g) => this.drawNode(g),
+                )
+                .call(
+                    (g) =>
+                        g
+                            .transition()
+                            .duration(this._configuration.duration)
+                            // .delay(1000)
+                            .attr("opacity", 1),
+                    // TODO Enable this to zoom from source to person
+                    // .attr("transform", (person) => {
+                    //     return "translate(" + (person.x) + "," + (person.y) + ")";
+                    // })
+                )
+        );
     }
 
     /**
      * Update transition (existing nodes).
      *
-     * @param {Selection} update
+     * @param {Selection<any, any, any, any>} update
      *
      * @private
      */
     nodeUpdate(update) {
-        update.call((g) =>
+        return update.call((g) =>
             g
                 .transition()
                 .duration(this._configuration.duration)
@@ -172,12 +186,13 @@ export default class NodeDrawer {
     /**
      * Exit transition (nodes to be removed).
      *
-     * @param {Selection}  exit
+     * @param {Selection<any, any, any, any>}  exit
      * @param {Individual} source
      *
      * @private
      */
     nodeExit(exit, source) {
+        const src = /** @type {any} */ (source);
         exit.call((g) =>
             g
                 .transition()
@@ -185,7 +200,7 @@ export default class NodeDrawer {
                 .attr("opacity", 0)
                 .attr("transform", () => {
                     // Transition exit nodes to the source's position
-                    return `translate(${source.x0},${source.y0})`;
+                    return `translate(${src.x0},${src.y0})`;
                 })
                 .remove(),
         );
@@ -194,7 +209,7 @@ export default class NodeDrawer {
     /**
      * Draws the image and text nodes.
      *
-     * @param {Selection} parent The parent element to which the elements are to be attached
+     * @param {Selection<any, any, any, any>} parent The parent element to which the elements are to be attached
      *
      * @private
      */

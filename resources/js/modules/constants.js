@@ -24,7 +24,7 @@ export const LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET = 30;
  * @type {string}
  * @const
  *
- * @see \Fisharebest\Webtrees\Module\PedigreeChartModule
+ * @see PHP class Fisharebest/Webtrees/Module/PedigreeChartModule
  */
 export const LAYOUT_TOPBOTTOM = "down";
 export const LAYOUT_BOTTOMTOP = "up";

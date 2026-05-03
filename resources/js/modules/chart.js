@@ -10,6 +10,11 @@ import Svg from "./chart/svg.js";
 import { ChartOverlay as Overlay } from "@magicsunday/webtrees-chart-lib";
 import Tree from "./tree.js";
 
+/**
+ * @import { Selection } from "d3-selection"
+ * @import Configuration from "./configuration.js"
+ */
+
 const _MIN_HEIGHT = 300;
 const MIN_PADDING = 1; // Minimum padding around view box in "rem"
 
@@ -24,14 +29,19 @@ export default class Chart {
     /**
      * Constructor.
      *
-     * @param {Selection}     parent        The selected D3 parent element container
-     * @param {Configuration} configuration The application configuration
+     * @param {Selection<HTMLElement, unknown, HTMLElement, unknown>} parent The selected D3 parent element container
+     * @param {Configuration}                                          configuration The application configuration
      */
     constructor(parent, configuration) {
         this._configuration = configuration;
         this._parent = parent;
         this._hierarchy = new Hierarchy(this._configuration);
-        this._data = {};
+        /** @type {Data|null} */
+        this._data = null;
+        /** @type {Svg} */
+        this._svg = /** @type {Svg} */ (/** @type {unknown} */ (null));
+        /** @type {Overlay} */
+        this._overlay = /** @type {Overlay} */ (/** @type {unknown} */ (null));
     }
 
     /**
@@ -46,7 +56,7 @@ export default class Chart {
     /**
      * Returns the parent container.
      *
-     * @returns {Selection}
+     * @returns {Selection<HTMLElement, unknown, HTMLElement, unknown>}
      */
     get parent() {
         return this._parent;
@@ -55,7 +65,7 @@ export default class Chart {
     /**
      * Returns the chart data.
      *
-     * @returns {Data}
+     * @returns {Data|null}
      */
     get data() {
         return this._data;
@@ -197,7 +207,7 @@ export default class Chart {
         if (this._configuration.openNewTabOnClick) {
             window.open(url, "_blank");
         } else {
-            window.location = url;
+            window.location.href = url;
         }
     }
 
@@ -208,6 +218,6 @@ export default class Chart {
      */
     update(url) {
         // See update.js for a possible AJAX only update solution, but which requires some additional work
-        window.location = url;
+        window.location.href = url;
     }
 }

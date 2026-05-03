@@ -17,8 +17,9 @@ import { Storage } from "@magicsunday/webtrees-chart-lib";
  */
 function getUrl(baseUrl, generations) {
     const url = new URL(baseUrl);
-    url.searchParams.set("xref", document.getElementById("xref").value);
-    url.searchParams.set("generations", generations);
+    const xrefInput = /** @type {HTMLInputElement} */ (document.getElementById("xref"));
+    url.searchParams.set("xref", xrefInput.value);
+    url.searchParams.set("generations", String(generations));
 
     return url.toString();
 }
@@ -32,6 +33,9 @@ function getUrl(baseUrl, generations) {
 function toggleMoreOptions(storage) {
     const showMoreOptions = document.getElementById("showMoreOptions");
     const optionsToggle = document.getElementById("options");
+    if (!showMoreOptions || !optionsToggle) {
+        return;
+    }
 
     showMoreOptions.addEventListener("shown.bs.collapse", () => {
         storage.write("showMoreOptions", true);
@@ -58,7 +62,7 @@ function toggleMoreOptions(storage) {
  * and publishes the resolved chart options under the WebtreesPedigreeChart
  * UMD global so chart.phtml getters can read user overrides.
  *
- * @param {Object} config
+ * @param {object} config
  * @param {string} config.ajaxUrl The base AJAX endpoint URL
  */
 export function initPage(config) {
@@ -75,13 +79,18 @@ export function initPage(config) {
 
     toggleMoreOptions(storage);
 
-    const formElements = document.getElementById("webtrees-pedigree-chart-form").elements;
-    formElements.namedItem("layout").value = storage.read("layout");
+    const form = /** @type {HTMLFormElement} */ (
+        document.getElementById("webtrees-pedigree-chart-form")
+    );
+    const layoutInput = /** @type {HTMLInputElement|null} */ (form.elements.namedItem("layout"));
+    if (layoutInput) {
+        layoutInput.value = String(storage.read("layout") ?? "");
+    }
 
     const generationsRaw = storage.read("generations");
 
     const chartOptions = {
-        generations: generationsRaw === null ? null : Number.parseInt(generationsRaw, 10),
+        generations: generationsRaw === null ? null : Number.parseInt(String(generationsRaw), 10),
         treeLayout: storage.read("layout"),
         openNewTabOnClick: storage.read("openNewTabOnClick"),
         showAlternativeName: storage.read("showAlternativeName"),
@@ -91,10 +100,18 @@ export function initPage(config) {
         maternalColor: storage.read("maternalColor"),
     };
 
-    if (typeof window.WebtreesPedigreeChart !== "undefined") {
-        window.WebtreesPedigreeChart.chartOptions = chartOptions;
+    const w = /** @type {any} */ (window);
+    if (typeof w.WebtreesPedigreeChart !== "undefined") {
+        w.WebtreesPedigreeChart.chartOptions = chartOptions;
     }
 
-    const ajaxUrl = getUrl(config.ajaxUrl, storage.read("generations"));
-    document.getElementById("pedigree-chart-url").setAttribute("data-wt-ajax-url", ajaxUrl);
+    const generationsForUrl = storage.read("generations");
+    const ajaxUrl = getUrl(
+        config.ajaxUrl,
+        generationsForUrl === null ? null : String(generationsForUrl),
+    );
+    const ajaxContainer = document.getElementById("pedigree-chart-url");
+    if (ajaxContainer) {
+        ajaxContainer.setAttribute("data-wt-ajax-url", ajaxUrl);
+    }
 }

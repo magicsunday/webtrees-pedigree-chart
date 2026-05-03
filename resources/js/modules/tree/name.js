@@ -9,6 +9,14 @@ import { measureText, truncateNames } from "@magicsunday/webtrees-chart-lib";
 import * as d3 from "../d3.js";
 
 /**
+ * @import { Selection } from "d3-selection"
+ * @import { Orientation } from "@magicsunday/webtrees-chart-lib"
+ * @import Svg from "../chart/svg.js"
+ * @import ImageBox from "../chart/box/image.js"
+ * @import TextBox from "../chart/box/text.js"
+ */
+
+/**
  * The class handles the creation of the tree.
  *
  * @author  Rico Sonntag <mail@ricosonntag.de>
@@ -21,8 +29,8 @@ export default class Name {
      *
      * @param {Svg}         svg
      * @param {Orientation} orientation
-     * @param {Image}       image
-     * @param {Text}        text
+     * @param {ImageBox}    image
+     * @param {TextBox}     text
      */
     constructor(svg, orientation, image, text) {
         this._svg = svg;
@@ -34,7 +42,7 @@ export default class Name {
     /**
      * Add the individual names to the given parent element.
      *
-     * @param {Selection} parent The parent element to which the elements are to be attached
+     * @param {Selection<any, any, any, any>} parent The parent element to which the elements are to be attached
      *
      * @public
      */
@@ -210,8 +218,8 @@ export default class Name {
      * parent element. The "tspan" element containing the preferred name gets an
      * additional underline style to highlight this one.
      *
-     * @param {Selection}                       parent The parent element to which the <tspan> elements are to be attached
-     * @param {function(*): LabelElementData[]} data
+     * @param {Selection<any, any, any, any>}   parent The parent element to which the <tspan> elements are to be attached
+     * @param {LabelElementData[] | ((arg0: any) => LabelElementData[])} data
      *
      * @private
      */
@@ -355,11 +363,13 @@ export default class Name {
         const fontSize = parent.style("font-size");
         const fontWeight = parent.style("font-weight");
 
-        return truncateNames(
-            names,
-            availableWidth,
-            (text) => this.measureText(text, fontSize, fontWeight),
-            { strategy: this._svg._configuration.nameAbbreviation },
+        return /** @type {LabelElementData[]} */ (
+            truncateNames(
+                names,
+                availableWidth,
+                (text) => this.measureText(text, fontSize, fontWeight),
+                { strategy: this._svg._configuration.nameAbbreviation },
+            )
         );
     }
 

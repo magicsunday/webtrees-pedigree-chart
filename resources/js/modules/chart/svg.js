@@ -12,6 +12,17 @@ import {
 } from "@magicsunday/webtrees-chart-lib";
 
 /**
+ * @import { Selection } from "d3-selection"
+ * @import { Transition } from "d3-transition"
+ * @import {
+ *     ChartOverlay as Overlay,
+ *     PngChartExport,
+ *     SvgChartExport,
+ * } from "@magicsunday/webtrees-chart-lib"
+ * @import Configuration from "../configuration.js"
+ */
+
+/**
  * SVG class
  *
  * @author  Rico Sonntag <mail@ricosonntag.de>
@@ -22,15 +33,17 @@ export default class Svg {
     /**
      * Constructor.
      *
-     * @param {Selection}     parent        The selected D3 parent element container
-     * @param {Configuration} configuration The application configuration
+     * @param {Selection<HTMLElement, unknown, HTMLElement, unknown>} parent The selected D3 parent element container
+     * @param {Configuration}                                          configuration The application configuration
      */
     constructor(parent, configuration) {
         // Create the <svg> element
         this._element = parent.append("svg");
         this._defs = new Defs(this._element);
 
+        /** @type {Selection<SVGGElement, unknown, HTMLElement, unknown>|null} */
         this._visual = null;
+        /** @type {Zoom|null} */
         this._zoom = null;
         this._configuration = configuration;
 
@@ -47,18 +60,18 @@ export default class Svg {
     }
 
     /**
-     * Returns the SVG definition instance.
+     * Returns the SVG zoom instance.
      *
-     * @returns {Zoom}
+     * @returns {Zoom|null}
      */
     get zoom() {
         return this._zoom;
     }
 
     /**
+     * Returns the inner <g> visual group selection.
      *
-     *
-     * @returns {Selection}
+     * @returns {Selection<SVGGElement, unknown, HTMLElement, unknown>|null}
      */
     get visual() {
         return this._visual;
@@ -142,7 +155,7 @@ export default class Svg {
      *
      * @param {string} type The export file type (either "png" or "svg")
      *
-     * @returns {PngExport|SvgExport}
+     * @returns {PngChartExport|SvgChartExport}
      */
     export(type) {
         const factory = new ExportFactory();
@@ -151,41 +164,43 @@ export default class Svg {
     }
 
     /**
-     * @returns {Node}
+     * @returns {SVGSVGElement|null}
      */
     node() {
-        return this._element.node();
+        return /** @type {SVGSVGElement|null} */ (this._element.node());
     }
 
     /**
-     * @param {function|string|null} select
+     * @param {string} select
      *
-     * @returns {Selection}
+     * @returns {Selection<SVGElement, unknown, SVGSVGElement, unknown>}
      */
     selectAll(select) {
-        return this._element.selectAll(select);
+        return /** @type {any} */ (this._element.selectAll(select));
     }
 
     /**
      * @param {string} name
+     * @param {string} [value]
      *
-     * @returns {string|this}
+     * @returns {any}
      */
-    style(_name) {
-        return this._element.style(...arguments);
+    style(name, value) {
+        return value === undefined ? this._element.style(name) : this._element.style(name, value);
     }
 
     /**
      * @param {string} name
+     * @param {any}    [value]
      *
-     * @returns {string|this}
+     * @returns {any}
      */
-    attr(_name) {
-        return this._element.attr(...arguments);
+    attr(name, value) {
+        return value === undefined ? this._element.attr(name) : this._element.attr(name, value);
     }
 
     /**
-     * @returns {Transition}
+     * @returns {Transition<SVGSVGElement, unknown, HTMLElement, unknown>}
      */
     transition() {
         return this._element.transition();

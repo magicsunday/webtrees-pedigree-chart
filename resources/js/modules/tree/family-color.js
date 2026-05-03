@@ -52,7 +52,7 @@ export default class FamilyColor {
      * Returns an HSL color string for a hierarchy node, or null when no
      * color should be applied.
      *
-     * @param {Object} datum The D3 hierarchy datum
+     * @param {object} datum The D3 hierarchy datum
      *
      * @returns {string|null}
      */
@@ -86,7 +86,7 @@ export default class FamilyColor {
      * paternal/maternal side, in [0, 1]. Mirrors fan-chart's
      * `half = refMidpoint / 0.5` for the equivalent radial geometry.
      *
-     * @param {Object} datum
+     * @param {object} datum
      *
      * @returns {number}
      *
@@ -147,7 +147,7 @@ export default class FamilyColor {
      * Walks the parent chain until the depth-1 ancestor (= a direct parent
      * of the root individual). Returns null if no such ancestor exists.
      *
-     * @param {Object} datum
+     * @param {object} datum
      *
      * @returns {Object|null}
      *

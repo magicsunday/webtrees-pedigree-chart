@@ -9,6 +9,14 @@ import { measureText } from "@magicsunday/webtrees-chart-lib";
 import { LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET } from "../constants.js";
 
 /**
+ * @import { Selection } from "d3-selection"
+ * @import { Orientation } from "@magicsunday/webtrees-chart-lib"
+ * @import Svg from "../chart/svg.js"
+ * @import ImageBox from "../chart/box/image.js"
+ * @import TextBox from "../chart/box/text.js"
+ */
+
+/**
  * The class handles the creation of the tree.
  *
  * @author  Rico Sonntag <mail@ricosonntag.de>
@@ -21,8 +29,8 @@ export default class DateRenderer {
      *
      * @param {Svg}         svg
      * @param {Orientation} orientation
-     * @param {Image}       image
-     * @param {Text}        text
+     * @param {ImageBox}    image
+     * @param {TextBox}     text
      */
     constructor(svg, orientation, image, text) {
         this._svg = svg;
@@ -34,7 +42,7 @@ export default class DateRenderer {
     /**
      * Add the individual dates to the given parent element.
      *
-     * @param {Selection} parent The parent element to which the elements are to be attached
+     * @param {Selection<any, any, any, any>} parent The parent element to which the elements are to be attached
      *
      * @public
      */

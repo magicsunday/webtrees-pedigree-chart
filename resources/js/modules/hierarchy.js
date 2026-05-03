@@ -9,6 +9,11 @@ import * as d3 from "./d3.js";
 import { LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET } from "./constants.js";
 
 /**
+ * @import { HierarchyNode, HierarchyPointNode } from "d3-hierarchy"
+ * @import Configuration from "./configuration.js"
+ */
+
+/**
  * This class handles the hierarchical data.
  *
  * @author  Rico Sonntag <mail@ricosonntag.de>
@@ -23,7 +28,9 @@ export default class Hierarchy {
      */
     constructor(configuration) {
         this._configuration = configuration;
+        /** @type {HierarchyPointNode<any>|null} */
         this._nodes = null;
+        /** @type {HierarchyNode<any>|null} */
         this._root = null;
     }
 
@@ -40,9 +47,10 @@ export default class Hierarchy {
 
         this._root = d3.hierarchy(datum, (datum) => datum.parents);
 
-        // Assign a unique ID to each node
+        // Assign a unique ID to each node — d3 HierarchyNode `id` is a
+        // readonly getter, so we attach our own property under a typed view.
         this._root.ancestors().forEach((d, i) => {
-            d.id = i;
+            /** @type {any} */ (d).id = i;
         });
 
         // Declares a tree layout and assigns the size.
@@ -67,9 +75,9 @@ export default class Hierarchy {
     }
 
     /**
-     * Returns the nodes.
+     * Returns the laid-out tree (root node with x/y assigned by d3.tree()).
      *
-     * @returns {Individual[]}
+     * @returns {HierarchyPointNode<any>|null}
      *
      * @public
      */
@@ -78,9 +86,9 @@ export default class Hierarchy {
     }
 
     /**
-     * Returns the root note.
+     * Returns the root node of the d3 hierarchy.
      *
-     * @returns {Individual}
+     * @returns {HierarchyNode<any>|null}
      *
      * @public
      */

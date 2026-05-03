@@ -9,6 +9,12 @@ import NodeDrawer from "./tree/node-drawer.js";
 import LinkDrawer from "./tree/link-drawer.js";
 
 /**
+ * @import Svg from "./chart/svg.js"
+ * @import Configuration from "./configuration.js"
+ * @import Hierarchy from "./hierarchy.js"
+ */
+
+/**
  * The class handles the creation of the tree.
  *
  * @author  Rico Sonntag <mail@ricosonntag.de>
@@ -28,8 +34,9 @@ export default class Tree {
         this._configuration = configuration;
         this._hierarchy = hierarchy;
 
-        this._hierarchy.root.x0 = 0;
-        this._hierarchy.root.y0 = 0;
+        const root = /** @type {any} */ (this._hierarchy.root);
+        root.x0 = 0;
+        root.y0 = 0;
 
         this._orientation = this._configuration.orientation;
 
@@ -47,10 +54,7 @@ export default class Tree {
      * @public
      */
     draw(source) {
-        /** @type {Individual[]} */
         const nodes = this._hierarchy.root.descendants();
-
-        /** @type {Link[]} */
         const links = this._hierarchy.nodes.links();
 
         // // Start with only the first few generations of ancestors showing

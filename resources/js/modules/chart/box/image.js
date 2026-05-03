@@ -6,6 +6,10 @@
  */
 
 /**
+ * @import { Orientation } from "@magicsunday/webtrees-chart-lib"
+ */
+
+/**
  * The person image box container.
  *
  * @author  Rico Sonntag <mail@ricosonntag.de>
