@@ -52,10 +52,10 @@ Module.php (entry point, registers routes)
 Flat layout — every file is pedigree-specific glue. Reusable base classes (Storage, ChartExport, ChartOverlay, ChartZoom, Orientations, measureText, truncateNames) live in the external [`@magicsunday/webtrees-chart-lib`](https://github.com/magicsunday/webtrees-chart-lib) package, shared with the fan- and descendants-chart modules. Consumed via Git URL pinned in `package.json` (`github:magicsunday/webtrees-chart-lib#vX.Y.Z`); chart-lib's `prepare` script builds its `dist/` during install, so `npm ci --ignore-scripts` will break the build.
 - **`index.js`** — Exports `PedigreeChart` class (ES module entry point for Rollup).
 - **`page-entry.js` / `page-init.js`** — UMD bundle (`pedigree-chart-page.min.js`) loaded by `page.phtml`. Owns localStorage form-state wiring; `initPage()` resolves user options and publishes them under `WebtreesPedigreeChart.chartOptions` for `chart.phtml` getters.
-- **`chart.js`** (D3 hierarchy.tree layout, click handling), **`hierarchy.js`** (D3 hierarchy), **`tree.js`** (collapse/expand), **`data.js`**, **`configuration.js`**.
-- **`chart/`** — `box.js` + `box/{image,text}.js` (box rendering), `orientation-collection.js` (picks the matching `Orientation*` class from chart-lib), `svg.js`, `update.js`.
+- **`chart.js`** (D3 hierarchy.tree layout, click handling), **`hierarchy.js`** (D3 hierarchy), **`tree.js`** (collapse/expand), **`configuration.js`**.
+- **`chart/`** — `box/{image,text}.js` (box rendering), `orientation-collection.js` (picks the matching `Orientation*` class from chart-lib), `svg.js`.
 - **`tree/`** — `date.js` (DateRenderer), `name.js`, `node-drawer.js`, `link-drawer.js`, `family-color.js`.
-- **`common/dpi.js`**, **`constants.js`**, **`d3.js`** (re-export facade).
+- **`constants.js`**, **`d3.js`** (re-export facade).
 
 ### Views (`resources/views/`)
 - **`pedigree-chart/page.phtml`** — Form + AJAX container. Loads `pedigree-chart-page.min.js` and calls `WebtreesPedigreeChart.initPage({ ajaxUrl })`.
