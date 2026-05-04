@@ -93,12 +93,17 @@ export function initPage(config) {
      * Resolved user options. `null` here means "user has not overridden the
      * server default"; chart.phtml falls back to the PHP-side value via `??`.
      *
+     * Only options that the chart re-evaluates client-side belong here.
+     * showNicknames is server-rendered through DataFacade so it is
+     * persisted in localStorage via storage.register() above (to keep
+     * the form state across reloads) but does NOT need to ship in
+     * chartOptions — chart.phtml has no matching getter.
+     *
      * @type {{
      *   generations: number|null,
      *   treeLayout: string|null,
      *   openNewTabOnClick: boolean|null,
      *   showAlternativeName: boolean|null,
-     *   showNicknames: boolean|null,
      *   showFamilyColors: boolean|null,
      *   paternalColor: string|null,
      *   maternalColor: string|null,
@@ -109,7 +114,6 @@ export function initPage(config) {
         treeLayout: storage.readString("layout"),
         openNewTabOnClick: storage.readBool("openNewTabOnClick"),
         showAlternativeName: storage.readBool("showAlternativeName"),
-        showNicknames: storage.readBool("showNicknames"),
         showFamilyColors: storage.readBool("showFamilyColors"),
         paternalColor: storage.readString("paternalColor"),
         maternalColor: storage.readString("maternalColor"),

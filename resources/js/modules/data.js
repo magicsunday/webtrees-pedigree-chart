@@ -14,16 +14,23 @@
  */
 
 /**
- * The plain person data emitted by the PHP DataFacade.
+ * The plain person data emitted by the PHP DataFacade. Field set
+ * mirrors NodeData::jsonSerialize() so any property added on the PHP
+ * side must also be added here for the strict typecheck pass to keep
+ * surfacing typos.
  *
  * @typedef {object} Data
  * @property {number}   id              The unique ID of the person
  * @property {string}   xref            The unique identifier of the person
+ * @property {string}   url             Link to the individual's webtrees page
+ * @property {string}   updateUrl       AJAX endpoint used to re-center the chart on this person
+ * @property {number}   generation      The generation the person belongs to (1 = subject)
  * @property {string}   sex             The sex of the person
  * @property {string}   birth           The birthdate of the person
  * @property {string}   death           The death date of the person
  * @property {string}   timespan        The lifetime description
  * @property {string}   thumbnail       The URL of the thumbnail image
+ * @property {string}   silhouette      The sex-specific silhouette URL used as image fallback
  * @property {string}   name            The full name of the individual
  * @property {string}   preferredName   The preferred first name
  * @property {string[]} firstNames      The list of first names
