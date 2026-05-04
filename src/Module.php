@@ -185,6 +185,7 @@ class Module extends PedigreeChartModule implements ModuleAssetUrlInterface, Mod
                         'showAlternativeName' => $validator->boolean('showAlternativeName', true),
                         'showNicknames'       => $validator->boolean('showNicknames', false),
                         'showFamilyColors'    => $validator->boolean('showFamilyColors', false),
+                        'showPlaces'          => $validator->boolean('showPlaces', false),
                         'showAdditionalFacts' => $validator->boolean('showAdditionalFacts', true),
                         'paternalColor'       => $validator->string('paternalColor', Configuration::PATERNAL_COLOR_DEFAULT),
                         'maternalColor'       => $validator->string('maternalColor', Configuration::MATERNAL_COLOR_DEFAULT),

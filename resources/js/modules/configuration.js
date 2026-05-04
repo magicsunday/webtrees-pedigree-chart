@@ -32,6 +32,7 @@ export default class Configuration {
      * @param {string}   paternalColor
      * @param {string}   maternalColor
      * @param {string}   nameAbbreviation One of "GIVEN" or "SURNAME". Resolved server-side from the tree's SURNAME_TRADITION when admin sets it to AUTO.
+     * @param {boolean}  showPlaces
      * @param {boolean}  showAdditionalFacts
      * @param {string[]} factSlots
      * @param {boolean}  rtl
@@ -47,6 +48,7 @@ export default class Configuration {
         paternalColor = "#70a9cf",
         maternalColor = "#d06f94",
         nameAbbreviation = "GIVEN",
+        showPlaces = false,
         showAdditionalFacts = true,
         factSlots = ["BIRT", "DEAT"],
         rtl = false,
@@ -62,8 +64,21 @@ export default class Configuration {
         this._paternalColor = paternalColor;
         this._maternalColor = maternalColor;
         this._nameAbbreviation = nameAbbreviation;
+        this._showPlaces = showPlaces;
         this._showAdditionalFacts = showAdditionalFacts;
         this._factSlots = factSlots;
+
+        // Runtime flags set by Hierarchy.init() — true only when at least
+        // one individual in the chart actually has a nickname or
+        // alternative name (and the corresponding toggle is on). Kept on
+        // the config object so the renderer can reserve space without
+        // re-walking the tree for every box.
+        this.nicknameVisible = false;
+        this.altNameVisible = false;
+        // Whether at least one individual in the chart has a portrait or
+        // silhouette. When false in a vertical layout, the box drops the
+        // image strip and shrinks accordingly.
+        this.imageVisible = true;
 
         //
         this.duration = 750;
@@ -194,8 +209,19 @@ export default class Configuration {
     }
 
     /**
-     * Returns TRUE when the box should display extra fact rows (BIRT/DEAT
-     * with places, plus any tags from the tree's CHART_BOX_TAGS preference).
+     * Returns TRUE when the box should render the place row beneath each
+     * birth/death date. When false, only the dates are drawn and the date
+     * pair shifts to the bottom of the box (compact "name + dates" layout).
+     *
+     * @returns {boolean}
+     */
+    get showPlaces() {
+        return this._showPlaces;
+    }
+
+    /**
+     * Returns TRUE when the box should display extra fact rows from the
+     * tree's CHART_BOX_TAGS preference (beyond the always-on BIRT/DEAT).
      *
      * @returns {boolean}
      */

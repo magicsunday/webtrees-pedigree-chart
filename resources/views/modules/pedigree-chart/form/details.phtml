@@ -49,6 +49,19 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
 
         <div class="mt-3">
             <?php echo view($moduleName . '::modules/components/checkbox', [
+                'name'      => 'showPlaces',
+                'label'     => I18N::translate('Show places'),
+                'checked'   => $configuration->getShowPlaces(),
+                'unchecked' => '0',
+            ]);
+?>
+            <small class="ps-4 form-text text-muted form-element-description" style="box-decoration-break: clone;">
+                <?php echo I18N::translate('Shows the place row beneath each birth and death date. When disabled, only the dates are shown and the date pair shifts to the bottom of the box.'); ?>
+            </small>
+        </div>
+
+        <div class="mt-3">
+            <?php echo view($moduleName . '::modules/components/checkbox', [
                 'name'      => 'showAdditionalFacts',
                 'label'     => I18N::translate('Show additional facts'),
                 'checked'   => $configuration->getShowAdditionalFacts(),
@@ -56,7 +69,7 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
             ]);
 ?>
             <small class="ps-4 form-text text-muted form-element-description" style="box-decoration-break: clone;">
-                <?php echo I18N::translate('Shows birth and death places, plus any extra facts configured for chart boxes in the tree settings (Control panel → Trees → Preferences → "Other facts to show in charts"). When disabled, only the lifespan line is shown.'); ?>
+                <?php echo I18N::translate('Shows the extra facts configured for chart boxes in the tree settings (Control panel → Trees → Preferences → "Other facts to show in charts"). Birth and death dates are always displayed.'); ?>
             </small>
         </div>
     </div>

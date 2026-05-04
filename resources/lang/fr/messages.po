@@ -228,5 +228,11 @@ msgstr "Couleurs"
 msgid "Show additional facts"
 msgstr "Afficher des faits supplémentaires"
 
-msgid "Shows birth and death places, plus any extra facts configured for chart boxes in the tree settings (Control panel → Trees → Preferences → \"Other facts to show in charts\"). When disabled, only the lifespan line is shown."
-msgstr "Affiche les lieux de naissance et de décès, ainsi que les faits supplémentaires configurés pour les cases du diagramme dans les paramètres de l'arbre (Panneau d'administration → Arbres → Préférences → « Autres faits à afficher dans les diagrammes »). Lorsqu'il est désactivé, seule la ligne de durée de vie est affichée."
+msgid "Shows the extra facts configured for chart boxes in the tree settings (Control panel → Trees → Preferences → \"Other facts to show in charts\"). Birth and death dates are always displayed."
+msgstr "Affiche les faits supplémentaires configurés pour les cases du diagramme dans les paramètres de l'arbre (Panneau d'administration → Arbres → Préférences → « Autres faits à afficher dans les diagrammes »). Les dates de naissance et de décès sont toujours affichées."
+
+msgid "Show places"
+msgstr "Afficher les lieux"
+
+msgid "Shows the place row beneath each birth and death date. When disabled, only the dates are shown and the date pair shifts to the bottom of the box."
+msgstr "Affiche la ligne du lieu sous chaque date de naissance et de décès. Lorsqu'il est désactivé, seules les dates sont affichées et la paire de dates se déplace vers le bas de la case."

@@ -229,5 +229,11 @@ msgstr "Цвета"
 msgid "Show additional facts"
 msgstr "Показывать дополнительные факты"
 
-msgid "Shows birth and death places, plus any extra facts configured for chart boxes in the tree settings (Control panel → Trees → Preferences → \"Other facts to show in charts\"). When disabled, only the lifespan line is shown."
-msgstr "Показывает места рождения и смерти, а также любые дополнительные факты, настроенные для блоков диаграмм в настройках дерева (Панель управления → Деревья → Параметры → «Другие факты для отображения в диаграммах»). Если отключено, отображается только строка с продолжительностью жизни."
+msgid "Shows the extra facts configured for chart boxes in the tree settings (Control panel → Trees → Preferences → \"Other facts to show in charts\"). Birth and death dates are always displayed."
+msgstr "Показывает дополнительные факты, настроенные для блоков диаграмм в настройках дерева (Панель управления → Деревья → Параметры → «Другие факты для отображения в диаграммах»). Даты рождения и смерти отображаются всегда."
+
+msgid "Show places"
+msgstr "Показывать места"
+
+msgid "Shows the place row beneath each birth and death date. When disabled, only the dates are shown and the date pair shifts to the bottom of the box."
+msgstr "Показывает строку с местом под каждой датой рождения и смерти. Если отключено, отображаются только даты, и пара дат смещается к нижнему краю блока."
