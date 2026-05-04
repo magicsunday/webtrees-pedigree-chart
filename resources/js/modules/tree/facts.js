@@ -8,7 +8,9 @@
 import { measureText } from "@magicsunday/webtrees-chart-lib";
 import * as d3 from "../d3.js";
 import {
+    LAYOUT_ALTNAME_CENTER_GAP,
     LAYOUT_GLYPH_COL_WIDTH,
+    LAYOUT_NAME_TO_VITAL_GAP,
     LAYOUT_OPTIONAL_ROW_HEIGHT,
     LAYOUT_VERTICAL_ALTNAME_OFFSET,
     LAYOUT_VERTICAL_NICKNAME_OFFSET,
@@ -111,16 +113,18 @@ export default class FactsRenderer {
     /* -------------------- Vertical layout helpers -------------------- */
 
     /**
-     * Y-coordinate of the first vital row in vertical layouts. The
-     * vital block sits 25 px below the last visible name line — the same
-     * gap used between the surname and the alt-name, so the rhythm stays
-     * "label, 25 px gap, label, 25 px gap, vital block".
+     * Y-coordinate of the first vital row in vertical layouts. Every
+     * row in the box — name, optional nickname, surname, optional alt-
+     * name, vital block — sits on a single 20 px grid, so each label
+     * is exactly one line-step below the previous one.
      *
-     * The base offset (40) covers a 2-group name (firstname + lastname)
-     * with the surname at text.y + 15, plus the 25 px gap. Each optional
-     * row pushes the vital block further down by exactly the row's own
-     * height: +20 for the nickname line, +25 for the alt-name's
-     * lastname-to-alt gap.
+     * The base offset (35) covers a 2-group name (firstname + lastname)
+     * with the surname at text.y + 10, plus a 25 px gap to the vital
+     * block — wider than the 20 px name-line grid so the dates read as
+     * a separate region from the name region (and visibly more spaced
+     * than the 18 px gap between the two date rows themselves). Each
+     * optional name row (nickname, alt-name) pushes the vital block
+     * further down by one 20 px line-grid step.
      *
      * @returns {number}
      *
@@ -128,7 +132,10 @@ export default class FactsRenderer {
      */
     verticalVitalBaseY() {
         const config = this._svg._configuration;
-        let offset = 40;
+        // Surname (no nick): text.y + 10. Plus the standard
+        // name-to-vital gap. Each optional name row pushes the vital
+        // block one 20 px line-grid step further down.
+        let offset = 10 + LAYOUT_NAME_TO_VITAL_GAP;
         if (config.nicknameVisible) {
             offset += LAYOUT_VERTICAL_NICKNAME_OFFSET;
         }
@@ -156,12 +163,26 @@ export default class FactsRenderer {
      * @private
      */
     vitalCompactShift() {
-        if (this._svg._configuration.showPlaces) {
+        const config = this._svg._configuration;
+        // Vertical and horizontal-with-extras both shrink the box
+        // when places are off, so no shift is needed — the rhythm
+        // (25 px name → vital, 22.5 px alt → vital) lands the date
+        // pair with the natural bottom padding.
+        if (config.showPlaces || (config.optionalRows ?? 0) > 0) {
             return 0;
         }
-        return (
-            LAYOUT_VITAL_PAIR_OFFSET + LAYOUT_VITAL_PLACE_OFFSET - LAYOUT_VITAL_COMPACT_PAIR_OFFSET
-        );
+        if (this._orientation.isVertical) {
+            return 0;
+        }
+        // Horizontal compact mode keeps the image-bound minimum box
+        // (100 px) — alt-name and dates fit inside that height. Push
+        // the date pair partway down so it sits visually balanced
+        // against the image, leaving the alt-name (when present) in
+        // its centred slot above the dates.
+        if (config.imageVisible) {
+            return LAYOUT_ALTNAME_CENTER_GAP;
+        }
+        return 0;
     }
 
     /**
@@ -187,8 +208,9 @@ export default class FactsRenderer {
      * @private
      */
     appendVerticalVitalRows(parent) {
+        const config = this._svg._configuration;
         const baseY = this.verticalVitalBaseY();
-        const showPlaces = this._svg._configuration.showPlaces;
+        const showPlaces = config.showPlaces;
         const pairStep = showPlaces ? LAYOUT_VITAL_PAIR_OFFSET : LAYOUT_VITAL_COMPACT_PAIR_OFFSET;
         const self = this;
 
@@ -198,26 +220,63 @@ export default class FactsRenderer {
             let pairOffset = 0;
 
             facts.forEach((fact) => {
-                const glyph = glyphForTag(fact.tag);
-                // Date sits on the pair grid; place (when shown) clings
-                // tightly underneath (fan-chart tooltip line spacing).
-                // Compact mode skips the place row and uses the tighter
-                // pair step so dates collapse together.
+                // With places shown, dates render with a leading glyph
+                // and the place stacks tightly underneath (fan-chart
+                // tooltip rhythm). Without places, the glyph column
+                // would sit alone next to a single value — drop it and
+                // centre the date instead, both in minimal mode and
+                // when optional rows are present below the dates. The
+                // visual contrast (centred dates vs left-aligned
+                // optionals) reads as "vital block / extras".
                 const dateY = baseY + pairOffset * pairStep;
 
-                self.appendVitalDateRow(node, glyph, fact, dateY, true);
+                if (showPlaces) {
+                    self.appendVitalDateRow(node, glyphForTag(fact.tag), fact, dateY, true);
 
-                if (showPlaces && fact.place !== "") {
-                    self.appendVitalPlaceRow(
-                        node,
-                        fact.place,
-                        dateY + LAYOUT_VITAL_PLACE_OFFSET,
-                        true,
-                    );
+                    if (fact.place !== "") {
+                        self.appendVitalPlaceRow(
+                            node,
+                            fact.place,
+                            dateY + LAYOUT_VITAL_PLACE_OFFSET,
+                            true,
+                        );
+                    }
+                } else {
+                    self.appendVitalDateRowCentred(node, fact, dateY);
                 }
                 pairOffset += 1;
             });
         });
+    }
+
+    /**
+     * Renders one vital "date" row centred horizontally inside the box,
+     * without a glyph column. Used by the minimal vertical layout
+     * (LAYOUT_VERTICAL_NODE_WIDTH_COMPACT) where the row carries only
+     * the date string and the box is too narrow to host the glyph
+     * gutter that the full layout uses.
+     *
+     * @param {Selection} parent The node's selection (per-individual)
+     * @param {FactView}  fact   The vital fact view (date/place/value)
+     * @param {number}    y      Y-coordinate for this row
+     *
+     * @private
+     */
+    appendVitalDateRowCentred(parent, fact, y) {
+        const dateText = fact.date === "" ? "…" : fact.date;
+        const tooltip = [fact.label, fact.date, fact.place].filter((p) => p !== "").join(" · ");
+        const valueAvailable = this.verticalRowAvailable();
+
+        const text = parent
+            .append("text")
+            .attr("class", "fact fact-date")
+            .attr("text-anchor", "middle")
+            .attr("dominant-baseline", "middle")
+            .attr("x", 0)
+            .attr("y", y);
+
+        text.append("title").text(tooltip);
+        text.append("tspan").text(this.truncateValue(text, dateText, valueAvailable));
     }
 
     /**
@@ -268,21 +327,22 @@ export default class FactsRenderer {
      * @private
      */
     horizontalVitalBaseY() {
+        // Anchor the vital block to the name baseline, mirroring the
+        // vertical layout. The horizontal layout has a single inline
+        // name line at this._text.y + 12.5 (central baseline), so the
+        // vital offset counts from that anchor.
         const config = this._svg._configuration;
-        const baseY = config.altNameVisible
-            ? // Alt-name occupies the row directly below the main name —
-              // push the vital block one line further down so it doesn't
-              // overlap the alt-name. Distance from alt-name visual bottom
-              // (image.y + 31) to vital first visual top (vital baseY − 6)
-              // equals the same 13 px gap the no-alt case has from main
-              // name to vital, so the layout reads identically with or
-              // without alt-name.
-              this._image.y + 50
-            : // Bottom-anchor the vital block to the image bottom: the last
-              // place row's visual bottom (vital_baseY + 32 + 14 + 6) equals
-              // the image's bottom edge, so vital and image share the same
-              // 7.5 px padding from the box bottom.
-              this._image.y + this._image.height - 52;
+        const mainNameY = this._text.y + 12.5;
+        // Full mode (places visible) with alt-name centres the alt
+        // between main name and vital, so vital sits 2 ×
+        // LAYOUT_ALTNAME_CENTER_GAP below the main name. Compact mode
+        // keeps vital at the standard LAYOUT_NAME_TO_VITAL_GAP — when
+        // alt is visible the alt floats between, when alt is hidden
+        // the dates anchor near the box bottom via vitalCompactShift.
+        const baseY =
+            config.showPlaces && config.altNameVisible
+                ? mainNameY + 2 * LAYOUT_ALTNAME_CENTER_GAP
+                : mainNameY + LAYOUT_NAME_TO_VITAL_GAP;
 
         // Compact mode (places off) shifts the vital block down so the
         // last date row sits where the last place row would have sat —

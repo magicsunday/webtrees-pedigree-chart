@@ -7,6 +7,7 @@
 
 import { measureText, truncateNames } from "@magicsunday/webtrees-chart-lib";
 import * as d3 from "../d3.js";
+import { LAYOUT_ALTNAME_CENTER_GAP } from "../constants.js";
 
 /**
  * @import { Selection } from "d3-selection"
@@ -77,8 +78,8 @@ export default class Name {
                         .attr("class", "wt-chart-box-name")
                         .attr("direction", (datum) => (datum.isRtl ? "rtl" : "ltr"))
                         .attr("text-anchor", "middle")
-                        .attr("alignment-baseline", "central")
-                        .attr("y", that._text.y - 5 + index * 20);
+                        .attr("dominant-baseline", "middle")
+                        .attr("y", that._text.y - 10 + index * 20);
 
                     that.addNameElements(
                         text,
@@ -97,17 +98,19 @@ export default class Name {
                             .attr("class", "wt-chart-box-name wt-chart-box-name-alt")
                             .attr("direction", (datum) => (datum.isAltRtl ? "rtl" : "ltr"))
                             .attr("text-anchor", "middle")
-                            .attr("alignment-baseline", "central")
-                            // Alt-name sits one line (20 px) below the last
-                            // name group. Without a nickname there are 2
-                            // groups → alt at text.y + 40 (= lastname.y +
-                            // 25). With a nickname there are 3 groups →
-                            // alt at text.y + 60 (= lastname.y + 25). The
-                            // gap stays constant; the absolute y shifts so
-                            // the alt-name doesn't collide with the surname.
+                            .attr("dominant-baseline", "middle")
+                            // Alt-name centred between the surname and
+                            // the vital block: equal LAYOUT_ALTNAME_
+                            // CENTER_GAP (22.5 px) gaps above and below.
+                            // Surname y = text.y - 10 + (groups-1)*20,
+                            // so alt-name y = surname y + 22.5.
                             .attr(
                                 "y",
-                                (datum) => this._text.y + this.createNamesData(datum).length * 20,
+                                (datum) =>
+                                    this._text.y +
+                                    (this.createNamesData(datum).length - 1) * 20 -
+                                    10 +
+                                    LAYOUT_ALTNAME_CENTER_GAP,
                             );
 
                         this.addNameElements(text, (datum) =>
@@ -157,12 +160,15 @@ export default class Name {
                     .attr("x", (datum) =>
                         mainAnchor(datum) === "end" ? this.textRightEdge(datum) : this.textX(datum),
                     )
-                    // dominant-baseline=hanging makes y=visual top so the
-                    // name's top edge aligns with the image's top edge
-                    // (both at text.y) — the name's baseline ends up below
-                    // depending on font size.
-                    .attr("dominant-baseline", "hanging")
-                    .attr("y", this._text.y);
+                    // Central baseline so the same baseline-to-baseline
+                    // gaps used in vertical (20 px name-grid, 25 px
+                    // name → vital) apply here. The name centres
+                    // 12.5 px below the box's image-padding line —
+                    // i.e., 20 px below the box top (= image-padding
+                    // 7.5 + 12.5) — leaving a comfortable top gap
+                    // before the date block sits 25 px further down.
+                    .attr("dominant-baseline", "middle")
+                    .attr("y", this._text.y + 12.5);
 
                 this.addNameElements(text, (datum) => {
                     // Merge all name groups (firstnames, optional nickname, lastnames)
@@ -202,12 +208,11 @@ export default class Name {
                                     ? this.textRightEdge(datum)
                                     : this.textX(datum),
                             )
-                            // Hanging baseline so y = alt-name's visual
-                            // top, sitting one main-name-line below the
-                            // image top with a small extra gap so the
-                            // alt name reads as a separate line.
-                            .attr("dominant-baseline", "hanging")
-                            .attr("y", this._text.y + 19);
+                            // Central baseline, centred between the main
+                            // name and the vital block — same rhythm as
+                            // the vertical layout's surname → alt gap.
+                            .attr("dominant-baseline", "middle")
+                            .attr("y", this._text.y + 12.5 + LAYOUT_ALTNAME_CENTER_GAP);
 
                         this.addNameElements(text, (datum) =>
                             this.truncateNamesData(

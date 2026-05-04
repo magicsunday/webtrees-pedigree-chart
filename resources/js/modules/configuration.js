@@ -79,6 +79,16 @@ export default class Configuration {
         // silhouette. When false in a vertical layout, the box drops the
         // image strip and shrinks accordingly.
         this.imageVisible = true;
+        // Whether the chart renders only names + dates (no nickname, no
+        // alt-name, no places, no optional facts). When true in a
+        // vertical layout, the box drops back to its pre-#45 width
+        // because the row needs no glyph or place column.
+        this.minimalMode = false;
+        // Chart-wide max number of populated optional fact rows. Set
+        // by Hierarchy.init(); read by the renderer to decide whether
+        // the date pair should bottom-anchor (no optional rows) or sit
+        // tight under the name region (optional rows fill the bottom).
+        this.optionalRows = 0;
 
         //
         this.duration = 750;

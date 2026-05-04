@@ -8,10 +8,15 @@
 import * as d3 from "./d3.js";
 import {
     LAYOUT_HORIZONTAL_ALT_OFFSET,
+    LAYOUT_HORIZONTAL_IMAGE_MIN_HEIGHT,
+    LAYOUT_HORIZONTAL_NODE_WIDTH_COMPACT,
+    LAYOUT_HORIZONTAL_PLACE_ROW_RESERVATION,
     LAYOUT_OPTIONAL_ROW_HEIGHT,
     LAYOUT_VERTICAL_ALTNAME_OFFSET,
     LAYOUT_VERTICAL_IMAGE_SPACE,
     LAYOUT_VERTICAL_NICKNAME_OFFSET,
+    LAYOUT_VERTICAL_NODE_HEIGHT_MINIMAL,
+    LAYOUT_VERTICAL_NODE_WIDTH_COMPACT,
     LAYOUT_VITAL_OPTIONAL_GAP,
 } from "./constants.js";
 
@@ -63,9 +68,35 @@ export default class Hierarchy {
         const altNameVisible =
             this._configuration.showAlternativeName && this.treeHasAlternativeNames(datum);
         const imageVisible = this.treeHasImages(datum);
+        // Effective places state: user toggle AND at least one BIRT or
+        // DEAT in the chart actually carries a place. With the toggle on
+        // but every individual lacking a place, the place row would just
+        // be reserved empty space — collapse the chart to compact mode.
+        const placesVisible = this._configuration.showPlaces && this.treeHasVitalPlaces(datum);
         this._configuration.nicknameVisible = nicknameVisible;
         this._configuration.altNameVisible = altNameVisible;
         this._configuration.imageVisible = imageVisible;
+        // Overwrite the JS-side toggle with the effective value so every
+        // downstream reader (vital baseY, row renderers, minimal-mode
+        // detection) sees a single coherent flag.
+        this._configuration._showPlaces = placesVisible;
+
+        // The orientation arrives at the BASE_HEIGHT (sized for the
+        // full vital block — date + place per pair). When places are
+        // off chart-wide there's no place row to host, so trim the box
+        // by the place-row reservation. Vertical substitutes the
+        // minimal baseline directly. Horizontal shrinks by the same
+        // 28 px delta only if the trimmed box would still hold the
+        // 85 px image strip at full size — otherwise the image would
+        // clamp to a smaller radius (image.js), which is unwanted.
+        if (!placesVisible) {
+            if (this._configuration.orientation.isVertical) {
+                this._configuration.orientation.boxHeight = LAYOUT_VERTICAL_NODE_HEIGHT_MINIMAL;
+            } else {
+                this._configuration.orientation.boxHeight -=
+                    LAYOUT_HORIZONTAL_PLACE_ROW_RESERVATION;
+            }
+        }
 
         // No portraits or silhouettes anywhere in the chart? Drop the
         // image strip from vertical boxes — it would otherwise be wasted
@@ -86,10 +117,12 @@ export default class Hierarchy {
             if (altNameVisible) {
                 this._configuration.orientation.boxHeight += LAYOUT_VERTICAL_ALTNAME_OFFSET;
             }
-        } else if (altNameVisible) {
+        } else if (altNameVisible && placesVisible) {
             // Horizontal layouts always render the main name on a single
             // line; only the alt-name (when visible) shifts the vital
-            // block down and needs extra height.
+            // block down and needs extra height — but in compact mode
+            // (no places) the alt-name fits within the image-bound
+            // minimum (100 px), so no extension is needed there.
             this._configuration.orientation.boxHeight += LAYOUT_HORIZONTAL_ALT_OFFSET;
         }
 
@@ -99,17 +132,61 @@ export default class Hierarchy {
         // is the chart-wide maximum of *populated* optional slots — when no
         // individual fills more than 2 of 7 configured slots, the box only
         // grows by 2 rows, not 7.
-        if (this._configuration.showAdditionalFacts) {
-            const maxRows = this.maxPopulatedOptionalRows(datum);
-            if (maxRows > 0) {
-                // The first optional row sits LAYOUT_VITAL_OPTIONAL_GAP
-                // below the vital block; each subsequent row adds another
-                // LAYOUT_OPTIONAL_ROW_HEIGHT. The compact box already
-                // covers the visual extent up to the vital block end, so
-                // we only need to extend by gap + (N − 1) × row height.
-                this._configuration.orientation.boxHeight +=
-                    LAYOUT_VITAL_OPTIONAL_GAP + (maxRows - 1) * LAYOUT_OPTIONAL_ROW_HEIGHT;
-            }
+        const optionalRows = this._configuration.showAdditionalFacts
+            ? this.maxPopulatedOptionalRows(datum)
+            : 0;
+        // Surface to facts.js / renderers: when optional rows fill the
+        // box bottom, vitalCompactShift skips the "anchor dates to
+        // bottom" shift (otherwise dates would float in the middle with
+        // a wide gap below the alt-name).
+        this._configuration.optionalRows = optionalRows;
+        if (optionalRows > 0) {
+            // The first optional row sits LAYOUT_VITAL_OPTIONAL_GAP
+            // below the vital block; each subsequent row adds another
+            // LAYOUT_OPTIONAL_ROW_HEIGHT. The compact box already
+            // covers the visual extent up to the vital block end, so
+            // we only need to extend by gap + (N − 1) × row height.
+            this._configuration.orientation.boxHeight +=
+                LAYOUT_VITAL_OPTIONAL_GAP + (optionalRows - 1) * LAYOUT_OPTIONAL_ROW_HEIGHT;
+        }
+
+        // Image-fit floor for horizontal: the box must stay tall enough
+        // to host the 85 px image strip with its 7.5 px top/bottom
+        // padding, otherwise the image clamps to a smaller radius. This
+        // floor only matters when the trimmed/extended box is shorter
+        // than the image — taller boxes (with optional rows extending
+        // below the image) keep their content-driven height.
+        if (
+            !this._configuration.orientation.isVertical &&
+            imageVisible &&
+            this._configuration.orientation.boxHeight < LAYOUT_HORIZONTAL_IMAGE_MIN_HEIGHT
+        ) {
+            this._configuration.orientation.boxHeight = LAYOUT_HORIZONTAL_IMAGE_MIN_HEIGHT;
+        }
+
+        // Minimal mode: chart renders only the name region + the two
+        // vital dates. No place rows, no optional rows. Nickname and
+        // alt-name lines may still be present — they live in the name
+        // region above the dates and shift everything below them down,
+        // but they don't pull in the glyph column or place column that
+        // would force the wider full layout. In vertical orientation
+        // the box drops back to the legacy pre-#45 width (160 px) so
+        // the simple "name(s) + two dates" layout looks like the
+        // classic webtrees chart instead of leaving a wide empty strip
+        // on either side of the centred dates.
+        const minimalMode = !this._configuration.showPlaces && optionalRows === 0;
+        this._configuration.minimalMode = minimalMode;
+        if (minimalMode) {
+            // Orientation exposes only a boxHeight setter, not a boxWidth
+            // setter — adding one in chart-lib would force a coordinated
+            // release across consumer modules. The underscore-prefixed
+            // backing field is the conventional "private" — pragmatic
+            // assignment here keeps the chart-lib API stable. Heights
+            // are already correct (MINIMAL/place-trim baseline applied
+            // above plus nick/alt offsets and image-space subtraction).
+            this._configuration.orientation._boxWidth = this._configuration.orientation.isVertical
+                ? LAYOUT_VERTICAL_NODE_WIDTH_COMPACT
+                : LAYOUT_HORIZONTAL_NODE_WIDTH_COMPACT;
         }
 
         this._root = d3.hierarchy(datum, (datum) => datum.parents);
@@ -205,17 +282,17 @@ export default class Hierarchy {
      * @private
      */
     treeHasAlternativeNames(datum) {
-        let hit = false;
+        let found = false;
         const visit = (node) => {
-            if (hit) return;
+            if (found) return;
             if ((node?.data?.alternativeName ?? "") !== "") {
-                hit = true;
+                found = true;
                 return;
             }
             (node?.parents ?? []).forEach(visit);
         };
         visit(datum);
-        return hit;
+        return found;
     }
 
     /**
@@ -231,17 +308,17 @@ export default class Hierarchy {
      * @private
      */
     treeHasNicknames(datum) {
-        let hit = false;
+        let found = false;
         const visit = (node) => {
-            if (hit) return;
+            if (found) return;
             if ((node?.data?.nickname ?? "") !== "") {
-                hit = true;
+                found = true;
                 return;
             }
             (node?.parents ?? []).forEach(visit);
         };
         visit(datum);
-        return hit;
+        return found;
     }
 
     /**
@@ -258,17 +335,48 @@ export default class Hierarchy {
      * @private
      */
     treeHasImages(datum) {
-        let hit = false;
+        let found = false;
         const visit = (node) => {
-            if (hit) return;
+            if (found) return;
             const data = node?.data;
             if ((data?.thumbnail ?? "") !== "" || (data?.silhouette ?? "") !== "") {
-                hit = true;
+                found = true;
                 return;
             }
             (node?.parents ?? []).forEach(visit);
         };
         visit(datum);
-        return hit;
+        return found;
+    }
+
+    /**
+     * Returns true when at least one individual in the chart has a
+     * non-empty place on a vital fact (BIRT or DEAT — slots 0 and 1).
+     * Used to suppress the place-row reservation when the toggle is on
+     * but no individual actually carries a place — otherwise every box
+     * would reserve a place row that never renders.
+     *
+     * @param {object} datum The JSON-encoded chart data passed into init()
+     *
+     * @returns {boolean}
+     *
+     * @private
+     */
+    treeHasVitalPlaces(datum) {
+        let found = false;
+        const visit = (node) => {
+            if (found) return;
+            const facts = node?.data?.facts ?? [];
+            for (let i = 0; i < Math.min(2, facts.length); i++) {
+                const fact = facts[i];
+                if (fact && (fact.place ?? "") !== "") {
+                    found = true;
+                    return;
+                }
+            }
+            (node?.parents ?? []).forEach(visit);
+        };
+        visit(datum);
+        return found;
     }
 }
