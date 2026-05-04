@@ -13,6 +13,7 @@ namespace MagicSunday\Webtrees\PedigreeChart\Facade;
 
 use Fisharebest\Webtrees\Family;
 use Fisharebest\Webtrees\Http\RequestHandlers\AddParentToIndividualPage;
+use Fisharebest\Webtrees\Http\RequestHandlers\AddSpouseToFamilyPage;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Module\ModuleCustomInterface;
@@ -127,13 +128,13 @@ class DataFacade
         if ($fatherNode instanceof Node) {
             $node->addParent($fatherNode);
         } elseif ($this->shouldOfferAddParent($individual, $generation)) {
-            $node->addParent($this->createAddParentPlaceholder($individual, 'M', $generation + 1));
+            $node->addParent($this->createAddParentPlaceholder($individual, $family, 'M', $generation + 1));
         }
 
         if ($motherNode instanceof Node) {
             $node->addParent($motherNode);
         } elseif ($this->shouldOfferAddParent($individual, $generation)) {
-            $node->addParent($this->createAddParentPlaceholder($individual, 'F', $generation + 1));
+            $node->addParent($this->createAddParentPlaceholder($individual, $family, 'F', $generation + 1));
         }
 
         return $node;
@@ -163,24 +164,44 @@ class DataFacade
      * individual"; the populated url is the webtrees core route that
      * opens the matching add-parent form.
      *
-     * @param Individual $childIndividual The individual whose parent is missing
-     * @param string     $sex             'M' for father, 'F' for mother
-     * @param int        $generation      Generation index of the placeholder itself
+     * Routing mirrors the upstream individual/family pages:
+     * - no parent family yet → AddParentToIndividualPage creates a
+     *   fresh family with the new parent and the existing individual
+     *   as its only child;
+     * - parent family exists with the opposite-sex spouse missing →
+     *   AddSpouseToFamilyPage adds the new parent into THAT family
+     *   so both parents end up in the same FAM record (otherwise we
+     *   would create a second, half-empty FAMC which renders as a
+     *   spurious "second parents" relationship in webtrees).
+     *
+     * @param Individual  $childIndividual The individual whose parent is missing
+     * @param Family|null $childFamily     The child's existing parent family (null if none)
+     * @param string      $sex             'M' for father, 'F' for mother
+     * @param int         $generation      Generation index of the placeholder itself
      *
      * @return Node
      */
     private function createAddParentPlaceholder(
         Individual $childIndividual,
+        ?Family $childFamily,
         string $sex,
         int $generation,
     ): Node {
         static $id = 0;
 
-        $url = route(AddParentToIndividualPage::class, [
-            'tree' => $childIndividual->tree()->name(),
-            'xref' => $childIndividual->xref(),
-            'sex'  => $sex,
-        ]);
+        if ($childFamily instanceof Family) {
+            $url = route(AddSpouseToFamilyPage::class, [
+                'tree' => $childFamily->tree()->name(),
+                'xref' => $childFamily->xref(),
+                'sex'  => $sex,
+            ]);
+        } else {
+            $url = route(AddParentToIndividualPage::class, [
+                'tree' => $childIndividual->tree()->name(),
+                'xref' => $childIndividual->xref(),
+                'sex'  => $sex,
+            ]);
+        }
 
         $name = $sex === 'M'
             ? I18N::translate('Add a father')
