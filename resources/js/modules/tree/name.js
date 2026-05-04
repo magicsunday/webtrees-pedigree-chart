@@ -94,12 +94,21 @@ export default class Name {
                     .call((g) => {
                         const text = g
                             .append("text")
-                            .classed("wt-chart-box-name-alt", true)
-                            .attr("class", "wt-chart-box-name")
+                            .attr("class", "wt-chart-box-name wt-chart-box-name-alt")
                             .attr("direction", (datum) => (datum.isAltRtl ? "rtl" : "ltr"))
                             .attr("text-anchor", "middle")
                             .attr("alignment-baseline", "central")
-                            .attr("y", this._text.y + 40);
+                            // Alt-name sits one line (20 px) below the last
+                            // name group. Without a nickname there are 2
+                            // groups → alt at text.y + 40 (= lastname.y +
+                            // 25). With a nickname there are 3 groups →
+                            // alt at text.y + 60 (= lastname.y + 25). The
+                            // gap stays constant; the absolute y shifts so
+                            // the alt-name doesn't collide with the surname.
+                            .attr(
+                                "y",
+                                (datum) => this._text.y + this.createNamesData(datum).length * 20,
+                            );
 
                         this.addNameElements(text, (datum) =>
                             this.truncateNamesData(
@@ -126,32 +135,40 @@ export default class Name {
                 .enter();
 
             enter.call((g) => {
+                const mainAnchor = (datum) => {
+                    if (datum.isRtl && this._orientation.isDocumentRtl) {
+                        return "start";
+                    }
+                    if (datum.isRtl || this._orientation.isDocumentRtl) {
+                        return "end";
+                    }
+                    return "start";
+                };
+
                 const text = g
                     .append("text")
                     .attr("class", "wt-chart-box-name")
                     .attr("direction", (datum) => (datum.isRtl ? "rtl" : "ltr"))
-                    .attr("text-anchor", (datum) => {
-                        if (datum.isRtl && this._orientation.isDocumentRtl) {
-                            return "start";
-                        }
-
-                        if (datum.isRtl || this._orientation.isDocumentRtl) {
-                            return "end";
-                        }
-
-                        return "start";
-                    })
-                    .attr("x", (datum) => this.textX(datum))
-                    .attr("y", this._text.y - 10);
+                    .attr("text-anchor", mainAnchor)
+                    // For end-anchored RTL names, x must be the right
+                    // edge of the text column so the text right-aligns
+                    // against the box edge — native RTL convention,
+                    // matching webtrees core's chart-box rendering.
+                    .attr("x", (datum) =>
+                        mainAnchor(datum) === "end" ? this.textRightEdge(datum) : this.textX(datum),
+                    )
+                    // dominant-baseline=hanging makes y=visual top so the
+                    // name's top edge aligns with the image's top edge
+                    // (both at text.y) — the name's baseline ends up below
+                    // depending on font size.
+                    .attr("dominant-baseline", "hanging")
+                    .attr("y", this._text.y);
 
                 this.addNameElements(text, (datum) => {
-                    const [first, ...last] = this.createNamesData(datum);
-
-                    // Merge the firstname and lastname groups, as we display the whole name in one line
-                    const combined = [].concat(
-                        first,
-                        typeof last[0] === "undefined" ? [] : last[0],
-                    );
+                    // Merge all name groups (firstnames, optional nickname, lastnames)
+                    // into one inline list — horizontal layouts show the whole
+                    // name on a single line.
+                    const combined = this.createNamesData(datum).flat();
 
                     return this.truncateNamesData(text, combined, this.getAvailableWidth(datum));
                 });
@@ -162,24 +179,35 @@ export default class Name {
                 enter
                     .filter((datum) => datum.data.data.alternativeName !== "")
                     .call((g) => {
+                        const altAnchor = (datum) => {
+                            if (datum.isAltRtl && this._orientation.isDocumentRtl) {
+                                return "start";
+                            }
+                            if (datum.isAltRtl || this._orientation.isDocumentRtl) {
+                                return "end";
+                            }
+                            return "start";
+                        };
+
                         const text = g
                             .append("text")
-                            .classed("wt-chart-box-name-alt", true)
-                            .attr("class", "wt-chart-box-name")
+                            .attr("class", "wt-chart-box-name wt-chart-box-name-alt")
                             .attr("direction", (datum) => (datum.isAltRtl ? "rtl" : "ltr"))
-                            .attr("text-anchor", (datum) => {
-                                if (datum.isAltRtl && this._orientation.isDocumentRtl) {
-                                    return "start";
-                                }
-
-                                if (datum.isAltRtl || this._orientation.isDocumentRtl) {
-                                    return "end";
-                                }
-
-                                return "start";
-                            })
-                            .attr("x", (datum) => this.textX(datum))
-                            .attr("y", this._text.y + 8);
+                            .attr("text-anchor", altAnchor)
+                            // For end-anchored RTL alt-names, the x must
+                            // be the right edge of the text column —
+                            // native RTL convention.
+                            .attr("x", (datum) =>
+                                altAnchor(datum) === "end"
+                                    ? this.textRightEdge(datum)
+                                    : this.textX(datum),
+                            )
+                            // Hanging baseline so y = alt-name's visual
+                            // top, sitting one main-name-line below the
+                            // image top with a small extra gap so the
+                            // alt name reads as a separate line.
+                            .attr("dominant-baseline", "hanging")
+                            .attr("y", this._text.y + 19);
 
                         this.addNameElements(text, (datum) =>
                             this.truncateNamesData(
@@ -237,7 +265,8 @@ export default class Name {
                     })
                     // Highlight the preferred and last name
                     .attr("text-decoration", (datum) => (datum.isPreferred ? "underline" : null))
-                    .classed("lastName", (datum) => datum.isLastName);
+                    .classed("lastName", (datum) => datum.isLastName)
+                    .classed("nickname", (datum) => datum.isNickname);
             });
     }
 
@@ -287,11 +316,14 @@ export default class Name {
             }
         }
 
-        // Insert the optional nickname (e.g. "Chalky") into the first-names
-        // group when getShowNicknames is enabled and the GEDCOM has a NICK.
-        // Adding it to the firstname map keeps it inside the same slot as the
-        // given names; position-keyed iteration places it after the given names
-        // before the surname slot starts.
+        names[minPosFirstnames] = [...firstnameMap].map(([, value]) => value);
+
+        // The optional nickname (e.g. "Chalky") becomes its own group when
+        // getShowNicknames is enabled and the GEDCOM has a NICK. Vertical
+        // layouts render this group on a dedicated middle line between the
+        // given names and the surname; horizontal layouts merge the three
+        // groups back into one inline string with italic styling on the
+        // nickname tspan.
         const nickname = datum.data.data.nickname;
 
         if (nickname && nickname !== "") {
@@ -299,17 +331,17 @@ export default class Name {
             const nickPos = datum.data.data.name.indexOf(nickQuoted);
 
             if (nickPos !== -1) {
-                firstnameMap.set(nickPos, {
-                    label: nickQuoted,
-                    isPreferred: false,
-                    isLastName: false,
-                    isNickname: true,
-                    isNameRtl: datum.data.data.isNameRtl,
-                });
+                names[nickPos] = [
+                    {
+                        label: nickQuoted,
+                        isPreferred: false,
+                        isLastName: false,
+                        isNickname: true,
+                        isNameRtl: datum.data.data.isNameRtl,
+                    },
+                ];
             }
         }
-
-        names[minPosFirstnames] = [...firstnameMap].map(([, value]) => value);
 
         let lastnameOffset = 0;
         const lastnameMap = new Map();
@@ -415,6 +447,23 @@ export default class Name {
         const xPos = this._text.x + (d.withImage ? this._image.width : 0);
 
         // Reverse direction of text elements for RTL layouts
+        return this._orientation.isDocumentRtl ? -xPos : xPos;
+    }
+
+    /**
+     * Right edge of the text column. Used as the anchor x for end-aligned
+     * text such as RTL names rendered in an LTR document, so the text
+     * right-aligns against the box edge (native RTL convention) instead
+     * of overflowing the image area.
+     *
+     * @param {object} _d Unused, kept for parity with textX
+     *
+     * @returns {number}
+     *
+     * @private
+     */
+    textRightEdge(_d) {
+        const xPos = this._text.x + this._text.width;
         return this._orientation.isDocumentRtl ? -xPos : xPos;
     }
 

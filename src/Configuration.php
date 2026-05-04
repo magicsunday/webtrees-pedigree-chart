@@ -305,6 +305,32 @@ class Configuration
     }
 
     /**
+     * Returns whether to render the place row beneath each vital fact
+     * (BIRT/DEAT). When false, the box drops to a name + dates layout
+     * — date rows compress to a tighter pair offset and shift down so
+     * the death date sits where the death-place would have been.
+     *
+     * @return bool
+     */
+    public function getShowPlaces(): bool
+    {
+        if ($this->request->getMethod() === RequestMethodInterface::METHOD_POST) {
+            $validator = Validator::parsedBody($this->request);
+        } else {
+            $validator = Validator::queryParams($this->request);
+        }
+
+        return $validator
+            ->boolean(
+                'showPlaces',
+                (bool) $this->module->getPreference(
+                    'default_showPlaces',
+                    '0'
+                )
+            );
+    }
+
+    /**
      * Returns whether to render extra fact rows (from the tree's
      * CHART_BOX_TAGS preference) inside each person box.
      *

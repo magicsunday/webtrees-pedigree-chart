@@ -23,12 +23,19 @@ export default class Image {
      * @param {Orientation} orientation  The current orientation
      * @param {number}      cornerRadius The corner radius of the box
      */
-    constructor(orientation, cornerRadius) {
+    constructor(orientation, cornerRadius, configuration) {
         this._orientation = orientation;
         this._cornerRadius = cornerRadius;
+        this._configuration = configuration;
 
         this._imagePadding = 5;
-        this._imageRadius = Math.min(40, this._orientation.boxHeight / 2 - this._imagePadding);
+        // When no individual in the chart has a portrait/silhouette,
+        // collapse the image to zero height so the text block fills the
+        // box from the top — see Hierarchy.init's imageVisible flag.
+        this._imageRadius =
+            configuration && configuration.imageVisible === false
+                ? 0
+                : Math.min(42.5, this._orientation.boxHeight / 2 - this._imagePadding);
 
         // Calculate values
         this._width = this.calculateImageWidth();
@@ -51,7 +58,9 @@ export default class Image {
                 : -(this._orientation.boxWidth - this._imagePadding) / 2 + this._imagePadding;
         }
 
-        return -(this._orientation.boxWidth / 2) + this._width / 2;
+        // Centre the image horizontally inside the box. _image.x is the
+        // rect's left edge, so a width-centred rect starts at -width/2.
+        return -this._width / 2;
     }
 
     /**

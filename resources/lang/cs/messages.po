@@ -228,5 +228,11 @@ msgstr "Barvy"
 msgid "Show additional facts"
 msgstr "Zobrazit další fakta"
 
-msgid "Shows birth and death places, plus any extra facts configured for chart boxes in the tree settings (Control panel → Trees → Preferences → \"Other facts to show in charts\"). When disabled, only the lifespan line is shown."
-msgstr "Zobrazí místa narození a úmrtí a všechna další fakta nakonfigurovaná pro diagramová pole v nastavení stromu (Ovládací panel → Stromy → Předvolby → „Další fakta zobrazená v diagramech“). Pokud je vypnuto, zobrazí se pouze řádek se životností."
+msgid "Shows the extra facts configured for chart boxes in the tree settings (Control panel → Trees → Preferences → \"Other facts to show in charts\"). Birth and death dates are always displayed."
+msgstr "Zobrazí další fakta nakonfigurovaná pro diagramová pole v nastavení stromu (Ovládací panel → Stromy → Předvolby → „Další fakta zobrazená v diagramech“). Data narození a úmrtí se zobrazují vždy."
+
+msgid "Show places"
+msgstr "Zobrazit místa"
+
+msgid "Shows the place row beneath each birth and death date. When disabled, only the dates are shown and the date pair shifts to the bottom of the box."
+msgstr "Zobrazí řádek místa pod každým datem narození a úmrtí. Pokud je vypnuto, zobrazí se pouze data a datová dvojice se posune na spodní okraj pole."

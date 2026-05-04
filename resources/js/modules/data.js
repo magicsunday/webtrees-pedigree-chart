@@ -51,8 +51,9 @@
 
 /**
  * @typedef {object} LabelElementData
- * @property {string}  label
- * @property {boolean} isPreferred
- * @property {boolean} isLastName
- * @property {boolean} isNameRtl
+ * @property {string}   label
+ * @property {boolean}  isPreferred
+ * @property {boolean}  isLastName
+ * @property {boolean}  isNameRtl
+ * @property {boolean} [isNickname] Optional flag set on the nickname tspan so CSS can style it italic and the vertical layout can place it on its own line.
  */

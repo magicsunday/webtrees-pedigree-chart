@@ -7,7 +7,7 @@
 
 import { SEX_FEMALE, SEX_MALE } from "../constants.js";
 import Name from "./name.js";
-import DateRenderer from "./date.js";
+import FactsRenderer from "./facts.js";
 import FamilyColor from "./family-color.js";
 import ImageBox from "../chart/box/image.js";
 import TextBox from "../chart/box/text.js";
@@ -43,10 +43,10 @@ export default class NodeDrawer {
         this._configuration = configuration;
         this._orientation = this._configuration.orientation;
 
-        this._image = new ImageBox(this._orientation, 20);
+        this._image = new ImageBox(this._orientation, 20, this._configuration);
         this._text = new TextBox(this._orientation, this._image);
         this._name = new Name(this._svg, this._orientation, this._image, this._text);
-        this._date = new DateRenderer(this._svg, this._orientation, this._image, this._text);
+        this._facts = new FactsRenderer(this._svg, this._orientation, this._image, this._text);
         this._familyColor = configuration.showFamilyColors ? new FamilyColor(configuration) : null;
 
         // Tag the visual group when family-colors is on so svg.css can soften
@@ -371,6 +371,6 @@ export default class NodeDrawer {
             .attr("stroke-width", 1.5);
 
         this._name.appendName(parent);
-        this._date.appendDate(parent);
+        this._facts.appendDate(parent);
     }
 }

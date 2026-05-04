@@ -7,13 +7,13 @@
 
 import {
     LAYOUT_BOTTOMTOP,
+    LAYOUT_HORIZONTAL_NODE_BASE_HEIGHT,
+    LAYOUT_HORIZONTAL_NODE_WIDTH,
     LAYOUT_LEFTRIGHT,
     LAYOUT_RIGHTLEFT,
     LAYOUT_TOPBOTTOM,
+    LAYOUT_VERTICAL_NODE_BASE_HEIGHT,
     LAYOUT_VERTICAL_NODE_WIDTH,
-    LAYOUT_VERTICAL_NODE_HEIGHT,
-    LAYOUT_HORIZONTAL_NODE_WIDTH,
-    LAYOUT_HORIZONTAL_NODE_HEIGHT,
 } from "../constants.js";
 
 import {
@@ -38,19 +38,19 @@ export default class OrientationCollection {
         this._orientations = {
             [LAYOUT_TOPBOTTOM]: new OrientationTopBottom(
                 LAYOUT_VERTICAL_NODE_WIDTH,
-                LAYOUT_VERTICAL_NODE_HEIGHT,
+                LAYOUT_VERTICAL_NODE_BASE_HEIGHT,
             ),
             [LAYOUT_BOTTOMTOP]: new OrientationBottomTop(
                 LAYOUT_VERTICAL_NODE_WIDTH,
-                LAYOUT_VERTICAL_NODE_HEIGHT,
+                LAYOUT_VERTICAL_NODE_BASE_HEIGHT,
             ),
             [LAYOUT_LEFTRIGHT]: new OrientationLeftRight(
                 LAYOUT_HORIZONTAL_NODE_WIDTH,
-                LAYOUT_HORIZONTAL_NODE_HEIGHT,
+                LAYOUT_HORIZONTAL_NODE_BASE_HEIGHT,
             ),
             [LAYOUT_RIGHTLEFT]: new OrientationRightLeft(
                 LAYOUT_HORIZONTAL_NODE_WIDTH,
-                LAYOUT_HORIZONTAL_NODE_HEIGHT,
+                LAYOUT_HORIZONTAL_NODE_BASE_HEIGHT,
             ),
         };
     }

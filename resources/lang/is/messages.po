@@ -232,5 +232,11 @@ msgstr "Litir"
 msgid "Show additional facts"
 msgstr "Sýna fleiri staðreyndir"
 
-msgid "Shows birth and death places, plus any extra facts configured for chart boxes in the tree settings (Control panel → Trees → Preferences → \"Other facts to show in charts\"). When disabled, only the lifespan line is shown."
-msgstr "Sýnir fæðingar- og dánarstaði, auk allra aukastaðreynda sem stilltar eru fyrir kassa í tréstillingum (Stjórnborð → Tré → Stillingar → „Aðrar staðreyndir sem á að sýna í gröfum“). Þegar slokkt er, er aðeins lífslínan sýnd."
+msgid "Shows the extra facts configured for chart boxes in the tree settings (Control panel → Trees → Preferences → \"Other facts to show in charts\"). Birth and death dates are always displayed."
+msgstr "Sýnir aukastaðreyndir sem stilltar eru fyrir kassa í tréstillingum (Stjórnborð → Tré → Stillingar → „Aðrar staðreyndir sem á að sýna í gröfum“). Fæðingar- og dánardagar eru alltaf sýndir."
+
+msgid "Show places"
+msgstr "Sýna staði"
+
+msgid "Shows the place row beneath each birth and death date. When disabled, only the dates are shown and the date pair shifts to the bottom of the box."
+msgstr "Sýnir staðsetningarröðina undir hverri fæðingar- og dánardagsetningu. Þegar slökkt er, eru aðeins dagsetningarnar sýndar og dagsetningarparið færist neðst í kassann."

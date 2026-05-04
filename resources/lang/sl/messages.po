@@ -236,5 +236,11 @@ msgstr "Barve"
 msgid "Show additional facts"
 msgstr "Prikaži dodatna dejstva"
 
-msgid "Shows birth and death places, plus any extra facts configured for chart boxes in the tree settings (Control panel → Trees → Preferences → \"Other facts to show in charts\"). When disabled, only the lifespan line is shown."
-msgstr "Prikaže kraj rojstva in smrti ter vsa dodatna dejstva, nastavljena za polja v diagramih v nastavitvah drevesa (Nadzorna plošča → Drevesa → Nastavitve → »Druga dejstva za prikaz v diagramih«). Če je onemogočeno, je prikazana samo vrstica z življenjsko dobo."
+msgid "Shows the extra facts configured for chart boxes in the tree settings (Control panel → Trees → Preferences → \"Other facts to show in charts\"). Birth and death dates are always displayed."
+msgstr "Prikaže dodatna dejstva, nastavljena za polja v diagramih v nastavitvah drevesa (Nadzorna plošča → Drevesa → Nastavitve → »Druga dejstva za prikaz v diagramih«). Datumi rojstva in smrti so vedno prikazani."
+
+msgid "Show places"
+msgstr "Prikaži kraje"
+
+msgid "Shows the place row beneath each birth and death date. When disabled, only the dates are shown and the date pair shifts to the bottom of the box."
+msgstr "Prikaže vrstico kraja pod vsakim datumom rojstva in smrti. Ko je onemogočeno, so prikazani le datumi in par datumov se premakne na spodnji rob polja."
