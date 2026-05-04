@@ -114,6 +114,11 @@ class DataFacade
         );
 
         /** @var Family|null $family */
+        // Pedigree uses a single ancestry line, so we follow the first
+        // FAMC only — adoptive vs. biological parent families on the
+        // same individual are not represented here. The "+ add parent"
+        // placeholders inherit that scope: they patch the first FAMC,
+        // never any additional ones.
         $family = $individual->childFamilies()->first();
 
         if ($family === null) {
@@ -133,16 +138,21 @@ class DataFacade
         $fatherNode = $this->buildTreeStructure($family->husband(), $generation + 1);
         $motherNode = $this->buildTreeStructure($family->wife(), $generation + 1);
 
-        // Add an array of child nodes
+        // Add an array of child nodes. When the FAMC already exists,
+        // the placeholder will route to AddSpouseToFamilyPage which
+        // checks Auth::checkFamilyAccess() server-side — gate the
+        // placeholder on $family->canEdit() too, otherwise editors with
+        // child-edit but family-privacy restrictions would see a
+        // clickable + that lands on a webtrees access-denied page.
         if ($fatherNode instanceof Node) {
             $node->addParent($fatherNode);
-        } elseif ($this->shouldOfferAddParent($individual, $generation)) {
+        } elseif ($this->shouldOfferAddParent($individual, $generation) && $family->canEdit()) {
             $node->addParent($this->createAddParentPlaceholder($individual, $family, 'M', $generation + 1));
         }
 
         if ($motherNode instanceof Node) {
             $node->addParent($motherNode);
-        } elseif ($this->shouldOfferAddParent($individual, $generation)) {
+        } elseif ($this->shouldOfferAddParent($individual, $generation) && $family->canEdit()) {
             $node->addParent($this->createAddParentPlaceholder($individual, $family, 'F', $generation + 1));
         }
 
