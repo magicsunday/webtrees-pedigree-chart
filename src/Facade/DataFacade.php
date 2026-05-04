@@ -206,6 +206,7 @@ class DataFacade
         string $sex,
         int $generation,
     ): Node {
+        /** @var int $id */
         static $id = 0;
 
         if ($childFamily instanceof Family) {
