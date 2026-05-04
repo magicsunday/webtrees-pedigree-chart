@@ -101,6 +101,20 @@
     stroke-width: 1.5px;
 }
 
+/*
+ * In family-colors mode the lineage tint floods every real-person box
+ * via inline fill, but placeholders intentionally have no lineage to
+ * inherit. Pin them to a neutral wash so the dashed empty slot reads
+ * as "absent / fill me in" rather than as another paternal/maternal
+ * colour cell that competes with the surrounding lineage flow.
+ */
+.webtrees-pedigree-chart-container svg g.family-colors g.person.add-parent rect.male,
+.webtrees-pedigree-chart-container svg g.family-colors g.person.add-parent rect.female,
+.webtrees-pedigree-chart-container svg g.family-colors g.person.add-parent rect.unknown {
+    fill: rgba(245, 245, 245, 0.85);
+    stroke: rgb(180, 180, 180);
+}
+
 .webtrees-pedigree-chart-container svg g.person.add-parent line.add-parent-icon {
     stroke: rgb(80, 80, 80);
     stroke-width: 4px;
