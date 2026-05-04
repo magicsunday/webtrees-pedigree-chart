@@ -125,6 +125,7 @@ export default class NodeDrawer {
                 .append("g")
                 .attr("opacity", 0)
                 .attr("class", "person")
+                .classed("add-parent", (person) => this._isAddParentPlaceholder(person))
                 .attr("transform", (person) => {
                     return `translate(${person.x},${person.y})`;
                     // TODO Enable this to zoom from source to person
@@ -164,8 +165,19 @@ export default class NodeDrawer {
                     },
                 )
                 .call(
-                    // Draws the node (including image, names and dates)
-                    (g) => this.drawNode(g),
+                    // Draws the node (image/name/date for real individuals,
+                    // a centred + glyph for "add parent" placeholders).
+                    (g) => {
+                        const placeholders = g.filter((person) =>
+                            this._isAddParentPlaceholder(person),
+                        );
+                        const realPersons = g.filter(
+                            (person) => !this._isAddParentPlaceholder(person),
+                        );
+
+                        this.drawNode(realPersons);
+                        this._drawAddParentPlaceholder(placeholders);
+                    },
                 )
                 .call(
                     (g) =>
@@ -180,6 +192,57 @@ export default class NodeDrawer {
                     // })
                 )
         );
+    }
+
+    /**
+     * @param {object} person The d3 hierarchy datum
+     *
+     * @returns {boolean} TRUE when the node is an "add parent" placeholder
+     *                    (empty xref + populated url) rather than a real
+     *                    individual.
+     *
+     * @private
+     */
+    _isAddParentPlaceholder(person) {
+        return person.data.data.xref === "" && person.data.data.url !== "";
+    }
+
+    /**
+     * Renders the visual content for "add parent" placeholder boxes: a
+     * centred + symbol that signals the box is a call-to-action and
+     * navigates to the webtrees core "add a parent" form on click.
+     *
+     * @param {Selection<any, any, any, any>} parent The placeholder <g> selection
+     *
+     * @private
+     */
+    _drawAddParentPlaceholder(parent) {
+        const radius = Math.min(this._orientation.boxWidth, this._orientation.boxHeight) / 4;
+
+        parent
+            .append("circle")
+            .attr("class", "add-parent-icon-bg")
+            .attr("cx", 0)
+            .attr("cy", 0)
+            .attr("r", radius);
+
+        // Draw the + glyph as two crossing lines so it scales crisply at
+        // any orientation/box size without depending on a glyph font.
+        parent
+            .append("line")
+            .attr("class", "add-parent-icon")
+            .attr("x1", -radius * 0.5)
+            .attr("y1", 0)
+            .attr("x2", radius * 0.5)
+            .attr("y2", 0);
+
+        parent
+            .append("line")
+            .attr("class", "add-parent-icon")
+            .attr("x1", 0)
+            .attr("y1", -radius * 0.5)
+            .attr("x2", 0)
+            .attr("y2", radius * 0.5);
     }
 
     /**

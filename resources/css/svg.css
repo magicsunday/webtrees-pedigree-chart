@@ -78,3 +78,39 @@
 .webtrees-pedigree-chart-container svg g.person:hover rect.unknown {
     filter: saturate(1.5) brightness(0.92);
 }
+
+/*
+ * "Add a parent" placeholder boxes: rendered when the chart's admin
+ * "showAddParentLinks" toggle is on and the current user can edit the
+ * adjacent individual. The placeholder shows a centred + glyph that
+ * navigates to the webtrees core add-parent form on click.
+ */
+.webtrees-pedigree-chart-container svg g.person.add-parent {
+    cursor: pointer;
+}
+
+.webtrees-pedigree-chart-container svg g.person.add-parent rect.male,
+.webtrees-pedigree-chart-container svg g.person.add-parent rect.female,
+.webtrees-pedigree-chart-container svg g.person.add-parent rect.unknown {
+    stroke-dasharray: 5;
+}
+
+.webtrees-pedigree-chart-container svg g.person.add-parent circle.add-parent-icon-bg {
+    fill: rgba(255, 255, 255, 0.6);
+    stroke: rgb(120, 120, 120);
+    stroke-width: 1.5px;
+}
+
+.webtrees-pedigree-chart-container svg g.person.add-parent line.add-parent-icon {
+    stroke: rgb(80, 80, 80);
+    stroke-width: 4px;
+    stroke-linecap: round;
+}
+
+.webtrees-pedigree-chart-container svg g.person.add-parent:hover rect {
+    filter: saturate(1.4) brightness(1.05);
+}
+
+.webtrees-pedigree-chart-container svg g.person.add-parent:hover circle.add-parent-icon-bg {
+    fill: rgb(255, 255, 255);
+}

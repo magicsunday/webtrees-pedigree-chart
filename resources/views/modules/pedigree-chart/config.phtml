@@ -69,6 +69,19 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
                 </div>
 
                 <div class="mt-3">
+                    <?php echo view($moduleName . '::modules/components/checkbox', [
+                        'name'      => 'showAddParentLinks',
+                        'label'     => I18N::translate('Show "add parent" placeholders for missing ancestors'),
+                        'checked'   => $configuration->getShowAddParentLinks(),
+                        'unchecked' => '0',
+                    ]);
+?>
+                    <small class="form-text text-muted form-element-description" style="box-decoration-break: clone;">
+                        <?php echo I18N::translate('When enabled, an empty box with a "+" icon is rendered in place of each missing father or mother. Editors can click it to jump straight to the webtrees "add a parent" form for the corresponding child. The placeholders are only shown to users who have edit rights on the individual.'); ?>
+                    </small>
+                </div>
+
+                <div class="mt-3">
                     <label for="nameAbbreviation" class="form-label">
                         <?php echo I18N::translate('Name abbreviation when space is tight'); ?>
                     </label>

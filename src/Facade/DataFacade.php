@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace MagicSunday\Webtrees\PedigreeChart\Facade;
 
 use Fisharebest\Webtrees\Family;
+use Fisharebest\Webtrees\Http\RequestHandlers\AddParentToIndividualPage;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Module\ModuleCustomInterface;
@@ -125,13 +126,76 @@ class DataFacade
         // Add an array of child nodes
         if ($fatherNode instanceof Node) {
             $node->addParent($fatherNode);
+        } elseif ($this->shouldOfferAddParent($individual, $generation)) {
+            $node->addParent($this->createAddParentPlaceholder($individual, 'M', $generation + 1));
         }
 
         if ($motherNode instanceof Node) {
             $node->addParent($motherNode);
+        } elseif ($this->shouldOfferAddParent($individual, $generation)) {
+            $node->addParent($this->createAddParentPlaceholder($individual, 'F', $generation + 1));
         }
 
         return $node;
+    }
+
+    /**
+     * Returns true when an "add parent" placeholder should be rendered
+     * next to the given individual: the admin toggle is on, the user can
+     * edit this individual, and there is at least one more configured
+     * generation slot available for the placeholder.
+     *
+     * @param Individual $individual
+     * @param int        $generation
+     *
+     * @return bool
+     */
+    private function shouldOfferAddParent(Individual $individual, int $generation): bool
+    {
+        return $this->configuration->getShowAddParentLinks()
+            && ($generation < $this->configuration->getGenerations())
+            && $individual->canEdit();
+    }
+
+    /**
+     * Builds a placeholder Node that the JS layer treats as an
+     * "Add a parent" call-to-action. The empty xref signals "no
+     * individual"; the populated url is the webtrees core route that
+     * opens the matching add-parent form.
+     *
+     * @param Individual $childIndividual The individual whose parent is missing
+     * @param string     $sex             'M' for father, 'F' for mother
+     * @param int        $generation      Generation index of the placeholder itself
+     *
+     * @return Node
+     */
+    private function createAddParentPlaceholder(
+        Individual $childIndividual,
+        string $sex,
+        int $generation,
+    ): Node {
+        static $id = 0;
+
+        $url = route(AddParentToIndividualPage::class, [
+            'tree' => $childIndividual->tree()->name(),
+            'xref' => $childIndividual->xref(),
+            'sex'  => $sex,
+        ]);
+
+        $name = $sex === 'M'
+            ? I18N::translate('Add a father')
+            : I18N::translate('Add a mother');
+
+        $treeData = new NodeData();
+        $treeData
+            ->setId(--$id)
+            ->setGeneration($generation)
+            ->setXref('')
+            ->setUrl($url)
+            ->setName($name)
+            ->setSex($sex);
+
+        return new Node($treeData);
     }
 
     /**

@@ -86,6 +86,10 @@ trait ModuleConfigTrait
             (string) $configuration->getHidePngExport()
         );
         $this->setPreference(
+            'default_showAddParentLinks',
+            (string) $configuration->getShowAddParentLinks()
+        );
+        $this->setPreference(
             'default_showFamilyColors',
             (string) $configuration->getShowFamilyColors()
         );

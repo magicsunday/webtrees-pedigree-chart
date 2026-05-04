@@ -374,6 +374,32 @@ class Configuration
     }
 
     /**
+     * Admin-only toggle that decides whether the chart renders a clickable
+     * placeholder box for each missing parent slot. The box links to the
+     * webtrees core "Add a parent" page so editors can fill the gap from
+     * within the chart.
+     *
+     * @return bool
+     */
+    public function getShowAddParentLinks(): bool
+    {
+        if ($this->request->getMethod() === RequestMethodInterface::METHOD_POST) {
+            $validator = Validator::parsedBody($this->request);
+        } else {
+            $validator = Validator::queryParams($this->request);
+        }
+
+        return $validator
+            ->boolean(
+                'showAddParentLinks',
+                (bool) $this->module->getPreference(
+                    'default_showAddParentLinks',
+                    '0'
+                )
+            );
+    }
+
+    /**
      * Returns the dropdown options for the name-abbreviation strategy in
      * the admin config form. Keyed by the persisted enum value.
      *

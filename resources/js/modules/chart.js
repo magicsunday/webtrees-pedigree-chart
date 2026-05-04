@@ -176,7 +176,7 @@ export default class Chart {
 
         this._svg.visual
             .selectAll("g.person")
-            .filter((person) => person.data.data.xref !== "")
+            .filter((person) => person.data.data.xref !== "" || person.data.data.url !== "")
             .each(function (person) {
                 d3.select(this).on("click", () => that.personClick(person.data));
             });
@@ -190,6 +190,15 @@ export default class Chart {
      * @private
      */
     personClick(data) {
+        // "Add a parent" placeholder: empty xref + url pointing at the
+        // webtrees core add-parent route. Always navigate there directly,
+        // honouring the same new-tab preference as real individuals.
+        if (data.data.xref === "" && data.data.url !== "") {
+            this.redirectToIndividual(data.data.url);
+
+            return;
+        }
+
         // Trigger either "update" or "redirectToIndividual" method on click depending on person in chart
         data.data.generation === 1
             ? this.redirectToIndividual(data.data.url)
