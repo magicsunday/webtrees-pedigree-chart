@@ -117,6 +117,15 @@ class DataFacade
         $family = $individual->childFamilies()->first();
 
         if ($family === null) {
+            // Person without any childFamily: no parents to recurse into,
+            // but still offer add-parent placeholders so editors can seed
+            // both slots from scratch. The placeholder URL routes to
+            // AddParentToIndividualPage which creates the FAMC for them.
+            if ($this->shouldOfferAddParent($individual, $generation)) {
+                $node->addParent($this->createAddParentPlaceholder($individual, null, 'M', $generation + 1));
+                $node->addParent($this->createAddParentPlaceholder($individual, null, 'F', $generation + 1));
+            }
+
             return $node;
         }
 
