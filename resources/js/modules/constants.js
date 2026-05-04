@@ -13,8 +13,42 @@
  * @type {number}
  * @const
  */
-export const LAYOUT_HORIZONTAL_NODE_WIDTH = 380;
-export const LAYOUT_VERTICAL_NODE_WIDTH = 260;
+export const LAYOUT_HORIZONTAL_NODE_WIDTH = 350;
+export const LAYOUT_VERTICAL_NODE_WIDTH = 240;
+
+/**
+ * Vertical box width in minimal mode (no nickname, no alt-name, no
+ * places, no additional facts). Drops back to the legacy pre-#45
+ * width because the date pair fits comfortably without the optional
+ * place / glyph columns.
+ *
+ * @type {number}
+ * @const
+ */
+export const LAYOUT_VERTICAL_NODE_WIDTH_COMPACT = 160;
+
+/**
+ * Horizontal box width in minimal mode. Currently identical to the
+ * full-mode width — keeping a single horizontal width avoids siblings
+ * shifting horizontally when toggling places / additional facts.
+ *
+ * @type {number}
+ * @const
+ */
+export const LAYOUT_HORIZONTAL_NODE_WIDTH_COMPACT = 350;
+
+/**
+ * Vertical box height in minimal mode (with image). Sized so the date
+ * pair sits 25 px below the surname (the same gap used between name
+ * lines and the vital block in the full layout) with a 13.5 px bottom
+ * padding — i.e., no compact shift down. Drops back to a smaller box
+ * because there is no place row, no optional row, and no alt-name to
+ * accommodate.
+ *
+ * @type {number}
+ * @const
+ */
+export const LAYOUT_VERTICAL_NODE_HEIGHT_MINIMAL = 189;
 
 /**
  * Compact-mode heights — image + name + worst-case vital block. The runtime
@@ -26,8 +60,20 @@ export const LAYOUT_VERTICAL_NODE_WIDTH = 260;
  * @type {number}
  * @const
  */
-export const LAYOUT_HORIZONTAL_NODE_BASE_HEIGHT = 100;
-export const LAYOUT_VERTICAL_NODE_BASE_HEIGHT = 222;
+export const LAYOUT_HORIZONTAL_NODE_BASE_HEIGHT = 105;
+
+/**
+ * Minimum horizontal box height required to host the 85 px image strip
+ * with its 7.5 px top/bottom padding. The compact (places-off) trim
+ * never drops the box below this value when the chart has images;
+ * otherwise the image radius would clamp to a smaller circle (see
+ * image.js).
+ *
+ * @type {number}
+ * @const
+ */
+export const LAYOUT_HORIZONTAL_IMAGE_MIN_HEIGHT = 100;
+export const LAYOUT_VERTICAL_NODE_BASE_HEIGHT = 217;
 
 /**
  * Vertical-layout space reserved for the portrait strip (image height +
@@ -62,14 +108,39 @@ export const LAYOUT_VERTICAL_NICKNAME_OFFSET = 20;
 
 /**
  * Extra height reserved for the alternative-name line when the chart has
- * at least one alternative name. The alt-name sits 25 px below the
- * surname (one line plus a small extra gap so it reads as a separate
- * label) — the same gap is used between the alt-name and the vital block.
+ * at least one alternative name. The alt-name sits 20 px below the
+ * surname — one 20 px line-grid step, matching the spacing between
+ * any other two name rows — and the same 20 px gap is reused between
+ * the alt-name and the vital block.
  *
  * @type {number}
  * @const
  */
-export const LAYOUT_VERTICAL_ALTNAME_OFFSET = 25;
+export const LAYOUT_VERTICAL_ALTNAME_OFFSET = 20;
+
+/**
+ * Vertical distance between the surname (or horizontal main-name line)
+ * and the alt-name when both are visible. Equals half of the surname →
+ * vital span when an alt-name is present (20 px lastname-to-alt + 25 px
+ * alt-to-vital → 45 / 2 = 22.5), so the alt-name reads as visually
+ * centred between the name region and the date block.
+ *
+ * @type {number}
+ * @const
+ */
+export const LAYOUT_ALTNAME_CENTER_GAP = 22.5;
+
+/**
+ * Vertical distance between the surname baseline (or horizontal main-
+ * name line) and the first vital row baseline. Wider than the 20 px
+ * name-line grid so the date block reads as a separate region from
+ * the name region — and visibly more spaced than the 18 px gap
+ * between the two date rows themselves.
+ *
+ * @type {number}
+ * @const
+ */
+export const LAYOUT_NAME_TO_VITAL_GAP = 25;
 
 /**
  * Vertical distance between the start of one vital pair and the start of
@@ -126,6 +197,20 @@ export const LAYOUT_VITAL_PLACE_OFFSET = 14;
  * @const
  */
 export const LAYOUT_VITAL_COMPACT_PAIR_OFFSET = 18;
+
+/**
+ * Vertical space the place row reservation contributes to a horizontal
+ * box's full-mode height. Equals one pair offset (32) plus one place
+ * offset (14) minus the compact pair offset (18) — the same delta the
+ * vertical layout's BASE_HEIGHT − HEIGHT_MINIMAL already encodes (217 −
+ * 189 = 28). When places are off the horizontal box can shrink by this
+ * amount to drop the empty bottom strip the place row would have
+ * occupied.
+ *
+ * @type {number}
+ * @const
+ */
+export const LAYOUT_HORIZONTAL_PLACE_ROW_RESERVATION = 28;
 
 /**
  * Extra gap between the vital block and the optional block in the box. Sits

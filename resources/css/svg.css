@@ -69,16 +69,16 @@
 .webtrees-pedigree-chart-container svg text.fact {
     fill: var(--bs-tertiary-color, rgb(127, 127, 127));
     font-weight: normal;
-    font-size: 12px;
+    font-size: 13px;
 }
 
 .webtrees-pedigree-chart-container svg text.fact-place {
     font-style: italic;
-    font-size: 11px;
+    font-size: 12px;
 }
 
 .webtrees-pedigree-chart-container svg text.fact-optional {
-    font-size: 11px;
+    font-size: 12px;
 }
 
 .webtrees-pedigree-chart-container svg text.fact-glyph {

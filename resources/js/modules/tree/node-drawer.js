@@ -217,7 +217,12 @@ export default class NodeDrawer {
      * @private
      */
     _drawAddParentPlaceholder(parent) {
-        const radius = Math.min(this._orientation.boxWidth, this._orientation.boxHeight) / 5;
+        // Fixed icon size — the + and surrounding circle stay
+        // recognisable at a glance regardless of how tall or wide the
+        // surrounding box happens to be. Earlier code derived the
+        // radius from the box dimensions, which made the icon balloon
+        // in tall boxes (chart with many optional rows).
+        const radius = 25;
 
         parent
             .append("circle")
@@ -228,26 +233,21 @@ export default class NodeDrawer {
 
         // Draw the + glyph as two crossing lines so it scales crisply at
         // any orientation/box size without depending on a glyph font.
-        // Glyph extent is intentionally smaller than the circle radius so
-        // the + sits inset with breathing room rather than touching the
-        // ring.
-        const glyphReach = radius * 0.4;
-
         parent
             .append("line")
             .attr("class", "add-parent-icon")
-            .attr("x1", -glyphReach)
+            .attr("x1", -radius * 0.5)
             .attr("y1", 0)
-            .attr("x2", glyphReach)
+            .attr("x2", radius * 0.5)
             .attr("y2", 0);
 
         parent
             .append("line")
             .attr("class", "add-parent-icon")
             .attr("x1", 0)
-            .attr("y1", -glyphReach)
+            .attr("y1", -radius * 0.5)
             .attr("x2", 0)
-            .attr("y2", glyphReach);
+            .attr("y2", radius * 0.5);
     }
 
     /**
@@ -318,27 +318,22 @@ export default class NodeDrawer {
 
         const group = enter.append("g").attr("class", "image");
 
-        // Letterbox background behind the (possibly aspect-clipped) foreground
-        // photo. Cream for silhouettes (warm backdrop matching the cameo
-        // aesthetic), plain white for real photos — stays neutral whether the
-        // box carries a sex pastel, a family colour, or a dark-theme tint.
+        // Plain white background behind the (possibly letterboxed)
+        // foreground photo so the boundary against the box is uniform.
         group
             .append("rect")
-            .attr("class", "image-bg")
             .attr("x", this._image.x)
             .attr("y", this._image.y)
             .attr("width", this._image.width)
             .attr("height", this._image.height)
             .attr("rx", this._image.rx)
             .attr("ry", this._image.ry)
-            .attr("fill", (d) => (d.image === d.silhouette ? "#FBF8F0" : "#FFFFFF"));
+            .attr("fill", "#FFFFFF");
 
         // The individual image (crisp foreground). On load failure (broken
         // thumbnail URL, deleted media, network error) swap in the silhouette
         // — otherwise the box renders an empty/broken-image marker that the
-        // user can't recover from without reloading. The error path also
-        // promotes the background to cream so the late-swapped cameo matches
-        // the server-decided silhouettes elsewhere in the tree.
+        // user can't recover from without reloading.
         group
             .append("image")
             .attr("href", (d) => d.image)
@@ -350,10 +345,6 @@ export default class NodeDrawer {
             .on("error", function (_event, d) {
                 if (d.silhouette) {
                     this.setAttribute("href", d.silhouette);
-                    const bg = this.parentNode.querySelector("rect.image-bg");
-                    if (bg !== null) {
-                        bg.setAttribute("fill", "#FBF8F0");
-                    }
                 }
             });
 
