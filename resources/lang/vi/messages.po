@@ -207,3 +207,11 @@ msgstr "Hiển thị biệt danh trong tên hiển thị"
 #: resources/views/modules/fan-chart/form/display.phtml
 msgid "Inserts the GEDCOM NICK value in quotes between the given names and the surname (e.g. Martin \"Chalky\" White). Mirrors the legacy webtrees behaviour for trees that store nicknames in the separate GEDCOM NICK field."
 msgstr "Chèn giá trị GEDCOM NICK trong dấu ngoặc kép giữa các tên đệm và họ (ví dụ Martin \"Chalky\" White). Tái hiện hành vi webtrees cũ cho cây gia phả lưu biệt danh trong trường GEDCOM NICK riêng."
+
+#: resources/views/modules/pedigree-chart/config.phtml
+msgid "Show \"add parent\" placeholders for missing ancestors"
+msgstr "Hiển thị ô chỗ \"thêm cha mẹ\" cho tổ tiên còn thiếu"
+
+#: resources/views/modules/pedigree-chart/config.phtml
+msgid "When enabled, an empty box with a \"+\" icon is rendered in place of each missing father or mother. Editors can click it to jump straight to the webtrees \"add a parent\" form for the corresponding child. The placeholders are only shown to users who have edit rights on the individual."
+msgstr "Khi bật, một ô trống với biểu tượng \"+\" sẽ được hiển thị thay cho mỗi người cha hoặc mẹ còn thiếu. Người chỉnh sửa có thể nhấp để đi trực tiếp đến biểu mẫu webtrees \"thêm cha mẹ\" cho người con tương ứng. Các ô chỗ chỉ hiển thị cho người dùng có quyền chỉnh sửa cá nhân đó."

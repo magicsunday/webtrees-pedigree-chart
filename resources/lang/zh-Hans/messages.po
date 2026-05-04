@@ -207,3 +207,11 @@ msgstr "在显示名中显示昵称"
 #: resources/views/modules/fan-chart/form/display.phtml
 msgid "Inserts the GEDCOM NICK value in quotes between the given names and the surname (e.g. Martin \"Chalky\" White). Mirrors the legacy webtrees behaviour for trees that store nicknames in the separate GEDCOM NICK field."
 msgstr "将 GEDCOM NICK 字段的值用引号插入在名字与姓氏之间（例如 Martin \"Chalky\" White）。模拟旧版 webtrees 的行为，适用于在单独的 GEDCOM NICK 字段中保存昵称的家谱。"
+
+#: resources/views/modules/pedigree-chart/config.phtml
+msgid "Show \"add parent\" placeholders for missing ancestors"
+msgstr "为缺失的祖先显示\"添加父母\"占位符"
+
+#: resources/views/modules/pedigree-chart/config.phtml
+msgid "When enabled, an empty box with a \"+\" icon is rendered in place of each missing father or mother. Editors can click it to jump straight to the webtrees \"add a parent\" form for the corresponding child. The placeholders are only shown to users who have edit rights on the individual."
+msgstr "启用后，将在每个缺失的父亲或母亲位置显示带\"+\"图标的空框。编辑者可点击直接跳转到对应子女的 webtrees\"添加父母\"表单。仅向对相关人员有编辑权限的用户显示这些占位符。"

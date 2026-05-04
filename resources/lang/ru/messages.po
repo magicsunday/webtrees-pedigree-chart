@@ -208,3 +208,11 @@ msgstr "Показывать прозвища в отображаемых име
 #: resources/views/modules/fan-chart/form/display.phtml
 msgid "Inserts the GEDCOM NICK value in quotes between the given names and the surname (e.g. Martin \"Chalky\" White). Mirrors the legacy webtrees behaviour for trees that store nicknames in the separate GEDCOM NICK field."
 msgstr "Вставляет значение GEDCOM NICK в кавычках между именами и фамилией (например, Martin \"Chalky\" White). Повторяет прежнее поведение webtrees для деревьев, в которых прозвища хранятся в отдельном поле GEDCOM NICK."
+
+#: resources/views/modules/pedigree-chart/config.phtml
+msgid "Show \"add parent\" placeholders for missing ancestors"
+msgstr "Показывать заполнители «добавить родителя» для отсутствующих предков"
+
+#: resources/views/modules/pedigree-chart/config.phtml
+msgid "When enabled, an empty box with a \"+\" icon is rendered in place of each missing father or mother. Editors can click it to jump straight to the webtrees \"add a parent\" form for the corresponding child. The placeholders are only shown to users who have edit rights on the individual."
+msgstr "Если включено, на месте каждого отсутствующего отца или матери отображается пустое поле со значком «+». Редакторы могут нажать на него, чтобы сразу перейти к форме webtrees «добавить родителя» для соответствующего ребёнка. Заполнители видны только пользователям с правом редактирования данного лица."

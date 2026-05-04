@@ -207,3 +207,11 @@ msgstr "Zobrazit přezdívky ve zobrazovaných jménech"
 #: resources/views/modules/fan-chart/form/display.phtml
 msgid "Inserts the GEDCOM NICK value in quotes between the given names and the surname (e.g. Martin \"Chalky\" White). Mirrors the legacy webtrees behaviour for trees that store nicknames in the separate GEDCOM NICK field."
 msgstr "Vloží hodnotu GEDCOM NICK v uvozovkách mezi křestní jména a příjmení (např. Martin \"Chalky\" White). Napodobuje původní chování webtrees pro stromy, které přezdívky ukládají do samostatného pole GEDCOM NICK."
+
+#: resources/views/modules/pedigree-chart/config.phtml
+msgid "Show \"add parent\" placeholders for missing ancestors"
+msgstr "Zobrazovat zástupné rámečky „přidat rodiče\" pro chybějící předky"
+
+#: resources/views/modules/pedigree-chart/config.phtml
+msgid "When enabled, an empty box with a \"+\" icon is rendered in place of each missing father or mother. Editors can click it to jump straight to the webtrees \"add a parent\" form for the corresponding child. The placeholders are only shown to users who have edit rights on the individual."
+msgstr "Když je zapnuto, na místě každého chybějícího otce nebo matky se zobrazí prázdný rámeček s ikonou „+\". Editoři jej mohou kliknutím otevřít přímo formulář webtrees „přidat rodiče\" pro odpovídající dítě. Zástupné rámečky se zobrazují pouze uživatelům s právem upravovat danou osobu."

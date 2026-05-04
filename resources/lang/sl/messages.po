@@ -215,3 +215,11 @@ msgstr "Prikaži vzdevke v prikaznih imenih"
 #: resources/views/modules/fan-chart/form/display.phtml
 msgid "Inserts the GEDCOM NICK value in quotes between the given names and the surname (e.g. Martin \"Chalky\" White). Mirrors the legacy webtrees behaviour for trees that store nicknames in the separate GEDCOM NICK field."
 msgstr "Vstavi vrednost GEDCOM NICK v narekovajih med osebna imena in priimek (npr. Martin \"Chalky\" White). Posnema staro vedenje webtrees za drevesa, ki vzdevke shranjujejo v ločenem polju GEDCOM NICK."
+
+#: resources/views/modules/pedigree-chart/config.phtml
+msgid "Show \"add parent\" placeholders for missing ancestors"
+msgstr "Prikaži označevalce »dodaj starša« za manjkajoče prednike"
+
+#: resources/views/modules/pedigree-chart/config.phtml
+msgid "When enabled, an empty box with a \"+\" icon is rendered in place of each missing father or mother. Editors can click it to jump straight to the webtrees \"add a parent\" form for the corresponding child. The placeholders are only shown to users who have edit rights on the individual."
+msgstr "Ko je vklopljeno, se namesto vsakega manjkajočega očeta ali matere prikaže prazno polje z ikono »+«. Urejevalci lahko nanj kliknejo, da skočijo neposredno na obrazec webtrees »dodaj starša« za ustreznega otroka. Označevalci so vidni samo uporabnikom s pravicami urejanja osebe."

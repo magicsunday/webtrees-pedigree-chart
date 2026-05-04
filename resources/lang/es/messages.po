@@ -207,3 +207,11 @@ msgstr "Mostrar apodos en los nombres mostrados"
 #: resources/views/modules/fan-chart/form/display.phtml
 msgid "Inserts the GEDCOM NICK value in quotes between the given names and the surname (e.g. Martin \"Chalky\" White). Mirrors the legacy webtrees behaviour for trees that store nicknames in the separate GEDCOM NICK field."
 msgstr "Inserta el valor GEDCOM NICK entre comillas entre los nombres y el apellido (p. ej. Martin \"Chalky\" White). Reproduce el comportamiento heredado de webtrees para árboles que guardan los apodos en el campo GEDCOM NICK separado."
+
+#: resources/views/modules/pedigree-chart/config.phtml
+msgid "Show \"add parent\" placeholders for missing ancestors"
+msgstr "Mostrar marcadores «añadir progenitor» para antepasados faltantes"
+
+#: resources/views/modules/pedigree-chart/config.phtml
+msgid "When enabled, an empty box with a \"+\" icon is rendered in place of each missing father or mother. Editors can click it to jump straight to the webtrees \"add a parent\" form for the corresponding child. The placeholders are only shown to users who have edit rights on the individual."
+msgstr "Cuando está habilitado, se muestra una caja vacía con un icono «+» en lugar de cada padre o madre faltante. Los editores pueden hacer clic en ella para ir directamente al formulario «añadir un progenitor» de webtrees para el hijo correspondiente. Los marcadores solo se muestran a los usuarios con derechos de edición sobre la persona."
