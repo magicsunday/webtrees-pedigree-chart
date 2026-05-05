@@ -67,8 +67,15 @@ export default class Name {
                 ])
                 .enter();
 
+            const showAltName = this._svg._configuration.showAlternativeName;
+
             enter.each(function (datum) {
                 const element = d3.select(this);
+                // createNamesData is the most expensive name-side
+                // operation per individual; compute once and reuse for
+                // surname rows AND the alt-name y-offset (the alt-name
+                // sits relative to the surname y, which depends on the
+                // group count).
                 const nameGroups = that.createNamesData(datum);
                 const availableWidth = that.getAvailableWidth(datum);
 
@@ -86,42 +93,35 @@ export default class Name {
                         that.truncateNamesData(text, nameGroup, availableWidth),
                     );
                 });
+
+                // Alt-name sits LAYOUT_ALTNAME_CENTER_GAP below the
+                // surname (which itself sits at text.y - 10 +
+                // (groups-1)*20). Reuses the nameGroups count from
+                // above instead of re-running createNamesData.
+                if (showAltName && datum.data.data.alternativeName !== "") {
+                    const altY =
+                        that._text.y +
+                        (nameGroups.length - 1) * 20 -
+                        10 +
+                        LAYOUT_ALTNAME_CENTER_GAP;
+                    const altText = element
+                        .append("text")
+                        .attr("class", "wt-chart-box-name wt-chart-box-name-alt")
+                        .attr("direction", datum.isAltRtl ? "rtl" : "ltr")
+                        .attr("text-anchor", "middle")
+                        .attr("dominant-baseline", "middle")
+                        .attr("y", altY);
+
+                    that.addNameElements(
+                        altText,
+                        that.truncateNamesData(
+                            altText,
+                            that.createAlternativeNamesData(datum),
+                            availableWidth,
+                        ),
+                    );
+                }
             });
-
-            // Add alternative name if present
-            if (this._svg._configuration.showAlternativeName) {
-                enter
-                    .filter((datum) => datum.data.data.alternativeName !== "")
-                    .call((g) => {
-                        const text = g
-                            .append("text")
-                            .attr("class", "wt-chart-box-name wt-chart-box-name-alt")
-                            .attr("direction", (datum) => (datum.isAltRtl ? "rtl" : "ltr"))
-                            .attr("text-anchor", "middle")
-                            .attr("dominant-baseline", "middle")
-                            // Alt-name centred between the surname and
-                            // the vital block: equal LAYOUT_ALTNAME_
-                            // CENTER_GAP (22.5 px) gaps above and below.
-                            // Surname y = text.y - 10 + (groups-1)*20,
-                            // so alt-name y = surname y + 22.5.
-                            .attr(
-                                "y",
-                                (datum) =>
-                                    this._text.y +
-                                    (this.createNamesData(datum).length - 1) * 20 -
-                                    10 +
-                                    LAYOUT_ALTNAME_CENTER_GAP,
-                            );
-
-                        this.addNameElements(text, (datum) =>
-                            this.truncateNamesData(
-                                text,
-                                this.createAlternativeNamesData(datum),
-                                this.getAvailableWidth(datum),
-                            ),
-                        );
-                    });
-            }
 
             // Left/Right and Right/Left
         } else {

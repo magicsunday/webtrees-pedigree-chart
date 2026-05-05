@@ -18,9 +18,9 @@ export const LAYOUT_VERTICAL_NODE_WIDTH = 240;
 
 /**
  * Vertical box width in minimal mode (no nickname, no alt-name, no
- * places, no additional facts). Drops back to the legacy pre-#45
- * width because the date pair fits comfortably without the optional
- * place / glyph columns.
+ * places, no additional facts). Narrower than the full-mode width
+ * because the date pair fits comfortably without the optional place
+ * / glyph columns.
  *
  * @type {number}
  * @const
@@ -154,17 +154,6 @@ export const LAYOUT_NAME_TO_VITAL_GAP = 25;
 export const LAYOUT_VITAL_PAIR_OFFSET = 32;
 
 /**
- * Legacy alias preserved for code paths that still reserve space using
- * the previous "fact row height" abstraction. New code should prefer
- * {@link LAYOUT_VITAL_PAIR_OFFSET} (vital pair) or
- * {@link LAYOUT_OPTIONAL_ROW_HEIGHT} (optional rows).
- *
- * @type {number}
- * @const
- */
-export const LAYOUT_FACT_ROW_HEIGHT = 20;
-
-/**
  * Vertical spacing between optional fact rows. Tighter than the vital
  * row grid because optional rows have no place sub-row underneath them
  * — the value is small enough to feel like a single dense list.
@@ -232,16 +221,6 @@ export const LAYOUT_VITAL_OPTIONAL_GAP = 24;
  * @const
  */
 export const LAYOUT_GLYPH_COL_WIDTH = 18;
-
-/**
- * Sparse-data caption threshold. When at least this many optional slots are
- * empty for an individual, the optional grid collapses to a single italic
- * "no further data" caption instead of rendering N em-dashes.
- *
- * @type {number}
- * @const
- */
-export const SPARSE_CAPTION_THRESHOLD = 3;
 
 // Variation selector U+FE0E appended to each glyph so the browser picks
 // the monochrome text presentation rather than a colour-emoji form. Some

@@ -81,7 +81,7 @@ export default class Configuration {
         this.imageVisible = true;
         // Whether the chart renders only names + dates (no nickname, no
         // alt-name, no places, no optional facts). When true in a
-        // vertical layout, the box drops back to its pre-#45 width
+        // vertical layout, the box uses the narrower compact width
         // because the row needs no glyph or place column.
         this.minimalMode = false;
         // Chart-wide max number of populated optional fact rows. Set
@@ -227,6 +227,18 @@ export default class Configuration {
      */
     get showPlaces() {
         return this._showPlaces;
+    }
+
+    /**
+     * Sets the effective show-places flag. Hierarchy.init() narrows the
+     * raw user toggle (true/false) to its effective value (false when no
+     * individual in the chart actually carries a vital place) and writes
+     * it back so every downstream renderer reads a single coherent flag.
+     *
+     * @param {boolean} value Effective show-places flag
+     */
+    set showPlaces(value) {
+        this._showPlaces = value;
     }
 
     /**

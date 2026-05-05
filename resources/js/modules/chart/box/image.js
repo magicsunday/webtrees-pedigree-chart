@@ -7,6 +7,7 @@
 
 /**
  * @import { Orientation } from "@magicsunday/webtrees-chart-lib"
+ * @import Configuration from "../../configuration.js"
  */
 
 /**
@@ -20,8 +21,11 @@ export default class Image {
     /**
      * Constructor.
      *
-     * @param {Orientation} orientation  The current orientation
-     * @param {number}      cornerRadius The corner radius of the box
+     * @param {Orientation}   orientation   The current orientation
+     * @param {number}        cornerRadius  The corner radius of the box
+     * @param {Configuration} configuration The application configuration; the
+     *     {@link Configuration#imageVisible} flag toggles the image strip on
+     *     or off chart-wide
      */
     constructor(orientation, cornerRadius, configuration) {
         this._orientation = orientation;
