@@ -179,6 +179,14 @@ export default class FactsRenderer {
         if (this._orientation.isVertical) {
             return 0;
         }
+        // When the alt-name is visible it already occupies the slot
+        // between the main name and the vital block, so there is no
+        // empty space left to push the date pair into. Adding the shift
+        // here would push the dates past the alt-name and either out of
+        // the box or into the bottom padding.
+        if (config.altNameVisible) {
+            return 0;
+        }
         // Horizontal compact mode keeps the image-bound minimum box
         // (100 px) — alt-name and dates fit inside that height. Push
         // the date pair partway down so it sits visually balanced
@@ -337,20 +345,19 @@ export default class FactsRenderer {
         // vital offset counts from that anchor.
         const config = this._svg._configuration;
         const mainNameY = this._text.y + 12.5;
-        // Full mode (places visible) with alt-name centres the alt
-        // between main name and vital, so vital sits 2 ×
-        // LAYOUT_ALTNAME_CENTER_GAP below the main name. Compact mode
-        // keeps vital at the standard LAYOUT_NAME_TO_VITAL_GAP — when
-        // alt is visible the alt floats between, when alt is hidden
-        // the dates anchor near the box bottom via vitalCompactShift.
-        const baseY =
-            config.showPlaces && config.altNameVisible
-                ? mainNameY + 2 * LAYOUT_ALTNAME_CENTER_GAP
-                : mainNameY + LAYOUT_NAME_TO_VITAL_GAP;
+        // When an alt-name is visible it sits at LAYOUT_ALTNAME_CENTER_GAP
+        // below the main name, and the vital block must sit another
+        // LAYOUT_ALTNAME_CENTER_GAP below the alt-name so the alt floats
+        // visually centred between the two regions — independent of the
+        // places toggle. When no alt-name is visible the vital block sits
+        // at the standard LAYOUT_NAME_TO_VITAL_GAP below the main name.
+        const baseY = config.altNameVisible
+            ? mainNameY + 2 * LAYOUT_ALTNAME_CENTER_GAP
+            : mainNameY + LAYOUT_NAME_TO_VITAL_GAP;
 
-        // Compact mode (places off) shifts the vital block down so the
-        // last date row sits where the last place row would have sat —
-        // see vitalCompactShift().
+        // Compact mode (places off, no alt-name) shifts the vital block
+        // down so the last date row sits where the last place row would
+        // have sat — see vitalCompactShift().
         return baseY + this.vitalCompactShift();
     }
 

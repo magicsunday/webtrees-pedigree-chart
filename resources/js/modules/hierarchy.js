@@ -343,10 +343,13 @@ export default class Hierarchy {
      * @private
      */
     treeHasImages(datum) {
-        return this.walkAncestry(datum, (node) => {
-            const data = node?.data;
-            return (data?.thumbnail ?? "") !== "" || (data?.silhouette ?? "") !== "";
-        });
+        // Mirror what the node drawer actually renders: the image group is
+        // appended only when `thumbnail` is non-empty (silhouette serves
+        // strictly as the onerror fallback URL inside that group). Counting
+        // silhouettes here would mark silhouette-only trees as having
+        // images, reserve the strip, and never render anything into it —
+        // leaving an empty portrait area at the top of every box.
+        return this.walkAncestry(datum, (node) => (node?.data?.thumbnail ?? "") !== "");
     }
 
     /**
