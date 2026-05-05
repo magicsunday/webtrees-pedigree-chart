@@ -324,11 +324,22 @@ class DataFacade
      */
     private function getUpdateRoute(Individual $individual): string
     {
+        // Forward every form-toggle so re-centering on an ancestor (which
+        // navigates via this URL) preserves the current selection instead
+        // of falling back to module preference defaults — otherwise the
+        // optional fact rows, places, alt-names etc. would silently
+        // disappear or reappear on every box click.
         return $this->chartUrl(
             $individual,
             [
-                'generations' => $this->configuration->getGenerations(),
-                'layout'      => $this->configuration->getLayout(),
+                'generations'         => $this->configuration->getGenerations(),
+                'layout'              => $this->configuration->getLayout(),
+                'openNewTabOnClick'   => $this->configuration->getOpenNewTabOnClick() ? '1' : '0',
+                'showAlternativeName' => $this->configuration->getShowAlternativeName() ? '1' : '0',
+                'showNicknames'       => $this->configuration->getShowNicknames() ? '1' : '0',
+                'showFamilyColors'    => $this->configuration->getShowFamilyColors() ? '1' : '0',
+                'showPlaces'          => $this->configuration->getShowPlaces() ? '1' : '0',
+                'showAdditionalFacts' => $this->configuration->getShowAdditionalFacts() ? '1' : '0',
             ]
         );
     }

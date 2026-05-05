@@ -117,12 +117,18 @@ export default class Hierarchy {
             if (altNameVisible) {
                 this._configuration.orientation.boxHeight += LAYOUT_VERTICAL_ALTNAME_OFFSET;
             }
-        } else if (altNameVisible && placesVisible) {
+        } else if (altNameVisible && (placesVisible || !imageVisible)) {
             // Horizontal layouts always render the main name on a single
             // line; only the alt-name (when visible) shifts the vital
-            // block down and needs extra height — but in compact mode
-            // (no places) the alt-name fits within the image-bound
-            // minimum (100 px), so no extension is needed there.
+            // block down and needs extra height. With places visible
+            // the alt-name plus full vital block forces the extension.
+            // With places off but no image either, the trimmed compact
+            // baseline (77 px) is too short to host main name + alt-name
+            // + two date rows, so the second date would land outside the
+            // box; the extension restores enough room. With places off
+            // AND an image present, the 100 px image-fit floor below
+            // already absorbs the alt-name's extra height, so no
+            // explicit extension is needed.
             this._configuration.orientation.boxHeight += LAYOUT_HORIZONTAL_ALT_OFFSET;
         }
 
@@ -330,11 +336,13 @@ export default class Hierarchy {
     }
 
     /**
-     * Returns true when at least one individual in the chart has either
-     * a thumbnail or a silhouette URL — i.e. the box should reserve space
-     * for the portrait strip. Trees with the silhouette toggle off and
-     * no per-individual photos (issue #67-style imports) skip the image
-     * area entirely.
+     * Returns true when at least one individual in the chart has a
+     * non-empty thumbnail — i.e. the box should reserve space for the
+     * portrait strip. Mirrors the node drawer, which appends the image
+     * group only when `thumbnail` is non-empty (the silhouette URL
+     * serves strictly as the onerror fallback inside that group, never
+     * as a standalone image source). Trees with no per-individual
+     * photos skip the image area entirely.
      *
      * @param {object} datum The JSON-encoded chart data passed into init()
      *
