@@ -223,3 +223,6 @@ msgstr "Prikaži označevalce »dodaj starša« za manjkajoče prednike"
 #: resources/views/modules/pedigree-chart/config.phtml
 msgid "When enabled, an empty box with a \"+\" icon is rendered in place of each missing father or mother. Editors can click it to jump straight to the webtrees \"add a parent\" form for the corresponding child. The placeholders are only shown to users who have edit rights on the individual."
 msgstr "Ko je vklopljeno, se namesto vsakega manjkajočega očeta ali matere prikaže prazno polje z ikono »+«. Urejevalci lahko nanj kliknejo, da skočijo neposredno na obrazec webtrees »dodaj starša« za ustreznega otroka. Označevalci so vidni samo uporabnikom s pravicami urejanja osebe."
+
+msgid "Behavior"
+msgstr "Vedenje"

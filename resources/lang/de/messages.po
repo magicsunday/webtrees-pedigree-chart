@@ -221,3 +221,6 @@ msgstr "Platzhalter „Elternteil hinzufügen\" für fehlende Vorfahren anzeigen
 #: resources/views/modules/pedigree-chart/config.phtml
 msgid "When enabled, an empty box with a \"+\" icon is rendered in place of each missing father or mother. Editors can click it to jump straight to the webtrees \"add a parent\" form for the corresponding child. The placeholders are only shown to users who have edit rights on the individual."
 msgstr "Wenn aktiviert, wird an Stelle jedes fehlenden Vaters oder jeder fehlenden Mutter eine leere Box mit „+\"-Symbol angezeigt. Bearbeiter können sie anklicken, um direkt zum webtrees-Formular „Elternteil hinzufügen\" für das entsprechende Kind zu springen. Die Platzhalter werden nur Benutzern angezeigt, die Bearbeitungsrechte für die Person haben."
+
+msgid "Behavior"
+msgstr "Verhalten"

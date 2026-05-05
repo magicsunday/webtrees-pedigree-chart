@@ -210,3 +210,6 @@ msgstr "Plaatshouders \"ouder toevoegen\" tonen voor ontbrekende voorouders"
 #: resources/views/modules/pedigree-chart/config.phtml
 msgid "When enabled, an empty box with a \"+\" icon is rendered in place of each missing father or mother. Editors can click it to jump straight to the webtrees \"add a parent\" form for the corresponding child. The placeholders are only shown to users who have edit rights on the individual."
 msgstr "Als ingeschakeld wordt op de plaats van elke ontbrekende vader of moeder een leeg vak met \"+\"-pictogram getoond. Bewerkers kunnen erop klikken om rechtstreeks naar het webtrees-formulier \"ouder toevoegen\" voor het bijbehorende kind te gaan. De plaatshouders worden alleen getoond aan gebruikers met bewerkrechten op de persoon."
+
+msgid "Behavior"
+msgstr "Gedrag"

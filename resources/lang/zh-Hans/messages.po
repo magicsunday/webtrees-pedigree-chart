@@ -78,11 +78,11 @@ msgstr "居中"
 
 #: resources/views/modules/components/buttonbar/fullscreen-button.phtml:18
 msgid "Switch between full screen mode and normal view"
-msgstr ""
+msgstr "切换全屏与普通视图"
 
 #: resources/views/modules/components/buttonbar/help-button.phtml:17
 msgid "Show help"
-msgstr ""
+msgstr "显示帮助"
 
 #: resources/views/modules/components/buttonbar/png-export-button.phtml:18
 msgid "Export as PNG"
@@ -102,23 +102,23 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:44
 msgid "General"
-msgstr ""
+msgstr "常规"
 
 #: resources/views/modules/pedigree-chart/config.phtml:50
 msgid "Hide the SVG export button"
-msgstr ""
+msgstr "隐藏 SVG 导出按钮"
 
 #: resources/views/modules/pedigree-chart/config.phtml:60
 msgid "Hide the PNG export button"
-msgstr ""
+msgstr "隐藏 PNG 导出按钮"
 
 #: resources/views/modules/pedigree-chart/config.phtml:73
 msgid "save"
-msgstr ""
+msgstr "保存"
 
 #: resources/views/modules/pedigree-chart/config.phtml:78
 msgid "cancel"
-msgstr ""
+msgstr "取消"
 
 #: resources/views/modules/pedigree-chart/form/generations.phtml:22
 msgid "Generations"
@@ -130,7 +130,7 @@ msgstr "布局"
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:39
 msgid "Open individual in new browser window/tab"
-msgstr ""
+msgstr "在新浏览器窗口/标签页中打开个人"
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:45
 msgid ""
@@ -140,7 +140,7 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:53
 msgid "Show alternative name of individual"
-msgstr ""
+msgstr "显示个人的备用名称"
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:59
 msgid ""
@@ -215,3 +215,6 @@ msgstr "为缺失的祖先显示\"添加父母\"占位符"
 #: resources/views/modules/pedigree-chart/config.phtml
 msgid "When enabled, an empty box with a \"+\" icon is rendered in place of each missing father or mother. Editors can click it to jump straight to the webtrees \"add a parent\" form for the corresponding child. The placeholders are only shown to users who have edit rights on the individual."
 msgstr "启用后，将在每个缺失的父亲或母亲位置显示带\"+\"图标的空框。编辑者可点击直接跳转到对应子女的 webtrees\"添加父母\"表单。仅向对相关人员有编辑权限的用户显示这些占位符。"
+
+msgid "Behavior"
+msgstr "行为"
