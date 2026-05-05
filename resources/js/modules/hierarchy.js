@@ -79,7 +79,7 @@ export default class Hierarchy {
         // Overwrite the JS-side toggle with the effective value so every
         // downstream reader (vital baseY, row renderers, minimal-mode
         // detection) sees a single coherent flag.
-        this._configuration._showPlaces = placesVisible;
+        this._configuration.showPlaces = placesVisible;
 
         // The orientation arrives at the BASE_HEIGHT (sized for the
         // full vital block — date + place per pair). When places are
@@ -170,10 +170,10 @@ export default class Hierarchy {
         // region above the dates and shift everything below them down,
         // but they don't pull in the glyph column or place column that
         // would force the wider full layout. In vertical orientation
-        // the box drops back to the legacy pre-#45 width (160 px) so
-        // the simple "name(s) + two dates" layout looks like the
-        // classic webtrees chart instead of leaving a wide empty strip
-        // on either side of the centred dates.
+        // the box uses the narrower compact width (160 px) so the
+        // simple "name(s) + two dates" layout sits tightly around the
+        // centred dates instead of leaving a wide empty strip on
+        // either side.
         const minimalMode = !this._configuration.showPlaces && optionalRows === 0;
         this._configuration.minimalMode = minimalMode;
         if (minimalMode) {
@@ -241,6 +241,36 @@ export default class Hierarchy {
     }
 
     /**
+     * Walks the chart datum depth-first (root → ancestors) and invokes
+     * `visitor` on every node. Walking stops as soon as the visitor
+     * returns true — used by the `treeHas*` predicates for early-exit
+     * existence checks. For aggregate walks (e.g. max-populated-rows)
+     * the visitor returns nothing and the walk completes.
+     *
+     * @param {object}                          datum   The JSON-encoded chart data
+     * @param {(node: object) => boolean|void}  visitor Called once per node
+     *
+     * @returns {boolean} True when the visitor short-circuited the walk
+     *
+     * @private
+     */
+    walkAncestry(datum, visitor) {
+        const visit = (node) => {
+            if (visitor(node) === true) {
+                return true;
+            }
+            const parents = node?.parents ?? [];
+            for (const parent of parents) {
+                if (visit(parent)) {
+                    return true;
+                }
+            }
+            return false;
+        };
+        return visit(datum);
+    }
+
+    /**
      * Walks the raw chart datum and returns the maximum number of
      * populated optional fact slots across all individuals. The vital
      * block (BIRT/DEAT placeholders at index 0 and 1) is excluded;
@@ -254,17 +284,15 @@ export default class Hierarchy {
      */
     maxPopulatedOptionalRows(datum) {
         let max = 0;
-        const visit = (node) => {
+        this.walkAncestry(datum, (node) => {
             const facts = node?.data?.facts;
             if (Array.isArray(facts) && facts.length > 2) {
-                const populated = facts.slice(2).filter((f) => f !== null).length;
+                const populated = facts.slice(2).filter((f) => f != null).length;
                 if (populated > max) {
                     max = populated;
                 }
             }
-            (node?.parents ?? []).forEach(visit);
-        };
-        visit(datum);
+        });
         return max;
     }
 
@@ -282,17 +310,7 @@ export default class Hierarchy {
      * @private
      */
     treeHasAlternativeNames(datum) {
-        let found = false;
-        const visit = (node) => {
-            if (found) return;
-            if ((node?.data?.alternativeName ?? "") !== "") {
-                found = true;
-                return;
-            }
-            (node?.parents ?? []).forEach(visit);
-        };
-        visit(datum);
-        return found;
+        return this.walkAncestry(datum, (node) => (node?.data?.alternativeName ?? "") !== "");
     }
 
     /**
@@ -308,17 +326,7 @@ export default class Hierarchy {
      * @private
      */
     treeHasNicknames(datum) {
-        let found = false;
-        const visit = (node) => {
-            if (found) return;
-            if ((node?.data?.nickname ?? "") !== "") {
-                found = true;
-                return;
-            }
-            (node?.parents ?? []).forEach(visit);
-        };
-        visit(datum);
-        return found;
+        return this.walkAncestry(datum, (node) => (node?.data?.nickname ?? "") !== "");
     }
 
     /**
@@ -335,18 +343,10 @@ export default class Hierarchy {
      * @private
      */
     treeHasImages(datum) {
-        let found = false;
-        const visit = (node) => {
-            if (found) return;
+        return this.walkAncestry(datum, (node) => {
             const data = node?.data;
-            if ((data?.thumbnail ?? "") !== "" || (data?.silhouette ?? "") !== "") {
-                found = true;
-                return;
-            }
-            (node?.parents ?? []).forEach(visit);
-        };
-        visit(datum);
-        return found;
+            return (data?.thumbnail ?? "") !== "" || (data?.silhouette ?? "") !== "";
+        });
     }
 
     /**
@@ -363,20 +363,15 @@ export default class Hierarchy {
      * @private
      */
     treeHasVitalPlaces(datum) {
-        let found = false;
-        const visit = (node) => {
-            if (found) return;
+        return this.walkAncestry(datum, (node) => {
             const facts = node?.data?.facts ?? [];
             for (let i = 0; i < Math.min(2, facts.length); i++) {
                 const fact = facts[i];
                 if (fact && (fact.place ?? "") !== "") {
-                    found = true;
-                    return;
+                    return true;
                 }
             }
-            (node?.parents ?? []).forEach(visit);
-        };
-        visit(datum);
-        return found;
+            return false;
+        });
     }
 }

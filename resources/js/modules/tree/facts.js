@@ -446,28 +446,16 @@ export default class FactsRenderer {
     /* -------------------- Shared row helpers -------------------- */
 
     /**
-     * Returns the chart-wide worst-case number of vital pairs (date +
-     * optional place). Pedigree filters MARR at the data source so the
-     * worst case is BIRT + DEAT = 2 pairs. Descendants-chart spouse
-     * boxes also render MARR, so 3 pairs there.
-     *
-     * @returns {number}
-     *
-     * @private
-     */
-    maxVitalPairs() {
-        return 2;
-    }
-
-    /**
      * Returns the height of the worst-case vital block: from the first
      * date row centre to the last (place or date) row centre. Used to
      * position the optional block.
      *
-     * Compact mode (places off) has no place row at the end, so the
-     * block reaches only the last date row. The compact baseY shift
-     * compensates so the absolute end-y stays the same — the optional
-     * block sits at the same place across modes.
+     * Pedigree filters MARR at the data source, so the worst case is
+     * BIRT + DEAT = 2 pairs. Compact mode (places off) has no place
+     * row at the end, so the block reaches only the last date row.
+     * The compact baseY shift compensates so the absolute end-y stays
+     * the same — the optional block sits at the same place across
+     * modes.
      *
      * @returns {number}
      *
@@ -475,9 +463,9 @@ export default class FactsRenderer {
      */
     vitalBlockHeight() {
         if (!this._svg._configuration.showPlaces) {
-            return (this.maxVitalPairs() - 1) * LAYOUT_VITAL_COMPACT_PAIR_OFFSET;
+            return LAYOUT_VITAL_COMPACT_PAIR_OFFSET;
         }
-        return (this.maxVitalPairs() - 1) * LAYOUT_VITAL_PAIR_OFFSET + LAYOUT_VITAL_PLACE_OFFSET;
+        return LAYOUT_VITAL_PAIR_OFFSET + LAYOUT_VITAL_PLACE_OFFSET;
     }
 
     /**
