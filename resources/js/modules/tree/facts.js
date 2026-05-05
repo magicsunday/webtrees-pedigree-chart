@@ -154,14 +154,16 @@ export default class FactsRenderer {
     }
 
     /**
-     * Y-offset added to the vital baseY when places are toggled off, so
-     * the shorter date-only block hugs the bottom of the box (where the
-     * full-mode last place row would have sat) instead of leaving a wide
-     * empty strip beneath the dates. Returns 0 in full mode.
+     * Y-offset added to the vital baseY in horizontal compact mode so the
+     * shorter date-only block sits visually balanced against the image
+     * strip instead of clinging to the top of the box. Returns 0 in every
+     * other case — full mode (places on), vertical orientation, optional
+     * rows present, alt-name visible, or no image — because those layouts
+     * already consume their reserved space without an extra shift.
      *
-     * The shift equals one pair offset (32) plus one place offset (14)
-     * minus the compact pair offset (18) — i.e., the height collapsed by
-     * removing the two place rows.
+     * The non-zero return path uses LAYOUT_ALTNAME_CENTER_GAP (22.5 px) so
+     * the date pair lines up with the same alt-name centring grid the rest
+     * of the box uses, avoiding a stray sub-pixel rhythm.
      *
      * @returns {number}
      *
