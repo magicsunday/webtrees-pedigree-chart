@@ -185,11 +185,22 @@ export default class Name {
                 enter
                     .filter((datum) => datum.data.data.alternativeName !== "")
                     .call((g) => {
+                        // text-anchor depends on inline-progression
+                        // direction (set via the SVG `direction` attr),
+                        // not on the document direction:
+                        //   direction=rtl → "start" lives at the RIGHT
+                        //   direction=ltr → "start" lives at the LEFT
+                        // For an RTL alt-name we therefore use "start"
+                        // and anchor it on the right edge of the text
+                        // column so the text grows leftward into the
+                        // box. Using "end" + right-edge x would put the
+                        // anchor at the LEFT of the rendered glyph run
+                        // and let it overflow past the right box edge.
                         const altAnchor = (datum) => {
-                            if (datum.isAltRtl && this._orientation.isDocumentRtl) {
+                            if (datum.isAltRtl) {
                                 return "start";
                             }
-                            if (datum.isAltRtl || this._orientation.isDocumentRtl) {
+                            if (this._orientation.isDocumentRtl) {
                                 return "end";
                             }
                             return "start";
@@ -200,11 +211,14 @@ export default class Name {
                             .attr("class", "wt-chart-box-name wt-chart-box-name-alt")
                             .attr("direction", (datum) => (datum.isAltRtl ? "rtl" : "ltr"))
                             .attr("text-anchor", altAnchor)
-                            // For end-anchored RTL alt-names, the x must
-                            // be the right edge of the text column —
-                            // native RTL convention.
+                            // Anchor x sits on the right edge of the
+                            // text column whenever the text wants to
+                            // right-align (RTL alt-name in any doc, or
+                            // an LTR alt-name inside an RTL doc), and
+                            // on the left edge for the default LTR/LTR
+                            // case.
                             .attr("x", (datum) =>
-                                altAnchor(datum) === "end"
+                                datum.isAltRtl || this._orientation.isDocumentRtl
                                     ? this.textRightEdge(datum)
                                     : this.textX(datum),
                             )
