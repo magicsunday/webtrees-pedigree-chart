@@ -10,6 +10,7 @@
     * [Using Composer](#using-composer)
       * [Latest version](#latest-version)
     * [Using Git](#using-git)
+  * [Update](#update)
   * [Configuration](#configuration)
   * [Usage](#usage)
   * [Development](#development)
@@ -38,6 +39,10 @@ for experienced users, as a developer you can also use [git](#using-git) to get 
 however, manual installation is recommended.
 
 ### Manual installation
+
+> [!IMPORTANT]
+> **If a previous version of this module is already installed:** delete the entire `modules_v4/webtrees-pedigree-chart` folder *before* extracting the new ZIP. Extracting on top of an existing folder leaves stale files behind that can clash with the new release — a common cause of `Interface … not found` errors right after an update.
+
 To manually install the module, perform the following steps:
 
 1. Download the [latest release](https://github.com/magicsunday/webtrees-pedigree-chart/releases/latest) of the module.
@@ -85,6 +90,12 @@ git clone https://github.com/magicsunday/webtrees-pedigree-chart.git modules_v4/
 ```
 
 Then follow the steps described in [configuration](#configuration) and [usage](#usage).
+
+
+## Update
+- **Manual installation**: Download the new release `.zip`, **delete the old `modules_v4/webtrees-pedigree-chart` folder first**, and extract the new one. Extracting on top of an existing folder leaves stale files behind that can clash with the new release (a common cause of `Interface … not found` errors after an update).
+- **Composer**: Run `composer update magicsunday/webtrees-pedigree-chart --update-no-dev`.
+- **Git**: Run `git pull` inside the `modules_v4/webtrees-pedigree-chart` directory.
 
 
 ## Configuration
