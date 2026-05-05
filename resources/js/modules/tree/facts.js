@@ -706,15 +706,21 @@ export default class FactsRenderer {
      * Available text width for a horizontal row starting at startX. Used
      * by truncation so long places and values fit inside the box.
      *
-     * @param {number} startX Row's leftmost x-coordinate
+     * In LTR rows grow rightward from startX toward the column's right
+     * edge at +(text.x + text.width). In RTL the document is mirrored,
+     * startX is negative, and rows grow leftward toward the column's
+     * left edge at -(text.x + text.width); the available distance is
+     * still positive (startX − leftEdge).
      *
-     * @returns {number} Pixels available between startX and the text-column right edge
+     * @param {number} startX Row's start x-coordinate (text-anchor side)
+     *
+     * @returns {number} Pixels available from startX to the column's far edge
      *
      * @private
      */
     horizontalRowAvailable(startX) {
-        const textRight = this.textX({ withImage: false }) + this._text.width;
-        return textRight - startX;
+        const columnExtent = this._text.x + this._text.width;
+        return this._orientation.isDocumentRtl ? startX + columnExtent : columnExtent - startX;
     }
 
     /**

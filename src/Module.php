@@ -308,6 +308,7 @@ class Module extends PedigreeChartModule implements ModuleAssetUrlInterface, Mod
                 'showAlternativeName' => $this->configuration->getShowAlternativeName(),
                 'showNicknames'       => $this->configuration->getShowNicknames(),
                 'showFamilyColors'    => $this->configuration->getShowFamilyColors(),
+                'showPlaces'          => $this->configuration->getShowPlaces(),
                 'showAdditionalFacts' => $this->configuration->getShowAdditionalFacts(),
                 'xref'                => $xref,
             ]
