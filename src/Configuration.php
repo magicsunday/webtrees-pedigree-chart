@@ -253,7 +253,7 @@ class Configuration
                 'showAlternativeName',
                 (bool) $this->module->getPreference(
                     'default_showAlternativeName',
-                    '1'
+                    '0'
                 )
             );
     }
