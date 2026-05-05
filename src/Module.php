@@ -294,8 +294,10 @@ class Module extends PedigreeChartModule implements ModuleAssetUrlInterface, Mod
     {
         // Forward every parameter the user can change on the form so the AJAX
         // request rebuilding the chart partial sees the current selection
-        // instead of falling back to module preference defaults — `showNicknames`
-        // and `showAlternativeName` change the rendered names in DataFacade.
+        // instead of falling back to module preference defaults. `showNicknames`
+        // and `showAlternativeName` change the rendered names in DataFacade,
+        // and `showAdditionalFacts` decides whether DataFacade emits the
+        // optional fact rows at all.
         return $this->chartUrl(
             $individual,
             [
@@ -306,6 +308,7 @@ class Module extends PedigreeChartModule implements ModuleAssetUrlInterface, Mod
                 'showAlternativeName' => $this->configuration->getShowAlternativeName(),
                 'showNicknames'       => $this->configuration->getShowNicknames(),
                 'showFamilyColors'    => $this->configuration->getShowFamilyColors(),
+                'showAdditionalFacts' => $this->configuration->getShowAdditionalFacts(),
                 'xref'                => $xref,
             ]
         );
