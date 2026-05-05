@@ -222,6 +222,17 @@ export const LAYOUT_VITAL_OPTIONAL_GAP = 24;
  */
 export const LAYOUT_GLYPH_COL_WIDTH = 18;
 
+/**
+ * Radius of the "add parent" placeholder icon (the + glyph and its
+ * surrounding circle). Constant across orientations so the call-to-action
+ * stays the same recognisable size regardless of the surrounding box
+ * dimensions, which vary with optional-row count and image visibility.
+ *
+ * @type {number}
+ * @const
+ */
+export const LAYOUT_ADD_PARENT_ICON_RADIUS = 25;
+
 // Variation selector U+FE0E appended to each glyph so the browser picks
 // the monochrome text presentation rather than a colour-emoji form. Some
 // fonts default to coloured glyphs for codepoints like ★ and ✎; this

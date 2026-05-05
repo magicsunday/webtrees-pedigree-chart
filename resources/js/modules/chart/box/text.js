@@ -57,12 +57,13 @@ export default class Text {
      */
     calculateY() {
         if (!this._orientation.isVertical) {
-            // Horizontal layouts: top-align the name's visual top with
-            // the image's top edge so both share the same 7.5 px padding
-            // from the box top. The name renders with
-            // dominant-baseline="hanging" so y is the visual top, not
-            // the baseline — see name.js. Vital block is independently
-            // bottom-anchored to the image bottom in facts.js
+            // Horizontal layouts: anchor the name baseline to the image's
+            // top edge so the name and the image share the same 7.5 px
+            // padding from the box top. The text renders with
+            // dominant-baseline="middle" (see name.js), so the consumer
+            // adds half a line height on top of this y to land the
+            // name's visual centre. Vital block is bottom-anchored to
+            // the image bottom independently in facts.js
             // (horizontalVitalBaseY).
             return this._image.y;
         }

@@ -5,7 +5,7 @@
  * LICENSE file distributed with this source code.
  */
 
-import { SEX_FEMALE, SEX_MALE } from "../constants.js";
+import { LAYOUT_ADD_PARENT_ICON_RADIUS, SEX_FEMALE, SEX_MALE } from "../constants.js";
 import Name from "./name.js";
 import FactsRenderer from "./facts.js";
 import FamilyColor from "./family-color.js";
@@ -217,12 +217,12 @@ export default class NodeDrawer {
      * @private
      */
     _drawAddParentPlaceholder(parent) {
-        // Fixed icon size — the + and surrounding circle stay
-        // recognisable at a glance regardless of how tall or wide the
-        // surrounding box happens to be. Earlier code derived the
-        // radius from the box dimensions, which made the icon balloon
-        // in tall boxes (chart with many optional rows).
-        const radius = 25;
+        // Constant icon size keeps the + and its surrounding circle
+        // legible across all orientations and chart configurations:
+        // box height varies with optional-row count and image-strip
+        // visibility, but the call-to-action target should stay the
+        // same recognisable size regardless.
+        const radius = LAYOUT_ADD_PARENT_ICON_RADIUS;
 
         parent
             .append("circle")

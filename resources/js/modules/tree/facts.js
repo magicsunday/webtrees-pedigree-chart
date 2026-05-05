@@ -31,7 +31,12 @@ import {
  * @typedef {{tag: string, label: string, date: string, place: string, value: string}} FactView
  */
 
-const VITAL_TAGS = ["BIRT", "DEAT", "MARR"];
+// Match webtrees-module-base FactResolver, which walks Gedcom::BIRTH_EVENTS
+// (BIRT/CHR/BAPM) and DEATH_EVENTS (DEAT/BURI/CREM) and writes the actual
+// found tag into the slot. Filtering only on BIRT/DEAT/MARR would silently
+// drop christening, baptism, burial and cremation entries that an older
+// GEDCOM uses as the primary vital event.
+const VITAL_TAGS = new Set(["BIRT", "CHR", "BAPM", "DEAT", "BURI", "CREM", "MARR"]);
 
 /**
  * Renders the vital block (BIRT/MARR/DEAT) and the optional block
@@ -231,14 +236,13 @@ export default class FactsRenderer {
                 const dateY = baseY + pairOffset * pairStep;
 
                 if (showPlaces) {
-                    self.appendVitalDateRow(node, glyphForTag(fact.tag), fact, dateY, true);
+                    self.appendVitalDateRow(node, glyphForTag(fact.tag), fact, dateY);
 
                     if (fact.place !== "") {
                         self.appendVitalPlaceRow(
                             node,
                             fact.place,
                             dateY + LAYOUT_VITAL_PLACE_OFFSET,
-                            true,
                         );
                     }
                 } else {
@@ -389,14 +393,13 @@ export default class FactsRenderer {
                 // Same pair rhythm as appendVerticalVitalRows.
                 const dateY = baseY + pairOffset * pairStep;
 
-                self.appendVitalDateRow(node, glyph, fact, dateY, false, x);
+                self.appendVitalDateRow(node, glyph, fact, dateY, x);
 
                 if (showPlaces && fact.place !== "") {
                     self.appendVitalPlaceRow(
                         node,
                         fact.place,
                         dateY + LAYOUT_VITAL_PLACE_OFFSET,
-                        false,
                         x,
                     );
                 }
@@ -451,11 +454,19 @@ export default class FactsRenderer {
      * position the optional block.
      *
      * Pedigree filters MARR at the data source, so the worst case is
-     * BIRT + DEAT = 2 pairs. Compact mode (places off) has no place
-     * row at the end, so the block reaches only the last date row.
-     * The compact baseY shift compensates so the absolute end-y stays
-     * the same — the optional block sits at the same place across
-     * modes.
+     * BIRT + DEAT = 2 pairs.
+     *
+     * Full mode: BIRT date → BIRT place is +LAYOUT_VITAL_PLACE_OFFSET (14),
+     * BIRT date → DEAT date is +LAYOUT_VITAL_PAIR_OFFSET (32), and DEAT
+     * date → DEAT place is another +LAYOUT_VITAL_PLACE_OFFSET. The block
+     * therefore spans pair_offset + place_offset = 46 px from first date
+     * to last place.
+     *
+     * Compact mode (places off) drops both place rows, so the block
+     * reaches only the second date row at +LAYOUT_VITAL_COMPACT_PAIR_OFFSET
+     * (18). The compact baseY shift in horizontalVitalBaseY compensates
+     * so the absolute end-y stays the same and the optional block sits
+     * at the same place across modes.
      *
      * @returns {number}
      *
@@ -485,9 +496,7 @@ export default class FactsRenderer {
             return [];
         }
 
-        return facts.filter(
-            (fact) => fact !== null && fact !== undefined && VITAL_TAGS.includes(fact.tag),
-        );
+        return facts.filter((fact) => fact != null && VITAL_TAGS.has(fact.tag));
     }
 
     /**
@@ -495,25 +504,32 @@ export default class FactsRenderer {
      * the value column. When the date is missing but the place is known,
      * the date cell shows "…" so the glyph still anchors the row.
      *
-     * @param {Selection} parent  The node's selection (per-individual)
-     * @param {string}    glyph   Resolved glyph for the fact's tag (★/†/⚭)
-     * @param {FactView}  fact    The vital fact view (date/place/value)
-     * @param {number}    y       Y-coordinate for this row
-     * @param {boolean}   centred true for vertical layouts (anchor "middle"); false for horizontal (anchor "start")
-     * @param {number}    [startX] Start X for horizontal layouts; ignored when centred
+     * Vertical and horizontal layouts share this method — the row always
+     * uses a glyph + value table column. The minimal vertical mode (no
+     * places, no glyph column) goes through {@link appendVitalDateRowCentred}
+     * instead.
+     *
+     * @param {Selection} parent   The node's selection (per-individual)
+     * @param {string}    glyph    Resolved glyph for the fact's tag (★/†/⚭)
+     * @param {FactView}  fact     The vital fact view (date/place/value)
+     * @param {number}    y        Y-coordinate for this row
+     * @param {number}    [startX] Start X for horizontal layouts; ignored
+     *                             in vertical layouts where the row is
+     *                             centred via verticalRowStartX
      *
      * @private
      */
-    appendVitalDateRow(parent, glyph, fact, y, centred, startX = 0) {
+    appendVitalDateRow(parent, glyph, fact, y, startX = 0) {
+        const isVertical = this._orientation.isVertical;
         const dateText = fact.date === "" ? "…" : fact.date;
         const tooltip = [fact.label, fact.date, fact.place].filter((p) => p !== "").join(" · ");
         // All rows align on a fixed left edge so the glyph column stays in
         // line. The value column starts LAYOUT_GLYPH_COL_WIDTH past it so
         // glyphs and values render as a true two-column table regardless
         // of the glyph's own visual width.
-        const x = centred ? this.verticalRowStartX() : startX;
+        const x = isVertical ? this.verticalRowStartX() : startX;
         const valueX = x + LAYOUT_GLYPH_COL_WIDTH;
-        const rowWidth = centred
+        const rowWidth = isVertical
             ? this.verticalRowAvailable()
             : this.horizontalRowAvailable(startX);
         const valueAvailable = rowWidth - LAYOUT_GLYPH_COL_WIDTH;
@@ -537,19 +553,20 @@ export default class FactsRenderer {
      * horizontal layouts the row is indented past the glyph column so it
      * aligns visually under the date value.
      *
-     * @param {Selection} parent  The node's selection (per-individual)
-     * @param {string}    place   The place string (already non-empty)
-     * @param {number}    y       Y-coordinate for this row
-     * @param {boolean}   centred true for vertical layouts; false for horizontal
-     * @param {number}    [startX] Start X for horizontal layouts; ignored when centred
+     * @param {Selection} parent   The node's selection (per-individual)
+     * @param {string}    place    The place string (already non-empty)
+     * @param {number}    y        Y-coordinate for this row
+     * @param {number}    [startX] Start X for horizontal layouts; ignored
+     *                             in vertical layouts
      *
      * @private
      */
-    appendVitalPlaceRow(parent, place, y, centred, startX = 0) {
+    appendVitalPlaceRow(parent, place, y, startX = 0) {
+        const isVertical = this._orientation.isVertical;
         // Place row sits in the value column under the date value (no
         // glyph), aligned with the rest of the table's right column.
-        const x = (centred ? this.verticalRowStartX() : startX) + LAYOUT_GLYPH_COL_WIDTH;
-        const rowWidth = centred
+        const x = (isVertical ? this.verticalRowStartX() : startX) + LAYOUT_GLYPH_COL_WIDTH;
+        const rowWidth = isVertical
             ? this.verticalRowAvailable()
             : this.horizontalRowAvailable(startX);
         const available = rowWidth - LAYOUT_GLYPH_COL_WIDTH;

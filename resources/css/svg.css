@@ -110,8 +110,6 @@
     fill: var(--bs-tertiary-color, rgb(127, 127, 127));
     font-weight: normal;
     font-size: 0.85em;
-    direction: ltr;
-    unicode-bidi: normal;
 }
 
 /* Family-colors mode pins the alt-name colour to the same muted tertiary
