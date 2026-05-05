@@ -35,13 +35,13 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
         <?php echo view($moduleName . '::modules/pedigree-chart/form/orientation', ['configuration' => $configuration]); ?>
     </div>
     <div class="mb-3">
-        <?php echo view($moduleName . '::modules/pedigree-chart/form/display', ['moduleName' => $moduleName, 'configuration' => $configuration]); ?>
-    </div>
-    <div class="mb-3">
         <?php echo view($moduleName . '::modules/pedigree-chart/form/details', ['moduleName' => $moduleName, 'configuration' => $configuration]); ?>
     </div>
     <div class="mb-3">
         <?php echo view($moduleName . '::modules/pedigree-chart/form/colors', ['moduleName' => $moduleName, 'configuration' => $configuration]); ?>
+    </div>
+    <div class="mb-3">
+        <?php echo view($moduleName . '::modules/pedigree-chart/form/behavior', ['moduleName' => $moduleName, 'configuration' => $configuration]); ?>
     </div>
 
     <div class="mb-3">
