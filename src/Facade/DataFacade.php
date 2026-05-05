@@ -304,6 +304,10 @@ class DataFacade
     /**
      * Returns the cached FactResolver for the current tree, instantiating it
      * on first call.
+     *
+     * @param Individual $individual
+     *
+     * @return FactResolver
      */
     private function getFactResolver(Individual $individual): FactResolver
     {
