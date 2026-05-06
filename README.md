@@ -13,6 +13,7 @@
   * [Update](#update)
   * [Configuration](#configuration)
   * [Usage](#usage)
+  * [Troubleshooting](#troubleshooting)
   * [Development](#development)
     * [Run tests](#run-tests)
 <!-- TOC -->
@@ -119,6 +120,18 @@ installed pedigree chart module) and save your settings.
 ## Usage
 At the charts' menu, you will find a new link called `Pedigree chart`. Use the provided configuration options
 to adjust the layout of the charts according to your needs.
+
+
+## Troubleshooting
+
+**Fatal error after a manual installation or update: `Interface "MagicSunday\Webtrees\ModuleBase\…" not found` (or `ModuleAssetUrlInterface not found`)**
+- You probably downloaded the GitHub-generated **"Source code (zip)"** instead of the install-ready asset **`webtrees-pedigree-chart.zip`**. The asset bundles the required `vendor/` dependencies; the source zip does not. Open the [latest release](https://github.com/magicsunday/webtrees-pedigree-chart/releases/latest), scroll to **Assets**, download `webtrees-pedigree-chart.zip`, and re-extract.
+- If you used the asset zip, make sure you **deleted the previous `modules_v4/webtrees-pedigree-chart` folder before extracting**. Stale files from an older version can shadow the new bundled vendor code and produce the same error.
+
+**The chart does not appear / shows an error**
+- Make sure the module is enabled in the Control Panel under Modules > Charts.
+- Check that your PHP version is 8.3 or later.
+- Clear your browser cache and reload the page.
 
 
 ## Development
