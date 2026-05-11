@@ -1,3 +1,28 @@
+/*
+ * Chart-scoped CSS variables for box-internal text and structural strokes.
+ * Default to Bootstrap theme variables so the chart inherits the active
+ * theme's typography palette out of the box; consumers can override any of
+ * these in a theme stylesheet to decouple the chart from --bs-* shifts
+ * (e.g. to keep text dark on the constant pastel sex backgrounds even when
+ * --bs-body-color flips to light in dark mode).
+ */
+.webtrees-pedigree-chart-container {
+    --chart-text-primary: var(--bs-body-color, rgb(50, 50, 50));
+    --chart-text-secondary: var(--bs-secondary-color, rgb(90, 90, 90));
+    --chart-text-muted: var(--bs-tertiary-color, rgb(127, 127, 127));
+    --chart-connector-stroke: var(--bs-border-color, rgb(175, 175, 175));
+    /* Add-parent placeholder visuals are intentionally theme-constant so
+       the "empty / fill me in" affordance reads identically in both
+       light and dark modes. Override at the container level to make
+       them theme-bound. */
+    --chart-placeholder-bg: rgba(255, 255, 255, 0.6);
+    --chart-placeholder-bg-hover: rgb(255, 255, 255);
+    --chart-placeholder-stroke: rgb(120, 120, 120);
+    --chart-placeholder-glyph: rgb(80, 80, 80);
+    --chart-placeholder-rect-fill: rgba(245, 245, 245, 0.85);
+    --chart-placeholder-rect-stroke: rgb(180, 180, 180);
+}
+
 /* SVG export styles */
 .webtrees-pedigree-chart-container svg {
     min-height: 50dvh;
@@ -46,28 +71,28 @@
 }
 
 .webtrees-pedigree-chart-container svg rect.image {
-    stroke: rgb(175, 175, 175);
+    stroke: var(--chart-connector-stroke);
 }
 
 .webtrees-pedigree-chart-container svg path.link {
     fill: none;
-    stroke: rgb(175, 175, 175);
+    stroke: var(--chart-connector-stroke);
     stroke-width: 1.5px;
     stroke-linecap: butt;
     shape-rendering: geometricPrecision;
 }
 
 .webtrees-pedigree-chart-container svg text.date {
-    fill: currentColor;
+    fill: var(--chart-text-muted);
     font-weight: normal;
     font-size: 13px;
 }
 
 /* Vital + optional fact text follows the fan-chart tooltip palette:
- * dates and labels in tertiary tone, places italic and one size smaller,
- * glyphs share the same tertiary tone so they read as supplementary. */
+ * dates and labels in the muted tone, places italic and one size smaller,
+ * glyphs share the muted tone so they read as supplementary. */
 .webtrees-pedigree-chart-container svg text.fact {
-    fill: var(--bs-tertiary-color, rgb(127, 127, 127));
+    fill: var(--chart-text-muted);
     font-weight: normal;
     font-size: 13px;
 }
@@ -83,18 +108,11 @@
 
 .webtrees-pedigree-chart-container svg text.fact-glyph {
     font-weight: 600;
-    fill: var(--bs-tertiary-color, rgb(127, 127, 127));
-}
-
-/* Pin fact colours for family-colors mode so they stay legible against
- * the pastel paternal/maternal fills in dark themes. */
-.webtrees-pedigree-chart-container svg g.family-colors text.fact,
-.webtrees-pedigree-chart-container svg g.family-colors text.fact-glyph {
-    fill: rgb(127, 127, 127);
+    fill: var(--chart-text-muted);
 }
 
 .webtrees-pedigree-chart-container svg text.wt-chart-box-name {
-    fill: var(--link-color, currentColor);
+    fill: var(--chart-text-primary);
 }
 
 .webtrees-pedigree-chart-container svg text.wt-chart-box-name tspan.lastName {
@@ -107,16 +125,33 @@
 }
 
 .webtrees-pedigree-chart-container svg text.wt-chart-box-name-alt {
-    fill: var(--bs-tertiary-color, rgb(127, 127, 127));
+    fill: var(--chart-text-muted);
     font-weight: normal;
     font-size: 0.85em;
 }
 
-/* Family-colors mode pins the alt-name colour to the same muted tertiary
- * tone the fan-chart uses, so the alt-name reads as supplementary on the
- * pastel paternal/maternal fills regardless of the active theme. */
-.webtrees-pedigree-chart-container svg g.family-colors text.wt-chart-box-name-alt {
-    fill: rgb(127, 127, 127);
+/*
+ * Family-colors mode floods every real-person box with a constant pastel
+ * lineage tint via inline fill (see node-drawer.js). Lock the chart text
+ * variables to fixed dark tones inside this scope so labels stay legible
+ * against the pastels even when the theme's --bs-body-color flips to
+ * light, while the regular non-family-colors mode still inherits whatever
+ * the consumer sets at the container level.
+ *
+ * --sex-*-bg is overridden to constant pastels inside the same scope so
+ * the soft sex-coded box borders (driven by the
+ * `g.family-colors rect.X { stroke: var(--sex-X-bg) }` rules above) stay
+ * visible against the constant lineage fills even when the theme
+ * redefines --sex-*-bg to dark values. Inline lineage fills win on
+ * specificity, so this override only affects the strokes.
+ */
+.webtrees-pedigree-chart-container svg g.family-colors {
+    --chart-text-primary: rgb(50, 50, 50);
+    --chart-text-secondary: rgb(90, 90, 90);
+    --chart-text-muted: rgb(127, 127, 127);
+    --sex-f-bg: rgb(233, 218, 241);
+    --sex-m-bg: rgb(237, 247, 253);
+    --sex-u-bg: rgb(255, 255, 255);
 }
 
 .webtrees-pedigree-chart-container svg g.person:hover rect.male,
@@ -142,8 +177,8 @@
 }
 
 .webtrees-pedigree-chart-container svg g.person.add-parent circle.add-parent-icon-bg {
-    fill: rgba(255, 255, 255, 0.6);
-    stroke: rgb(120, 120, 120);
+    fill: var(--chart-placeholder-bg);
+    stroke: var(--chart-placeholder-stroke);
     stroke-width: 1.5px;
 }
 
@@ -157,12 +192,12 @@
 .webtrees-pedigree-chart-container svg g.family-colors g.person.add-parent rect.male,
 .webtrees-pedigree-chart-container svg g.family-colors g.person.add-parent rect.female,
 .webtrees-pedigree-chart-container svg g.family-colors g.person.add-parent rect.unknown {
-    fill: rgba(245, 245, 245, 0.85);
-    stroke: rgb(180, 180, 180);
+    fill: var(--chart-placeholder-rect-fill);
+    stroke: var(--chart-placeholder-rect-stroke);
 }
 
 .webtrees-pedigree-chart-container svg g.person.add-parent line.add-parent-icon {
-    stroke: rgb(80, 80, 80);
+    stroke: var(--chart-placeholder-glyph);
     stroke-width: 4px;
     stroke-linecap: round;
 }
@@ -172,5 +207,5 @@
 }
 
 .webtrees-pedigree-chart-container svg g.person.add-parent:hover circle.add-parent-icon-bg {
-    fill: rgb(255, 255, 255);
+    fill: var(--chart-placeholder-bg-hover);
 }
