@@ -1,6 +1,6 @@
 {
     "name": "webtrees-pedigree-chart",
-    "version": "2.7.2",
+    "version": "2.7.3-dev",
     "description": "This modules provides an SVG pedigree chart for the [webtrees](https://www.webtrees.net) genealogy application.",
     "keywords": [
         "webtrees",
@@ -53,7 +53,7 @@
         "d3-zoom": "^3.0",
         "jest": "^30.0",
         "jest-environment-jsdom": "^30.0",
-        "jscpd": "^4.0.9",
+        "jscpd": "^4.1.0",
         "rollup": "^4.0",
         "rollup-plugin-license": "^3.0",
         "typescript": "^6.0.3"
