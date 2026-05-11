@@ -11,6 +11,15 @@
     --chart-text-secondary: var(--bs-secondary-color, rgb(90, 90, 90));
     --chart-text-muted: var(--bs-tertiary-color, rgb(127, 127, 127));
     --chart-connector-stroke: var(--bs-border-color, rgb(175, 175, 175));
+    /* Add-parent placeholder visuals are intentionally theme-constant so
+       the "empty / fill me in" affordance reads identically in both
+       light and dark modes. Override at the container level to make
+       them theme-bound. */
+    --chart-placeholder-bg: rgba(255, 255, 255, 0.6);
+    --chart-placeholder-stroke: rgb(120, 120, 120);
+    --chart-placeholder-glyph: rgb(80, 80, 80);
+    --chart-placeholder-rect-fill: rgba(245, 245, 245, 0.85);
+    --chart-placeholder-rect-stroke: rgb(180, 180, 180);
 }
 
 /* SVG export styles */
@@ -135,8 +144,8 @@
 }
 
 .webtrees-pedigree-chart-container svg g.person.add-parent circle.add-parent-icon-bg {
-    fill: rgba(255, 255, 255, 0.6);
-    stroke: rgb(120, 120, 120);
+    fill: var(--chart-placeholder-bg);
+    stroke: var(--chart-placeholder-stroke);
     stroke-width: 1.5px;
 }
 
@@ -150,20 +159,13 @@
 .webtrees-pedigree-chart-container svg g.family-colors g.person.add-parent rect.male,
 .webtrees-pedigree-chart-container svg g.family-colors g.person.add-parent rect.female,
 .webtrees-pedigree-chart-container svg g.family-colors g.person.add-parent rect.unknown {
-    fill: rgba(245, 245, 245, 0.85);
-    stroke: rgb(180, 180, 180);
+    fill: var(--chart-placeholder-rect-fill);
+    stroke: var(--chart-placeholder-rect-stroke);
 }
 
 .webtrees-pedigree-chart-container svg g.person.add-parent line.add-parent-icon {
-    stroke: rgb(80, 80, 80);
+    stroke: var(--chart-placeholder-glyph);
     stroke-width: 4px;
     stroke-linecap: round;
 }
 
-.webtrees-pedigree-chart-container svg g.person.add-parent:hover rect {
-    filter: saturate(1.4) brightness(1.05);
-}
-
-.webtrees-pedigree-chart-container svg g.person.add-parent:hover circle.add-parent-icon-bg {
-    fill: rgb(255, 255, 255);
-}

@@ -217,7 +217,7 @@ export default class NodeDrawer {
      * @private
      */
     _drawAddParentPlaceholder(parent) {
-        const radius = Math.min(this._orientation.boxWidth, this._orientation.boxHeight) / 4;
+        const radius = Math.min(this._orientation.boxWidth, this._orientation.boxHeight) / 5;
 
         parent
             .append("circle")
@@ -228,21 +228,26 @@ export default class NodeDrawer {
 
         // Draw the + glyph as two crossing lines so it scales crisply at
         // any orientation/box size without depending on a glyph font.
+        // Glyph extent is intentionally smaller than the circle radius so
+        // the + sits inset with breathing room rather than touching the
+        // ring.
+        const glyphReach = radius * 0.4;
+
         parent
             .append("line")
             .attr("class", "add-parent-icon")
-            .attr("x1", -radius * 0.5)
+            .attr("x1", -glyphReach)
             .attr("y1", 0)
-            .attr("x2", radius * 0.5)
+            .attr("x2", glyphReach)
             .attr("y2", 0);
 
         parent
             .append("line")
             .attr("class", "add-parent-icon")
             .attr("x1", 0)
-            .attr("y1", -radius * 0.5)
+            .attr("y1", -glyphReach)
             .attr("x2", 0)
-            .attr("y2", radius * 0.5);
+            .attr("y2", glyphReach);
     }
 
     /**
