@@ -313,22 +313,27 @@ export default class NodeDrawer {
 
         const group = enter.append("g").attr("class", "image");
 
-        // Plain white background behind the (possibly letterboxed)
-        // foreground photo so the boundary against the box is uniform.
+        // Letterbox background behind the (possibly aspect-clipped) foreground
+        // photo. Cream for silhouettes (warm backdrop matching the cameo
+        // aesthetic), plain white for real photos — stays neutral whether the
+        // box carries a sex pastel, a family colour, or a dark-theme tint.
         group
             .append("rect")
+            .attr("class", "image-bg")
             .attr("x", this._image.x)
             .attr("y", this._image.y)
             .attr("width", this._image.width)
             .attr("height", this._image.height)
             .attr("rx", this._image.rx)
             .attr("ry", this._image.ry)
-            .attr("fill", "#FFFFFF");
+            .attr("fill", (d) => (d.image === d.silhouette ? "#FBF8F0" : "#FFFFFF"));
 
         // The individual image (crisp foreground). On load failure (broken
         // thumbnail URL, deleted media, network error) swap in the silhouette
         // — otherwise the box renders an empty/broken-image marker that the
-        // user can't recover from without reloading.
+        // user can't recover from without reloading. The error path also
+        // promotes the background to cream so the late-swapped cameo matches
+        // the server-decided silhouettes elsewhere in the tree.
         group
             .append("image")
             .attr("href", (d) => d.image)
@@ -340,6 +345,10 @@ export default class NodeDrawer {
             .on("error", function (_event, d) {
                 if (d.silhouette) {
                     this.setAttribute("href", d.silhouette);
+                    const bg = this.parentNode.querySelector("rect.image-bg");
+                    if (bg !== null) {
+                        bg.setAttribute("fill", "#FBF8F0");
+                    }
                 }
             });
 
