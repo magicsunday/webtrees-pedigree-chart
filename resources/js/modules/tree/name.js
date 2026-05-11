@@ -7,6 +7,7 @@
 
 import { measureText, truncateNames } from "@magicsunday/webtrees-chart-lib";
 import * as d3 from "../d3.js";
+import { LAYOUT_ALTNAME_CENTER_GAP } from "../constants.js";
 
 /**
  * @import { Selection } from "d3-selection"
@@ -66,8 +67,15 @@ export default class Name {
                 ])
                 .enter();
 
+            const showAltName = this._svg._configuration.showAlternativeName;
+
             enter.each(function (datum) {
                 const element = d3.select(this);
+                // createNamesData is the most expensive name-side
+                // operation per individual; compute once and reuse for
+                // surname rows AND the alt-name y-offset (the alt-name
+                // sits relative to the surname y, which depends on the
+                // group count).
                 const nameGroups = that.createNamesData(datum);
                 const availableWidth = that.getAvailableWidth(datum);
 
@@ -77,39 +85,43 @@ export default class Name {
                         .attr("class", "wt-chart-box-name")
                         .attr("direction", (datum) => (datum.isRtl ? "rtl" : "ltr"))
                         .attr("text-anchor", "middle")
-                        .attr("alignment-baseline", "central")
-                        .attr("y", that._text.y - 5 + index * 20);
+                        .attr("dominant-baseline", "middle")
+                        .attr("y", that._text.y - 10 + index * 20);
 
                     that.addNameElements(
                         text,
                         that.truncateNamesData(text, nameGroup, availableWidth),
                     );
                 });
+
+                // Alt-name sits LAYOUT_ALTNAME_CENTER_GAP below the
+                // surname (which itself sits at text.y - 10 +
+                // (groups-1)*20). Reuses the nameGroups count from
+                // above instead of re-running createNamesData.
+                if (showAltName && datum.data.data.alternativeName !== "") {
+                    const altY =
+                        that._text.y +
+                        (nameGroups.length - 1) * 20 -
+                        10 +
+                        LAYOUT_ALTNAME_CENTER_GAP;
+                    const altText = element
+                        .append("text")
+                        .attr("class", "wt-chart-box-name wt-chart-box-name-alt")
+                        .attr("direction", datum.isAltRtl ? "rtl" : "ltr")
+                        .attr("text-anchor", "middle")
+                        .attr("dominant-baseline", "middle")
+                        .attr("y", altY);
+
+                    that.addNameElements(
+                        altText,
+                        that.truncateNamesData(
+                            altText,
+                            that.createAlternativeNamesData(datum),
+                            availableWidth,
+                        ),
+                    );
+                }
             });
-
-            // Add alternative name if present
-            if (this._svg._configuration.showAlternativeName) {
-                enter
-                    .filter((datum) => datum.data.data.alternativeName !== "")
-                    .call((g) => {
-                        const text = g
-                            .append("text")
-                            .classed("wt-chart-box-name-alt", true)
-                            .attr("class", "wt-chart-box-name")
-                            .attr("direction", (datum) => (datum.isAltRtl ? "rtl" : "ltr"))
-                            .attr("text-anchor", "middle")
-                            .attr("alignment-baseline", "central")
-                            .attr("y", this._text.y + 40);
-
-                        this.addNameElements(text, (datum) =>
-                            this.truncateNamesData(
-                                text,
-                                this.createAlternativeNamesData(datum),
-                                this.getAvailableWidth(datum),
-                            ),
-                        );
-                    });
-            }
 
             // Left/Right and Right/Left
         } else {
@@ -126,32 +138,43 @@ export default class Name {
                 .enter();
 
             enter.call((g) => {
+                const mainAnchor = (datum) => {
+                    if (datum.isRtl && this._orientation.isDocumentRtl) {
+                        return "start";
+                    }
+                    if (datum.isRtl || this._orientation.isDocumentRtl) {
+                        return "end";
+                    }
+                    return "start";
+                };
+
                 const text = g
                     .append("text")
                     .attr("class", "wt-chart-box-name")
                     .attr("direction", (datum) => (datum.isRtl ? "rtl" : "ltr"))
-                    .attr("text-anchor", (datum) => {
-                        if (datum.isRtl && this._orientation.isDocumentRtl) {
-                            return "start";
-                        }
-
-                        if (datum.isRtl || this._orientation.isDocumentRtl) {
-                            return "end";
-                        }
-
-                        return "start";
-                    })
-                    .attr("x", (datum) => this.textX(datum))
-                    .attr("y", this._text.y - 10);
+                    .attr("text-anchor", mainAnchor)
+                    // For end-anchored RTL names, x must be the right
+                    // edge of the text column so the text right-aligns
+                    // against the box edge — native RTL convention,
+                    // matching webtrees core's chart-box rendering.
+                    .attr("x", (datum) =>
+                        mainAnchor(datum) === "end" ? this.textRightEdge(datum) : this.textX(datum),
+                    )
+                    // Central baseline so the same baseline-to-baseline
+                    // gaps used in vertical (20 px name-grid, 25 px
+                    // name → vital) apply here. The name centres
+                    // 12.5 px below the box's image-padding line —
+                    // i.e., 20 px below the box top (= image-padding
+                    // 7.5 + 12.5) — leaving a comfortable top gap
+                    // before the date block sits 25 px further down.
+                    .attr("dominant-baseline", "middle")
+                    .attr("y", this._text.y + 12.5);
 
                 this.addNameElements(text, (datum) => {
-                    const [first, ...last] = this.createNamesData(datum);
-
-                    // Merge the firstname and lastname groups, as we display the whole name in one line
-                    const combined = [].concat(
-                        first,
-                        typeof last[0] === "undefined" ? [] : last[0],
-                    );
+                    // Merge all name groups (firstnames, optional nickname, lastnames)
+                    // into one inline list — horizontal layouts show the whole
+                    // name on a single line.
+                    const combined = this.createNamesData(datum).flat();
 
                     return this.truncateNamesData(text, combined, this.getAvailableWidth(datum));
                 });
@@ -162,24 +185,48 @@ export default class Name {
                 enter
                     .filter((datum) => datum.data.data.alternativeName !== "")
                     .call((g) => {
+                        // text-anchor depends on inline-progression
+                        // direction (set via the SVG `direction` attr),
+                        // not on the document direction:
+                        //   direction=rtl → "start" lives at the RIGHT
+                        //   direction=ltr → "start" lives at the LEFT
+                        // For an RTL alt-name we therefore use "start"
+                        // and anchor it on the right edge of the text
+                        // column so the text grows leftward into the
+                        // box. Using "end" + right-edge x would put the
+                        // anchor at the LEFT of the rendered glyph run
+                        // and let it overflow past the right box edge.
+                        const altAnchor = (datum) => {
+                            if (datum.isAltRtl) {
+                                return "start";
+                            }
+                            if (this._orientation.isDocumentRtl) {
+                                return "end";
+                            }
+                            return "start";
+                        };
+
                         const text = g
                             .append("text")
-                            .classed("wt-chart-box-name-alt", true)
-                            .attr("class", "wt-chart-box-name")
+                            .attr("class", "wt-chart-box-name wt-chart-box-name-alt")
                             .attr("direction", (datum) => (datum.isAltRtl ? "rtl" : "ltr"))
-                            .attr("text-anchor", (datum) => {
-                                if (datum.isAltRtl && this._orientation.isDocumentRtl) {
-                                    return "start";
-                                }
-
-                                if (datum.isAltRtl || this._orientation.isDocumentRtl) {
-                                    return "end";
-                                }
-
-                                return "start";
-                            })
-                            .attr("x", (datum) => this.textX(datum))
-                            .attr("y", this._text.y + 8);
+                            .attr("text-anchor", altAnchor)
+                            // Anchor x sits on the right edge of the
+                            // text column whenever the text wants to
+                            // right-align (RTL alt-name in any doc, or
+                            // an LTR alt-name inside an RTL doc), and
+                            // on the left edge for the default LTR/LTR
+                            // case.
+                            .attr("x", (datum) =>
+                                datum.isAltRtl || this._orientation.isDocumentRtl
+                                    ? this.textRightEdge(datum)
+                                    : this.textX(datum),
+                            )
+                            // Central baseline, centred between the main
+                            // name and the vital block — same rhythm as
+                            // the vertical layout's surname → alt gap.
+                            .attr("dominant-baseline", "middle")
+                            .attr("y", this._text.y + 12.5 + LAYOUT_ALTNAME_CENTER_GAP);
 
                         this.addNameElements(text, (datum) =>
                             this.truncateNamesData(
@@ -237,7 +284,8 @@ export default class Name {
                     })
                     // Highlight the preferred and last name
                     .attr("text-decoration", (datum) => (datum.isPreferred ? "underline" : null))
-                    .classed("lastName", (datum) => datum.isLastName);
+                    .classed("lastName", (datum) => datum.isLastName)
+                    .classed("nickname", (datum) => datum.isNickname);
             });
     }
 
@@ -287,11 +335,14 @@ export default class Name {
             }
         }
 
-        // Insert the optional nickname (e.g. "Chalky") into the first-names
-        // group when getShowNicknames is enabled and the GEDCOM has a NICK.
-        // Adding it to the firstname map keeps it inside the same slot as the
-        // given names; position-keyed iteration places it after the given names
-        // before the surname slot starts.
+        names[minPosFirstnames] = [...firstnameMap].map(([, value]) => value);
+
+        // The optional nickname (e.g. "Chalky") becomes its own group when
+        // getShowNicknames is enabled and the GEDCOM has a NICK. Vertical
+        // layouts render this group on a dedicated middle line between the
+        // given names and the surname; horizontal layouts merge the three
+        // groups back into one inline string with italic styling on the
+        // nickname tspan.
         const nickname = datum.data.data.nickname;
 
         if (nickname && nickname !== "") {
@@ -299,17 +350,17 @@ export default class Name {
             const nickPos = datum.data.data.name.indexOf(nickQuoted);
 
             if (nickPos !== -1) {
-                firstnameMap.set(nickPos, {
-                    label: nickQuoted,
-                    isPreferred: false,
-                    isLastName: false,
-                    isNickname: true,
-                    isNameRtl: datum.data.data.isNameRtl,
-                });
+                names[nickPos] = [
+                    {
+                        label: nickQuoted,
+                        isPreferred: false,
+                        isLastName: false,
+                        isNickname: true,
+                        isNameRtl: datum.data.data.isNameRtl,
+                    },
+                ];
             }
         }
-
-        names[minPosFirstnames] = [...firstnameMap].map(([, value]) => value);
 
         let lastnameOffset = 0;
         const lastnameMap = new Map();
@@ -415,6 +466,23 @@ export default class Name {
         const xPos = this._text.x + (d.withImage ? this._image.width : 0);
 
         // Reverse direction of text elements for RTL layouts
+        return this._orientation.isDocumentRtl ? -xPos : xPos;
+    }
+
+    /**
+     * Right edge of the text column. Used as the anchor x for end-aligned
+     * text such as RTL names rendered in an LTR document, so the text
+     * right-aligns against the box edge (native RTL convention) instead
+     * of overflowing the image area.
+     *
+     * @param {object} _d Unused, kept for parity with textX
+     *
+     * @returns {number}
+     *
+     * @private
+     */
+    textRightEdge(_d) {
+        const xPos = this._text.x + this._text.width;
         return this._orientation.isDocumentRtl ? -xPos : xPos;
     }
 

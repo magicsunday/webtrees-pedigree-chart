@@ -126,6 +126,15 @@ class NodeData implements JsonSerializable
     protected string $timespan = '';
 
     /**
+     * Fact rows rendered inside the person box, aligned with the chart-level
+     * fact-slot list. Each slot is either a fact view (date/place/value
+     * strings) or null when this individual lacks an event for that slot.
+     *
+     * @var list<array{tag: string, label: string, date: string, place: string, value: string}|null>
+     */
+    protected array $facts = [];
+
+    /**
      * The underlying individual instance. Only used internally.
      */
     protected ?Individual $individual = null;
@@ -370,6 +379,18 @@ class NodeData implements JsonSerializable
     }
 
     /**
+     * @param list<array{tag: string, label: string, date: string, place: string, value: string}|null> $facts
+     *
+     * @return NodeData
+     */
+    public function setFacts(array $facts): NodeData
+    {
+        $this->facts = $facts;
+
+        return $this;
+    }
+
+    /**
      * @return Individual|null
      */
     public function getIndividual(): ?Individual
@@ -392,7 +413,7 @@ class NodeData implements JsonSerializable
     /**
      * Returns the relevant data as an array.
      *
-     * @return array<string, int|bool|string|string[]>
+     * @return array<string, int|bool|string|string[]|list<array{tag: string, label: string, date: string, place: string, value: string}|null>>
      */
     public function jsonSerialize(): array
     {
@@ -416,6 +437,7 @@ class NodeData implements JsonSerializable
             'birth'           => $this->birth,
             'death'           => $this->death,
             'timespan'        => $this->timespan,
+            'facts'           => $this->facts,
         ];
     }
 }

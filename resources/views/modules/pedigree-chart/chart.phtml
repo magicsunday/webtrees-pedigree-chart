@@ -57,6 +57,16 @@ import(<?php echo json_encode($javascript); ?>).then(({ PedigreeChart }) => {
                 return opts.showFamilyColors ?? <?php echo json_encode($configuration->getShowFamilyColors()); ?>;
             },
 
+            get showPlaces() {
+                return opts.showPlaces ?? <?php echo json_encode($configuration->getShowPlaces()); ?>;
+            },
+
+            get showAdditionalFacts() {
+                return opts.showAdditionalFacts ?? <?php echo json_encode($configuration->getShowAdditionalFacts()); ?>;
+            },
+
+            factSlots: <?php echo json_encode($chartParams['factSlots']); ?>,
+
             get paternalColor() {
                 return opts.paternalColor ?? <?php echo json_encode($configuration->getPaternalColor()); ?>;
             },

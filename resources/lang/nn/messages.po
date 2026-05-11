@@ -78,11 +78,11 @@ msgstr "Tibakestill"
 
 #: resources/views/modules/components/buttonbar/fullscreen-button.phtml:18
 msgid "Switch between full screen mode and normal view"
-msgstr "Byt mellom fullskjerm og normal visning"
+msgstr ""
 
 #: resources/views/modules/components/buttonbar/help-button.phtml:17
 msgid "Show help"
-msgstr "Vis hjelp"
+msgstr ""
 
 #: resources/views/modules/components/buttonbar/png-export-button.phtml:18
 msgid "Export as PNG"
@@ -102,15 +102,15 @@ msgstr "Modular"
 
 #: resources/views/modules/pedigree-chart/config.phtml:44
 msgid "General"
-msgstr "Allment"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:50
 msgid "Hide the SVG export button"
-msgstr "Skjul SVG-eksportknappen"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:60
 msgid "Hide the PNG export button"
-msgstr "Skjul PNG-eksportknappen"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:73
 msgid "save"
@@ -220,5 +220,23 @@ msgstr "Vis \"legg til forelder\"-plasshaldarar for manglande aner"
 msgid "When enabled, an empty box with a \"+\" icon is rendered in place of each missing father or mother. Editors can click it to jump straight to the webtrees \"add a parent\" form for the corresponding child. The placeholders are only shown to users who have edit rights on the individual."
 msgstr "Når aktivert, blir ein tom boks med \"+\"-ikon vist i staden for kvar manglande far eller mor. Redaktørar kan klikke på den for å gå direkte til webtrees-skjemaet \"legg til forelder\" for det tilsvarande barnet. Plasshaldarane blir berre vist til brukarar med redigeringsrettar på personen."
 
-msgid "Behavior"
-msgstr "Åtferd"
+msgid "Display"
+msgstr "Vising"
+
+msgid "Details"
+msgstr "Detaljar"
+
+msgid "Colors"
+msgstr "Fargar"
+
+msgid "Show additional facts"
+msgstr "Vis fleire fakta"
+
+msgid "Shows the extra facts configured for chart boxes in the tree settings (Control panel → Trees → Preferences → \"Other facts to show in charts\"). Birth and death dates are always displayed."
+msgstr "Viser ekstra fakta som er konfigurerte for diagramboksar i treinnstillingane (Kontrollpanel → Tre → Innstillingar → «Andre fakta å visa i diagram»). Fødsels- og dødsdatoar vert alltid viste."
+
+msgid "Show places"
+msgstr "Vis stader"
+
+msgid "Shows the place row beneath each birth and death date. When disabled, only the dates are shown and the date pair shifts to the bottom of the box."
+msgstr "Viser stadraden under kvar fødsels- og dødsdato. Når deaktivert, vert berre datoane viste og datoparet flyttar til botnen av boksen."

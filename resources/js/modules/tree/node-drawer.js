@@ -5,9 +5,9 @@
  * LICENSE file distributed with this source code.
  */
 
-import { SEX_FEMALE, SEX_MALE } from "../constants.js";
+import { LAYOUT_ADD_PARENT_ICON_RADIUS, SEX_FEMALE, SEX_MALE } from "../constants.js";
 import Name from "./name.js";
-import DateRenderer from "./date.js";
+import FactsRenderer from "./facts.js";
 import FamilyColor from "./family-color.js";
 import ImageBox from "../chart/box/image.js";
 import TextBox from "../chart/box/text.js";
@@ -43,10 +43,10 @@ export default class NodeDrawer {
         this._configuration = configuration;
         this._orientation = this._configuration.orientation;
 
-        this._image = new ImageBox(this._orientation, 20);
+        this._image = new ImageBox(this._orientation, 20, this._configuration);
         this._text = new TextBox(this._orientation, this._image);
         this._name = new Name(this._svg, this._orientation, this._image, this._text);
-        this._date = new DateRenderer(this._svg, this._orientation, this._image, this._text);
+        this._facts = new FactsRenderer(this._svg, this._orientation, this._image, this._text);
         this._familyColor = configuration.showFamilyColors ? new FamilyColor(configuration) : null;
 
         // Tag the visual group when family-colors is on so svg.css can soften
@@ -217,7 +217,12 @@ export default class NodeDrawer {
      * @private
      */
     _drawAddParentPlaceholder(parent) {
-        const radius = Math.min(this._orientation.boxWidth, this._orientation.boxHeight) / 5;
+        // Constant icon size keeps the + and its surrounding circle
+        // legible across all orientations and chart configurations:
+        // box height varies with optional-row count and image-strip
+        // visibility, but the call-to-action target should stay the
+        // same recognisable size regardless.
+        const radius = LAYOUT_ADD_PARENT_ICON_RADIUS;
 
         parent
             .append("circle")
@@ -228,26 +233,21 @@ export default class NodeDrawer {
 
         // Draw the + glyph as two crossing lines so it scales crisply at
         // any orientation/box size without depending on a glyph font.
-        // Glyph extent is intentionally smaller than the circle radius so
-        // the + sits inset with breathing room rather than touching the
-        // ring.
-        const glyphReach = radius * 0.4;
-
         parent
             .append("line")
             .attr("class", "add-parent-icon")
-            .attr("x1", -glyphReach)
+            .attr("x1", -radius * 0.5)
             .attr("y1", 0)
-            .attr("x2", glyphReach)
+            .attr("x2", radius * 0.5)
             .attr("y2", 0);
 
         parent
             .append("line")
             .attr("class", "add-parent-icon")
             .attr("x1", 0)
-            .attr("y1", -glyphReach)
+            .attr("y1", -radius * 0.5)
             .attr("x2", 0)
-            .attr("y2", glyphReach);
+            .attr("y2", radius * 0.5);
     }
 
     /**
@@ -371,6 +371,6 @@ export default class NodeDrawer {
             .attr("stroke-width", 1.5);
 
         this._name.appendName(parent);
-        this._date.appendDate(parent);
+        this._facts.appendDate(parent);
     }
 }

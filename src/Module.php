@@ -29,6 +29,7 @@ use Fisharebest\Webtrees\Validator;
 use Fisharebest\Webtrees\View;
 use MagicSunday\Webtrees\ModuleBase\Contract\ModuleAssetUrlInterface;
 use MagicSunday\Webtrees\ModuleBase\Model\NameAbbreviation;
+use MagicSunday\Webtrees\ModuleBase\Processor\FactResolver;
 use MagicSunday\Webtrees\PedigreeChart\Facade\DataFacade;
 use MagicSunday\Webtrees\PedigreeChart\Traits\ModuleChartTrait;
 use MagicSunday\Webtrees\PedigreeChart\Traits\ModuleConfigTrait;
@@ -184,6 +185,8 @@ class Module extends PedigreeChartModule implements ModuleAssetUrlInterface, Mod
                         'showAlternativeName' => $validator->boolean('showAlternativeName', true),
                         'showNicknames'       => $validator->boolean('showNicknames', false),
                         'showFamilyColors'    => $validator->boolean('showFamilyColors', false),
+                        'showPlaces'          => $validator->boolean('showPlaces', false),
+                        'showAdditionalFacts' => $validator->boolean('showAdditionalFacts', true),
                         'paternalColor'       => $validator->string('paternalColor', Configuration::PATERNAL_COLOR_DEFAULT),
                         'maternalColor'       => $validator->string('maternalColor', Configuration::MATERNAL_COLOR_DEFAULT),
                     ]
@@ -256,10 +259,12 @@ class Module extends PedigreeChartModule implements ModuleAssetUrlInterface, Mod
      *
      * @param Tree $tree
      *
-     * @return array<string, string|bool|array<string, string>>
+     * @return array<string, string|bool|list<string>|array<string, string>>
      */
     private function getChartParameters(Tree $tree): array
     {
+        $factResolver = new FactResolver($tree);
+
         return [
             'rtl'              => I18N::direction() === 'rtl',
             'nameAbbreviation' => NameAbbreviation::resolve(
@@ -270,6 +275,12 @@ class Module extends PedigreeChartModule implements ModuleAssetUrlInterface, Mod
                 'zoom' => I18N::translate('Use Ctrl + scroll to zoom in the view'),
                 'move' => I18N::translate('Move the view with two fingers'),
             ],
+            // Fact slot list the renderer uses to compute uniform box height
+            // and to iterate per-person fact arrays.
+            'factSlots' => $factResolver->effectiveTags(
+                $this->configuration->getShowAdditionalFacts(),
+                ['MARR']
+            ),
         ];
     }
 
@@ -283,8 +294,10 @@ class Module extends PedigreeChartModule implements ModuleAssetUrlInterface, Mod
     {
         // Forward every parameter the user can change on the form so the AJAX
         // request rebuilding the chart partial sees the current selection
-        // instead of falling back to module preference defaults — `showNicknames`
-        // and `showAlternativeName` change the rendered names in DataFacade.
+        // instead of falling back to module preference defaults. `showNicknames`
+        // and `showAlternativeName` change the rendered names in DataFacade,
+        // and `showAdditionalFacts` decides whether DataFacade emits the
+        // optional fact rows at all.
         return $this->chartUrl(
             $individual,
             [
@@ -295,6 +308,8 @@ class Module extends PedigreeChartModule implements ModuleAssetUrlInterface, Mod
                 'showAlternativeName' => $this->configuration->getShowAlternativeName(),
                 'showNicknames'       => $this->configuration->getShowNicknames(),
                 'showFamilyColors'    => $this->configuration->getShowFamilyColors(),
+                'showPlaces'          => $this->configuration->getShowPlaces(),
+                'showAdditionalFacts' => $this->configuration->getShowAdditionalFacts(),
                 'xref'                => $xref,
             ]
         );

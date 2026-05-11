@@ -57,7 +57,22 @@ export default class Text {
      */
     calculateY() {
         if (!this._orientation.isVertical) {
-            return -this._textPaddingY;
+            // Horizontal layouts: anchor the name baseline to the image's
+            // top edge so the name and the image share the same 7.5 px
+            // padding from the box top. The text renders with
+            // dominant-baseline="middle" (see name.js), so the consumer
+            // adds half a line height on top of this y to land the
+            // name's visual centre. Vital block is bottom-anchored to
+            // the image bottom independently in facts.js
+            // (horizontalVitalBaseY).
+            return this._image.y;
+        }
+
+        // Vertical with image collapsed: drop the image-text spacing so
+        // the name sits near the box top, but keep enough padding that
+        // it doesn't touch the rounded corner.
+        if (this._image.height === 0) {
+            return -this._orientation.boxHeight / 2 + 25;
         }
 
         return this._image.y + this._image.height + this._textPaddingY * 2;

@@ -94,6 +94,14 @@ trait ModuleConfigTrait
             (string) $configuration->getShowFamilyColors()
         );
         $this->setPreference(
+            'default_showPlaces',
+            (string) $configuration->getShowPlaces()
+        );
+        $this->setPreference(
+            'default_showAdditionalFacts',
+            (string) $configuration->getShowAdditionalFacts()
+        );
+        $this->setPreference(
             'default_paternalColor',
             $configuration->getPaternalColor()
         );

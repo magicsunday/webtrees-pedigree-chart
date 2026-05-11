@@ -16,6 +16,7 @@
        light and dark modes. Override at the container level to make
        them theme-bound. */
     --chart-placeholder-bg: rgba(255, 255, 255, 0.6);
+    --chart-placeholder-bg-hover: rgb(255, 255, 255);
     --chart-placeholder-stroke: rgb(120, 120, 120);
     --chart-placeholder-glyph: rgb(80, 80, 80);
     --chart-placeholder-rect-fill: rgba(245, 245, 245, 0.85);
@@ -87,13 +88,45 @@
     font-size: 13px;
 }
 
+/* Vital + optional fact text follows the fan-chart tooltip palette:
+ * dates and labels in the muted tone, places italic and one size smaller,
+ * glyphs share the muted tone so they read as supplementary. */
+.webtrees-pedigree-chart-container svg text.fact {
+    fill: var(--chart-text-muted);
+    font-weight: normal;
+    font-size: 13px;
+}
+
+.webtrees-pedigree-chart-container svg text.fact-place {
+    font-style: italic;
+    font-size: 12px;
+}
+
+.webtrees-pedigree-chart-container svg text.fact-optional {
+    font-size: 12px;
+}
+
+.webtrees-pedigree-chart-container svg text.fact-glyph {
+    font-weight: 600;
+    fill: var(--chart-text-muted);
+}
+
 .webtrees-pedigree-chart-container svg text.wt-chart-box-name {
     fill: var(--chart-text-primary);
 }
 
+.webtrees-pedigree-chart-container svg text.wt-chart-box-name tspan.lastName {
+    font-weight: 700;
+}
+
+.webtrees-pedigree-chart-container svg text.wt-chart-box-name tspan.nickname {
+    font-style: italic;
+    opacity: 0.85;
+}
+
 .webtrees-pedigree-chart-container svg text.wt-chart-box-name-alt {
-    fill: var(--chart-text-secondary);
-    font-weight: 500;
+    fill: var(--chart-text-muted);
+    font-weight: normal;
     font-size: 0.85em;
 }
 
@@ -169,3 +202,10 @@
     stroke-linecap: round;
 }
 
+.webtrees-pedigree-chart-container svg g.person.add-parent:hover rect {
+    filter: saturate(1.4) brightness(1.05);
+}
+
+.webtrees-pedigree-chart-container svg g.person.add-parent:hover circle.add-parent-icon-bg {
+    fill: var(--chart-placeholder-bg-hover);
+}
