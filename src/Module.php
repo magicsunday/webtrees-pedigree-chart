@@ -64,7 +64,7 @@ class Module extends PedigreeChartModule implements ModuleAssetUrlInterface, Mod
     /**
      * @var string
      */
-    public const CUSTOM_VERSION = '2.7.2-dev';
+    public const CUSTOM_VERSION = '2.7.2';
 
     /**
      * Webtrees renders this URL as the "For more information, see …" link inside the
