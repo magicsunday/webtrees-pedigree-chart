@@ -5,58 +5,13 @@
  * LICENSE file distributed with this source code.
  */
 
-import { Storage } from "@magicsunday/webtrees-chart-lib";
-
-/**
- * Builds the AJAX URL for fetching chart data from the current form state.
- *
- * @param {string}      baseUrl
- * @param {string|null} generations
- *
- * @returns {string}
- */
-function getUrl(baseUrl, generations) {
-    const url = new URL(baseUrl);
-    const xrefInput = /** @type {HTMLInputElement} */ (document.getElementById("xref"));
-    url.searchParams.set("xref", xrefInput.value);
-    if (generations !== null) {
-        url.searchParams.set("generations", generations);
-    }
-
-    return url.toString();
-}
-
-/**
- * Restores the "Show more options" collapse state from localStorage and
- * toggles the button label text on each click.
- *
- * @param {Storage} storage
- */
-function toggleMoreOptions(storage) {
-    const showMoreOptions = document.getElementById("showMoreOptions");
-    const optionsToggle = document.getElementById("options");
-    if (!showMoreOptions || !optionsToggle) {
-        return;
-    }
-
-    showMoreOptions.addEventListener("shown.bs.collapse", () => {
-        storage.write("showMoreOptions", true);
-    });
-
-    showMoreOptions.addEventListener("hidden.bs.collapse", () => {
-        storage.write("showMoreOptions", false);
-    });
-
-    optionsToggle.addEventListener("click", () => {
-        Array.from(optionsToggle.children).forEach((element) => {
-            element.classList.toggle("d-none");
-        });
-    });
-
-    if (storage.read("showMoreOptions")) {
-        optionsToggle.click();
-    }
-}
+import {
+    buildChartAjaxUrl,
+    setChartAjaxUrl,
+    setChartOptionsGlobal,
+    Storage,
+    syncCollapseToggle,
+} from "@magicsunday/webtrees-chart-lib/chart-core";
 
 /**
  * Initialises the pedigree chart page: restores form values from
@@ -79,7 +34,7 @@ export function initPage(config) {
     storage.register("paternalColor");
     storage.register("maternalColor");
 
-    toggleMoreOptions(storage);
+    syncCollapseToggle(storage);
 
     const form = /** @type {HTMLFormElement} */ (
         document.getElementById("webtrees-pedigree-chart-form")
@@ -121,16 +76,10 @@ export function initPage(config) {
 
     // WebtreesPedigreeChart is the UMD global exposed by the chart-page
     // bundle; chart.phtml reads chartOptions from it.
-    const w = /** @type {{WebtreesPedigreeChart?: {chartOptions?: object}}} */ (
-        /** @type {unknown} */ (window)
-    );
-    if (typeof w.WebtreesPedigreeChart !== "undefined") {
-        w.WebtreesPedigreeChart.chartOptions = chartOptions;
-    }
+    setChartOptionsGlobal("WebtreesPedigreeChart", chartOptions);
 
-    const ajaxUrl = getUrl(config.ajaxUrl, storage.readString("generations"));
-    const ajaxContainer = document.getElementById("pedigree-chart-url");
-    if (ajaxContainer) {
-        ajaxContainer.setAttribute("data-wt-ajax-url", ajaxUrl);
-    }
+    const ajaxUrl = buildChartAjaxUrl(config.ajaxUrl, {
+        query: [{ key: "generations", value: storage.readString("generations") }],
+    });
+    setChartAjaxUrl("pedigree-chart-url", ajaxUrl);
 }
