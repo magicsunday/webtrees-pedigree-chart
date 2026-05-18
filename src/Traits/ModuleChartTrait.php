@@ -13,7 +13,7 @@ namespace MagicSunday\Webtrees\PedigreeChart\Traits;
 
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
-use Fisharebest\Webtrees\Menu;
+use MagicSunday\Webtrees\ModuleBase\Traits\ModuleChartTrait as BaseModuleChartTrait;
 
 /**
  * Trait ModuleChartTrait.
@@ -24,31 +24,15 @@ use Fisharebest\Webtrees\Menu;
  */
 trait ModuleChartTrait
 {
-    use \Fisharebest\Webtrees\Module\ModuleChartTrait;
+    use BaseModuleChartTrait;
 
     public function chartMenuClass(): string
     {
         return 'menu-chart-pedigree';
     }
 
-    public function chartBoxMenu(Individual $individual): ?Menu
-    {
-        return $this->chartMenu($individual);
-    }
-
     public function chartTitle(Individual $individual): string
     {
         return I18N::translate('Pedigree chart of %s', $individual->fullName());
-    }
-
-    public function chartUrl(Individual $individual, array $parameters = []): string
-    {
-        return route(
-            self::ROUTE_DEFAULT,
-            [
-                'xref' => $individual->xref(),
-                'tree' => $individual->tree()->name(),
-            ] + $parameters
-        );
     }
 }
