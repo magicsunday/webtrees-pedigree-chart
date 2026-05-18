@@ -16,8 +16,7 @@ use Fisharebest\Webtrees\Http\RequestHandlers\AddParentToIndividualPage;
 use Fisharebest\Webtrees\Http\RequestHandlers\AddSpouseToFamilyPage;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
-use Fisharebest\Webtrees\Module\ModuleCustomInterface;
-use MagicSunday\Webtrees\ModuleBase\Contract\ModuleAssetUrlInterface;
+use MagicSunday\Webtrees\ModuleBase\Facade\RouteAwareDataFacadeTrait;
 use MagicSunday\Webtrees\ModuleBase\Processor\DateProcessor;
 use MagicSunday\Webtrees\ModuleBase\Processor\ImageProcessor;
 use MagicSunday\Webtrees\ModuleBase\Processor\NameProcessor;
@@ -34,17 +33,12 @@ use MagicSunday\Webtrees\PedigreeChart\Model\NodeData;
  */
 class DataFacade
 {
-    /**
-     * The module.
-     */
-    private ModuleCustomInterface&ModuleAssetUrlInterface $module;
+    use RouteAwareDataFacadeTrait;
 
     /**
      * The configuration instance.
      */
     private Configuration $configuration;
-
-    private string $route;
 
     /**
      * Monotonic counter assigning positive request-scope IDs to real-individual nodes.
@@ -57,18 +51,6 @@ class DataFacade
     private int $placeholderIdCounter = 0;
 
     /**
-     * @param ModuleCustomInterface&ModuleAssetUrlInterface $module
-     *
-     * @return DataFacade
-     */
-    public function setModule(ModuleCustomInterface&ModuleAssetUrlInterface $module): DataFacade
-    {
-        $this->module = $module;
-
-        return $this;
-    }
-
-    /**
      * @param Configuration $configuration
      *
      * @return DataFacade
@@ -76,18 +58,6 @@ class DataFacade
     public function setConfiguration(Configuration $configuration): DataFacade
     {
         $this->configuration = $configuration;
-
-        return $this;
-    }
-
-    /**
-     * @param string $route
-     *
-     * @return DataFacade
-     */
-    public function setRoute(string $route): DataFacade
-    {
-        $this->route = $route;
 
         return $this;
     }
@@ -313,34 +283,4 @@ class DataFacade
         );
     }
 
-    /**
-     * @param Individual                $individual
-     * @param array<string, int|string> $parameters
-     *
-     * @return string
-     */
-    private function chartUrl(
-        Individual $individual,
-        array $parameters = [],
-    ): string {
-        return route(
-            $this->route,
-            [
-                'xref' => $individual->xref(),
-                'tree' => $individual->tree()->name(),
-            ] + $parameters
-        );
-    }
-
-    /**
-     * Returns whether the given text is in RTL style or not.
-     *
-     * @param string $text The text to check
-     *
-     * @return bool
-     */
-    private function isRtl(string $text): bool
-    {
-        return I18N::scriptDirection(I18N::textScript($text)) === 'rtl';
-    }
 }
