@@ -10,7 +10,7 @@
     --chart-text-primary: var(--bs-body-color, rgb(50, 50, 50));
     --chart-text-secondary: var(--bs-secondary-color, rgb(90, 90, 90));
     --chart-text-muted: var(--bs-tertiary-color, rgb(127, 127, 127));
-    --chart-connector-stroke: var(--bs-border-color, rgb(175, 175, 175));
+    --chart-connector-stroke: rgb(175, 175, 175);
     /* Add-parent placeholder visuals are intentionally theme-constant so
        the "empty / fill me in" affordance reads identically in both
        light and dark modes. Override at the container level to make
