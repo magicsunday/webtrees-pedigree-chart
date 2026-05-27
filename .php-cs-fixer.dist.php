@@ -125,6 +125,7 @@ return (new PhpCsFixer\Config())
             ])
             ->in([
                 __DIR__ . '/src/',
+                __DIR__ . '/tests/',
                 __DIR__ . '/resources/views/',
             ])
             ->name('*.php')
