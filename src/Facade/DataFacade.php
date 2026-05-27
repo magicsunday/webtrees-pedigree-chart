@@ -47,6 +47,16 @@ class DataFacade
     private string $route;
 
     /**
+     * Monotonic counter assigning positive request-scope IDs to real-individual nodes.
+     */
+    private int $nodeIdCounter = 0;
+
+    /**
+     * Monotonic counter assigning negative request-scope IDs to add-parent placeholder nodes.
+     */
+    private int $placeholderIdCounter = 0;
+
+    /**
      * @param ModuleCustomInterface&ModuleAssetUrlInterface $module
      *
      * @return DataFacade
@@ -206,9 +216,6 @@ class DataFacade
         string $sex,
         int $generation,
     ): Node {
-        /** @var int $id */
-        static $id = 0;
-
         if ($childFamily instanceof Family) {
             $url = route(AddSpouseToFamilyPage::class, [
                 'tree' => $childFamily->tree()->name(),
@@ -229,7 +236,7 @@ class DataFacade
 
         $treeData = new NodeData();
         $treeData
-            ->setId(--$id)
+            ->setId(--$this->placeholderIdCounter)
             ->setGeneration($generation)
             ->setXref('')
             ->setUrl($url)
@@ -251,9 +258,6 @@ class DataFacade
         int $generation,
         Individual $individual,
     ): NodeData {
-        // Create a unique ID for each individual
-        static $id = 0;
-
         $nameProcessor  = new NameProcessor($individual);
         $dateProcessor  = new DateProcessor($individual);
         $imageProcessor = new ImageProcessor($this->module, $individual);
@@ -266,7 +270,7 @@ class DataFacade
 
         $treeData = new NodeData();
         $treeData
-            ->setId(++$id)
+            ->setId(++$this->nodeIdCounter)
             ->setGeneration($generation)
             ->setXref($individual->xref())
             ->setUrl($individual->url())
