@@ -29,8 +29,8 @@ use Fisharebest\Webtrees\Validator;
 use Fisharebest\Webtrees\View;
 use MagicSunday\Webtrees\ModuleBase\Contract\ModuleAssetUrlInterface;
 use MagicSunday\Webtrees\ModuleBase\Model\NameAbbreviation;
-use MagicSunday\Webtrees\PedigreeChart\Facade\DataFacade;
 use MagicSunday\Webtrees\ModuleBase\Traits\ModuleCustomTrait;
+use MagicSunday\Webtrees\PedigreeChart\Facade\DataFacade;
 use MagicSunday\Webtrees\PedigreeChart\Traits\ModuleChartTrait;
 use MagicSunday\Webtrees\PedigreeChart\Traits\ModuleConfigTrait;
 use Override;
@@ -238,7 +238,7 @@ class Module extends PedigreeChartModule implements ModuleAssetUrlInterface, Mod
     /**
      * Returns the page title.
      *
-     * @param Individual $individual The individual used in the curret chart
+     * @param Individual $individual The individual used in the current chart
      *
      * @return string
      */
@@ -274,10 +274,9 @@ class Module extends PedigreeChartModule implements ModuleAssetUrlInterface, Mod
     }
 
     /**
-     * @param Individual $individual
-     * @param string     $xref
-     *
-     * @return string
+     * Builds the chart's AJAX endpoint URL forwarding the current form state,
+     * so the partial rebuild reflects the user's selections instead of falling
+     * back to module preference defaults.
      */
     private function getAjaxRoute(Individual $individual, string $xref): string
     {

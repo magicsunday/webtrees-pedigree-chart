@@ -51,9 +51,7 @@ class DataFacade
     private int $placeholderIdCounter = 0;
 
     /**
-     * @param Configuration $configuration
-     *
-     * @return DataFacade
+     * Injects the per-request configuration before tree-structure assembly.
      */
     public function setConfiguration(Configuration $configuration): DataFacade
     {
@@ -63,11 +61,8 @@ class DataFacade
     }
 
     /**
-     * Creates the JSON tree structure.
-     *
-     * @param Individual $individual
-     *
-     * @return Node|null
+     * Builds the ancestor Node tree rooted at the given individual; returns
+     * null when the root cannot be rendered.
      */
     public function createTreeStructure(Individual $individual): ?Node
     {
@@ -217,12 +212,8 @@ class DataFacade
     }
 
     /**
-     * Get the node data required for display the chart.
-     *
-     * @param int        $generation The generation the person belongs to
-     * @param Individual $individual The current individual
-     *
-     * @return NodeData
+     * Builds the NodeData DTO populated from the individual's name, date,
+     * and image processors for the given generation slot.
      */
     private function getNodeData(
         int $generation,
