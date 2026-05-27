@@ -32,6 +32,9 @@ export default class Configuration {
      * @param {string}   paternalColor
      * @param {string}   maternalColor
      * @param {string}   nameAbbreviation One of "GIVEN" or "SURNAME". Resolved server-side from the tree's SURNAME_TRADITION when admin sets it to AUTO.
+     * @param {boolean}  showPlaces
+     * @param {boolean}  showAdditionalFacts
+     * @param {string[]} factSlots
      * @param {boolean}  rtl
      * @param {number}   direction
      */
@@ -45,6 +48,9 @@ export default class Configuration {
         paternalColor = "#70a9cf",
         maternalColor = "#d06f94",
         nameAbbreviation = "GIVEN",
+        showPlaces = false,
+        showAdditionalFacts = true,
+        factSlots = ["BIRT", "DEAT"],
         rtl = false,
         direction = 1,
     ) {
@@ -58,6 +64,31 @@ export default class Configuration {
         this._paternalColor = paternalColor;
         this._maternalColor = maternalColor;
         this._nameAbbreviation = nameAbbreviation;
+        this._showPlaces = showPlaces;
+        this._showAdditionalFacts = showAdditionalFacts;
+        this._factSlots = factSlots;
+
+        // Runtime flags set by Hierarchy.init() — true only when at least
+        // one individual in the chart actually has a nickname or
+        // alternative name (and the corresponding toggle is on). Kept on
+        // the config object so the renderer can reserve space without
+        // re-walking the tree for every box.
+        this.nicknameVisible = false;
+        this.altNameVisible = false;
+        // Whether at least one individual in the chart has a portrait or
+        // silhouette. When false in a vertical layout, the box drops the
+        // image strip and shrinks accordingly.
+        this.imageVisible = true;
+        // Whether the chart renders only names + dates (no nickname, no
+        // alt-name, no places, no optional facts). When true in a
+        // vertical layout, the box uses the narrower compact width
+        // because the row needs no glyph or place column.
+        this.minimalMode = false;
+        // Chart-wide max number of populated optional fact rows. Set
+        // by Hierarchy.init(); read by the renderer to decide whether
+        // the date pair should bottom-anchor (no optional rows) or sit
+        // tight under the name region (optional rows fill the bottom).
+        this.optionalRows = 0;
 
         //
         this.duration = 750;
@@ -185,5 +216,48 @@ export default class Configuration {
      */
     get nameAbbreviation() {
         return this._nameAbbreviation;
+    }
+
+    /**
+     * Returns TRUE when the box should render the place row beneath each
+     * birth/death date. When false, only the dates are drawn and the date
+     * pair shifts to the bottom of the box (compact "name + dates" layout).
+     *
+     * @returns {boolean}
+     */
+    get showPlaces() {
+        return this._showPlaces;
+    }
+
+    /**
+     * Sets the effective show-places flag. Hierarchy.init() narrows the
+     * raw user toggle (true/false) to its effective value (false when no
+     * individual in the chart actually carries a vital place) and writes
+     * it back so every downstream renderer reads a single coherent flag.
+     *
+     * @param {boolean} value Effective show-places flag
+     */
+    set showPlaces(value) {
+        this._showPlaces = value;
+    }
+
+    /**
+     * Returns TRUE when the box should display extra fact rows from the
+     * tree's CHART_BOX_TAGS preference (beyond the always-on BIRT/DEAT).
+     *
+     * @returns {boolean}
+     */
+    get showAdditionalFacts() {
+        return this._showAdditionalFacts;
+    }
+
+    /**
+     * Returns the per-chart list of fact-slot tags. Drives uniform box
+     * height: `factSlots.length` rows are reserved in every box.
+     *
+     * @returns {string[]}
+     */
+    get factSlots() {
+        return this._factSlots;
     }
 }

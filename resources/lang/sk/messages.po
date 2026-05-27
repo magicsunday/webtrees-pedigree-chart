@@ -81,11 +81,11 @@ msgstr "Znova vycentrovať"
 
 #: resources/views/modules/components/buttonbar/fullscreen-button.phtml:18
 msgid "Switch between full screen mode and normal view"
-msgstr "Prepnúť medzi celou obrazovkou a normálnym zobrazením"
+msgstr ""
 
 #: resources/views/modules/components/buttonbar/help-button.phtml:17
 msgid "Show help"
-msgstr "Zobraziť pomoc"
+msgstr ""
 
 #: resources/views/modules/components/buttonbar/png-export-button.phtml:18
 msgid "Export as PNG"
@@ -105,23 +105,23 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:44
 msgid "General"
-msgstr "Všeobecné"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:50
 msgid "Hide the SVG export button"
-msgstr "Skryť tlačidlo exportu SVG"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:60
 msgid "Hide the PNG export button"
-msgstr "Skryť tlačidlo exportu PNG"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:73
 msgid "save"
-msgstr "uložiť"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:78
 msgid "cancel"
-msgstr "zrušiť"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/generations.phtml:22
 msgid "Generations"
@@ -133,7 +133,7 @@ msgstr "Rozloženie"
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:39
 msgid "Open individual in new browser window/tab"
-msgstr "Otvoriť osobu v novom okne/karte prehliadača"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:45
 msgid ""
@@ -143,7 +143,7 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:53
 msgid "Show alternative name of individual"
-msgstr "Zobraziť alternatívne meno osoby"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/layout.phtml:59
 msgid ""
@@ -166,11 +166,11 @@ msgstr "zobraziť"
 
 #: resources/views/modules/pedigree-chart/page.phtml:75
 msgid "Show more options"
-msgstr "Zobraziť viac možností"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:76
 msgid "Hide more options"
-msgstr "Skryť viac možností"
+msgstr ""
 
 msgid "Show family colors"
 msgstr "Zobraziť rodinné farby"
@@ -215,5 +215,23 @@ msgstr "Zobrazovať zástupné polia „pridať rodiča\" pre chýbajúcich pred
 msgid "When enabled, an empty box with a \"+\" icon is rendered in place of each missing father or mother. Editors can click it to jump straight to the webtrees \"add a parent\" form for the corresponding child. The placeholders are only shown to users who have edit rights on the individual."
 msgstr "Keď je zapnuté, na mieste každého chýbajúceho otca alebo matky sa zobrazí prázdny rámček s ikonou „+\". Editori naň môžu kliknúť, aby prešli priamo na formulár webtrees „pridať rodiča\" pre príslušné dieťa. Zástupné polia sa zobrazujú iba používateľom s právom upravovať danú osobu."
 
-msgid "Behavior"
-msgstr "Správanie"
+msgid "Display"
+msgstr "Zobrazenie"
+
+msgid "Details"
+msgstr "Podrobnosti"
+
+msgid "Colors"
+msgstr "Farby"
+
+msgid "Show additional facts"
+msgstr "Zobraziť ďalšie fakty"
+
+msgid "Shows the extra facts configured for chart boxes in the tree settings (Control panel → Trees → Preferences → \"Other facts to show in charts\"). Birth and death dates are always displayed."
+msgstr "Zobrazí ďalšie fakty nakonfigurované pre rámčeky diagramov v nastaveniach stromu (Ovládací panel → Stromy → Predvoľby → „Ďalšie fakty na zobrazenie v diagramoch“). Dátumy narodenia a úmrtia sa zobrazujú vždy."
+
+msgid "Show places"
+msgstr "Zobraziť miesta"
+
+msgid "Shows the place row beneath each birth and death date. When disabled, only the dates are shown and the date pair shifts to the bottom of the box."
+msgstr "Zobrazí riadok miesta pod každým dátumom narodenia a úmrtia. Ak je vypnuté, zobrazia sa iba dátumy a pár dátumov sa posunie na spodný okraj rámčeka."

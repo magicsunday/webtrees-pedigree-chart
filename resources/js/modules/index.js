@@ -37,6 +37,9 @@ export class PedigreeChart {
      * @param {string}   options.paternalColor
      * @param {string}   options.maternalColor
      * @param {string}   options.nameAbbreviation
+     * @param {boolean}  options.showPlaces
+     * @param {boolean}  options.showAdditionalFacts
+     * @param {string[]} options.factSlots
      * @param {string[]} options.cssFiles
      * @param {Data[]}   options.data
      */
@@ -57,6 +60,9 @@ export class PedigreeChart {
             options.paternalColor,
             options.maternalColor,
             options.nameAbbreviation,
+            options.showPlaces,
+            options.showAdditionalFacts,
+            options.factSlots,
             options.rtl,
         );
 

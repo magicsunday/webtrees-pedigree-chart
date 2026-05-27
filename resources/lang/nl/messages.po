@@ -211,5 +211,23 @@ msgstr "Plaatshouders \"ouder toevoegen\" tonen voor ontbrekende voorouders"
 msgid "When enabled, an empty box with a \"+\" icon is rendered in place of each missing father or mother. Editors can click it to jump straight to the webtrees \"add a parent\" form for the corresponding child. The placeholders are only shown to users who have edit rights on the individual."
 msgstr "Als ingeschakeld wordt op de plaats van elke ontbrekende vader of moeder een leeg vak met \"+\"-pictogram getoond. Bewerkers kunnen erop klikken om rechtstreeks naar het webtrees-formulier \"ouder toevoegen\" voor het bijbehorende kind te gaan. De plaatshouders worden alleen getoond aan gebruikers met bewerkrechten op de persoon."
 
-msgid "Behavior"
-msgstr "Gedrag"
+msgid "Display"
+msgstr "Weergave"
+
+msgid "Details"
+msgstr "Details"
+
+msgid "Colors"
+msgstr "Kleuren"
+
+msgid "Show additional facts"
+msgstr "Aanvullende feiten tonen"
+
+msgid "Shows the extra facts configured for chart boxes in the tree settings (Control panel → Trees → Preferences → \"Other facts to show in charts\"). Birth and death dates are always displayed."
+msgstr "Toont de extra feiten die zijn geconfigureerd voor diagramkaders in de stamboominstellingen (Configuratiescherm → Stambomen → Voorkeuren → „Overige feiten om in diagrammen te tonen”). Geboorte- en overlijdensdatums worden altijd weergegeven."
+
+msgid "Show places"
+msgstr "Plaatsen tonen"
+
+msgid "Shows the place row beneath each birth and death date. When disabled, only the dates are shown and the date pair shifts to the bottom of the box."
+msgstr "Toont de plaats onder elke geboorte- en overlijdensdatum. Wanneer uitgeschakeld, worden alleen de datums getoond en het datumpaar verschuift naar de onderkant van het kader."
