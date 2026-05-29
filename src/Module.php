@@ -67,11 +67,12 @@ class Module extends PedigreeChartModule implements ModuleAssetUrlInterface, Mod
     public const CUSTOM_VERSION = '2.7.4-dev';
 
     /**
-     * Webtrees renders this URL as the "For more information, see …" link inside the
-     * "An upgrade is available" notice on the admin home (control-panel.phtml) and on
-     * the Modules admin pages. Pointed at the GitHub /releases/latest page so admins
-     * who notice an available update land directly on the release notes — including
-     * the "Manual / FTP installation" banner and the install-ready asset zip.
+     * Webtrees renders this URL as the "For more information, see …" link
+     * inside the "An upgrade is available" notice on the admin home
+     * (control-panel.phtml) and on the Modules admin pages. Pointed at the
+     * GitHub /releases/latest page so admins who notice an available update
+     * land directly on the release notes — including the "Manual / FTP
+     * installation" banner and the install-ready asset zip.
      *
      * @var string
      */

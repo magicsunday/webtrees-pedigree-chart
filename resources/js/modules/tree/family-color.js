@@ -10,8 +10,8 @@ import { SEX_FEMALE, SEX_MALE } from "../constants.js";
 
 /**
  * Matches Configuration::MAX_GENERATIONS (PHP). The chart-lib picker-color
- * interpolation needs to know the module's maximum depth so the outermost
- * ring lands on the configured paternal/maternal color exactly.
+ * interpolation needs to know the module's maximum depth so the outermost ring
+ * lands on the configured paternal/maternal color exactly.
  *
  * @type {number}
  */
@@ -20,10 +20,10 @@ const MAX_GENERATIONS = 25;
 /**
  * Computes paternal/maternal lineage colors for pedigree-chart person boxes.
  *
- * Visual scheme matches webtrees-fan-chart byte-for-byte at every depth so
- * the same picker yields the same per-person tint in both modules — both
- * display ancestors, only the layout differs (radial vs. linear). The HSL
- * math + per-branch hue spread + center tint all live in the shared
+ * Visual scheme matches webtrees-fan-chart byte-for-byte at every depth so the
+ * same picker yields the same per-person tint in both modules — both display
+ * ancestors, only the layout differs (radial vs. linear). The HSL math +
+ * per-branch hue spread + center tint all live in the shared
  * `@magicsunday/webtrees-chart-lib` so both modules stay aligned.
  *
  * Pedigree-chart geometry is linear (no angular position), so this class
@@ -49,8 +49,8 @@ export default class FamilyColor {
     }
 
     /**
-     * Returns an HSL color string for a hierarchy node, or null when no
-     * color should be applied.
+     * Returns an HSL color string for a hierarchy node, or null when no color
+     * should be applied.
      *
      * @param {object} datum The D3 hierarchy datum
      *
@@ -83,8 +83,8 @@ export default class FamilyColor {
 
     /**
      * Returns the reference-node's normalised position within its
-     * paternal/maternal side, in [0, 1]. Mirrors fan-chart's
-     * `half = refMidpoint / 0.5` for the equivalent radial geometry.
+     * paternal/maternal side, in [0, 1]. Mirrors fan-chart's `half =
+     * refMidpoint / 0.5` for the equivalent radial geometry.
      *
      * @param {object} datum
      *
@@ -144,8 +144,8 @@ export default class FamilyColor {
     }
 
     /**
-     * Walks the parent chain until the depth-1 ancestor (= a direct parent
-     * of the root individual). Returns null if no such ancestor exists.
+     * Walks the parent chain until the depth-1 ancestor (= a direct parent of
+     * the root individual). Returns null if no such ancestor exists.
      *
      * @param {object} datum
      *

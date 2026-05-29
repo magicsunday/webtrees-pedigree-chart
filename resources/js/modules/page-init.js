@@ -14,10 +14,10 @@ import {
 } from "@magicsunday/webtrees-chart-lib/chart-core";
 
 /**
- * Initialises the pedigree chart page: restores form values from
- * localStorage, sets up event listeners, builds the initial AJAX URL,
- * and publishes the resolved chart options under the WebtreesPedigreeChart
- * UMD global so chart.phtml getters can read user overrides.
+ * Initialises the pedigree chart page: restores form values from localStorage,
+ * sets up event listeners, builds the initial AJAX URL, and publishes the
+ * resolved chart options under the WebtreesPedigreeChart UMD global so
+ * chart.phtml getters can read user overrides.
  *
  * @param {object} config
  * @param {string} config.ajaxUrl The base AJAX endpoint URL
@@ -49,10 +49,10 @@ export function initPage(config) {
      * server default"; chart.phtml falls back to the PHP-side value via `??`.
      *
      * Only options that the chart re-evaluates client-side belong here.
-     * showNicknames is server-rendered through DataFacade so it is
-     * persisted in localStorage via storage.register() above (to keep
-     * the form state across reloads) but does NOT need to ship in
-     * chartOptions — chart.phtml has no matching getter.
+     * showNicknames is server-rendered through DataFacade so it is persisted in
+     * localStorage via storage.register() above (to keep the form state across
+     * reloads) but does NOT need to ship in chartOptions — chart.phtml has no
+     * matching getter.
      *
      * @type {{
      *   generations: number|null,

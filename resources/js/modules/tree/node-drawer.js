@@ -57,8 +57,8 @@ export default class NodeDrawer {
 
     /**
      * Returns the lineage-derived (paternal/maternal) color for a person, or
-     * `null` when family colors are disabled — leaving the CSS sex-based
-     * fill in place.
+     * `null` when family colors are disabled — leaving the CSS sex-based fill
+     * in place.
      *
      * @param {object} person The d3 hierarchy datum
      *
@@ -208,9 +208,9 @@ export default class NodeDrawer {
     }
 
     /**
-     * Renders the visual content for "add parent" placeholder boxes: a
-     * centred + symbol that signals the box is a call-to-action and
-     * navigates to the webtrees core "add a parent" form on click.
+     * Renders the visual content for "add parent" placeholder boxes: a centred
+     * + symbol that signals the box is a call-to-action and navigates to the
+     * webtrees core "add a parent" form on click.
      *
      * @param {Selection<any, any, any, any>} parent The placeholder <g> selection
      *

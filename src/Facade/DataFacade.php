@@ -26,7 +26,8 @@ use MagicSunday\Webtrees\PedigreeChart\Model\Node;
 use MagicSunday\Webtrees\PedigreeChart\Model\NodeData;
 
 /**
- * Facade class to hide complex logic to generate the structure required to display the tree.
+ * Facade class to hide complex logic to generate the structure required to
+ * display the tree.
  *
  * @author  Rico Sonntag <mail@ricosonntag.de>
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
@@ -42,12 +43,14 @@ class DataFacade
     private Configuration $configuration;
 
     /**
-     * Monotonic counter assigning positive request-scope IDs to real-individual nodes.
+     * Monotonic counter assigning positive request-scope IDs to real-individual
+     * nodes.
      */
     private int $nodeIdCounter = 0;
 
     /**
-     * Monotonic counter assigning negative request-scope IDs to add-parent placeholder nodes.
+     * Monotonic counter assigning negative request-scope IDs to add-parent
+     * placeholder nodes.
      */
     private int $placeholderIdCounter = 0;
 
@@ -136,10 +139,10 @@ class DataFacade
     }
 
     /**
-     * Returns true when an "add parent" placeholder should be rendered
-     * next to the given individual: the admin toggle is on, the user can
-     * edit this individual, and there is at least one more configured
-     * generation slot available for the placeholder.
+     * Returns true when an "add parent" placeholder should be rendered next to
+     * the given individual: the admin toggle is on, the user can edit this
+     * individual, and there is at least one more configured generation slot
+     * available for the placeholder.
      *
      * @param Individual $individual
      * @param int        $generation
@@ -154,10 +157,9 @@ class DataFacade
     }
 
     /**
-     * Builds a placeholder Node that the JS layer treats as an
-     * "Add a parent" call-to-action. The empty xref signals "no
-     * individual"; the populated url is the webtrees core route that
-     * opens the matching add-parent form.
+     * Builds a placeholder Node that the JS layer treats as an "Add a parent"
+     * call-to-action. The empty xref signals "no individual"; the populated url
+     * is the webtrees core route that opens the matching add-parent form.
      *
      * Routing mirrors the upstream individual/family pages:
      * - no parent family yet → AddParentToIndividualPage creates a
@@ -213,8 +215,8 @@ class DataFacade
     }
 
     /**
-     * Builds the NodeData DTO populated from the individual's name, date,
-     * and image processors for the given generation slot.
+     * Builds the NodeData DTO populated from the individual's name, date, and
+     * image processors for the given generation slot.
      */
     private function getNodeData(
         int $generation,
@@ -257,8 +259,9 @@ class DataFacade
     }
 
     /**
-     * Get the raw update URL. The "xref" parameter must be the last one as the URL gets appended
-     * with the clicked individual id in order to load the required chart data.
+     * Get the raw update URL. The "xref" parameter must be the last one as the
+     * URL gets appended with the clicked individual id in order to load the
+     * required chart data.
      *
      * @param Individual $individual
      *

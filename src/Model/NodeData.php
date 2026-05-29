@@ -39,7 +39,8 @@ class NodeData implements JsonSerializable
     protected string $url = '';
 
     /**
-     * The URL used to update the clicked entry in the tree with this individual.
+     * The URL used to update the clicked entry in the tree with this
+     * individual.
      */
     protected string $updateUrl = '';
 

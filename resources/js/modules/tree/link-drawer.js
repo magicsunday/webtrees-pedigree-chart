@@ -15,15 +15,15 @@ import {
 /**
  * Renders the connecting lines between profile boxes.
  *
- * Each `link` carries the d3-hierarchy positions of source (the person),
- * the matching spouse, and either a target (child → elbow line) or no
- * target (marriage line between the two spouses, possibly chained
- * through `link.coords` for polygamous continuations).
+ * Each `link` carries the d3-hierarchy positions of source (the person), the
+ * matching spouse, and either a target (child → elbow line) or no target
+ * (marriage line between the two spouses, possibly chained through
+ * `link.coords` for polygamous continuations).
  *
  * The actual SVG `d` strings are produced by axis-agnostic helpers in
  * webtrees-chart-lib so descendants and pedigree share one geometry
- * implementation; this class only computes the source position and the
- * marriage cross-axis stagger from the link payload.
+ * implementation; this class only computes the source position and the marriage
+ * cross-axis stagger from the link payload.
  *
  * @author  Rico Sonntag <mail@ricosonntag.de>
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
@@ -62,9 +62,9 @@ export default class LinkDrawer {
     }
 
     /**
-     * Source-drop + spine + per-child drop (single child) for a parent
-     * → child connection. Source position depends on family index and
-     * whether the source carries a real person or a placeholder.
+     * Source-drop + spine + per-child drop (single child) for a parent → child
+     * connection. Source position depends on family index and whether the
+     * source carries a real person or a placeholder.
      */
     _childElbowPath(link) {
         const o = this._orientation;
@@ -83,9 +83,9 @@ export default class LinkDrawer {
     }
 
     /**
-     * Marriage line between spouse and source (with intermediate spouses
-     * for polygamous continuations) drawn as straight segments through
-     * the inter-box gaps so the line never crosses an unrelated box.
+     * Marriage line between spouse and source (with intermediate spouses for
+     * polygamous continuations) drawn as straight segments through the
+     * inter-box gaps so the line never crosses an unrelated box.
      */
     _marriageChainPath(link) {
         const o = this._orientation;
@@ -161,10 +161,10 @@ export default class LinkDrawer {
     }
 
     /**
-     * Cross-axis offset for a marriage line in a multi-spouse group:
-     * staggers the line so multiple marriages stay distinguishable.
-     * Falls out of the (family - middle-of-spouses) × direction × step
-     * formula the legacy elbow modules used.
+     * Cross-axis offset for a marriage line in a multi-spouse group: staggers
+     * the line so multiple marriages stay distinguishable. Falls out of the
+     * (family - middle-of-spouses) × direction × step formula the legacy elbow
+     * modules used.
      */
     _spouseStagger(link) {
         const middle = Math.ceil(link.spouse.data.spouses.length / 2);

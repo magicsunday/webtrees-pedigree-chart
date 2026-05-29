@@ -105,10 +105,12 @@ export default class Tree {
     }
 
     /**
-     * Collapse person (hide their ancestors). We recursively collapse the ancestors so that when the person is
-     * expanded it will only reveal one generation. If we don't recursively collapse the ancestors then when
-     * the person is clicked on again to expand, all ancestors that were previously showing will be shown again.
-     * If you want that behavior then just remove the recursion by removing the if block.
+     * Collapse person (hide their ancestors). We recursively collapse the
+     * ancestors so that when the person is expanded it will only reveal one
+     * generation. If we don't recursively collapse the ancestors then when the
+     * person is clicked on again to expand, all ancestors that were previously
+     * showing will be shown again. If you want that behavior then just remove
+     * the recursion by removing the if block.
      */
     collapse(person) {
         if (person.parents) {

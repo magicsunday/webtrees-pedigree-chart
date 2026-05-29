@@ -132,7 +132,8 @@ export default class Configuration {
     }
 
     /**
-     * Returns TRUE or FALSE depending on whether to open the current individual's details page in a new tab.
+     * Returns TRUE or FALSE depending on whether to open the current
+     * individual's details page in a new tab.
      *
      * @returns {boolean}
      */
@@ -150,7 +151,8 @@ export default class Configuration {
     }
 
     /**
-     * Returns TRUE if person boxes should be tinted by paternal/maternal lineage.
+     * Returns TRUE if person boxes should be tinted by paternal/maternal
+     * lineage.
      *
      * @returns {boolean}
      */

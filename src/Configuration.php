@@ -188,7 +188,8 @@ class Configuration
     }
 
     /**
-     * Returns whether to open a new browser window/tab on left-click on an individual or not.
+     * Returns whether to open a new browser window/tab on left-click on an
+     * individual or not.
      *
      * @return bool
      */
@@ -212,8 +213,9 @@ class Configuration
 
     /**
      * Returns true when the legacy GEDCOM `2 NICK` value should be displayed in
-     * quotes between the given names and the surname (e.g. `Martin "Chalky" White`).
-     * Default off so existing trees keep the post-2.0 webtrees rendering.
+     * quotes between the given names and the surname (e.g. `Martin "Chalky"
+     * White`). Default off so existing trees keep the post-2.0 webtrees
+     * rendering.
      *
      * @return bool
      */
@@ -376,8 +378,8 @@ class Configuration
     /**
      * Admin-only toggle that decides whether the chart renders a clickable
      * placeholder box for each missing parent slot. The box links to the
-     * webtrees core "Add a parent" page so editors can fill the gap from
-     * within the chart.
+     * webtrees core "Add a parent" page so editors can fill the gap from within
+     * the chart.
      *
      * @return bool
      */
@@ -400,8 +402,8 @@ class Configuration
     }
 
     /**
-     * Returns the dropdown options for the name-abbreviation strategy in
-     * the admin config form. Keyed by the persisted enum value.
+     * Returns the dropdown options for the name-abbreviation strategy in the
+     * admin config form. Keyed by the persisted enum value.
      *
      * @return array<string, string>
      */
@@ -415,10 +417,10 @@ class Configuration
     }
 
     /**
-     * Returns the name-abbreviation strategy as stored. One of
-     * {@see NameAbbreviation::AUTO}, GIVEN or SURNAME. The chart-render path
-     * resolves AUTO to GIVEN/SURNAME via the tree's SURNAME_TRADITION before
-     * serialising to the JS config — see {@see Module::getChartParameters()}.
+     * Returns the name-abbreviation strategy as stored. One of {@see
+     * NameAbbreviation::AUTO}, GIVEN or SURNAME. The chart-render path resolves
+     * AUTO to GIVEN/SURNAME via the tree's SURNAME_TRADITION before serialising
+     * to the JS config — see {@see Module::getChartParameters()}.
      *
      * @return string
      */

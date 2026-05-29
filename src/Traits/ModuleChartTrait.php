@@ -35,7 +35,8 @@ trait ModuleChartTrait
     }
 
     /**
-     * Returns the localised chart title shown in the chart box menu and page headings.
+     * Returns the localised chart title shown in the chart box menu and page
+     * headings.
      */
     public function chartTitle(Individual $individual): string
     {

@@ -214,9 +214,9 @@ export default class Name {
     }
 
     /**
-     * Creates a single <tspan> element for each single name and append it to the
-     * parent element. The "tspan" element containing the preferred name gets an
-     * additional underline style to highlight this one.
+     * Creates a single <tspan> element for each single name and append it to
+     * the parent element. The "tspan" element containing the preferred name
+     * gets an additional underline style to highlight this one.
      *
      * @param {Selection<any, any, any, any>}   parent The parent element to which the <tspan> elements are to be attached
      * @param {LabelElementData[] | ((arg0: any) => LabelElementData[])} data
@@ -419,7 +419,8 @@ export default class Name {
     }
 
     /**
-     * Measures the given text and return its width depending on the used font (including size and weight).
+     * Measures the given text and return its width depending on the used font
+     * (including size and weight).
      *
      * @param {string} text
      * @param {string} fontSize

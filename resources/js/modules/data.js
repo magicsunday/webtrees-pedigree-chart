@@ -14,10 +14,9 @@
  */
 
 /**
- * The plain person data emitted by the PHP DataFacade. Field set
- * mirrors NodeData::jsonSerialize() so any property added on the PHP
- * side must also be added here for the strict typecheck pass to keep
- * surfacing typos.
+ * The plain person data emitted by the PHP DataFacade. Field set mirrors
+ * NodeData::jsonSerialize() so any property added on the PHP side must also be
+ * added here for the strict typecheck pass to keep surfacing typos.
  *
  * @typedef {object} Data
  * @property {number}   id              The unique ID of the person
