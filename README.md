@@ -99,6 +99,21 @@ by calling:
 git clone https://github.com/magicsunday/webtrees-pedigree-chart.git modules_v4/webtrees-pedigree-chart
 ```
 
+A Git checkout contains the source code only — it does **not** include the bundled
+`vendor/` dependencies. After cloning, install them from inside the module directory
+(this requires [Composer](https://getcomposer.org/) and a PHP CLI on the host):
+
+```shell
+cd modules_v4/webtrees-pedigree-chart
+composer install --no-dev
+```
+
+> [!IMPORTANT]
+> Without this step the module aborts on every page with a
+> `Trait "MagicSunday\Webtrees\ModuleBase\…" not found` fatal error, because the
+> shared `webtrees-module-base` dependency is missing from `vendor/`. If you cannot
+> run Composer on your server, use the [asset zip](#manual-installation) instead.
+
 Then follow the steps described in [configuration](#configuration) and [usage](#usage).
 
 
