@@ -1,7 +1,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pedigree chart\n"
-"POT-Creation-Date: 2024-12-22 12:46+0100\n"
+"Report-Msgid-Bugs-To: https://github.com/magicsunday/webtrees-pedigree-chart/"
+"issues\n"
+"POT-Creation-Date: 1970-01-01 00:00+0000\n"
 "PO-Revision-Date: 2024-12-22 12:50+0100\n"
 "Last-Translator: Rico Sonntag <mail@ricosonntag.de>\n"
 "Language-Team: \n"
@@ -16,73 +18,72 @@ msgstr ""
 "X-Poedit-SearchPath-0: src\n"
 "X-Poedit-SearchPath-1: resources/views\n"
 
-#: src/Configuration.php:196 src/Configuration.php:204
-msgid "left"
-msgstr "venstre"
-
-#: src/Configuration.php:197 src/Configuration.php:205
-msgid "right"
-msgstr "høyre"
-
-#: src/Configuration.php:198 src/Configuration.php:206
-msgid "up"
-msgstr "opp"
-
-#: src/Configuration.php:199 src/Configuration.php:207
-msgid "down"
-msgstr "ned"
-
-#: src/Module.php:124 src/Module.php:239
-msgid "Pedigree chart"
-msgstr "Anediagram"
-
-#: src/Module.php:134
+#: src/Module.php:142
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "Et diagram over en persons aner."
 
-#: src/Module.php:236 src/Traits/ModuleChartTrait.php:41
-#, php-format
-msgid "Pedigree chart of %s"
-msgstr "Anediagram for %s"
+#: src/Configuration.php:414
+msgid "Abbreviate given names first"
+msgstr "Forkort fornavn først"
 
-#: src/Module.php:252
-msgid "Use Ctrl + scroll to zoom in the view"
-msgstr "Bruk Ctrl + scroll for zoom"
+#: src/Configuration.php:415
+msgid "Abbreviate surnames first"
+msgstr "Forkort etternavn først"
 
-#: src/Module.php:253
-msgid "Move the view with two fingers"
-msgstr "Bruk to fingre for å endre synsfelt"
+#: src/Facade/DataFacade.php:202
+msgid "Add a father"
+msgstr ""
 
-#: src/Processor/DateProcessor.php:129
-#, php-format
-msgid "Born: %s"
-msgstr "Fødd: %s"
+#: src/Facade/DataFacade.php:203
+msgid "Add a mother"
+msgstr ""
 
-#: src/Processor/DateProcessor.php:133
-#, php-format
-msgid "Died: %s"
-msgstr "Død: %s"
+#: src/Configuration.php:413
+msgid "Automatic (based on tree's surname tradition)"
+msgstr "Automatisk (basert på treets etternavnstradisjon)"
 
-#: src/Processor/DateProcessor.php:137
-msgid "Deceased"
-msgstr "Død"
+#: resources/views/modules/pedigree-chart/form/behavior.phtml:23
+msgid "Behavior"
+msgstr "Atferd"
 
-#: src/Traits/ModuleConfigTrait.php:91
-#, php-format
-msgid "The preferences for the module “%s” have been updated."
-msgstr "Innstillingene for modulen “%s” har blitt oppdatert."
+#: resources/views/modules/pedigree-chart/form/colors.phtml:23
+msgid "Colors"
+msgstr ""
 
-#: resources/views/modules/components/buttonbar/center-button.phtml:18
-msgid "Re center"
-msgstr "Tibakestill"
+#: resources/views/modules/pedigree-chart/form/colors.phtml:34
+msgid ""
+"Colors the person boxes by family branch. Each couple shares the same color, "
+"derived from the chosen base colors."
+msgstr ""
+"Farger personboksene etter familiegren. Hvert par deler samme farge, avledet "
+"fra de valgte basisfargene."
 
-#: resources/views/modules/components/buttonbar/fullscreen-button.phtml:18
-msgid "Switch between full screen mode and normal view"
-msgstr "Bytt mellom fullskjerm og normal visning"
+#: resources/views/modules/pedigree-chart/config.phtml:25
+msgid "Control panel"
+msgstr "Kontrollpanel"
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:17
-msgid "Show help"
-msgstr "Vis hjelp"
+#: resources/views/modules/pedigree-chart/config.phtml:97
+msgid ""
+"Controls which name part shrinks first when a box is too narrow for the full "
+"name. \"Automatic\" uses the tree's surname tradition (Icelandic abbreviates "
+"surnames; everything else abbreviates given names)."
+msgstr ""
+"Styrer hvilken navnedel som forkortes først når en boks er for smal for hele "
+"navnet. «Automatisk» bruker treets etternavnstradisjon (islandsk forkorter "
+"etternavn; alt annet forkorter fornavn)."
+
+#: resources/views/modules/pedigree-chart/form/details.phtml:23
+msgid "Details"
+msgstr ""
+
+#: resources/views/modules/pedigree-chart/form/details.phtml:34
+msgid ""
+"Displays a person's alternate name, if available. This simultaneously "
+"enlarges the individuals' respective boxes to create the necessary space for "
+"the display."
+msgstr ""
+"Viser alternative navn på personer, om dette er tilgjengelig. Dette vil "
+"samtidig utvide personbokser for å gi plass til visningen."
 
 #: resources/views/modules/components/buttonbar/png-export-button.phtml:18
 msgid "Export as PNG"
@@ -92,47 +93,61 @@ msgstr "Eksporter som PNG"
 msgid "Export as SVG"
 msgstr "Eksporter som SVG"
 
-#: resources/views/modules/pedigree-chart/config.phtml:25
-msgid "Control panel"
-msgstr "Kontrollpanel"
-
-#: resources/views/modules/pedigree-chart/config.phtml:25
-msgid "Modules"
-msgstr "Moduler"
-
-#: resources/views/modules/pedigree-chart/config.phtml:44
+#: resources/views/modules/pedigree-chart/config.phtml:50
 msgid "General"
 msgstr "Generelt"
-
-#: resources/views/modules/pedigree-chart/config.phtml:50
-msgid "Hide the SVG export button"
-msgstr "Skjul SVG-eksportknappen"
-
-#: resources/views/modules/pedigree-chart/config.phtml:60
-msgid "Hide the PNG export button"
-msgstr "Skjul PNG-eksportknappen"
-
-#: resources/views/modules/pedigree-chart/config.phtml:73
-msgid "save"
-msgstr "lagre"
-
-#: resources/views/modules/pedigree-chart/config.phtml:78
-msgid "cancel"
-msgstr "avbryt"
 
 #: resources/views/modules/pedigree-chart/form/generations.phtml:22
 msgid "Generations"
 msgstr "Generasjoner"
 
-#: resources/views/modules/pedigree-chart/form/layout.phtml:23
-msgid "Layout"
-msgstr "Utseende"
+#: resources/views/modules/pedigree-chart/page.phtml:77
+msgid "Hide more options"
+msgstr "Skjul flere valg"
 
-#: resources/views/modules/pedigree-chart/form/layout.phtml:39
+#: resources/views/modules/pedigree-chart/config.phtml:64
+msgid "Hide the PNG export button"
+msgstr "Skjul PNG-eksportknappen"
+
+#: resources/views/modules/pedigree-chart/config.phtml:55
+msgid "Hide the SVG export button"
+msgstr "Skjul SVG-eksportknappen"
+
+#: resources/views/modules/pedigree-chart/page.phtml:39
+msgid "Individual"
+msgstr "Person"
+
+#: resources/views/modules/pedigree-chart/form/details.phtml:46
+msgid ""
+"Inserts the GEDCOM NICK value in quotes between the given names and the "
+"surname (e.g. Martin \"Chalky\" White). Mirrors the legacy webtrees "
+"behaviour for trees that store nicknames in the separate GEDCOM NICK field."
+msgstr ""
+"Setter inn GEDCOM NICK-verdien i anførselstegn mellom fornavn og etternavn "
+"(f.eks. Martin \"Chalky\" White). Gjenskaper den tidligere webtrees-"
+"oppførselen for trær som lagrer kallenavn i det separate GEDCOM NICK-feltet."
+
+#: resources/views/modules/pedigree-chart/form/colors.phtml:43
+msgid "Maternal"
+msgstr "Mors"
+
+#: resources/views/modules/pedigree-chart/config.phtml:25
+msgid "Modules"
+msgstr "Moduler"
+
+#: src/Module.php:272
+msgid "Move the view with two fingers"
+msgstr "Bruk to fingre for å endre synsfelt"
+
+#: resources/views/modules/pedigree-chart/config.phtml:86
+msgid "Name abbreviation when space is tight"
+msgstr "Navneforkortelse når plassen er trang"
+
+#: resources/views/modules/pedigree-chart/form/behavior.phtml:28
 msgid "Open individual in new browser window/tab"
 msgstr "Åpne person i nytt vindu/fane"
 
-#: resources/views/modules/pedigree-chart/form/layout.phtml:45
+#: resources/views/modules/pedigree-chart/form/behavior.phtml:34
 msgid ""
 "Open the current individual's detail page in a new browser window/tab when "
 "it's left-clicked, otherwise the current window/tab is used."
@@ -140,85 +155,100 @@ msgstr ""
 "Åpner gjeldende persons faktaside i nytt vindu/fane ved venstreklikk. Om "
 "ikke, åpnes siden i samme vindu/fane."
 
-#: resources/views/modules/pedigree-chart/form/layout.phtml:53
-msgid "Show alternative name of individual"
-msgstr "Vis alternativt navn på person"
-
-#: resources/views/modules/pedigree-chart/form/layout.phtml:59
-msgid ""
-"Displays a person's alternate name, if available. This simultaneously "
-"enlarges the individuals' respective boxes to create the necessary space for "
-"the display."
-msgstr ""
-"Viser alternative navn på personer, om dette er tilgjengelig. Dette vil "
-"samtidig utvide personbokser for å gi plass til visningen."
-
 #: resources/views/modules/pedigree-chart/form/orientation.phtml:22
 msgid "Orientation"
 msgstr "Orientering"
 
-#: resources/views/modules/pedigree-chart/page.phtml:39
-msgid "Individual"
-msgstr "Person"
-
-#: resources/views/modules/pedigree-chart/page.phtml:64
-msgid "view"
-msgstr "vis"
-
-#: resources/views/modules/pedigree-chart/page.phtml:75
-msgid "Show more options"
-msgstr "Vis flere valg"
-
-#: resources/views/modules/pedigree-chart/page.phtml:76
-msgid "Hide more options"
-msgstr "Skjul flere valg"
-
-#: resources/views/modules/pedigree-chart/form/layout.phtml:67
-msgid "Show family colors"
-msgstr "Vis familiefarger"
-
-#: resources/views/modules/pedigree-chart/form/layout.phtml:73
-msgid "Colors the person boxes by family branch. Each couple shares the same color, derived from the chosen base colors."
-msgstr "Farger personboksene etter familiegren. Hvert par deler samme farge, avledet fra de valgte basisfargene."
-
-#: resources/views/modules/pedigree-chart/form/layout.phtml:78
+#: resources/views/modules/pedigree-chart/form/colors.phtml:39
 msgid "Paternal"
 msgstr "Fars"
 
-#: resources/views/modules/pedigree-chart/form/layout.phtml:82
-msgid "Maternal"
-msgstr "Mors"
+#: src/Module.php:131 src/Module.php:252
+msgid "Pedigree chart"
+msgstr "Anediagram"
 
-msgid "Name abbreviation when space is tight"
-msgstr "Navneforkortelse når plassen er trang"
+#: src/Module.php:249 src/Traits/ModuleChartTrait.php:43
+#, php-format
+msgid "Pedigree chart of %s"
+msgstr "Anediagram for %s"
 
-msgid "Automatic (based on tree's surname tradition)"
-msgstr "Automatisk (basert på treets etternavnstradisjon)"
+#: resources/views/modules/components/buttonbar/center-button.phtml:18
+msgid "Re center"
+msgstr "Tibakestill"
 
-msgid "Abbreviate given names first"
-msgstr "Forkort fornavn først"
-
-msgid "Abbreviate surnames first"
-msgstr "Forkort etternavn først"
-
-msgid "Controls which name part shrinks first when a box is too narrow for the full name. \"Automatic\" uses the tree's surname tradition (Icelandic abbreviates surnames; everything else abbreviates given names)."
-msgstr "Styrer hvilken navnedel som forkortes først når en boks er for smal for hele navnet. «Automatisk» bruker treets etternavnstradisjon (islandsk forkorter etternavn; alt annet forkorter fornavn)."
-
-#: resources/views/modules/fan-chart/form/display.phtml
-msgid "Show nicknames in display names"
-msgstr "Vis kallenavn i visningsnavn"
-
-#: resources/views/modules/fan-chart/form/display.phtml
-msgid "Inserts the GEDCOM NICK value in quotes between the given names and the surname (e.g. Martin \"Chalky\" White). Mirrors the legacy webtrees behaviour for trees that store nicknames in the separate GEDCOM NICK field."
-msgstr "Setter inn GEDCOM NICK-verdien i anførselstegn mellom fornavn og etternavn (f.eks. Martin \"Chalky\" White). Gjenskaper den tidligere webtrees-oppførselen for trær som lagrer kallenavn i det separate GEDCOM NICK-feltet."
-
-#: resources/views/modules/pedigree-chart/config.phtml
+#: resources/views/modules/pedigree-chart/config.phtml:74
 msgid "Show \"add parent\" placeholders for missing ancestors"
 msgstr "Vis \"legg til forelder\"-plassholdere for manglende aner"
 
-#: resources/views/modules/pedigree-chart/config.phtml
-msgid "When enabled, an empty box with a \"+\" icon is rendered in place of each missing father or mother. Editors can click it to jump straight to the webtrees \"add a parent\" form for the corresponding child. The placeholders are only shown to users who have edit rights on the individual."
-msgstr "Når aktivert, vises en tom boks med \"+\"-ikon i stedet for hver manglende far eller mor. Redaktører kan klikke på den for å gå direkte til webtrees-skjemaet \"legg til forelder\" for det tilsvarende barnet. Plassholderne vises kun for brukere med redigeringsrettigheter på personen."
+#: resources/views/modules/pedigree-chart/form/details.phtml:28
+msgid "Show alternative name of individual"
+msgstr "Vis alternativt navn på person"
 
-msgid "Behavior"
-msgstr "Atferd"
+#: resources/views/modules/pedigree-chart/form/colors.phtml:28
+msgid "Show family colors"
+msgstr "Vis familiefarger"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:17
+msgid "Show help"
+msgstr "Vis hjelp"
+
+#: resources/views/modules/pedigree-chart/page.phtml:76
+msgid "Show more options"
+msgstr "Vis flere valg"
+
+#: resources/views/modules/pedigree-chart/form/details.phtml:40
+msgid "Show nicknames in display names"
+msgstr "Vis kallenavn i visningsnavn"
+
+#: resources/views/modules/components/buttonbar/fullscreen-button.phtml:18
+msgid "Switch between full screen mode and normal view"
+msgstr "Bytt mellom fullskjerm og normal visning"
+
+#: src/Traits/ModuleConfigTrait.php:111
+#, php-format
+msgid "The preferences for the module “%s” have been updated."
+msgstr "Innstillingene for modulen “%s” har blitt oppdatert."
+
+#: src/Module.php:271
+msgid "Use Ctrl + scroll to zoom in the view"
+msgstr "Bruk Ctrl + scroll for zoom"
+
+#: resources/views/modules/pedigree-chart/config.phtml:80
+msgid ""
+"When enabled, an empty box with a \"+\" icon is rendered in place of each "
+"missing father or mother. Editors can click it to jump straight to the "
+"webtrees \"add a parent\" form for the corresponding child. The placeholders "
+"are only shown to users who have edit rights on the individual."
+msgstr ""
+"Når aktivert, vises en tom boks med \"+\"-ikon i stedet for hver manglende "
+"far eller mor. Redaktører kan klikke på den for å gå direkte til webtrees-"
+"skjemaet \"legg til forelder\" for det tilsvarende barnet. Plassholderne "
+"vises kun for brukere med redigeringsrettigheter på personen."
+
+#: resources/views/modules/pedigree-chart/config.phtml:112
+msgid "cancel"
+msgstr "avbryt"
+
+#: src/Configuration.php:178 src/Configuration.php:186
+msgid "down"
+msgstr "ned"
+
+#: src/Configuration.php:175 src/Configuration.php:183
+msgid "left"
+msgstr "venstre"
+
+#: src/Configuration.php:176 src/Configuration.php:184
+msgid "right"
+msgstr "høyre"
+
+#: resources/views/modules/pedigree-chart/config.phtml:107
+msgid "save"
+msgstr "lagre"
+
+#: src/Configuration.php:177 src/Configuration.php:185
+msgid "up"
+msgstr "opp"
+
+#: resources/views/modules/pedigree-chart/page.phtml:65
+msgid "view"
+msgstr "vis"
