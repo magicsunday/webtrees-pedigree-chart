@@ -370,9 +370,6 @@ class NodeData implements JsonSerializable
         return $this;
     }
 
-    /**
-     * @return Individual|null
-     */
     public function getIndividual(): ?Individual
     {
         return $this->individual;

@@ -30,11 +30,11 @@ msgstr "Forkort fornavn først"
 msgid "Abbreviate surnames first"
 msgstr "Forkort etternavn først"
 
-#: src/Facade/DataFacade.php:202
+#: src/Facade/DataFacade.php:200
 msgid "Add a father"
 msgstr ""
 
-#: src/Facade/DataFacade.php:203
+#: src/Facade/DataFacade.php:201
 msgid "Add a mother"
 msgstr ""
 

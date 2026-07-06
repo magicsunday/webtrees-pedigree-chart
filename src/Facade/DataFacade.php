@@ -78,8 +78,6 @@ class DataFacade
      *
      * @param Individual|null $individual The start person
      * @param int             $generation The current generation
-     *
-     * @return Node|null
      */
     private function buildTreeStructure(?Individual $individual, int $generation = 1): ?Node
     {

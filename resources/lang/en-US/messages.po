@@ -31,11 +31,11 @@ msgstr "Abbreviate given names first"
 msgid "Abbreviate surnames first"
 msgstr "Abbreviate surnames first"
 
-#: src/Facade/DataFacade.php:202
+#: src/Facade/DataFacade.php:200
 msgid "Add a father"
 msgstr ""
 
-#: src/Facade/DataFacade.php:203
+#: src/Facade/DataFacade.php:201
 msgid "Add a mother"
 msgstr ""
 
