@@ -330,7 +330,10 @@ export default class Name {
             } while (pos !== -1 && firstnameMap.has(pos));
 
             if (pos !== -1) {
-                lastnameOffset = pos;
+                // Resume behind the accepted match, not at it: a repeated
+                // surname token would otherwise find the same position again
+                // and both occurrences would collapse onto one map entry.
+                lastnameOffset = pos + datum.data.data.lastNames[i].length;
 
                 if (pos < minPosLastnames) {
                     minPosLastnames = pos;

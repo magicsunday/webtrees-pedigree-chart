@@ -132,4 +132,38 @@ describe("Name.createNamesData", () => {
         expect(surnames).toHaveLength(1);
         expect(surnames[0].label).toBe("Anna");
     });
+
+    it("keeps both parts of a surname that repeats itself", () => {
+        const name = Object.create(Name.prototype);
+        const datum = makeDatum({
+            name: "Anna Schmidt Schmidt",
+            firstNames: ["Anna"],
+            lastNames: ["Schmidt", "Schmidt"],
+            preferredName: "Anna",
+        });
+
+        const groups = name.createNamesData(datum);
+        const surnames = groups.flat().filter((entry) => entry.isLastName);
+
+        // After a match is accepted the search has to resume behind it. Resuming
+        // at the match itself makes the next identical surname token find the
+        // same position again, so both collapse onto one entry and the second
+        // one is lost.
+        expect(surnames.map((entry) => entry.label)).toEqual(["Schmidt", "Schmidt"]);
+    });
+
+    it("omits a surname that does not occur in the assembled name", () => {
+        const name = Object.create(Name.prototype);
+        const datum = makeDatum({
+            name: "Anna Schmidt",
+            firstNames: ["Anna"],
+            lastNames: ["Schmidt", "Meier"],
+            preferredName: "Anna",
+        });
+
+        const groups = name.createNamesData(datum);
+        const surnames = groups.flat().filter((entry) => entry.isLastName);
+
+        expect(surnames.map((entry) => entry.label)).toEqual(["Schmidt"]);
+    });
 });
