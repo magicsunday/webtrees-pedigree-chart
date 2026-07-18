@@ -315,32 +315,31 @@ export default class Name {
         const lastnameMap = new Map();
 
         for (const i in datum.data.data.lastNames) {
+            const lastName = datum.data.data.lastNames[i];
             let pos;
 
-            // Check if last name already exists in first names list, in case first name equals last name.
-            // `pos` is the absolute index from String.indexOf, so the offset for the next search must be
-            // the absolute position past the matched substring — accumulating with `+=` over-shoots and
-            // skips later occurrences (visible with names like "Anna Anna Anna Schmidt").
+            // `pos` is the absolute index returned by String.indexOf, so the next
+            // search has to resume at the absolute position behind the match —
+            // both when skipping a position that belongs to a given name and
+            // when the match is accepted. Accumulating with `+=` overshoots the
+            // string ("Anna Anna Anna Schmidt" loses the surname); resuming at
+            // the match itself makes a repeated surname token find the same
+            // position again ("Schmidt Schmidt" collapses onto one entry).
             do {
-                pos = datum.data.data.name.indexOf(datum.data.data.lastNames[i], lastnameOffset);
+                pos = datum.data.data.name.indexOf(lastName, lastnameOffset);
 
-                if (pos !== -1 && firstnameMap.has(pos)) {
-                    lastnameOffset = pos + datum.data.data.lastNames[i].length;
+                if (pos !== -1) {
+                    lastnameOffset = pos + lastName.length;
                 }
             } while (pos !== -1 && firstnameMap.has(pos));
 
             if (pos !== -1) {
-                // Resume behind the accepted match, not at it: a repeated
-                // surname token would otherwise find the same position again
-                // and both occurrences would collapse onto one map entry.
-                lastnameOffset = pos + datum.data.data.lastNames[i].length;
-
                 if (pos < minPosLastnames) {
                     minPosLastnames = pos;
                 }
 
                 lastnameMap.set(pos, {
-                    label: datum.data.data.lastNames[i],
+                    label: lastName,
                     isPreferred: false,
                     isLastName: true,
                     isNameRtl: datum.data.data.isNameRtl,
