@@ -57,7 +57,7 @@ describe("Name.truncateNamesData", () => {
             names,
             100,
             expect.any(Function),
-            expect.objectContaining({ strategy: "GIVEN" }),
+            expect.objectContaining({ strategy: "GIVEN", dropEmptyBracketed: true }),
         );
         expect(parent.style).toHaveBeenCalledWith("font-size");
         expect(parent.style).toHaveBeenCalledWith("font-weight");
@@ -90,5 +90,46 @@ describe("Name.truncateNamesData", () => {
         const result = name.truncateNamesData(buildParent(), names, 60);
 
         expect(result.map((n) => n.label)).toEqual(["A.", "S."]);
+    });
+});
+
+/**
+ * Builds the datum shape createNamesData() reads.
+ *
+ * @param {object} data Individual name data
+ *
+ * @returns {object} Hierarchy datum wrapper
+ */
+function makeDatum(data) {
+    return {
+        data: {
+            data: {
+                nickname: "",
+                isNameRtl: false,
+                ...data,
+            },
+        },
+    };
+}
+
+describe("Name.createNamesData", () => {
+    it("locates a surname that repeats an earlier given name", () => {
+        const name = Object.create(Name.prototype);
+        const datum = makeDatum({
+            name: "Anna Anna Anna",
+            firstNames: ["Anna", "Anna"],
+            lastNames: ["Anna"],
+            preferredName: "Anna",
+        });
+
+        const groups = name.createNamesData(datum);
+        const surnames = groups.flat().filter((entry) => entry.isLastName);
+
+        // The surname occupies the third "Anna"; the two earlier ones are given
+        // names. Skipping forward past a match must advance to the absolute end
+        // of that match, not accumulate absolute indices — otherwise the search
+        // overshoots the string and the surname is dropped from the label.
+        expect(surnames).toHaveLength(1);
+        expect(surnames[0].label).toBe("Anna");
     });
 });
