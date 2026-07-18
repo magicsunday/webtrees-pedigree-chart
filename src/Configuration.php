@@ -80,6 +80,13 @@ class Configuration
     public const string MATERNAL_COLOR_DEFAULT = '#d06f94';
 
     /**
+     * The memoised route parameters, resolved on first use.
+     *
+     * @var array{generations: int, layout: string, showNicknames: string, showAddParentLinks: string}|null
+     */
+    private ?array $routeToggleParams = null;
+
+    /**
      * Configuration constructor.
      *
      * @param ServerRequestInterface $request
@@ -456,11 +463,17 @@ class Configuration
      * colours, name abbreviation) live in the client-side chart options and are
      * deliberately not listed here.
      *
-     * @return array<string, int|string>
+     * Memoised because the update route is built once per node, while
+     * AbstractModule::getPreference() issues a database query on every call —
+     * resolving four settings per node would put the query count in linear
+     * proportion to the tree size. The configuration is constructed per request,
+     * so the resolved values cannot go stale within its lifetime.
+     *
+     * @return array{generations: int, layout: string, showNicknames: string, showAddParentLinks: string}
      */
     public function getRouteToggleParams(): array
     {
-        return [
+        return $this->routeToggleParams ??= [
             'generations'        => $this->getGenerations(),
             'layout'             => $this->getLayout(),
             'showNicknames'      => $this->getShowNicknames() ? '1' : '0',

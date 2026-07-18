@@ -22,11 +22,11 @@ msgstr ""
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "Přehled předků osoby."
 
-#: src/Configuration.php:414
+#: src/Configuration.php:421
 msgid "Abbreviate given names first"
 msgstr "Nejprve zkrátit křestní jména"
 
-#: src/Configuration.php:415
+#: src/Configuration.php:422
 msgid "Abbreviate surnames first"
 msgstr "Nejprve zkrátit příjmení"
 
@@ -38,7 +38,7 @@ msgstr ""
 msgid "Add a mother"
 msgstr ""
 
-#: src/Configuration.php:413
+#: src/Configuration.php:420
 msgid "Automatic (based on tree's surname tradition)"
 msgstr "Automaticky (podle tradice příjmení stromu)"
 
@@ -225,15 +225,15 @@ msgstr ""
 msgid "cancel"
 msgstr "zrušit"
 
-#: src/Configuration.php:178 src/Configuration.php:186
+#: src/Configuration.php:185 src/Configuration.php:193
 msgid "down"
 msgstr "dolů"
 
-#: src/Configuration.php:175 src/Configuration.php:183
+#: src/Configuration.php:182 src/Configuration.php:190
 msgid "left"
 msgstr "vlevo"
 
-#: src/Configuration.php:176 src/Configuration.php:184
+#: src/Configuration.php:183 src/Configuration.php:191
 msgid "right"
 msgstr "vpravo"
 
@@ -241,7 +241,7 @@ msgstr "vpravo"
 msgid "save"
 msgstr "uložit"
 
-#: src/Configuration.php:177 src/Configuration.php:185
+#: src/Configuration.php:184 src/Configuration.php:192
 msgid "up"
 msgstr "nahoru"
 

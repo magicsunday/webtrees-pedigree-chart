@@ -22,11 +22,11 @@ msgstr ""
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "个人祖先的世系图"
 
-#: src/Configuration.php:414
+#: src/Configuration.php:421
 msgid "Abbreviate given names first"
 msgstr "优先缩写名字"
 
-#: src/Configuration.php:415
+#: src/Configuration.php:422
 msgid "Abbreviate surnames first"
 msgstr "优先缩写姓氏"
 
@@ -38,7 +38,7 @@ msgstr ""
 msgid "Add a mother"
 msgstr ""
 
-#: src/Configuration.php:413
+#: src/Configuration.php:420
 msgid "Automatic (based on tree's surname tradition)"
 msgstr "自动（根据族谱的姓氏传统）"
 
@@ -222,15 +222,15 @@ msgstr ""
 msgid "cancel"
 msgstr "取消"
 
-#: src/Configuration.php:178 src/Configuration.php:186
+#: src/Configuration.php:185 src/Configuration.php:193
 msgid "down"
 msgstr "祖辈在下"
 
-#: src/Configuration.php:175 src/Configuration.php:183
+#: src/Configuration.php:182 src/Configuration.php:190
 msgid "left"
 msgstr "祖辈在左"
 
-#: src/Configuration.php:176 src/Configuration.php:184
+#: src/Configuration.php:183 src/Configuration.php:191
 msgid "right"
 msgstr "祖辈在右"
 
@@ -238,7 +238,7 @@ msgstr "祖辈在右"
 msgid "save"
 msgstr "保存"
 
-#: src/Configuration.php:177 src/Configuration.php:185
+#: src/Configuration.php:184 src/Configuration.php:192
 msgid "up"
 msgstr "祖辈在上"
 

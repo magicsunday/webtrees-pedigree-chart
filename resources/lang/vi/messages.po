@@ -22,11 +22,11 @@ msgstr ""
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "Biểu đồ phả hệ của tổ tiên của một cá nhân."
 
-#: src/Configuration.php:414
+#: src/Configuration.php:421
 msgid "Abbreviate given names first"
 msgstr "Viết tắt tên gọi trước"
 
-#: src/Configuration.php:415
+#: src/Configuration.php:422
 msgid "Abbreviate surnames first"
 msgstr "Viết tắt họ trước"
 
@@ -38,7 +38,7 @@ msgstr ""
 msgid "Add a mother"
 msgstr ""
 
-#: src/Configuration.php:413
+#: src/Configuration.php:420
 msgid "Automatic (based on tree's surname tradition)"
 msgstr "Tự động (dựa trên truyền thống họ của cây phả hệ)"
 
@@ -225,15 +225,15 @@ msgstr ""
 msgid "cancel"
 msgstr "Hủy bỏ"
 
-#: src/Configuration.php:178 src/Configuration.php:186
+#: src/Configuration.php:185 src/Configuration.php:193
 msgid "down"
 msgstr "Từ trên xuống"
 
-#: src/Configuration.php:175 src/Configuration.php:183
+#: src/Configuration.php:182 src/Configuration.php:190
 msgid "left"
 msgstr "Từ trái sang phải"
 
-#: src/Configuration.php:176 src/Configuration.php:184
+#: src/Configuration.php:183 src/Configuration.php:191
 msgid "right"
 msgstr "Từ phải sang trái"
 
@@ -241,7 +241,7 @@ msgstr "Từ phải sang trái"
 msgid "save"
 msgstr "lưu"
 
-#: src/Configuration.php:177 src/Configuration.php:185
+#: src/Configuration.php:184 src/Configuration.php:192
 msgid "up"
 msgstr "Từ dưới lên"
 
