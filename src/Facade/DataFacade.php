@@ -269,10 +269,7 @@ class DataFacade
     {
         return $this->chartUrl(
             $individual,
-            [
-                'generations' => $this->configuration->getGenerations(),
-                'layout'      => $this->configuration->getLayout(),
-            ]
+            $this->configuration->getRouteToggleParams()
         );
     }
 }
