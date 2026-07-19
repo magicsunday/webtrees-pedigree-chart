@@ -41,11 +41,38 @@
  */
 
 /**
+ * A single node of the chart tree as emitted by the PHP Node::jsonSerialize().
+ * The node's own person data is always present, while "parents" is omitted
+ * entirely for nodes without any known ancestor.
+ *
+ * @typedef {object} NodeDatum
+ * @property {Data}        data      The person data of this node
+ * @property {NodeDatum[]} [parents] The ancestor nodes, omitted when the node has none
+ */
+
+/**
+ * The datum bound to the name <text> elements of a person box. It carries the
+ * person node plus the pre-resolved layout flags the name renderer needs.
+ *
  * @typedef {object} NameElementData
- * @property {{data: Data}} data
- * @property {boolean} [isRtl]
- * @property {boolean} [isAltRtl]
- * @property {boolean} [withImage]
+ * @property {NodeDatum} data       The person node the name belongs to
+ * @property {boolean}   [isRtl]    Whether the primary name renders right-to-left
+ * @property {boolean}   [isAltRtl] Whether the alternative name renders right-to-left
+ * @property {boolean}   [withImage] Whether the box reserves room for a thumbnail
+ */
+
+/**
+ * The datum bound to the date <text> elements of a person box. Vertical
+ * layouts render a single combined timespan row (label + withImage only),
+ * while horizontal layouts render one row per event, each carrying its own
+ * glyph and event marker.
+ *
+ * @typedef {object} DateElementData
+ * @property {string}  label      The formatted date text
+ * @property {boolean} withImage  Whether the box reserves room for a thumbnail
+ * @property {string}  [icon]     The event glyph, horizontal layouts only
+ * @property {boolean} [birth]    TRUE for the birth row
+ * @property {boolean} [death]    TRUE for the death row
  */
 
 /**

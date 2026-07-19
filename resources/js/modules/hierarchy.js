@@ -14,6 +14,14 @@ import { LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET } from "./constants.js";
  */
 
 /**
+ * A single person node of the chart tree, carrying the server-emitted node
+ * datum as its payload. The tree layout additionally assigns x/y coordinates
+ * in place, so laid-out point nodes satisfy this type as well.
+ *
+ * @typedef {HierarchyNode<NodeDatum>} Individual
+ */
+
+/**
  * This class handles the hierarchical data.
  *
  * @author  Rico Sonntag <mail@ricosonntag.de>
@@ -37,7 +45,7 @@ export default class Hierarchy {
     /**
      * Initialize the hierarchical chart data.
      *
-     * @param {object} datum The JSON encoded chart data
+     * @param {NodeDatum} datum The JSON encoded chart data
      */
     init(datum) {
         // Adjust box height if we are going to display the alternative names

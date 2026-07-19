@@ -391,9 +391,9 @@ export default class Name {
     /**
      * Creates the data array for the names.
      *
-     * @param {object}             parent
-     * @param {LabelElementData[]} names
-     * @param {number}             availableWidth
+     * @param {Selection<any, any, any, any>} parent         The D3 text element the names are attached to
+     * @param {LabelElementData[]}            names          The name labels to truncate
+     * @param {number}                        availableWidth The total available width the text could take
      *
      * @returns {LabelElementData[]}
      *
@@ -449,8 +449,9 @@ export default class Name {
     }
 
     /**
+     * Returns the horizontal text position of a name row.
      *
-     * @param {object} d
+     * @param {NameElementData} d The name element datum
      *
      * @returns {number}
      *
@@ -467,9 +468,9 @@ export default class Name {
      * Measures the given text and return its width depending on the used font
      * (including size and weight).
      *
-     * @param {string} text
-     * @param {string} fontSize
-     * @param {number} fontWeight
+     * @param {string}        text       The text to measure
+     * @param {string}        fontSize   The CSS font-size string
+     * @param {string|number} fontWeight The CSS font-weight
      *
      * @returns {number}
      *

@@ -11,7 +11,7 @@ import LinkDrawer from "./tree/link-drawer.js";
 /**
  * @import Svg from "./chart/svg.js"
  * @import Configuration from "./configuration.js"
- * @import Hierarchy from "./hierarchy.js"
+ * @import Hierarchy, { Individual } from "./hierarchy.js"
  */
 
 /**
@@ -49,7 +49,7 @@ export default class Tree {
     /**
      * Draw the tree.
      *
-     * @param {object} source The root object
+     * @param {Individual} source The root object
      *
      * @public
      */

@@ -13,13 +13,10 @@ import ImageBox from "../chart/box/image.js";
 import TextBox from "../chart/box/text.js";
 
 /**
- * @import { HierarchyNode } from "d3-hierarchy"
  * @import { Selection } from "d3-selection"
  * @import Svg from "../chart/svg.js"
- * @import Hierarchy from "../hierarchy.js"
+ * @import Hierarchy, { Individual } from "../hierarchy.js"
  * @import Configuration from "../configuration.js"
- *
- * @typedef {HierarchyNode<any>} Individual
  */
 
 /**
@@ -60,7 +57,7 @@ export default class NodeDrawer {
      * `null` when family colors are disabled — leaving the CSS sex-based fill
      * in place.
      *
-     * @param {object} person The d3 hierarchy datum
+     * @param {Individual} person The d3 hierarchy datum
      *
      * @return {string|null}
      *
@@ -73,8 +70,8 @@ export default class NodeDrawer {
     /**
      * Draw the person boxes.
      *
-     * @param {Array}  nodes  Array of descendant nodes
-     * @param {object} source The root object
+     * @param {Individual[]} nodes  Array of descendant nodes
+     * @param {Individual}   source The root object
      *
      * @public
      */
@@ -195,7 +192,7 @@ export default class NodeDrawer {
     }
 
     /**
-     * @param {object} person The d3 hierarchy datum
+     * @param {Individual} person The d3 hierarchy datum
      *
      * @returns {boolean} TRUE when the node is an "add parent" placeholder
      *                    (empty xref + populated url) rather than a real
