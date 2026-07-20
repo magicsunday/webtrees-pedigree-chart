@@ -246,17 +246,15 @@ export default class Name {
      *
      * @param {NameElementData} datum
      *
-     * @returns {LabelElementData[][]}
+     * @return {LabelElementData[][]}
      *
      * @private
      */
     createNamesData(datum) {
-        /** @var {LabelElementData[][]} names */
+        // Keyed by the smallest character position of the group, so the groups
+        // come out in the order they occur in the assembled name.
+        /** @type {Object<number, LabelElementData[]>} */
         const names = {};
-        /** @var {LabelElementData[]} firstnames */
-        const _firstnames = {};
-        /** @var {LabelElementData[]} lastnames */
-        const _lastnames = {};
         let minPosFirstnames = Number.MAX_SAFE_INTEGER;
         let minPosLastnames = Number.MAX_SAFE_INTEGER;
 
