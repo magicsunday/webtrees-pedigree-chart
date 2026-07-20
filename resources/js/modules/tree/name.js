@@ -17,6 +17,40 @@ import * as d3 from "../d3.js";
  */
 
 /**
+ * Locates a surname inside the assembled name, skipping every occurrence that
+ * starts where a given name starts or that an earlier surname already claimed.
+ *
+ * The search restarts at zero for every surname on purpose. A single offset that
+ * only moves forward ties the result to the order of the `lastNames` array: for
+ * "Anna Meier Schmidt" with `["Schmidt", "Meier"]`, accepting "Schmidt" at 11
+ * pushes the offset past "Meier" at 5 and loses it. Claiming positions instead
+ * keeps a repeated token ("Schmidt Schmidt") on two separate entries without
+ * depending on that order.
+ *
+ * @param {string}      fullName   The assembled name to search
+ * @param {string}      lastName   The surname to locate; must not be empty
+ * @param {Map}         firstnames Given-name entries keyed by start position
+ * @param {Set<number>} taken      Positions already claimed by earlier surnames
+ *
+ * @return {number} The start position, or -1 when no free occurrence exists
+ */
+function locateSurname(fullName, lastName, firstnames, taken) {
+    let searchFrom = 0;
+
+    while (searchFrom <= fullName.length) {
+        const pos = fullName.indexOf(lastName, searchFrom);
+
+        if (pos === -1 || (!taken.has(pos) && !firstnames.has(pos))) {
+            return pos;
+        }
+
+        searchFrom = pos + 1;
+    }
+
+    return -1;
+}
+
+/**
  * The class handles the creation of the tree.
  *
  * @author  Rico Sonntag <mail@ricosonntag.de>
@@ -306,8 +340,8 @@ export default class Name {
 
         names[minPosFirstnames] = [...firstnameMap].map(([, value]) => value);
 
-        let lastnameOffset = 0;
         const lastnameMap = new Map();
+        const takenPositions = new Set();
 
         for (const lastName of datum.data.data.lastNames) {
             // An empty surname would never terminate the search below:
@@ -319,22 +353,11 @@ export default class Name {
                 continue;
             }
 
-            let pos;
+            const pos = locateSurname(datum.data.data.name, lastName, firstnameMap, takenPositions);
 
-            // `pos` is the absolute index returned by String.indexOf, so the next
-            // search has to resume at the absolute position behind the match —
-            // both when skipping a position that belongs to a given name and
-            // when the match is accepted. Accumulating with `+=` overshoots the
-            // string ("Anna Anna Anna Schmidt" loses the surname); resuming at
-            // the match itself makes a repeated surname token find the same
-            // position again ("Schmidt Schmidt" collapses onto one entry).
-            do {
-                pos = datum.data.data.name.indexOf(lastName, lastnameOffset);
-
-                if (pos !== -1) {
-                    lastnameOffset = pos + lastName.length;
-                }
-            } while (pos !== -1 && firstnameMap.has(pos));
+            if (pos !== -1) {
+                takenPositions.add(pos);
+            }
 
             if (pos !== -1) {
                 if (pos < minPosLastnames) {

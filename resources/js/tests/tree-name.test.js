@@ -167,6 +167,24 @@ describe("Name.createNamesData", () => {
         expect(surnames.map((entry) => entry.label)).toEqual(["Schmidt"]);
     });
 
+    it("locates every surname when their order differs from the assembled name", () => {
+        const name = Object.create(Name.prototype);
+        const datum = makeDatum({
+            name: "Anna Meier Schmidt",
+            firstNames: ["Anna"],
+            lastNames: ["Schmidt", "Meier"],
+            preferredName: "Anna",
+        });
+
+        const groups = name.createNamesData(datum);
+        const surnames = groups.flat().filter((entry) => entry.isLastName);
+
+        // A single offset that only ever moves forward ties the search order to
+        // the order of `lastNames`. Accepting "Schmidt" at 11 pushed the offset
+        // past "Meier" at 5, so the earlier surname was dropped entirely.
+        expect(surnames.map((entry) => entry.label).sort()).toEqual(["Meier", "Schmidt"]);
+    });
+
     it("skips an empty surname instead of searching for it forever", () => {
         const name = Object.create(Name.prototype);
         const datum = makeDatum({
