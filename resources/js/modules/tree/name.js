@@ -316,6 +316,16 @@ export default class Name {
 
         for (const i in datum.data.data.lastNames) {
             const lastName = datum.data.data.lastNames[i];
+
+            // An empty surname would never terminate the search below:
+            // `indexOf("", offset)` returns `offset` itself, so the skip-forward
+            // step advances by a match length of zero and the position never
+            // moves. NameProcessor::splitAndCleanName() drops empty parts today,
+            // but that guarantee lives in a separate package, so guard here.
+            if (!lastName) {
+                continue;
+            }
+
             let pos;
 
             // `pos` is the absolute index returned by String.indexOf, so the next

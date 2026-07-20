@@ -98,7 +98,7 @@ describe("Name.truncateNamesData", () => {
  *
  * @param {object} data Individual name data
  *
- * @returns {object} Hierarchy datum wrapper
+ * @return {object} Hierarchy datum wrapper
  */
 function makeDatum(data) {
     return {
@@ -166,4 +166,25 @@ describe("Name.createNamesData", () => {
 
         expect(surnames.map((entry) => entry.label)).toEqual(["Schmidt"]);
     });
+
+    it("skips an empty surname instead of searching for it forever", () => {
+        const name = Object.create(Name.prototype);
+        const datum = makeDatum({
+            name: "Anna Schmidt",
+            firstNames: ["Anna"],
+            lastNames: ["", "Schmidt"],
+            preferredName: "Anna",
+        });
+
+        // `indexOf("", offset)` returns `offset` itself, so the skip-forward step
+        // advances by the match length of zero and the position never moves. If
+        // that position also belongs to a given name the loop cannot terminate
+        // and the browser tab hangs. NameProcessor::splitAndCleanName() filters
+        // empty parts out today, but that guarantee lives in a separate package
+        // (webtrees-module-base), so this unit defends its own input.
+        const groups = name.createNamesData(datum);
+        const surnames = groups.flat().filter((entry) => entry.isLastName);
+
+        expect(surnames.map((entry) => entry.label)).toEqual(["Schmidt"]);
+    }, 5000);
 });
