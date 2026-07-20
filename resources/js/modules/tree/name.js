@@ -17,6 +17,40 @@ import * as d3 from "../d3.js";
  */
 
 /**
+ * Locates a surname inside the assembled name, skipping every occurrence that
+ * starts where a given name starts or that an earlier surname already claimed.
+ *
+ * The search restarts at zero for every surname on purpose. A single offset that
+ * only moves forward ties the result to the order of the `lastNames` array: for
+ * "Anna Meier Schmidt" with `["Schmidt", "Meier"]`, accepting "Schmidt" at 11
+ * pushes the offset past "Meier" at 5 and loses it. Claiming positions instead
+ * keeps a repeated token ("Schmidt Schmidt") on two separate entries without
+ * depending on that order.
+ *
+ * @param {string}      fullName   The assembled name to search
+ * @param {string}      lastName   The surname to locate; must not be empty
+ * @param {Map}         firstnames Given-name entries keyed by start position
+ * @param {Set<number>} taken      Positions already claimed by earlier surnames
+ *
+ * @return {number} The start position, or -1 when no free occurrence exists
+ */
+function locateSurname(fullName, lastName, firstnames, taken) {
+    let searchFrom = 0;
+
+    while (searchFrom <= fullName.length) {
+        const pos = fullName.indexOf(lastName, searchFrom);
+
+        if (pos === -1 || (!taken.has(pos) && !firstnames.has(pos))) {
+            return pos;
+        }
+
+        searchFrom = pos + 1;
+    }
+
+    return -1;
+}
+
+/**
  * The class handles the creation of the tree.
  *
  * @author  Rico Sonntag <mail@ricosonntag.de>
@@ -246,17 +280,15 @@ export default class Name {
      *
      * @param {NameElementData} datum
      *
-     * @returns {LabelElementData[][]}
+     * @return {LabelElementData[][]}
      *
      * @private
      */
     createNamesData(datum) {
-        /** @var {LabelElementData[][]} names */
+        // Keyed by the smallest character position of the group, so the groups
+        // come out in the order they occur in the assembled name.
+        /** @type {Object<number, LabelElementData[]>} */
         const names = {};
-        /** @var {LabelElementData[]} firstnames */
-        const _firstnames = {};
-        /** @var {LabelElementData[]} lastnames */
-        const _lastnames = {};
         let minPosFirstnames = Number.MAX_SAFE_INTEGER;
         let minPosLastnames = Number.MAX_SAFE_INTEGER;
 
@@ -265,22 +297,28 @@ export default class Name {
 
         // Iterate over the individual name components and determine their position in the overall
         // name and insert the component at the corresponding position in the result object.
-        for (const i in datum.data.data.firstNames) {
-            const pos = datum.data.data.name.indexOf(
-                datum.data.data.firstNames[i],
-                firstnameOffset,
-            );
+        for (const firstName of datum.data.data.firstNames) {
+            // Mirrors the surname guard below. `indexOf("", offset)` returns the
+            // offset itself, so an empty given name registers a zero-length entry
+            // at whatever position the search had reached. That entry renders as
+            // an empty label and, worse, occupies a position the surname search
+            // then treats as taken.
+            if (!firstName) {
+                continue;
+            }
+
+            const pos = datum.data.data.name.indexOf(firstName, firstnameOffset);
 
             if (pos !== -1) {
-                firstnameOffset = pos + datum.data.data.firstNames[i].length;
+                firstnameOffset = pos + firstName.length;
 
                 if (pos < minPosFirstnames) {
                     minPosFirstnames = pos;
                 }
 
                 firstnameMap.set(pos, {
-                    label: datum.data.data.firstNames[i],
-                    isPreferred: datum.data.data.firstNames[i] === datum.data.data.preferredName,
+                    label: firstName,
+                    isPreferred: firstName === datum.data.data.preferredName,
                     isLastName: false,
                     isNameRtl: datum.data.data.isNameRtl,
                 });
@@ -311,30 +349,32 @@ export default class Name {
 
         names[minPosFirstnames] = [...firstnameMap].map(([, value]) => value);
 
-        let lastnameOffset = 0;
         const lastnameMap = new Map();
+        const takenPositions = new Set();
 
-        for (const i in datum.data.data.lastNames) {
-            let pos;
+        for (const lastName of datum.data.data.lastNames) {
+            // An empty surname would never terminate the search below:
+            // `indexOf("", offset)` returns `offset` itself, so the skip-forward
+            // step advances by a match length of zero and the position never
+            // moves. NameProcessor::splitAndCleanName() drops empty parts today,
+            // but that guarantee lives in a separate package, so guard here.
+            if (!lastName) {
+                continue;
+            }
 
-            // Check if last name already exists in first names list, in case first name equals last name
-            do {
-                pos = datum.data.data.name.indexOf(datum.data.data.lastNames[i], lastnameOffset);
-
-                if (pos !== -1 && firstnameMap.has(pos)) {
-                    lastnameOffset += pos + datum.data.data.lastNames[i].length;
-                }
-            } while (pos !== -1 && firstnameMap.has(pos));
+            const pos = locateSurname(datum.data.data.name, lastName, firstnameMap, takenPositions);
 
             if (pos !== -1) {
-                lastnameOffset = pos;
+                takenPositions.add(pos);
+            }
 
+            if (pos !== -1) {
                 if (pos < minPosLastnames) {
                     minPosLastnames = pos;
                 }
 
                 lastnameMap.set(pos, {
-                    label: datum.data.data.lastNames[i],
+                    label: lastName,
                     isPreferred: false,
                     isLastName: true,
                     isNameRtl: datum.data.data.isNameRtl,
@@ -368,7 +408,12 @@ export default class Name {
                 names,
                 availableWidth,
                 (text) => this.measureText(text, fontSize, fontWeight),
-                { strategy: this._svg._configuration.nameAbbreviation },
+                {
+                    strategy: this._svg._configuration.nameAbbreviation,
+                    // Married-name suffixes like "(Müller)" are supplementary;
+                    // drop them entirely instead of truncating to "(.".
+                    dropEmptyBracketed: true,
+                },
             )
         );
     }
