@@ -36,7 +36,7 @@ export default class Chart {
         this._configuration = configuration;
         this._parent = parent;
         this._hierarchy = new Hierarchy(this._configuration);
-        /** @type {Data|null} */
+        /** @type {NodeDatum|null} */
         this._data = null;
         /** @type {Svg} */
         this._svg = /** @type {Svg} */ (/** @type {unknown} */ (null));
@@ -65,7 +65,7 @@ export default class Chart {
     /**
      * Returns the chart data.
      *
-     * @returns {Data|null}
+     * @returns {NodeDatum|null}
      */
     get data() {
         return this._data;
@@ -74,7 +74,7 @@ export default class Chart {
     /**
      * Sets the chart data.
      *
-     * @param {Data} value The chart data
+     * @param {NodeDatum} value The chart data
      */
     set data(value) {
         this._data = value;
@@ -186,7 +186,7 @@ export default class Chart {
      * Method triggers either the "update" or "individual" method on the click
      * on a person.
      *
-     * @param {object} data The D3 data object
+     * @param {NodeDatum} data The D3 data object
      *
      * @private
      */

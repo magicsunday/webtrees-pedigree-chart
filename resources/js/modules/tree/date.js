@@ -153,9 +153,9 @@ export default class DateRenderer {
     /**
      * Truncates a date value.
      *
-     * @param {object} object         The D3 object containing the text value
-     * @param {string} date           The date value to truncate
-     * @param {number} availableWidth The total available width the text could take
+     * @param {Selection<any, any, any, any>} object         The D3 element containing the text value
+     * @param {string}                        date           The date value to truncate
+     * @param {number}                        availableWidth The total available width the text could take
      *
      * @returns {string}
      *
@@ -184,8 +184,9 @@ export default class DateRenderer {
     }
 
     /**
+     * Returns the horizontal text position of a date row.
      *
-     * @param {object} d
+     * @param {DateElementData} d The date element datum
      *
      * @returns {number}
      *
@@ -202,9 +203,9 @@ export default class DateRenderer {
      * Measures the given text and return its width depending on the used font
      * (including size and weight).
      *
-     * @param {string} text
-     * @param {string} fontSize
-     * @param {number} fontWeight
+     * @param {string}        text       The text to measure
+     * @param {string}        fontSize   The CSS font-size string
+     * @param {string|number} fontWeight The CSS font-weight
      *
      * @returns {number}
      *
