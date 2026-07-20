@@ -298,6 +298,15 @@ export default class Name {
         // Iterate over the individual name components and determine their position in the overall
         // name and insert the component at the corresponding position in the result object.
         for (const firstName of datum.data.data.firstNames) {
+            // Mirrors the surname guard below. `indexOf("", offset)` returns the
+            // offset itself, so an empty given name registers a zero-length entry
+            // at whatever position the search had reached. That entry renders as
+            // an empty label and, worse, occupies a position the surname search
+            // then treats as taken.
+            if (!firstName) {
+                continue;
+            }
+
             const pos = datum.data.data.name.indexOf(firstName, firstnameOffset);
 
             if (pos !== -1) {

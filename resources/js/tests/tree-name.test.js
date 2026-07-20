@@ -185,6 +185,24 @@ describe("Name.createNamesData", () => {
         expect(surnames.map((entry) => entry.label).sort()).toEqual(["Meier", "Schmidt"]);
     });
 
+    it("skips an empty given name instead of registering a blank entry", () => {
+        const name = Object.create(Name.prototype);
+        const datum = makeDatum({
+            name: "Anna Schmidt",
+            firstNames: ["Anna", ""],
+            lastNames: ["Schmidt"],
+            preferredName: "Anna",
+        });
+
+        const groups = name.createNamesData(datum);
+        const entries = groups.flat();
+
+        // `indexOf("", offset)` returns the offset, so an empty given name
+        // registered a zero-length entry at index 4 — a blank label in the
+        // output, and a position the surname search then treats as occupied.
+        expect(entries.map((entry) => entry.label)).toEqual(["Anna", "Schmidt"]);
+    });
+
     it("skips an empty surname instead of searching for it forever", () => {
         const name = Object.create(Name.prototype);
         const datum = makeDatum({
