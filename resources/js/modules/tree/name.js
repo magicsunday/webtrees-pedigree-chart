@@ -263,22 +263,19 @@ export default class Name {
 
         // Iterate over the individual name components and determine their position in the overall
         // name and insert the component at the corresponding position in the result object.
-        for (const i in datum.data.data.firstNames) {
-            const pos = datum.data.data.name.indexOf(
-                datum.data.data.firstNames[i],
-                firstnameOffset,
-            );
+        for (const firstName of datum.data.data.firstNames) {
+            const pos = datum.data.data.name.indexOf(firstName, firstnameOffset);
 
             if (pos !== -1) {
-                firstnameOffset = pos + datum.data.data.firstNames[i].length;
+                firstnameOffset = pos + firstName.length;
 
                 if (pos < minPosFirstnames) {
                     minPosFirstnames = pos;
                 }
 
                 firstnameMap.set(pos, {
-                    label: datum.data.data.firstNames[i],
-                    isPreferred: datum.data.data.firstNames[i] === datum.data.data.preferredName,
+                    label: firstName,
+                    isPreferred: firstName === datum.data.data.preferredName,
                     isLastName: false,
                     isNameRtl: datum.data.data.isNameRtl,
                 });
@@ -312,9 +309,7 @@ export default class Name {
         let lastnameOffset = 0;
         const lastnameMap = new Map();
 
-        for (const i in datum.data.data.lastNames) {
-            const lastName = datum.data.data.lastNames[i];
-
+        for (const lastName of datum.data.data.lastNames) {
             // An empty surname would never terminate the search below:
             // `indexOf("", offset)` returns `offset` itself, so the skip-forward
             // step advances by a match length of zero and the position never
