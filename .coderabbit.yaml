@@ -30,9 +30,9 @@ reviews:
         auto_pause_after_reviewed_commits: 0
     path_filters:
         # Generated / vendored artefacts carry no review value and drown signal.
-        # Lockfiles are deliberately NOT excluded — a dependency change (an
-        # unexpected or typosquatted package) is exactly what a second reviewer
-        # should catch, complementing the dependency-review CI gate.
+        # Lockfiles are left to CodeRabbit's default ignore: dependency changes
+        # are already gated by the required dependency-review CI check and by
+        # Dependabot, so a prose review of a machine-generated lockfile is noise.
         - "!**/.build/**"
         - "!**/vendor/**"
         - "!**/node_modules/**"
