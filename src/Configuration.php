@@ -80,6 +80,13 @@ class Configuration
     public const string MATERNAL_COLOR_DEFAULT = '#d06f94';
 
     /**
+     * The memoised route parameters, resolved on first use.
+     *
+     * @var array{generations: int, layout: string, showNicknames: string, showAddParentLinks: string}|null
+     */
+    private ?array $routeToggleParams = null;
+
+    /**
      * Configuration constructor.
      *
      * @param ServerRequestInterface $request
@@ -444,5 +451,33 @@ class Configuration
         return in_array($value, NameAbbreviation::CHOICES, true)
             ? $value
             : NameAbbreviation::AUTO;
+    }
+
+    /**
+     * Returns the settings that have to travel with the re-centering URL.
+     *
+     * The update route rebuilds the node data server-side, so every setting the
+     * data facade reads while building it must be forwarded — otherwise
+     * clicking a person to re-center silently resets that setting to the module
+     * preference default. Settings the browser applies on its own (family
+     * colours, name abbreviation) live in the client-side chart options and are
+     * deliberately not listed here.
+     *
+     * Memoised because the update route is built once per node, while
+     * AbstractModule::getPreference() issues a database query on every call —
+     * resolving four settings per node would put the query count in linear
+     * proportion to the tree size. The configuration is constructed per request,
+     * so the resolved values cannot go stale within its lifetime.
+     *
+     * @return array{generations: int, layout: string, showNicknames: string, showAddParentLinks: string}
+     */
+    public function getRouteToggleParams(): array
+    {
+        return $this->routeToggleParams ??= [
+            'generations'        => $this->getGenerations(),
+            'layout'             => $this->getLayout(),
+            'showNicknames'      => $this->getShowNicknames() ? '1' : '0',
+            'showAddParentLinks' => $this->getShowAddParentLinks() ? '1' : '0',
+        ];
     }
 }

@@ -25,11 +25,11 @@ msgstr ""
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "Rodovnik prednikov osebe."
 
-#: src/Configuration.php:414
+#: src/Configuration.php:421
 msgid "Abbreviate given names first"
 msgstr "Najprej skrajšaj osebna imena"
 
-#: src/Configuration.php:415
+#: src/Configuration.php:422
 msgid "Abbreviate surnames first"
 msgstr "Najprej skrajšaj priimke"
 
@@ -41,7 +41,7 @@ msgstr ""
 msgid "Add a mother"
 msgstr ""
 
-#: src/Configuration.php:413
+#: src/Configuration.php:420
 msgid "Automatic (based on tree's surname tradition)"
 msgstr "Samodejno (glede na drevesno tradicijo priimkov)"
 
@@ -232,15 +232,15 @@ msgstr ""
 msgid "cancel"
 msgstr "Prekliči"
 
-#: src/Configuration.php:178 src/Configuration.php:186
+#: src/Configuration.php:185 src/Configuration.php:193
 msgid "down"
 msgstr "Dol"
 
-#: src/Configuration.php:175 src/Configuration.php:183
+#: src/Configuration.php:182 src/Configuration.php:190
 msgid "left"
 msgstr "Levo"
 
-#: src/Configuration.php:176 src/Configuration.php:184
+#: src/Configuration.php:183 src/Configuration.php:191
 msgid "right"
 msgstr "Desno"
 
@@ -248,7 +248,7 @@ msgstr "Desno"
 msgid "save"
 msgstr "Shrani"
 
-#: src/Configuration.php:177 src/Configuration.php:185
+#: src/Configuration.php:184 src/Configuration.php:192
 msgid "up"
 msgstr "Gor"
 
