@@ -379,7 +379,7 @@ release-bump:
 	@echo -e "${FYELLOW}[bump]${FRESET} Bumping to $(NEXT)-dev..."
 	@$(call sed_edit,src/Module.php,"s/CUSTOM_VERSION = '.*'/CUSTOM_VERSION = '$(NEXT)-dev'/","CUSTOM_VERSION = '$(NEXT)-dev'")
 	@$(call jq_edit,package.json,.version = $$v,--arg v "$(NEXT)-dev",.version == $$v)
-	@$(call jq_edit,composer.json,.require["fisharebest/webtrees"] = $$v,--arg v "~2.2.0 || dev-main",.require["fisharebest/webtrees"] == $$v)
+	@$(call jq_edit,composer.json,.require["fisharebest/webtrees"] = $$v,--arg v "~2.2.0",.require["fisharebest/webtrees"] == $$v)
 	# --ignore-scripts is required: npm 11 fires the package's "prepare" hook
 	# even on --package-lock-only, but devDeps (rollup) aren't installed yet,
 	# so the prepare script crashes with "rollup: not found". The actual build
