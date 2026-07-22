@@ -89,6 +89,9 @@ final class ConfigurationTest extends TestCase
     }
 
     /**
+     * Builds a Configuration from the given query parameters and seeded module
+     * preferences.
+     *
      * @param array<string, string> $queryParams
      * @param array<string, string> $preferences
      */
@@ -131,9 +134,10 @@ final class ConfigurationTest extends TestCase
     }
 
     /**
-     * The disabled polarity, which the enabled case cannot discriminate: with
-     * both toggles on, a raw passthrough of the query parameters would produce
-     * the same result as the intended mapping.
+     * Locks the false → '0' branch of the boolean mapping, which the enabled
+     * case cannot: a regression that hardcodes '1', leaves a toggle stuck on, or
+     * lets it fall through to an enabled default passes the enabled case above
+     * but must fail here.
      */
     #[Test]
     public function routeParamsCarryTheDisabledDisplaySettings(): void
