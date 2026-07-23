@@ -29,6 +29,13 @@ use PHPat\Test\PHPat;
  * "everything except X" set is expressed with the dedicated `excluding()` step,
  * never with a negated selector inside `classes()`.
  *
+ * Scope limit: the `Traits` layer cannot be the SUBJECT of a rule. phpat resolves
+ * a subject through PHPStan's `InClassNode`, which never fires for a trait on its
+ * own, so such a rule matches nothing and passes green regardless — it would imply
+ * coverage that does not exist. The traits stay pinned in the incoming direction
+ * (the leaf rules below forbid the other layers from depending on them); only
+ * their outgoing dependencies are unenforceable here.
+ *
  * @internal
  */
 final class ArchitectureTest
@@ -86,26 +93,6 @@ final class ArchitectureTest
             ->classes(Selector::inNamespace(self::NAMESPACE_ROOT))
             ->excluding(Selector::classname(self::NAMESPACE_ROOT . '\\Configuration'))
             ->because('Configuration is a settings holder, not a consumer of the module.');
-    }
-
-    /**
-     * The module traits are mixed into the module class and may read the
-     * configuration — but never the models, the facade or the module itself.
-     *
-     * @return Rule
-     */
-    #[TestRule]
-    public function traitsDependOnlyOnConfiguration(): Rule
-    {
-        return PHPat::rule()
-            ->classes(Selector::inNamespace(self::NAMESPACE_ROOT . '\\Traits'))
-            ->shouldNot()->dependOn()
-            ->classes(Selector::inNamespace(self::NAMESPACE_ROOT))
-            ->excluding(
-                Selector::inNamespace(self::NAMESPACE_ROOT . '\\Traits'),
-                Selector::classname(self::NAMESPACE_ROOT . '\\Configuration')
-            )
-            ->because('Traits configure the module; they may only read Configuration.');
     }
 
     /**
