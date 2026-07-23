@@ -21,7 +21,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: src\n"
 "X-Poedit-SearchPath-1: resources/views\n"
 
-#: src/Module.php:142
+#: src/Module.php:141
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "Rodokmeň predkov jednotlivca"
 
@@ -136,7 +136,7 @@ msgstr "Materinská"
 msgid "Modules"
 msgstr ""
 
-#: src/Module.php:272
+#: src/Module.php:271
 msgid "Move the view with two fingers"
 msgstr "Presunúť pohľad dvomi prstami"
 
@@ -162,11 +162,11 @@ msgstr "Orentácia"
 msgid "Paternal"
 msgstr "Otcovská"
 
-#: src/Module.php:131 src/Module.php:252
+#: src/Module.php:130 src/Module.php:251
 msgid "Pedigree chart"
 msgstr "Rodokmeň"
 
-#: src/Module.php:249 src/Traits/ModuleChartTrait.php:43
+#: src/Module.php:248 src/Traits/ModuleChartTrait.php:43
 #, php-format
 msgid "Pedigree chart of %s"
 msgstr "Rodokmeň %s"
@@ -208,7 +208,7 @@ msgstr "Prepnúť medzi celou obrazovkou a normálnym zobrazením"
 msgid "The preferences for the module “%s” have been updated."
 msgstr ""
 
-#: src/Module.php:271
+#: src/Module.php:270
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Použite Ctrl + scroll na zväčšenie zobrazenia"
 

@@ -42,7 +42,7 @@ Module.php (entry point, registers routes)
 - **Configuration.php** — Reads form parameters from request (POST/GET) with user preference fallback.
 - **Facade/DataFacade.php** — Builds hierarchical Node tree from an Individual and recurses to the configured generation depth.
 - **Model/Node, NodeData** — Tree node with JSON serialization for D3.
-- **Shared classes from [`magicsunday/webtrees-module-base`](https://github.com/magicsunday/webtrees-module-base)** (composer dependency `^2.2`):
+- **Shared classes from [`magicsunday/webtrees-module-base`](https://github.com/magicsunday/webtrees-module-base)** (composer dependency `^3.0`):
   - `Processor/DateProcessor` — date extraction; pedigree currently uses the legacy locale-aware methods (`getBirthDate`, `getDeathDate`, `getLifetimeDescription`).
   - `Processor/NameProcessor`, `Processor/ImageProcessor`, `Processor/PlaceProcessor` — name/image/place extraction.
   - `Model/Symbols` — backed enum for genealogical symbols (Birth ★, Death †, MarriageDateUnknown sentinel).

@@ -21,7 +21,7 @@ msgstr ""
 "X-Poedit-SearchPath-1: resources/views\n"
 "X-Loco-Parser: loco_parse_po\n"
 
-#: src/Module.php:142
+#: src/Module.php:141
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "Rodovnik prednikov osebe."
 
@@ -138,7 +138,7 @@ msgstr "Materina"
 msgid "Modules"
 msgstr "Moduli"
 
-#: src/Module.php:272
+#: src/Module.php:271
 msgid "Move the view with two fingers"
 msgstr "Premakni pogled z dvema prstoma"
 
@@ -166,11 +166,11 @@ msgstr "Usmerjenost"
 msgid "Paternal"
 msgstr "Očetova"
 
-#: src/Module.php:131 src/Module.php:252
+#: src/Module.php:130 src/Module.php:251
 msgid "Pedigree chart"
 msgstr "Rodovnik"
 
-#: src/Module.php:249 src/Traits/ModuleChartTrait.php:43
+#: src/Module.php:248 src/Traits/ModuleChartTrait.php:43
 #, php-format
 msgid "Pedigree chart of %s"
 msgstr "Rodovnik osebe %s"
@@ -212,7 +212,7 @@ msgstr "Preklopi med celozaslonskim in običajnim načinom"
 msgid "The preferences for the module “%s” have been updated."
 msgstr "Nastavitve modula “%s” so posodobljene."
 
-#: src/Module.php:271
+#: src/Module.php:270
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Uporabi Ctrl+Scroll kolesce za povečavo diagrama"
 

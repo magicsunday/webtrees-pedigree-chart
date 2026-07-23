@@ -18,7 +18,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: src\n"
 "X-Poedit-SearchPath-1: resources/views\n"
 
-#: src/Module.php:142
+#: src/Module.php:141
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "En stamtavle over en persons forfædre."
 
@@ -133,7 +133,7 @@ msgstr "Mødrene"
 msgid "Modules"
 msgstr ""
 
-#: src/Module.php:272
+#: src/Module.php:271
 msgid "Move the view with two fingers"
 msgstr "Flyt visningen med to fingre"
 
@@ -159,11 +159,11 @@ msgstr "Orientering"
 msgid "Paternal"
 msgstr "Fædrene"
 
-#: src/Module.php:131 src/Module.php:252
+#: src/Module.php:130 src/Module.php:251
 msgid "Pedigree chart"
 msgstr "Stamtavle"
 
-#: src/Module.php:249 src/Traits/ModuleChartTrait.php:43
+#: src/Module.php:248 src/Traits/ModuleChartTrait.php:43
 #, php-format
 msgid "Pedigree chart of %s"
 msgstr "Stamtavle for %s"
@@ -205,7 +205,7 @@ msgstr "Skift mellem fuldskærms- og normal visning"
 msgid "The preferences for the module “%s” have been updated."
 msgstr ""
 
-#: src/Module.php:271
+#: src/Module.php:270
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Brug Ctrl + scroll for at zoome i visningen"
 
