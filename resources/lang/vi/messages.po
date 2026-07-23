@@ -18,7 +18,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: src\n"
 "X-Poedit-SearchPath-1: resources/views\n"
 
-#: src/Module.php:142
+#: src/Module.php:141
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "Biểu đồ phả hệ của tổ tiên của một cá nhân."
 
@@ -133,7 +133,7 @@ msgstr "Bên ngoại"
 msgid "Modules"
 msgstr ""
 
-#: src/Module.php:272
+#: src/Module.php:271
 msgid "Move the view with two fingers"
 msgstr "Di chuyển tầm nhìn bằng hai ngón tay"
 
@@ -159,11 +159,11 @@ msgstr "Chiều hiển thị biểu đồ"
 msgid "Paternal"
 msgstr "Bên nội"
 
-#: src/Module.php:131 src/Module.php:252
+#: src/Module.php:130 src/Module.php:251
 msgid "Pedigree chart"
 msgstr "Biểu đồ phả hệ"
 
-#: src/Module.php:249 src/Traits/ModuleChartTrait.php:43
+#: src/Module.php:248 src/Traits/ModuleChartTrait.php:43
 #, php-format
 msgid "Pedigree chart of %s"
 msgstr "Biểu đồ phả hệ của %s"
@@ -205,7 +205,7 @@ msgstr "Chuyển giữa toàn màn hình và xem bình thường"
 msgid "The preferences for the module “%s” have been updated."
 msgstr ""
 
-#: src/Module.php:271
+#: src/Module.php:270
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Sử dụng Ctrl + cuộn để phóng to chế độ xem"
 

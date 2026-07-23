@@ -18,7 +18,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: src\n"
 "X-Poedit-SearchPath-1: resources/views\n"
 
-#: src/Module.php:142
+#: src/Module.php:141
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "個人祖先的世系圖。"
 
@@ -131,7 +131,7 @@ msgstr "母系"
 msgid "Modules"
 msgstr ""
 
-#: src/Module.php:272
+#: src/Module.php:271
 msgid "Move the view with two fingers"
 msgstr "用兩根手指拖動視圖"
 
@@ -157,11 +157,11 @@ msgstr "方向"
 msgid "Paternal"
 msgstr "父系"
 
-#: src/Module.php:131 src/Module.php:252
+#: src/Module.php:130 src/Module.php:251
 msgid "Pedigree chart"
 msgstr "世系圖"
 
-#: src/Module.php:249 src/Traits/ModuleChartTrait.php:43
+#: src/Module.php:248 src/Traits/ModuleChartTrait.php:43
 #, php-format
 msgid "Pedigree chart of %s"
 msgstr "%s的世系圖"
@@ -203,7 +203,7 @@ msgstr "切換全螢幕與一般檢視"
 msgid "The preferences for the module “%s” have been updated."
 msgstr ""
 
-#: src/Module.php:271
+#: src/Module.php:270
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "按住Ctrl和鼠標滾輪放大查看"
 

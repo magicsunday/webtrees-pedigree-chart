@@ -28,7 +28,6 @@ use Fisharebest\Webtrees\Tree;
 use Fisharebest\Webtrees\Validator;
 use Fisharebest\Webtrees\View;
 use MagicSunday\Webtrees\ModuleBase\Contract\ModuleAssetUrlInterface;
-use MagicSunday\Webtrees\ModuleBase\Model\NameAbbreviation;
 use MagicSunday\Webtrees\ModuleBase\Traits\ModuleCustomTrait;
 use MagicSunday\Webtrees\PedigreeChart\Facade\DataFacade;
 use MagicSunday\Webtrees\PedigreeChart\Traits\ModuleChartTrait;
@@ -263,10 +262,10 @@ class Module extends PedigreeChartModule implements ModuleAssetUrlInterface, Mod
     {
         return [
             'rtl'              => I18N::direction() === 'rtl',
-            'nameAbbreviation' => NameAbbreviation::resolve(
-                $this->configuration->getNameAbbreviation(),
-                $tree->getPreference('SURNAME_TRADITION')
-            ),
+            'nameAbbreviation' => $this->configuration
+                ->getNameAbbreviation()
+                ->resolve($tree->getPreference('SURNAME_TRADITION'))
+                ->value,
             'labels' => [
                 'zoom' => I18N::translate('Use Ctrl + scroll to zoom in the view'),
                 'move' => I18N::translate('Move the view with two fingers'),

@@ -19,7 +19,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: src\n"
 "X-Poedit-SearchPath-1: resources/views\n"
 
-#: src/Module.php:142
+#: src/Module.php:141
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "Діаграма предків персони у вигляді дерева."
 
@@ -134,7 +134,7 @@ msgstr "Материнський"
 msgid "Modules"
 msgstr ""
 
-#: src/Module.php:272
+#: src/Module.php:271
 msgid "Move the view with two fingers"
 msgstr "Переміщуйте зображення двома пальцями"
 
@@ -160,11 +160,11 @@ msgstr "Орієнтація"
 msgid "Paternal"
 msgstr "Батьківський"
 
-#: src/Module.php:131 src/Module.php:252
+#: src/Module.php:130 src/Module.php:251
 msgid "Pedigree chart"
 msgstr "Родовід"
 
-#: src/Module.php:249 src/Traits/ModuleChartTrait.php:43
+#: src/Module.php:248 src/Traits/ModuleChartTrait.php:43
 #, php-format
 msgid "Pedigree chart of %s"
 msgstr "Родовід для %s"
@@ -206,7 +206,7 @@ msgstr "Перемикання між повноекранним і звичай
 msgid "The preferences for the module “%s” have been updated."
 msgstr ""
 
-#: src/Module.php:271
+#: src/Module.php:270
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Використовуйте Ctrl + коліщатко миші до збільшення зображення"
 
