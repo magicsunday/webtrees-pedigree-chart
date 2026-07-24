@@ -19,8 +19,7 @@ return static function (RectorConfig $rectorConfig): void {
     ]);
 
     $rectorConfig->fileExtensions(['php', 'phtml']);
-    $rectorConfig->phpVersion(80300);
     $rectorConfig->phpstanConfig(__DIR__ . '/phpstan.neon');
 
-    (require __DIR__ . '/.build/vendor/magicsunday/coding-standard/rector/base.php')($rectorConfig);
+    (require __DIR__ . '/.build/vendor/magicsunday/coding-standard/rector/base.php')($rectorConfig, 80300);
 };
