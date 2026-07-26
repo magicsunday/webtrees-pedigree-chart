@@ -218,7 +218,7 @@ final class ConfigurationTest extends TestCase
 
     /**
      * The persisting path is POST:
-     * {@see \MagicSunday\Webtrees\PedigreeChart\Traits\ModuleConfigTrait::postAdminAction()}
+     * {@see Module\ConfigTrait::postAdminAction()}
      * reads the value from the request body, so the POST branch of
      * getNameAbbreviation() (Validator::parsedBody) must resolve the same way as
      * the GET branch — the request body wins over the module preference. A
