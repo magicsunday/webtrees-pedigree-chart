@@ -27,3 +27,4 @@ __pycache__/
 
 # Playwright
 .playwright-mcp/
+/.deptrac.cache

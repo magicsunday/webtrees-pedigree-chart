@@ -9,20 +9,21 @@
 
 declare(strict_types=1);
 
-namespace MagicSunday\Webtrees\PedigreeChart\Traits;
+namespace MagicSunday\Webtrees\PedigreeChart\Module;
 
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
 use MagicSunday\Webtrees\ModuleBase\Traits\ModuleChartTrait as BaseModuleChartTrait;
 
 /**
- * Trait ModuleChartTrait.
+ * Implements the webtrees ModuleChartInterface methods specific to the pedigree
+ * chart: menu CSS class and chart title.
  *
  * @author  Rico Sonntag <mail@ricosonntag.de>
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
  * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
-trait ModuleChartTrait
+trait ChartTrait
 {
     use BaseModuleChartTrait;
 

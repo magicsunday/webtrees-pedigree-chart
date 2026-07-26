@@ -30,8 +30,8 @@ use Fisharebest\Webtrees\View;
 use MagicSunday\Webtrees\ModuleBase\Contract\ModuleAssetUrlInterface;
 use MagicSunday\Webtrees\ModuleBase\Traits\ModuleCustomTrait;
 use MagicSunday\Webtrees\PedigreeChart\Facade\DataFacade;
-use MagicSunday\Webtrees\PedigreeChart\Traits\ModuleChartTrait;
-use MagicSunday\Webtrees\PedigreeChart\Traits\ModuleConfigTrait;
+use MagicSunday\Webtrees\PedigreeChart\Module\ChartTrait;
+use MagicSunday\Webtrees\PedigreeChart\Module\ConfigTrait;
 use Override;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -46,8 +46,8 @@ use Psr\Http\Message\ServerRequestInterface;
 class Module extends PedigreeChartModule implements ModuleAssetUrlInterface, ModuleCustomInterface, ModuleConfigInterface
 {
     use ModuleCustomTrait;
-    use ModuleChartTrait;
-    use ModuleConfigTrait;
+    use ChartTrait;
+    use ConfigTrait;
 
     private const string ROUTE_DEFAULT = 'webtrees-pedigree-chart';
 

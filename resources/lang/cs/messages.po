@@ -163,7 +163,7 @@ msgstr "Otcovská"
 msgid "Pedigree chart"
 msgstr "Diagram předků"
 
-#: src/Module.php:248 src/Traits/ModuleChartTrait.php:43
+#: src/Module.php:248 src/Module/ChartTrait.php:44
 #, php-format
 msgid "Pedigree chart of %s"
 msgstr "Diagram předků osoby %s"
@@ -200,7 +200,7 @@ msgstr "Zobrazit přezdívky ve zobrazovaných jménech"
 msgid "Switch between full screen mode and normal view"
 msgstr "Přepnout mezi celou obrazovkou a normálním zobrazením"
 
-#: src/Traits/ModuleConfigTrait.php:111
+#: src/Module/ConfigTrait.php:113
 #, php-format
 msgid "The preferences for the module “%s” have been updated."
 msgstr ""
