@@ -347,7 +347,7 @@ export default class NodeDrawer {
             .on("error", function (_event, d) {
                 if (d.silhouette) {
                     this.setAttribute("href", d.silhouette);
-                    const bg = this.parentNode.querySelector("rect.image-bg");
+                    const bg = this.parentNode?.querySelector("rect.image-bg") ?? null;
                     if (bg !== null) {
                         bg.setAttribute("fill", "#FBF8F0");
                     }

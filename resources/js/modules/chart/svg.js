@@ -60,20 +60,29 @@ export default class Svg {
     }
 
     /**
-     * Returns the SVG zoom instance.
+     * Returns the SVG zoom instance. Only available once initEvents() has run.
      *
-     * @returns {Zoom|null}
+     * @returns {Zoom}
      */
     get zoom() {
+        if (this._zoom === null) {
+            throw new Error("Svg.zoom is not available before initEvents() has been called");
+        }
+
         return this._zoom;
     }
 
     /**
-     * Returns the inner <g> visual group selection.
+     * Returns the inner <g> visual group selection. Only available once
+     * initEvents() has run.
      *
-     * @returns {Selection<SVGGElement, unknown, HTMLElement, unknown>|null}
+     * @returns {Selection<SVGGElement, unknown, HTMLElement, unknown>}
      */
     get visual() {
+        if (this._visual === null) {
+            throw new Error("Svg.visual is not available before initEvents() has been called");
+        }
+
         return this._visual;
     }
 

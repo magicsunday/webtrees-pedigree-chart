@@ -13,6 +13,22 @@ import {
 } from "@magicsunday/webtrees-chart-lib";
 
 /**
+ * @import { EnterElement, Selection } from "d3-selection"
+ * @import { HierarchyPointLink } from "d3-hierarchy"
+ * @import Svg from "../chart/svg.js"
+ * @import Configuration from "../configuration.js"
+ * @import { Individual } from "../hierarchy.js"
+ */
+
+/**
+ * A d3-hierarchy link, optionally carrying the spouse (and, for polygamous
+ * continuations, the intermediate spouse coordinates) a marriage line runs
+ * through.
+ *
+ * @typedef {HierarchyPointLink<any> & { spouse?: any, coords?: { x: number, y: number }[] }} LinkDatum
+ */
+
+/**
  * Renders the connecting lines between profile boxes.
  *
  * Each `link` carries the d3-hierarchy positions of source (the person), the
@@ -30,12 +46,24 @@ import {
  * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
 export default class LinkDrawer {
+    /**
+     * Constructor.
+     *
+     * @param {Svg}           svg           The SVG instance
+     * @param {Configuration} configuration The application configuration
+     */
     constructor(svg, configuration) {
         this._svg = svg;
         this._configuration = configuration;
         this._orientation = this._configuration.orientation;
     }
 
+    /**
+     * Draws the connecting lines.
+     *
+     * @param {LinkDatum[]} links  The links to draw
+     * @param {Individual}  source The root object
+     */
     drawLinks(links, source) {
         this._svg.visual
             .selectAll("path.link")
@@ -45,8 +73,18 @@ export default class LinkDrawer {
         // exit — both are the desired behaviour here.
     }
 
+    /**
+     * Appends the path of every entering link.
+     *
+     * @param {Selection<EnterElement, LinkDatum, SVGGElement, unknown>} enter   The enter selection
+     * @param {Individual}                                               _source The root object
+     *
+     * @return {Selection<SVGPathElement, LinkDatum, SVGGElement, unknown>}
+     *
+     * @private
+     */
     _linkEnter(enter, _source) {
-        enter
+        return enter
             .append("path")
             .classed("link", true)
             .attr("d", (link) => this._buildPath(link))
@@ -56,6 +94,12 @@ export default class LinkDrawer {
     /**
      * Picks the right helper based on whether the link has a child target
      * (elbow to descendant) or not (marriage line between spouses).
+     *
+     * @param {LinkDatum} link The link
+     *
+     * @return {string}
+     *
+     * @private
      */
     _buildPath(link) {
         return link.target === null ? this._marriageChainPath(link) : this._childElbowPath(link);
@@ -65,6 +109,12 @@ export default class LinkDrawer {
      * Source-drop + spine + per-child drop (single child) for a parent → child
      * connection. Source position depends on family index and whether the
      * source carries a real person or a placeholder.
+     *
+     * @param {LinkDatum} link The link
+     *
+     * @return {string}
+     *
+     * @private
      */
     _childElbowPath(link) {
         const o = this._orientation;
@@ -86,6 +136,12 @@ export default class LinkDrawer {
      * Marriage line between spouse and source (with intermediate spouses for
      * polygamous continuations) drawn as straight segments through the
      * inter-box gaps so the line never crosses an unrelated box.
+     *
+     * @param {LinkDatum} link The link
+     *
+     * @return {string}
+     *
+     * @private
      */
     _marriageChainPath(link) {
         const o = this._orientation;
@@ -118,6 +174,12 @@ export default class LinkDrawer {
      * - Additional family: at the additional spouse box edge.
      * - Source has no spouse-data (placeholder): one step out from the
      *   spouse so the line clears the box.
+     *
+     * @param {LinkDatum} link The link
+     *
+     * @return {{ x: number, y: number }}
+     *
+     * @private
      */
     _sourcePosition(link) {
         const o = this._orientation;
@@ -165,6 +227,12 @@ export default class LinkDrawer {
      * the line so multiple marriages stay distinguishable. Falls out of the
      * (family - middle-of-spouses) × direction × step formula the legacy elbow
      * modules used.
+     *
+     * @param {LinkDatum} link The link
+     *
+     * @return {number}
+     *
+     * @private
      */
     _spouseStagger(link) {
         const middle = Math.ceil(link.spouse.data.spouses.length / 2);

@@ -128,7 +128,13 @@ export default class Configuration {
      * @returns {Orientation}
      */
     get orientation() {
-        return this._orientations.get()[this.treeLayout];
+        const orientation = this._orientations.get()[this.treeLayout];
+
+        if (orientation === undefined) {
+            throw new Error(`Unknown tree layout "${this.treeLayout}"`);
+        }
+
+        return orientation;
     }
 
     /**

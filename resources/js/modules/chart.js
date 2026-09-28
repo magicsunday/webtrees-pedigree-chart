@@ -104,8 +104,11 @@ export default class Chart {
         const padding = this.convertRemToPixels(MIN_PADDING);
 
         // Get bounding boxes
-        const svgBoundingBox = this.svg.visual.node().getBBox();
-        const clientBoundingBox = this.parent.node().getBoundingClientRect();
+        // Both selections hold exactly one element once draw() has run
+        const svgBoundingBox = /** @type {SVGGElement} */ (this.svg.visual.node()).getBBox();
+        const clientBoundingBox = /** @type {HTMLElement} */ (
+            this.parent.node()
+        ).getBoundingClientRect();
 
         // View box should have at least the same width/height as the parent element
         let viewBoxWidth = Math.max(clientBoundingBox.width, svgBoundingBox.width);

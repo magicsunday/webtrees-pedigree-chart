@@ -41,7 +41,7 @@ export function initPage(config) {
     );
     const layoutInput = /** @type {HTMLInputElement|null} */ (form.elements.namedItem("layout"));
     if (layoutInput) {
-        layoutInput.value = storage.readString("layout", "");
+        layoutInput.value = storage.readString("layout", "") ?? "";
     }
 
     /**
