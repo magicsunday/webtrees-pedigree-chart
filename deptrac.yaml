@@ -1,6 +1,10 @@
-# Deptrac configuration — imports the shared magicsunday/coding-standard ruleset.
-# This repository installs its dev tooling into .build/vendor, so the import path
-# points there (as the PHPStan include does).
+# Deptrac configuration — imports the shared magicsunday/coding-standard ruleset
+# (^3.0: one strict, acyclic order Support < Enum < Model, Configuration < Contract
+# < Repository, Adapter, Service < Facade < Module; a layer depends only on layers
+# below it). This repository installs its dev tooling into .build/vendor, so the
+# import path points there (as the PHPStan include does). `composer
+# ci:test:php:deptrac` runs the analysis, `deptrac debug:unassigned` and the
+# layer-cycle gate (check-deptrac-cycles.php).
 imports:
     - .build/vendor/magicsunday/coding-standard/deptrac/layers.yaml
 
@@ -14,7 +18,9 @@ deptrac:
     # class is its own layer, and moving it into a same-named subdirectory would only
     # produce a redundant `Module/Module.php` and churn the entry FQCN — so each is
     # mapped to its canonical layer by an exact FQCN (which cannot collide with a vendor
-    # class).
+    # class). These entries only add a collector to the shared layer of the same name;
+    # the shared `directory` collectors do not match a root-level file, and the
+    # ruleset for both layers is the shared one, unchanged.
     layers:
         -
             name: Module
