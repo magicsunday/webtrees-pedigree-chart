@@ -29,7 +29,7 @@ import * as d3 from "../d3.js";
  *
  * @param {string}      fullName   The assembled name to search
  * @param {string}      lastName   The surname to locate; must not be empty
- * @param {Map}         firstnames Given-name entries keyed by start position
+ * @param {Map<number, LabelElementData>} firstnames Given-name entries keyed by start position
  * @param {Set<number>} taken      Positions already claimed by earlier surnames
  *
  * @return {number} The start position, or -1 when no free occurrence exists
@@ -182,10 +182,7 @@ export default class Name {
                     const [first, ...last] = this.createNamesData(datum);
 
                     // Merge the firstname and lastname groups, as we display the whole name in one line
-                    const combined = [].concat(
-                        first,
-                        typeof last[0] === "undefined" ? [] : last[0],
-                    );
+                    const combined = [...(first ?? []), ...(last[0] ?? [])];
 
                     return this.truncateNamesData(text, combined, this.getAvailableWidth(datum));
                 });
@@ -430,7 +427,7 @@ export default class Name {
     createAlternativeNamesData(datum) {
         const words = datum.data.data.alternativeName.split(/\s+/);
 
-        /** @var {LabelElementData[]} names */
+        /** @type {LabelElementData[]} */
         let names = [];
 
         // Append the alternative names

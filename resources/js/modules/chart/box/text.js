@@ -21,10 +21,10 @@ export default class Text {
     /**
      * Constructor.
      *
-     * @param {Orientation}    orientation The current orientation
-     * @param {null|ImageBox}  image       The image
+     * @param {Orientation} orientation The current orientation
+     * @param {ImageBox}    image       The image
      */
-    constructor(orientation, image = null) {
+    constructor(orientation, image) {
         this._orientation = orientation;
         this._image = image;
         this._textPaddingX = 15;

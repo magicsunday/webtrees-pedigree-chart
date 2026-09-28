@@ -119,8 +119,8 @@ export default class FamilyColor {
         }
 
         let pathSum = 0;
-        for (let i = 0; i < path.length; i++) {
-            pathSum += path[i] * 2 ** (path.length - 1 - i);
+        for (const [i, step] of path.entries()) {
+            pathSum += step * 2 ** (path.length - 1 - i);
         }
 
         return (pathSum + 0.5) / 2 ** path.length;
@@ -158,6 +158,7 @@ export default class FamilyColor {
      * @private
      */
     _depthOneAncestor(datum) {
+        /** @type {Individual|null} */
         let node = datum;
 
         while (node && node.depth > 1) {

@@ -91,6 +91,10 @@ export default class Tree {
 
     /**
      * Update a person's state when they are clicked.
+     *
+     * @param {Event} _event The click event
+     * @param {any}   person A tree node carrying the pedigree-specific
+     *                       parents/_parents collapse state
      */
     togglePerson(_event, person) {
         if (person.parents) {
@@ -111,11 +115,14 @@ export default class Tree {
      * person is clicked on again to expand, all ancestors that were previously
      * showing will be shown again. If you want that behavior then just remove
      * the recursion by removing the if block.
+     *
+     * @param {any} person A tree node carrying the pedigree-specific
+     *                     parents/_parents collapse state
      */
     collapse(person) {
         if (person.parents) {
             person._parents = person.parents;
-            person._parents.forEach((parent) => {
+            person._parents.forEach((/** @type {any} */ parent) => {
                 this.collapse(parent);
             });
             // person._parents.forEach(this.collapse);
