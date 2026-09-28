@@ -15,7 +15,6 @@ import Tree from "./tree.js";
  * @import Configuration from "./configuration.js"
  */
 
-const _MIN_HEIGHT = 300;
 const MIN_PADDING = 1; // Minimum padding around view box in "rem"
 
 /**
