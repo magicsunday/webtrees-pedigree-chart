@@ -4,7 +4,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/magicsunday/webtrees-pedigree-chart/"
 "issues\n"
 "POT-Creation-Date: 1970-01-01 00:00+0000\n"
-"PO-Revision-Date: 2026-05-03 08:27+0200\n"
+"PO-Revision-Date: 2026-10-06 18:50+0200\n"
 "Last-Translator: TheDutchJewel <thedutchjewel@gmail.com>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -32,11 +32,11 @@ msgstr "Achternamen eerst afkorten"
 
 #: src/Facade/DataFacade.php:200
 msgid "Add a father"
-msgstr ""
+msgstr "Vader toevoegen"
 
 #: src/Facade/DataFacade.php:201
 msgid "Add a mother"
-msgstr ""
+msgstr "Moeder toevoegen"
 
 #: src/Configuration.php:420
 msgid "Automatic (based on tree's surname tradition)"
@@ -48,7 +48,7 @@ msgstr "Gedrag"
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:23
 msgid "Colors"
-msgstr ""
+msgstr "Kleuren"
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:34
 msgid ""
@@ -60,7 +60,7 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:25
 msgid "Control panel"
-msgstr ""
+msgstr "Configuratiescherm"
 
 #: resources/views/modules/pedigree-chart/config.phtml:97
 msgid ""
@@ -74,7 +74,7 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:23
 msgid "Details"
-msgstr ""
+msgstr "Details"
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:34
 msgid ""
@@ -96,11 +96,11 @@ msgstr "Exporteren als SVG"
 
 #: resources/views/modules/pedigree-chart/config.phtml:50
 msgid "General"
-msgstr ""
+msgstr "Algemeen"
 
 #: resources/views/modules/pedigree-chart/form/generations.phtml:22
 msgid "Generations"
-msgstr ""
+msgstr "Generaties"
 
 #: resources/views/modules/pedigree-chart/page.phtml:77
 msgid "Hide more options"
@@ -116,7 +116,7 @@ msgstr "Verberg de SVG-exportknop"
 
 #: resources/views/modules/pedigree-chart/page.phtml:39
 msgid "Individual"
-msgstr ""
+msgstr "Persoon"
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:46
 msgid ""
@@ -135,7 +135,7 @@ msgstr "Moederlijk"
 
 #: resources/views/modules/pedigree-chart/config.phtml:25
 msgid "Modules"
-msgstr ""
+msgstr "Modules"
 
 #: src/Module.php:271
 msgid "Move the view with two fingers"
@@ -160,7 +160,7 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/orientation.phtml:22
 msgid "Orientation"
-msgstr ""
+msgstr "Oriëntatie"
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:39
 msgid "Paternal"
@@ -168,7 +168,7 @@ msgstr "Vaderlijk"
 
 #: src/Module.php:130 src/Module.php:251
 msgid "Pedigree chart"
-msgstr ""
+msgstr "Kwartierstaat"
 
 #: src/Module.php:248 src/Module/ChartTrait.php:44
 #, php-format
@@ -231,27 +231,27 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:112
 msgid "cancel"
-msgstr ""
+msgstr "annuleren"
 
 #: src/Configuration.php:185 src/Configuration.php:193
 msgid "down"
-msgstr ""
+msgstr "omlaag"
 
 #: src/Configuration.php:182 src/Configuration.php:190
 msgid "left"
-msgstr ""
+msgstr "links"
 
 #: src/Configuration.php:183 src/Configuration.php:191
 msgid "right"
-msgstr ""
+msgstr "rechts"
 
 #: resources/views/modules/pedigree-chart/config.phtml:107
 msgid "save"
-msgstr ""
+msgstr "opslaan"
 
 #: src/Configuration.php:184 src/Configuration.php:192
 msgid "up"
-msgstr ""
+msgstr "omhoog"
 
 #: resources/views/modules/pedigree-chart/page.phtml:65
 msgid "view"
