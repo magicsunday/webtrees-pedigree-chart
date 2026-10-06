@@ -60,7 +60,7 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:25
 msgid "Control panel"
-msgstr "Control panel"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:97
 msgid ""
@@ -93,11 +93,11 @@ msgstr "Export as SVG"
 
 #: resources/views/modules/pedigree-chart/config.phtml:50
 msgid "General"
-msgstr "General"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/generations.phtml:22
 msgid "Generations"
-msgstr "Generations"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:77
 msgid "Hide more options"
@@ -113,7 +113,7 @@ msgstr "Hide the SVG export button"
 
 #: resources/views/modules/pedigree-chart/page.phtml:39
 msgid "Individual"
-msgstr "Individual"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:46
 msgid ""
@@ -131,7 +131,7 @@ msgstr "Maternal"
 
 #: resources/views/modules/pedigree-chart/config.phtml:25
 msgid "Modules"
-msgstr "Modules"
+msgstr ""
 
 #: src/Module.php:271
 msgid "Move the view with two fingers"
@@ -153,7 +153,7 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/orientation.phtml:22
 msgid "Orientation"
-msgstr "Orientation"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:39
 msgid "Paternal"
@@ -161,7 +161,7 @@ msgstr "Paternal"
 
 #: src/Module.php:130 src/Module.php:251
 msgid "Pedigree chart"
-msgstr "Pedigree chart"
+msgstr ""
 
 #: src/Module.php:248 src/Module/ChartTrait.php:44
 #, php-format
@@ -223,28 +223,28 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:112
 msgid "cancel"
-msgstr "cancel"
+msgstr ""
 
 #: src/Configuration.php:185 src/Configuration.php:193
 msgid "down"
-msgstr "down"
+msgstr ""
 
 #: src/Configuration.php:182 src/Configuration.php:190
 msgid "left"
-msgstr "left"
+msgstr ""
 
 #: src/Configuration.php:183 src/Configuration.php:191
 msgid "right"
-msgstr "right"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:107
 msgid "save"
-msgstr "save"
+msgstr ""
 
 #: src/Configuration.php:184 src/Configuration.php:192
 msgid "up"
-msgstr "up"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:65
 msgid "view"
-msgstr "view"
+msgstr ""
