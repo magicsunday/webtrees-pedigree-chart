@@ -60,7 +60,7 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:25
 msgid "Control panel"
-msgstr "Stjórnborð"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:97
 msgid ""
@@ -95,11 +95,11 @@ msgstr "Flytja út sem SVG"
 
 #: resources/views/modules/pedigree-chart/config.phtml:50
 msgid "General"
-msgstr "Almennt"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/generations.phtml:22
 msgid "Generations"
-msgstr "Ættliðir"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:77
 msgid "Hide more options"
@@ -115,7 +115,7 @@ msgstr "Fela SVG útflutningshnappinn"
 
 #: resources/views/modules/pedigree-chart/page.phtml:39
 msgid "Individual"
-msgstr "Einstaklingur"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:46
 msgid ""
@@ -133,7 +133,7 @@ msgstr "Móður"
 
 #: resources/views/modules/pedigree-chart/config.phtml:25
 msgid "Modules"
-msgstr "Einingar"
+msgstr ""
 
 #: src/Module.php:271
 msgid "Move the view with two fingers"
@@ -157,7 +157,7 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/orientation.phtml:22
 msgid "Orientation"
-msgstr "Lega"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:39
 msgid "Paternal"
@@ -231,24 +231,24 @@ msgstr "hætta"
 
 #: src/Configuration.php:185 src/Configuration.php:193
 msgid "down"
-msgstr "niður"
+msgstr ""
 
 #: src/Configuration.php:182 src/Configuration.php:190
 msgid "left"
-msgstr "vinstri"
+msgstr ""
 
 #: src/Configuration.php:183 src/Configuration.php:191
 msgid "right"
-msgstr "hægri"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:107
 msgid "save"
-msgstr "vista"
+msgstr ""
 
 #: src/Configuration.php:184 src/Configuration.php:192
 msgid "up"
-msgstr "upp"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:65
 msgid "view"
-msgstr "skoða"
+msgstr ""

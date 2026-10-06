@@ -96,11 +96,11 @@ msgstr "Exportovať ako SVG"
 
 #: resources/views/modules/pedigree-chart/config.phtml:50
 msgid "General"
-msgstr "Všeobecné"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/generations.phtml:22
 msgid "Generations"
-msgstr "Generácie"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:77
 msgid "Hide more options"
@@ -226,7 +226,7 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:112
 msgid "cancel"
-msgstr "zrušiť"
+msgstr ""
 
 #: src/Configuration.php:185 src/Configuration.php:193
 msgid "down"
@@ -234,20 +234,20 @@ msgstr "dole"
 
 #: src/Configuration.php:182 src/Configuration.php:190
 msgid "left"
-msgstr "vľavo"
+msgstr ""
 
 #: src/Configuration.php:183 src/Configuration.php:191
 msgid "right"
-msgstr "vpravo"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:107
 msgid "save"
-msgstr "uložiť"
+msgstr ""
 
 #: src/Configuration.php:184 src/Configuration.php:192
 msgid "up"
-msgstr "hore"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:65
 msgid "view"
-msgstr "zobraziť"
+msgstr ""

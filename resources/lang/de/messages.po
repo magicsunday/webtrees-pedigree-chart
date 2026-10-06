@@ -100,7 +100,7 @@ msgstr "Allgemein"
 
 #: resources/views/modules/pedigree-chart/form/generations.phtml:22
 msgid "Generations"
-msgstr "Generationen"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:77
 msgid "Hide more options"
@@ -116,7 +116,7 @@ msgstr "Die Schaltfläche für den SVG-Export ausblenden"
 
 #: resources/views/modules/pedigree-chart/page.phtml:39
 msgid "Individual"
-msgstr "Person"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:46
 msgid ""
@@ -168,7 +168,7 @@ msgstr "Väterlich"
 
 #: src/Module.php:130 src/Module.php:251
 msgid "Pedigree chart"
-msgstr "Vorfahrentafel"
+msgstr ""
 
 #: src/Module.php:248 src/Module/ChartTrait.php:44
 #, php-format
@@ -231,7 +231,7 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:112
 msgid "cancel"
-msgstr "Abbrechen"
+msgstr ""
 
 #: src/Configuration.php:185 src/Configuration.php:193
 msgid "down"
@@ -247,7 +247,7 @@ msgstr "Rechts"
 
 #: resources/views/modules/pedigree-chart/config.phtml:107
 msgid "save"
-msgstr "Speichern"
+msgstr ""
 
 #: src/Configuration.php:184 src/Configuration.php:192
 msgid "up"

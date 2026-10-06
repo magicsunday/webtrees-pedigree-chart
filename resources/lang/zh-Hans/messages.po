@@ -91,7 +91,7 @@ msgstr "导出为SVG"
 
 #: resources/views/modules/pedigree-chart/config.phtml:50
 msgid "General"
-msgstr "常规"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/generations.phtml:22
 msgid "Generations"
@@ -151,7 +151,7 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/orientation.phtml:22
 msgid "Orientation"
-msgstr "方向"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:39
 msgid "Paternal"
@@ -159,7 +159,7 @@ msgstr "父系"
 
 #: src/Module.php:130 src/Module.php:251
 msgid "Pedigree chart"
-msgstr "世系图"
+msgstr ""
 
 #: src/Module.php:248 src/Module/ChartTrait.php:44
 #, php-format
@@ -220,7 +220,7 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:112
 msgid "cancel"
-msgstr "取消"
+msgstr ""
 
 #: src/Configuration.php:185 src/Configuration.php:193
 msgid "down"
@@ -236,7 +236,7 @@ msgstr "祖辈在右"
 
 #: resources/views/modules/pedigree-chart/config.phtml:107
 msgid "save"
-msgstr "保存"
+msgstr ""
 
 #: src/Configuration.php:184 src/Configuration.php:192
 msgid "up"
@@ -244,4 +244,4 @@ msgstr "祖辈在上"
 
 #: resources/views/modules/pedigree-chart/page.phtml:65
 msgid "view"
-msgstr "查看"
+msgstr ""

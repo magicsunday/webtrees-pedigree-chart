@@ -94,11 +94,11 @@ msgstr "Exporter en SVG"
 
 #: resources/views/modules/pedigree-chart/config.phtml:50
 msgid "General"
-msgstr "Général"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/generations.phtml:22
 msgid "Generations"
-msgstr "Générations"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:77
 msgid "Hide more options"
@@ -114,7 +114,7 @@ msgstr "Masquer le bouton d’export SVG"
 
 #: resources/views/modules/pedigree-chart/page.phtml:39
 msgid "Individual"
-msgstr "Individu"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:46
 msgid ""
@@ -155,7 +155,7 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/orientation.phtml:22
 msgid "Orientation"
-msgstr "Orientation"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:39
 msgid "Paternal"
@@ -227,7 +227,7 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:112
 msgid "cancel"
-msgstr "annuler"
+msgstr ""
 
 #: src/Configuration.php:185 src/Configuration.php:193
 msgid "down"
@@ -243,7 +243,7 @@ msgstr "droite"
 
 #: resources/views/modules/pedigree-chart/config.phtml:107
 msgid "save"
-msgstr "enregistrer"
+msgstr ""
 
 #: src/Configuration.php:184 src/Configuration.php:192
 msgid "up"
@@ -251,4 +251,4 @@ msgstr "haut"
 
 #: resources/views/modules/pedigree-chart/page.phtml:65
 msgid "view"
-msgstr "afficher"
+msgstr ""

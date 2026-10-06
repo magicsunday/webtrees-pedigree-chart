@@ -98,7 +98,7 @@ msgstr "Izvozi kot SVG"
 
 #: resources/views/modules/pedigree-chart/config.phtml:50
 msgid "General"
-msgstr "Splošno"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/generations.phtml:22
 msgid "Generations"
@@ -118,7 +118,7 @@ msgstr "Skrij gumb SVG izvoz"
 
 #: resources/views/modules/pedigree-chart/page.phtml:39
 msgid "Individual"
-msgstr "Oseba"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:46
 msgid ""

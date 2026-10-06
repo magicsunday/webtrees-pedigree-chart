@@ -93,7 +93,7 @@ msgstr "Xuất định dạng SVG"
 
 #: resources/views/modules/pedigree-chart/config.phtml:50
 msgid "General"
-msgstr "Tổng quát"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/generations.phtml:22
 msgid "Generations"
@@ -113,7 +113,7 @@ msgstr "Ẩn nút xuất SVG"
 
 #: resources/views/modules/pedigree-chart/page.phtml:39
 msgid "Individual"
-msgstr "Cá nhân"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:46
 msgid ""
@@ -161,7 +161,7 @@ msgstr "Bên nội"
 
 #: src/Module.php:130 src/Module.php:251
 msgid "Pedigree chart"
-msgstr "Biểu đồ phả hệ"
+msgstr ""
 
 #: src/Module.php:248 src/Module/ChartTrait.php:44
 #, php-format
@@ -239,7 +239,7 @@ msgstr "Từ phải sang trái"
 
 #: resources/views/modules/pedigree-chart/config.phtml:107
 msgid "save"
-msgstr "lưu"
+msgstr ""
 
 #: src/Configuration.php:184 src/Configuration.php:192
 msgid "up"

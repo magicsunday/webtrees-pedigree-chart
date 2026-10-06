@@ -60,7 +60,7 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:25
 msgid "Control panel"
-msgstr "Controlepaneel"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:97
 msgid ""
@@ -96,11 +96,11 @@ msgstr "Exporteren als SVG"
 
 #: resources/views/modules/pedigree-chart/config.phtml:50
 msgid "General"
-msgstr "Algemeen"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/generations.phtml:22
 msgid "Generations"
-msgstr "Generaties"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:77
 msgid "Hide more options"
@@ -116,7 +116,7 @@ msgstr "Verberg de SVG-exportknop"
 
 #: resources/views/modules/pedigree-chart/page.phtml:39
 msgid "Individual"
-msgstr "Persoon"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:46
 msgid ""
@@ -135,7 +135,7 @@ msgstr "Moederlijk"
 
 #: resources/views/modules/pedigree-chart/config.phtml:25
 msgid "Modules"
-msgstr "Modules"
+msgstr ""
 
 #: src/Module.php:271
 msgid "Move the view with two fingers"
@@ -160,7 +160,7 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/orientation.phtml:22
 msgid "Orientation"
-msgstr "Oriëntatie"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:39
 msgid "Paternal"
@@ -168,7 +168,7 @@ msgstr "Vaderlijk"
 
 #: src/Module.php:130 src/Module.php:251
 msgid "Pedigree chart"
-msgstr "Kwartierstaat"
+msgstr ""
 
 #: src/Module.php:248 src/Module/ChartTrait.php:44
 #, php-format
@@ -231,27 +231,27 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:112
 msgid "cancel"
-msgstr "annuleren"
+msgstr ""
 
 #: src/Configuration.php:185 src/Configuration.php:193
 msgid "down"
-msgstr "omlaag"
+msgstr ""
 
 #: src/Configuration.php:182 src/Configuration.php:190
 msgid "left"
-msgstr "links"
+msgstr ""
 
 #: src/Configuration.php:183 src/Configuration.php:191
 msgid "right"
-msgstr "rechts"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:107
 msgid "save"
-msgstr "opslaan"
+msgstr ""
 
 #: src/Configuration.php:184 src/Configuration.php:192
 msgid "up"
-msgstr "omhoog"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:65
 msgid "view"
