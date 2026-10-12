@@ -29,8 +29,8 @@
         "typecheck": "tsc --noEmit -p tsconfig.json"
     },
     "devDependencies": {
-        "@biomejs/biome": "2.5.14",
-        "@magicsunday/coding-standard": "github:magicsunday/coding-standard#3.5.0",
+        "@biomejs/biome": "2.5.15",
+        "@magicsunday/coding-standard": "github:magicsunday/coding-standard#3.6.0",
         "@rollup/plugin-node-resolve": "^16.0",
         "@rollup/plugin-terser": "^1.0",
         "@types/d3-fetch": "^3.0.7",
@@ -41,7 +41,7 @@
         "@types/d3-shape": "^3.2.0",
         "@types/d3-timer": "^3.0.2",
         "@types/d3-transition": "^3.0.9",
-        "@types/d3-zoom": "^3.0.8",
+        "@types/d3-zoom": "^3.0.9",
         "@types/jest": "^30.0.0",
         "d3-fetch": "^3.0",
         "d3-hierarchy": "^3.0",
@@ -54,8 +54,8 @@
         "d3-zoom": "^3.0",
         "jest": "^30.5",
         "jest-environment-jsdom": "^30.5",
-        "jscpd": "5.3.3",
-        "rollup": "^4.63",
+        "jscpd": "5.4.0",
+        "rollup": "^4.64",
         "rollup-plugin-license": "^3.0",
         "typescript": "^7.0.2"
     },
