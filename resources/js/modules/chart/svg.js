@@ -6,8 +6,8 @@
  */
 
 import {
-    ChartExportFactory as ExportFactory,
     ChartZoom as Zoom,
+    createChartExport,
     SvgDefs as Defs,
 } from "@magicsunday/webtrees-chart-lib";
 
@@ -167,9 +167,7 @@ export default class Svg {
      * @returns {PngChartExport|SvgChartExport}
      */
     export(type) {
-        const factory = new ExportFactory();
-
-        return factory.createExport(type);
+        return createChartExport(type);
     }
 
     /**
