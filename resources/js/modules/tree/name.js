@@ -5,12 +5,12 @@
  * LICENSE file distributed with this source code.
  */
 
-import { measureText, truncateNames } from "@magicsunday/webtrees-chart-lib";
+import { measureText, truncateNames } from "@magicsunday/webtrees-chart-lib/infra";
 import * as d3 from "../d3.js";
 
 /**
  * @import { Selection } from "d3-selection"
- * @import { Orientation } from "@magicsunday/webtrees-chart-lib"
+ * @import { Orientation } from "@magicsunday/webtrees-chart-lib/infra"
  * @import Svg from "../chart/svg.js"
  * @import ImageBox from "../chart/box/image.js"
  * @import TextBox from "../chart/box/text.js"

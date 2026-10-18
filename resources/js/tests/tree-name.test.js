@@ -15,7 +15,7 @@ const truncateNamesMock = jest.fn((names, _availableWidth, measureFn) => {
     return names.map((n) => ({ ...n, label: `${n.label.slice(0, 1)}.` }));
 });
 
-await jest.unstable_mockModule("@magicsunday/webtrees-chart-lib", () => ({
+await jest.unstable_mockModule("@magicsunday/webtrees-chart-lib/infra", () => ({
     measureText: jest.fn(() => 0),
     truncateNames: truncateNamesMock,
 }));

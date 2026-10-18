@@ -21,7 +21,7 @@ import {
     OrientationLeftRight,
     OrientationRightLeft,
     OrientationTopBottom,
-} from "@magicsunday/webtrees-chart-lib";
+} from "@magicsunday/webtrees-chart-lib/infra";
 
 /**
  * This class handles the orientation of the tree.

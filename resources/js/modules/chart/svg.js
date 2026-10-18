@@ -9,7 +9,7 @@ import {
     ChartZoom as Zoom,
     createChartExport,
     SvgDefs as Defs,
-} from "@magicsunday/webtrees-chart-lib";
+} from "@magicsunday/webtrees-chart-lib/infra";
 
 /**
  * @import { Selection } from "d3-selection"
@@ -18,7 +18,7 @@ import {
  *     ChartOverlay as Overlay,
  *     PngChartExport,
  *     SvgChartExport,
- * } from "@magicsunday/webtrees-chart-lib"
+ * } from "@magicsunday/webtrees-chart-lib/infra"
  * @import Configuration from "../configuration.js"
  */
 
