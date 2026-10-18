@@ -6,7 +6,7 @@
  */
 
 /**
- * @import { Orientation } from "@magicsunday/webtrees-chart-lib"
+ * @import { Orientation } from "@magicsunday/webtrees-chart-lib/infra"
  * @import ImageBox from "./image.js"
  */
 

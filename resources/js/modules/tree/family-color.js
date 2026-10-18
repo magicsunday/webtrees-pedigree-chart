@@ -5,7 +5,7 @@
  * LICENSE file distributed with this source code.
  */
 
-import { familyBranchHsl, familyCenterHsl, hexToHsl } from "@magicsunday/webtrees-chart-lib";
+import { familyBranchHsl, familyCenterHsl, hexToHsl } from "@magicsunday/webtrees-chart-lib/infra";
 import { SEX_FEMALE, SEX_MALE } from "../constants.js";
 
 /**

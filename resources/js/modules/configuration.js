@@ -9,7 +9,7 @@ import OrientationCollection from "./chart/orientation-collection.js";
 import { LAYOUT_LEFTRIGHT } from "./constants.js";
 
 /**
- * @import { Orientation } from "@magicsunday/webtrees-chart-lib"
+ * @import { Orientation } from "@magicsunday/webtrees-chart-lib/infra"
  */
 
 /**

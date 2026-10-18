@@ -10,7 +10,7 @@ import {
     LINE_END_TRIM_PX,
     MARRIAGE_STAGGER_PX,
     marriagePath,
-} from "@magicsunday/webtrees-chart-lib";
+} from "@magicsunday/webtrees-chart-lib/infra";
 
 /**
  * @import { EnterElement, Selection } from "d3-selection"
