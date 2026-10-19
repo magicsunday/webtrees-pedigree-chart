@@ -73,11 +73,13 @@ export default class Hierarchy {
             ])
             .separation((left, right) => (left.parent === right.parent ? 1.0 : 1.25));
 
-        // Map the root node data to the tree layout
-        this._nodes = tree(this._root);
+        // Map the root node data to the tree layout. d3.tree() lays the root out in place
+        // and returns that same node, now typed with its x and y coordinates.
+        const nodes = tree(this._root);
+        this._nodes = nodes;
 
         // Normalize node coordinates (swap values for left/right layout)
-        this._root.each((node) => {
+        nodes.each((node) => {
             this._configuration.orientation.norm(node);
         });
     }
