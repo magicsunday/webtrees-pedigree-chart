@@ -7,9 +7,7 @@
 
 /*
 https://github.com/d3/d3-hierarchy
-https://github.com/d3/d3-path
 https://github.com/d3/d3-selection
-https://github.com/d3/d3-shape
 https://github.com/d3/d3-transition
 https://github.com/d3/d3-zoom
 */
@@ -19,14 +17,10 @@ export {
     tree,
 } from "d3-hierarchy";
 
-export { path } from "d3-path";
-
 export {
     select,
     selectAll,
 } from "d3-selection";
-
-export { arc } from "d3-shape";
 
 export { transition } from "d3-transition";
 
