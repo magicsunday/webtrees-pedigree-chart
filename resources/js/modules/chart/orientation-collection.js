@@ -57,7 +57,7 @@ export default class OrientationCollection {
     /**
      * Returns the orientations indexed by layout key.
      *
-     * @returns {Record<string, Orientation>}
+     * @return {Record<string, Orientation>}
      */
     get() {
         return this._orientations;

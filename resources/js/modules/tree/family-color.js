@@ -58,7 +58,7 @@ export default class FamilyColor {
      *
      * @param {Individual} datum The D3 hierarchy datum
      *
-     * @returns {string|null}
+     * @return {string|null}
      */
     getColor(datum) {
         if (datum.data.data.xref === "") {
@@ -92,7 +92,7 @@ export default class FamilyColor {
      *
      * @param {Individual} datum The D3 hierarchy datum
      *
-     * @returns {number}
+     * @return {number}
      *
      * @private
      */
@@ -131,7 +131,7 @@ export default class FamilyColor {
      *
      * @param {string} sex SEX_MALE / SEX_FEMALE / other
      *
-     * @returns {string} HSL color string
+     * @return {string} HSL color string
      *
      * @private
      */
@@ -153,7 +153,7 @@ export default class FamilyColor {
      *
      * @param {Individual} datum The D3 hierarchy datum
      *
-     * @returns {Individual|null}
+     * @return {Individual|null}
      *
      * @private
      */

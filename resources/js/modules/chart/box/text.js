@@ -44,7 +44,7 @@ export default class Text {
     /**
      * Returns the calculated X-coordinate.
      *
-     * @returns {number}
+     * @return {number}
      */
     calculateX() {
         return -(this._orientation.boxWidth / 2) + this._textPaddingX;
@@ -53,7 +53,7 @@ export default class Text {
     /**
      * Returns the calculated Y-coordinate.
      *
-     * @returns {number}
+     * @return {number}
      */
     calculateY() {
         if (!this._orientation.isVertical) {
@@ -66,7 +66,7 @@ export default class Text {
     /**
      * Calculate the available text width.
      *
-     * @returns {number}
+     * @return {number}
      */
     calculateWidth() {
         // Width of the text minus the right/left padding
@@ -76,7 +76,7 @@ export default class Text {
     /**
      * Returns the X-coordinate of the text start.
      *
-     * @returns {number}
+     * @return {number}
      */
     get x() {
         return this._x;
@@ -85,7 +85,7 @@ export default class Text {
     /**
      * Returns the Y-coordinate of the text start.
      *
-     * @returns {number}
+     * @return {number}
      */
     get y() {
         return this._y;
@@ -94,7 +94,7 @@ export default class Text {
     /**
      * Returns the width of the text.
      *
-     * @returns {number}
+     * @return {number}
      */
     get width() {
         return this._width;

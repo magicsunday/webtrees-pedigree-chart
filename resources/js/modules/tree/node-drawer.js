@@ -190,7 +190,7 @@ export default class NodeDrawer {
     /**
      * @param {Individual} person The d3 hierarchy datum
      *
-     * @returns {boolean} TRUE when the node is an "add parent" placeholder
+     * @return {boolean} TRUE when the node is an "add parent" placeholder
      *                    (empty xref + populated url) rather than a real
      *                    individual.
      *

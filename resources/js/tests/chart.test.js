@@ -17,7 +17,7 @@ const { default: Chart } = await import("resources/js/modules/chart.js");
  * @param {{width: number, height: number}}                       clientBox Bounding box of the parent element
  * @param {number}                                                padding   Padding in pixels
  *
- * @returns {number[]}
+ * @return {number[]}
  */
 function computeViewBox(chartBox, clientBox, padding = 0) {
     const attributes = {};

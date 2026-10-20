@@ -229,7 +229,7 @@ export default class Name {
      *
      * @param {NameElementData} datum
      *
-     * @returns {number}
+     * @return {number}
      *
      * @private
      */
@@ -392,7 +392,7 @@ export default class Name {
      * @param {LabelElementData[]}            names          The name labels to truncate
      * @param {number}                        availableWidth The total available width the text could take
      *
-     * @returns {LabelElementData[]}
+     * @return {LabelElementData[]}
      *
      * @private
      */
@@ -420,7 +420,7 @@ export default class Name {
      *
      * @param {NameElementData} datum
      *
-     * @returns {LabelElementData[]}
+     * @return {LabelElementData[]}
      *
      * @private
      */
@@ -450,7 +450,7 @@ export default class Name {
      *
      * @param {NameElementData} d The name element datum
      *
-     * @returns {number}
+     * @return {number}
      *
      * @private
      */
@@ -469,7 +469,7 @@ export default class Name {
      * @param {string}        fontSize   The CSS font-size string
      * @param {string|number} fontWeight The CSS font-weight
      *
-     * @returns {number}
+     * @return {number}
      *
      * @private
      */
