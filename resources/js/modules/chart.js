@@ -114,9 +114,8 @@ export default class Chart {
         let viewBoxHeight = Math.max(clientBoundingBox.height, svgBoundingBox.height);
 
         // Calculate offset to center chart inside svg.
-        // Use plain division, `>> 1` casts to int32 and silently overflows
-        // to a negative value once the bounding-box dimensions exceed ~2.1
-        // billion pixels, which a deeply zoomed-in chart can produce.
+        // Use plain division, `>> 1` casts to int32 and silently wraps to a
+        // wrong value once the difference leaves the int32 range.
         const offsetX = (viewBoxWidth - svgBoundingBox.width) / 2;
         const offsetY = (viewBoxHeight - svgBoundingBox.height) / 2;
 
