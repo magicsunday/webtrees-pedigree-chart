@@ -135,7 +135,7 @@ msgstr "Mors"
 msgid "Modules"
 msgstr ""
 
-#: src/Module.php:271
+#: src/Module.php:255
 msgid "Move the view with two fingers"
 msgstr "Bruk to fingrar for å endre synsfelt"
 
@@ -163,11 +163,11 @@ msgstr ""
 msgid "Paternal"
 msgstr "Fars"
 
-#: src/Module.php:130 src/Module.php:251
+#: src/Module.php:130 src/Module/ChartTrait.php:63
 msgid "Pedigree chart"
 msgstr ""
 
-#: src/Module.php:248 src/Module/ChartTrait.php:44
+#: src/Module/ChartTrait.php:48
 #, php-format
 msgid "Pedigree chart of %s"
 msgstr "Anediagram for %s"
@@ -209,7 +209,7 @@ msgstr "Byt mellom fullskjerm og normal visning"
 msgid "The preferences for the module “%s” have been updated."
 msgstr "Innstillingane for modulen “%s” har blitt oppdatert."
 
-#: src/Module.php:270
+#: src/Module.php:254
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Bruk Ctrl + scroll for zoom"
 

@@ -138,7 +138,7 @@ msgstr "Materina"
 msgid "Modules"
 msgstr "Moduli"
 
-#: src/Module.php:271
+#: src/Module.php:255
 msgid "Move the view with two fingers"
 msgstr "Premakni pogled z dvema prstoma"
 
@@ -166,11 +166,11 @@ msgstr "Usmerjenost"
 msgid "Paternal"
 msgstr "Očetova"
 
-#: src/Module.php:130 src/Module.php:251
+#: src/Module.php:130 src/Module/ChartTrait.php:63
 msgid "Pedigree chart"
 msgstr "Rodovnik"
 
-#: src/Module.php:248 src/Module/ChartTrait.php:44
+#: src/Module/ChartTrait.php:48
 #, php-format
 msgid "Pedigree chart of %s"
 msgstr "Rodovnik osebe %s"
@@ -212,7 +212,7 @@ msgstr "Preklopi med celozaslonskim in običajnim načinom"
 msgid "The preferences for the module “%s” have been updated."
 msgstr "Nastavitve modula “%s” so posodobljene."
 
-#: src/Module.php:270
+#: src/Module.php:254
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Uporabi Ctrl+Scroll kolesce za povečavo diagrama"
 

@@ -38,10 +38,6 @@ import(<?php echo json_encode($javascript); ?>).then(({ PedigreeChart }) => {
             rtl: <?php echo json_encode($chartParams['rtl']); ?>,
             cssFiles: <?php echo json_encode($exportStylesheets); ?>,
 
-            get generations() {
-                return opts.generations ?? <?php echo $configuration->getGenerations(); ?>;
-            },
-
             get treeLayout() {
                 return opts.treeLayout ?? <?php echo json_encode($configuration->getLayout()); ?>;
             },

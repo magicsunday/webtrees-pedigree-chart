@@ -17,7 +17,7 @@ use MagicSunday\Webtrees\ModuleBase\Traits\ModuleChartTrait as BaseModuleChartTr
 
 /**
  * Implements the webtrees ModuleChartInterface methods specific to the pedigree
- * chart: menu CSS class and chart title.
+ * chart: the menu CSS class, the chart title and the page title.
  *
  * @author  Rico Sonntag <mail@ricosonntag.de>
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
@@ -29,6 +29,10 @@ trait ChartTrait
 
     /**
      * Returns the CSS class applied to the pedigree-chart menu item.
+     *
+     * This is not redundant with the core module. The trait imported above
+     * brings in the core chart trait, whose empty value would take precedence
+     * over the parent class method.
      */
     public function chartMenuClass(): string
     {
@@ -42,5 +46,20 @@ trait ChartTrait
     public function chartTitle(Individual $individual): string
     {
         return I18N::translate('Pedigree chart of %s', $individual->fullName());
+    }
+
+    /**
+     * Returns the page title. It names the individual only when the visitor
+     * may see the name, otherwise it is the plain chart title.
+     *
+     * @return string
+     */
+    public function pageTitle(Individual $individual): string
+    {
+        if ($individual->canShowName()) {
+            return $this->chartTitle($individual);
+        }
+
+        return I18N::translate('Pedigree chart');
     }
 }

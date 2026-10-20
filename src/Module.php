@@ -224,7 +224,7 @@ class Module extends PedigreeChartModule implements ModuleAssetUrlInterface, Mod
             $this->name() . '::modules/pedigree-chart/page',
             [
                 'ajaxUrl'       => $this->getAjaxRoute($individual, $xref),
-                'title'         => $this->getPageTitle($individual),
+                'title'         => $this->pageTitle($individual),
                 'moduleName'    => $this->name(),
                 'individual'    => $individual,
                 'tree'          => $tree,
@@ -233,22 +233,6 @@ class Module extends PedigreeChartModule implements ModuleAssetUrlInterface, Mod
                 'javascript'    => $this->assetUrl('js/pedigree-chart-page.min.js'),
             ]
         );
-    }
-
-    /**
-     * Returns the page title.
-     *
-     * @param Individual $individual The individual used in the current chart
-     *
-     * @return string
-     */
-    private function getPageTitle(Individual $individual): string
-    {
-        if ($individual->canShowName()) {
-            return I18N::translate('Pedigree chart of %s', $individual->fullName());
-        }
-
-        return I18N::translate('Pedigree chart');
     }
 
     /**

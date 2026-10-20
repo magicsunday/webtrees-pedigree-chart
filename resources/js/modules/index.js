@@ -29,7 +29,6 @@ export class PedigreeChart {
      *
      * @param {{zoom: string, move: string}} options.labels
      * @param {boolean}   options.rtl
-     * @param {number}    options.generations
      * @param {string}    options.treeLayout
      * @param {boolean}   options.openNewTabOnClick
      * @param {boolean}   options.showAlternativeName
@@ -49,7 +48,6 @@ export class PedigreeChart {
         // Set up configuration
         this._configuration = new Configuration(
             options.labels,
-            options.generations,
             options.treeLayout,
             options.openNewTabOnClick,
             options.showAlternativeName,

@@ -97,8 +97,6 @@ export default class NodeDrawer {
                 (exit) => this.nodeExit(exit, source),
             );
 
-        // this.centerTree();
-
         // Stash the old positions for transition. d3 HierarchyNode does not
         // declare x0/y0 — they are pedigree-specific scratch props.
         this._hierarchy.root.eachBefore((node) => {
@@ -129,7 +127,6 @@ export default class NodeDrawer {
                     // return "translate(" + (source.x0) + "," + (source.y0) + ")";
                 })
                 // TODO Enable this to collapse/expand node on click
-                // .on("click", (event, d) => this.togglePerson(event, d))
                 .call(
                     // Draw the actual person rectangle with opacity of 0.5
                     (g) => {

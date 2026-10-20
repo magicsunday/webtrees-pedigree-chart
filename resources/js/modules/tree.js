@@ -57,83 +57,9 @@ export default class Tree {
         const nodes = this._hierarchy.root.descendants();
         const links = this._hierarchy.nodes.links();
 
-        // // Start with only the first few generations of ancestors showing
-        // nodes.forEach((person) => {
-        //     if (person.parents) {
-        //         person.parents.forEach((child) => this.collapse(child));
-        //     }
-        // });
-
         // To avoid artifacts caused by rounding errors when drawing the links,
         // we draw them first so that the nodes can then overlap them.
         this._linkDrawer.drawLinks(links, source);
         this._nodeDrawer.drawNodes(nodes, source);
-    }
-
-    /**
-     * Centers the tree around all visible nodes.
-     */
-    centerTree() {
-        // TODO Doesn't work
-
-        console.log("centerTree");
-        // const zoom = this._svg.zoom.get();
-        //
-        // d3.select(this._svg)
-        //     // .transition()
-        //     // .duration(0)
-        //     // .delay(100)
-        //     .call(
-        //         zoom.transform,
-        //         d3.zoomIdentity.translate(t.x, t.y).scale(t.k)
-        //     );
-    }
-
-    /**
-     * Update a person's state when they are clicked.
-     *
-     * @param {Event} _event The click event
-     * @param {any}   person A tree node carrying the pedigree-specific
-     *                       parents/_parents collapse state
-     */
-    togglePerson(_event, person) {
-        if (person.parents) {
-            person._parents = person.parents;
-            person.parents = null;
-        } else {
-            person.parents = person._parents;
-            person._parents = null;
-        }
-
-        this.draw(person);
-    }
-
-    /**
-     * Collapse person (hide their ancestors). We recursively collapse the
-     * ancestors so that when the person is expanded it will only reveal one
-     * generation. If we don't recursively collapse the ancestors then when the
-     * person is clicked on again to expand, all ancestors that were previously
-     * showing will be shown again. If you want that behavior then just remove
-     * the recursion by removing the if block.
-     *
-     * @param {any} person A tree node carrying the pedigree-specific
-     *                     parents/_parents collapse state
-     */
-    collapse(person) {
-        if (person.parents) {
-            person._parents = person.parents;
-            person._parents.forEach((/** @type {any} */ parent) => {
-                this.collapse(parent);
-            });
-            // person._parents.forEach(this.collapse);
-            person.parents = null;
-        }
-
-        // person.collapsed = true;
-        //
-        // if (person.parents) {
-        //     person.parents.forEach((child) => this.collapse(child));
-        //     person.parents.forEach(this.collapse);
-        // }
     }
 }

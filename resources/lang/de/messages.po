@@ -137,7 +137,7 @@ msgstr "Mütterlich"
 msgid "Modules"
 msgstr ""
 
-#: src/Module.php:271
+#: src/Module.php:255
 msgid "Move the view with two fingers"
 msgstr "Verschieben der Ansicht mit zwei Fingern"
 
@@ -166,11 +166,11 @@ msgstr "Ausrichtung"
 msgid "Paternal"
 msgstr "Väterlich"
 
-#: src/Module.php:130 src/Module.php:251
+#: src/Module.php:130 src/Module/ChartTrait.php:63
 msgid "Pedigree chart"
 msgstr ""
 
-#: src/Module.php:248 src/Module/ChartTrait.php:44
+#: src/Module/ChartTrait.php:48
 #, php-format
 msgid "Pedigree chart of %s"
 msgstr "Vorfahrentafel von %s"
@@ -212,7 +212,7 @@ msgstr "Zwischen Vollbildmodus und normaler Ansicht umschalten"
 msgid "The preferences for the module “%s” have been updated."
 msgstr ""
 
-#: src/Module.php:270
+#: src/Module.php:254
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Verwende Strg+Scrollen zum Zoomen der Ansicht"
 

@@ -39,14 +39,6 @@ class Node implements JsonSerializable
     }
 
     /**
-     * @return NodeData
-     */
-    public function getData(): NodeData
-    {
-        return $this->data;
-    }
-
-    /**
      * @param Node $parent
      *
      * @return Node

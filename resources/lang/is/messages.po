@@ -135,7 +135,7 @@ msgstr "Móður"
 msgid "Modules"
 msgstr ""
 
-#: src/Module.php:271
+#: src/Module.php:255
 msgid "Move the view with two fingers"
 msgstr "Færðu yfirlitið með tveimur fingrum"
 
@@ -163,11 +163,11 @@ msgstr ""
 msgid "Paternal"
 msgstr "Föður"
 
-#: src/Module.php:130 src/Module.php:251
+#: src/Module.php:130 src/Module/ChartTrait.php:63
 msgid "Pedigree chart"
 msgstr "Ættartölugraf"
 
-#: src/Module.php:248 src/Module/ChartTrait.php:44
+#: src/Module/ChartTrait.php:48
 #, php-format
 msgid "Pedigree chart of %s"
 msgstr "Ættartölugraf fyrir %s"
@@ -209,7 +209,7 @@ msgstr "Skiptu á milli fullsskjás og venjulegs skjás"
 msgid "The preferences for the module “%s” have been updated."
 msgstr "Kjörstillingar fyrir eininguna “%s“ hafa verið uppfærðar."
 
-#: src/Module.php:270
+#: src/Module.php:254
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Notið Ctrl + Skrunhjól til að þysja í grafinu"
 
