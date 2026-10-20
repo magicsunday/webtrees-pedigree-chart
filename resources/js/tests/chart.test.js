@@ -15,10 +15,11 @@ const { default: Chart } = await import("resources/js/modules/chart.js");
  *
  * @param {{width: number, height: number, x: number, y: number}} chartBox  Bounding box of the drawn chart
  * @param {{width: number, height: number}}                       clientBox Bounding box of the parent element
+ * @param {number}                                                padding   Padding in pixels
  *
  * @returns {number[]}
  */
-function computeViewBox(chartBox, clientBox) {
+function computeViewBox(chartBox, clientBox, padding = 0) {
     const attributes = {};
     const svg = {
         attr: jest.fn((name, value) => {
@@ -31,7 +32,7 @@ function computeViewBox(chartBox, clientBox) {
     const context = {
         svg,
         parent: { node: () => ({ getBoundingClientRect: () => clientBox }) },
-        convertRemToPixels: () => 0,
+        convertRemToPixels: () => padding,
     };
 
     Chart.prototype.updateViewBox.call(context);
@@ -50,7 +51,7 @@ describe("Chart.updateViewBox", () => {
     });
 
     test("keeps the centring offset correct beyond the int32 range", () => {
-        // A bitwise shift would wrap this difference to a negative number
+        // A bitwise shift would wrap this difference to a wrong value
         const huge = 2 ** 33;
         const viewBox = computeViewBox(
             { width: 100, height: 100, x: 0, y: 0 },
@@ -59,5 +60,28 @@ describe("Chart.updateViewBox", () => {
 
         expect(viewBox[0]).toBe(Math.ceil(-(huge - 100) / 2));
         expect(viewBox[1]).toBe(Math.ceil(-(huge - 100) / 2));
+    });
+
+    test("adds the full padding to the view box size", () => {
+        // A fractional padding is truncated by a bitwise shift
+        const viewBox = computeViewBox(
+            { width: 100, height: 100, x: 0, y: 0 },
+            { width: 100, height: 100 },
+            1.5,
+        );
+
+        expect(viewBox).toEqual([-1, -1, 103, 103]);
+    });
+
+    test("adds the padding to the view box size beyond the int32 range", () => {
+        const padding = 2 ** 31;
+        const viewBox = computeViewBox(
+            { width: 100, height: 100, x: 0, y: 0 },
+            { width: 100, height: 100 },
+            padding,
+        );
+
+        expect(viewBox[2]).toBe(100 + padding * 2);
+        expect(viewBox[3]).toBe(100 + padding * 2);
     });
 });
