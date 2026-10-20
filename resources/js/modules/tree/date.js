@@ -71,7 +71,7 @@ export default class DateRenderer {
                 .append("text")
                 .attr("class", "date")
                 .attr("text-anchor", "middle")
-                .attr("alignment-baseline", "central")
+                .attr("dominant-baseline", "central")
                 .attr("y", dateYOffset);
 
             text.append("title").text((d) => d.label);
