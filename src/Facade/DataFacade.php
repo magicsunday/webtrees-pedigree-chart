@@ -250,8 +250,7 @@ class DataFacade
             ->setSex($individual->sex())
             ->setBirth($dateProcessor->getBirthDate())
             ->setDeath($dateProcessor->getDeathDate())
-            ->setTimespan($dateProcessor->getLifetimeDescription())
-            ->setIndividual($individual);
+            ->setTimespan($dateProcessor->getLifetimeDescription());
 
         return $treeData;
     }

@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace MagicSunday\Webtrees\PedigreeChart\Model;
 
-use Fisharebest\Webtrees\Individual;
 use JsonSerializable;
 
 /**
@@ -127,19 +126,6 @@ class NodeData implements JsonSerializable
     protected string $timespan = '';
 
     /**
-     * The underlying individual instance. Only used internally.
-     */
-    protected ?Individual $individual = null;
-
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    /**
      * @param int $id
      *
      * @return NodeData
@@ -197,14 +183,6 @@ class NodeData implements JsonSerializable
         $this->generation = $generation;
 
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
     }
 
     /**
@@ -366,23 +344,6 @@ class NodeData implements JsonSerializable
     public function setTimespan(string $timespan): NodeData
     {
         $this->timespan = $timespan;
-
-        return $this;
-    }
-
-    public function getIndividual(): ?Individual
-    {
-        return $this->individual;
-    }
-
-    /**
-     * @param Individual|null $individual
-     *
-     * @return NodeData
-     */
-    public function setIndividual(?Individual $individual): NodeData
-    {
-        $this->individual = $individual;
 
         return $this;
     }
