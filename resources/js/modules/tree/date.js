@@ -157,7 +157,7 @@ export default class DateRenderer {
      * @param {string}                        date           The date value to truncate
      * @param {number}                        availableWidth The total available width the text could take
      *
-     * @returns {string}
+     * @return {string}
      *
      * @private
      */
@@ -188,7 +188,7 @@ export default class DateRenderer {
      *
      * @param {DateElementData} d The date element datum
      *
-     * @returns {number}
+     * @return {number}
      *
      * @private
      */
@@ -207,7 +207,7 @@ export default class DateRenderer {
      * @param {string}        fontSize   The CSS font-size string
      * @param {string|number} fontWeight The CSS font-weight
      *
-     * @returns {number}
+     * @return {number}
      *
      * @private
      */

@@ -15,7 +15,7 @@ import LinkDrawer from "resources/js/modules/tree/link-drawer.js";
  * @param {object} orientation The orientation values the drawer reads
  * @param {object} link        The d3-hierarchy link to draw
  *
- * @returns {string[]}
+ * @return {string[]}
  */
 function drawPaths(orientation, link) {
     document.body.replaceChildren();

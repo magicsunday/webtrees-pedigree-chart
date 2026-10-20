@@ -42,7 +42,7 @@ export default class Image {
     /**
      * Returns the calculated X-coordinate.
      *
-     * @returns {number}
+     * @return {number}
      */
     calculateX() {
         if (!this._orientation.isVertical) {
@@ -57,7 +57,7 @@ export default class Image {
     /**
      * Returns the calculated Y-coordinate.
      *
-     * @returns {number}
+     * @return {number}
      */
     calculateY() {
         if (!this._orientation.isVertical) {
@@ -70,7 +70,7 @@ export default class Image {
     /**
      * Returns the calculated image width.
      *
-     * @returns {number}
+     * @return {number}
      */
     calculateImageWidth() {
         return this._imageRadius * 2;
@@ -79,7 +79,7 @@ export default class Image {
     /**
      * Returns the calculated image height.
      *
-     * @returns {number}
+     * @return {number}
      */
     calculateImageHeight() {
         return this._imageRadius * 2;
@@ -88,7 +88,7 @@ export default class Image {
     /**
      * Returns the calculated corner radius.
      *
-     * @returns {number}
+     * @return {number}
      */
     calculateCornerRadius() {
         return this._cornerRadius - this._imagePadding;
@@ -97,7 +97,7 @@ export default class Image {
     /**
      * Returns the X-coordinate of the center of the image.
      *
-     * @returns {number}
+     * @return {number}
      */
     get x() {
         return this._x;
@@ -106,7 +106,7 @@ export default class Image {
     /**
      * Returns the Y-coordinate of the center of the image.
      *
-     * @returns {number}
+     * @return {number}
      */
     get y() {
         return this._y;
@@ -115,7 +115,7 @@ export default class Image {
     /**
      * Returns the horizontal corner radius of the image.
      *
-     * @returns {number}
+     * @return {number}
      */
     get rx() {
         return this._rx;
@@ -124,7 +124,7 @@ export default class Image {
     /**
      * Returns the vertical corner radius of the image.
      *
-     * @returns {number}
+     * @return {number}
      */
     get ry() {
         return this._ry;
@@ -133,7 +133,7 @@ export default class Image {
     /**
      * Returns the width of the image.
      *
-     * @returns {number}
+     * @return {number}
      */
     get width() {
         return this._width;
@@ -142,7 +142,7 @@ export default class Image {
     /**
      * Returns the height of the image.
      *
-     * @returns {number}
+     * @return {number}
      */
     get height() {
         return this._height;

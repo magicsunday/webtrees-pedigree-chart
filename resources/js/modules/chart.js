@@ -46,7 +46,7 @@ export default class Chart {
     /**
      * Returns the SVG instance.
      *
-     * @returns {Svg}
+     * @return {Svg}
      */
     get svg() {
         return this._svg;
@@ -55,7 +55,7 @@ export default class Chart {
     /**
      * Returns the parent container.
      *
-     * @returns {Selection<HTMLElement, unknown, HTMLElement, unknown>}
+     * @return {Selection<HTMLElement, unknown, HTMLElement, unknown>}
      */
     get parent() {
         return this._parent;
@@ -64,7 +64,7 @@ export default class Chart {
     /**
      * Returns the chart data.
      *
-     * @returns {NodeDatum|null}
+     * @return {NodeDatum|null}
      */
     get data() {
         return this._data;
@@ -87,7 +87,7 @@ export default class Chart {
      *
      * @param {number} rem The relative size
      *
-     * @returns {number}
+     * @return {number}
      */
     convertRemToPixels(rem) {
         return rem * parseFloat(window.getComputedStyle(document.documentElement).fontSize);

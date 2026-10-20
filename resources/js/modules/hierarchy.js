@@ -88,7 +88,7 @@ export default class Hierarchy {
      * Returns the laid-out tree (root node with x/y assigned by d3.tree()).
      * Only available once init() has run.
      *
-     * @returns {HierarchyPointNode<any>}
+     * @return {HierarchyPointNode<any>}
      *
      * @public
      */
@@ -104,7 +104,7 @@ export default class Hierarchy {
      * Returns the root node of the d3 hierarchy. Only available once init()
      * has run.
      *
-     * @returns {HierarchyNode<any>}
+     * @return {HierarchyNode<any>}
      *
      * @public
      */

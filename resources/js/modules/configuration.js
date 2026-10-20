@@ -65,7 +65,7 @@ export default class Configuration {
     /**
      * Returns the tree layout.
      *
-     * @returns {string}
+     * @return {string}
      */
     get treeLayout() {
         return this._treeLayout;
@@ -83,7 +83,7 @@ export default class Configuration {
     /**
      * Returns the current orientation.
      *
-     * @returns {Orientation}
+     * @return {Orientation}
      */
     get orientation() {
         const orientation = this._orientations.get()[this.treeLayout];
@@ -99,7 +99,7 @@ export default class Configuration {
      * Returns TRUE or FALSE depending on whether to open the current
      * individual's details page in a new tab.
      *
-     * @returns {boolean}
+     * @return {boolean}
      */
     get openNewTabOnClick() {
         return this._openNewTabOnClick;
@@ -108,7 +108,7 @@ export default class Configuration {
     /**
      * Returns whether to show or hide the alternative name.
      *
-     * @returns {boolean}
+     * @return {boolean}
      */
     get showAlternativeName() {
         return this._showAlternativeName;
@@ -118,7 +118,7 @@ export default class Configuration {
      * Returns TRUE if person boxes should be tinted by paternal/maternal
      * lineage.
      *
-     * @returns {boolean}
+     * @return {boolean}
      */
     get showFamilyColors() {
         return this._showFamilyColors;
@@ -127,7 +127,7 @@ export default class Configuration {
     /**
      * Returns the configured paternal-side base color (hex).
      *
-     * @returns {string}
+     * @return {string}
      */
     get paternalColor() {
         return this._paternalColor;
@@ -136,7 +136,7 @@ export default class Configuration {
     /**
      * Returns the configured maternal-side base color (hex).
      *
-     * @returns {string}
+     * @return {string}
      */
     get maternalColor() {
         return this._maternalColor;
@@ -147,7 +147,7 @@ export default class Configuration {
      * The server resolves the tree-pref value (which can also be "AUTO") into
      * one of these two before serialising — the JS layer never sees AUTO.
      *
-     * @returns {string}
+     * @return {string}
      */
     get nameAbbreviation() {
         return this._nameAbbreviation;

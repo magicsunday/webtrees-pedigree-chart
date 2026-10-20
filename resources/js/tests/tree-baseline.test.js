@@ -24,7 +24,7 @@ const TEXT_BOX = { y: 10, width: 100 };
  *
  * @param {Function} draw Receives the parent selection and appends the renderer output
  *
- * @returns {Element[]}
+ * @return {Element[]}
  */
 function drawTexts(draw) {
     document.body.replaceChildren();
