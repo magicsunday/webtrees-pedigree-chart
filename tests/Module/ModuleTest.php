@@ -82,14 +82,7 @@ final class ModuleTest extends TestCase
         $individual   = self::createStub(Individual::class);
         $tree         = self::createStub(Tree::class);
 
-        $locale     = Locale::create('en');
-        $translator = new Translator([], $locale->pluralRule());
-
-        $localeProperty = new ReflectionProperty(I18N::class, 'locale');
-        $localeProperty->setValue(null, $locale);
-
-        $translatorProperty = new ReflectionProperty(I18N::class, 'translator');
-        $translatorProperty->setValue(null, $translator);
+        $this->useEnglishLocale();
 
         $individual->method('fullName')->willReturn('Example Person');
         $individual->method('xref')->willReturn('I1');
@@ -99,5 +92,44 @@ final class ModuleTest extends TestCase
         self::assertSame('menu-chart-pedigree', $module->chartMenuClass());
         self::assertStringContainsString('Example Person', $module->chartTitle($individual));
         self::assertStringContainsString('/route/webtrees-pedigree-chart?', $module->chartUrl($individual));
+    }
+
+    /**
+     * Names the individual in the page title only when the visitor may see
+     * the name, and falls back to the plain chart title otherwise.
+     */
+    #[Test]
+    public function pageTitleNamesTheIndividualOnlyWhenTheNameIsVisible(): void
+    {
+        $this->useEnglishLocale();
+
+        $module = new Module(self::createStub(ChartService::class), new DataFacade());
+
+        $visible = self::createStub(Individual::class);
+        $visible->method('canShowName')->willReturn(true);
+        $visible->method('fullName')->willReturn('Example Person');
+
+        $hidden = self::createStub(Individual::class);
+        $hidden->method('canShowName')->willReturn(false);
+        $hidden->method('fullName')->willReturn('Secret Person');
+
+        self::assertSame('Pedigree chart of Example Person', $module->pageTitle($visible));
+        self::assertSame('Pedigree chart', $module->pageTitle($hidden));
+    }
+
+    /**
+     * Installs an English locale and translator, so translated titles are
+     * deterministic.
+     */
+    private function useEnglishLocale(): void
+    {
+        $locale     = Locale::create('en');
+        $translator = new Translator([], $locale->pluralRule());
+
+        $localeProperty = new ReflectionProperty(I18N::class, 'locale');
+        $localeProperty->setValue(null, $locale);
+
+        $translatorProperty = new ReflectionProperty(I18N::class, 'translator');
+        $translatorProperty->setValue(null, $translator);
     }
 }

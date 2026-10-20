@@ -133,7 +133,7 @@ msgstr "Bên ngoại"
 msgid "Modules"
 msgstr ""
 
-#: src/Module.php:271
+#: src/Module.php:255
 msgid "Move the view with two fingers"
 msgstr "Di chuyển tầm nhìn bằng hai ngón tay"
 
@@ -159,11 +159,11 @@ msgstr "Chiều hiển thị biểu đồ"
 msgid "Paternal"
 msgstr "Bên nội"
 
-#: src/Module.php:130 src/Module.php:251
+#: src/Module.php:130 src/Module/ChartTrait.php:61
 msgid "Pedigree chart"
 msgstr ""
 
-#: src/Module.php:248 src/Module/ChartTrait.php:44
+#: src/Module/ChartTrait.php:48
 #, php-format
 msgid "Pedigree chart of %s"
 msgstr "Biểu đồ phả hệ của %s"
@@ -205,7 +205,7 @@ msgstr "Chuyển giữa toàn màn hình và xem bình thường"
 msgid "The preferences for the module “%s” have been updated."
 msgstr ""
 
-#: src/Module.php:270
+#: src/Module.php:254
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Sử dụng Ctrl + cuộn để phóng to chế độ xem"
 

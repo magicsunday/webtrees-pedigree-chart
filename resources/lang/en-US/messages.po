@@ -134,7 +134,7 @@ msgstr "Maternal"
 msgid "Modules"
 msgstr "Modules"
 
-#: src/Module.php:271
+#: src/Module.php:255
 msgid "Move the view with two fingers"
 msgstr "Move the view with two fingers"
 
@@ -160,11 +160,11 @@ msgstr "Orientation"
 msgid "Paternal"
 msgstr "Paternal"
 
-#: src/Module.php:130 src/Module.php:251
+#: src/Module.php:130 src/Module/ChartTrait.php:61
 msgid "Pedigree chart"
 msgstr "Pedigree chart"
 
-#: src/Module.php:248 src/Module/ChartTrait.php:44
+#: src/Module/ChartTrait.php:48
 #, php-format
 msgid "Pedigree chart of %s"
 msgstr "Pedigree chart of %s"
@@ -206,7 +206,7 @@ msgstr "Switch between full screen mode and normal view"
 msgid "The preferences for the module “%s” have been updated."
 msgstr "The preferences for the module “%s” have been updated."
 
-#: src/Module.php:270
+#: src/Module.php:254
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Use Ctrl + scroll to zoom in the view"
 
