@@ -22,11 +22,11 @@ msgstr ""
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "Et diagram over en persons aner."
 
-#: src/Configuration.php:421
+#: src/Configuration.php:505
 msgid "Abbreviate given names first"
 msgstr "Forkort fornavn først"
 
-#: src/Configuration.php:422
+#: src/Configuration.php:506
 msgid "Abbreviate surnames first"
 msgstr "Forkort etternavn først"
 
@@ -38,7 +38,7 @@ msgstr ""
 msgid "Add a mother"
 msgstr ""
 
-#: src/Configuration.php:420
+#: src/Configuration.php:504
 msgid "Automatic (based on tree's surname tradition)"
 msgstr "Automatisk (basert på treets etternavnstradisjon)"
 
@@ -229,15 +229,15 @@ msgstr ""
 msgid "cancel"
 msgstr "avbryt"
 
-#: src/Configuration.php:185 src/Configuration.php:193
+#: src/Configuration.php:269 src/Configuration.php:277
 msgid "down"
 msgstr ""
 
-#: src/Configuration.php:182 src/Configuration.php:190
+#: src/Configuration.php:266 src/Configuration.php:274
 msgid "left"
 msgstr ""
 
-#: src/Configuration.php:183 src/Configuration.php:191
+#: src/Configuration.php:267 src/Configuration.php:275
 msgid "right"
 msgstr ""
 
@@ -245,7 +245,7 @@ msgstr ""
 msgid "save"
 msgstr ""
 
-#: src/Configuration.php:184 src/Configuration.php:192
+#: src/Configuration.php:268 src/Configuration.php:276
 msgid "up"
 msgstr ""
 
