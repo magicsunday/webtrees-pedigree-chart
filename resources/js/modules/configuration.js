@@ -24,7 +24,6 @@ export default class Configuration {
      * Constructor.
      *
      * @param {{zoom: string, move: string}} labels
-     * @param {number}   generations
      * @param {string}   treeLayout
      * @param {boolean}  openNewTabOnClick
      * @param {boolean}  showAlternativeName
@@ -33,11 +32,9 @@ export default class Configuration {
      * @param {string}   maternalColor
      * @param {string}   nameAbbreviation One of "GIVEN" or "SURNAME". Resolved server-side from the tree's SURNAME_TRADITION when admin sets it to AUTO.
      * @param {boolean}  rtl
-     * @param {number}   direction
      */
     constructor(
         labels,
-        generations = 4,
         treeLayout = LAYOUT_LEFTRIGHT,
         openNewTabOnClick = true,
         showAlternativeName = true,
@@ -46,7 +43,6 @@ export default class Configuration {
         maternalColor = "#d06f94",
         nameAbbreviation = "GIVEN",
         rtl = false,
-        direction = 1,
     ) {
         // The layout/orientation of the tree
         this._treeLayout = treeLayout;
@@ -59,49 +55,11 @@ export default class Configuration {
         this._maternalColor = maternalColor;
         this._nameAbbreviation = nameAbbreviation;
 
-        //
+        // Duration of the node and link transitions in milliseconds
         this.duration = 750;
-
-        //
-        this.padding = 15;
-
-        // Default number of generations to display
-        this._generations = generations;
-
-        // Left/Right padding of a text (used with truncation)
-        this.textPadding = 8;
-
-        // // Default font size, color and scaling
-        this._fontSize = 14;
-        // this._fontScale = fontScale;
-        this.fontColor = "rgb(0, 0, 0)";
-
-        // Duration of update animation if clicked on a person
-        // this.updateDuration = 1250;
 
         this.rtl = rtl;
         this.labels = labels;
-
-        // Direction is either 1 (forward) or -1 (backward)
-        this.direction = direction;
-    }
-
-    /**
-     * Returns the number of generations to display.
-     *
-     * @returns {number}
-     */
-    get generations() {
-        return this._generations;
-    }
-
-    /**
-     * Sets the number of generations to display.
-     *
-     * @param {number} value The number of generations to display
-     */
-    set generations(value) {
-        this._generations = value;
     }
 
     /**

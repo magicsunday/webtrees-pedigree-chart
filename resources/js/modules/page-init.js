@@ -55,7 +55,6 @@ export function initPage(config) {
      * matching getter.
      *
      * @type {{
-     *   generations: number|null,
      *   treeLayout: string|null,
      *   openNewTabOnClick: boolean|null,
      *   showAlternativeName: boolean|null,
@@ -65,7 +64,6 @@ export function initPage(config) {
      * }}
      */
     const chartOptions = {
-        generations: storage.readNumber("generations"),
         treeLayout: storage.readString("layout"),
         openNewTabOnClick: storage.readBool("openNewTabOnClick"),
         showAlternativeName: storage.readBool("showAlternativeName"),
