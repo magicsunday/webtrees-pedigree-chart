@@ -223,7 +223,7 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:112
 msgid "cancel"
-msgstr "Hủy bỏ"
+msgstr ""
 
 #: src/Configuration.php:269 src/Configuration.php:277
 msgid "down"
