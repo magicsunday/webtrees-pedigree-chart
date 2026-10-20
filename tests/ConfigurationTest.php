@@ -280,4 +280,79 @@ final class ConfigurationTest extends TestCase
             ],
         ];
     }
+
+    /**
+     * Pins the per-request query cost: however often the getters are called
+     * while the tree is built, each preference is read at most once.
+     */
+    #[Test]
+    public function readsEachPreferenceOnceHoweverOftenTheGettersAreCalled(): void
+    {
+        // Compares one round against ten rather than asserting a fixed number.
+        // A fixed bound would encode today's preference count and would fail on
+        // an unrelated future addition while blaming memoisation. It would also
+        // pass vacuously if the getters stopped querying at all. Constant cost
+        // is the property that matters.
+        $oneRound  = $this->countPreferenceQueries(1);
+        $tenRounds = $this->countPreferenceQueries(10);
+
+        self::assertGreaterThan(0, $oneRound, 'the first round must actually read the preferences');
+        self::assertSame(
+            $oneRound,
+            $tenRounds,
+            'preference lookups are not memoised, the query cost scales with the number of nodes'
+        );
+    }
+
+    /**
+     * Runs all per-node getters $rounds times against a FRESH configuration and
+     * returns how many `module_setting` queries that produced. The instance has
+     * to be fresh per measurement, reusing one would leave it memoised from the
+     * previous round and report zero.
+     */
+    private function countPreferenceQueries(int $rounds): int
+    {
+        $configuration = $this->buildConfiguration([], []);
+        $connection    = DB::connection();
+        $connection->flushQueryLog();
+        $connection->enableQueryLog();
+
+        try {
+            for ($i = 0; $i < $rounds; ++$i) {
+                $configuration->getGenerations();
+                $configuration->getLayout();
+                $configuration->getOpenNewTabOnClick();
+                $configuration->getShowNicknames();
+                $configuration->getShowAlternativeName();
+                $configuration->getHideSvgExport();
+                $configuration->getHidePngExport();
+                $configuration->getShowFamilyColors();
+                $configuration->getPaternalColor();
+                $configuration->getMaternalColor();
+                $configuration->getShowAddParentLinks();
+                $configuration->getNameAbbreviation();
+            }
+
+            // Counts only the preference reads the assertion talks about, so an
+            // unrelated query inside the window cannot change the verdict.
+            return count(array_filter($connection->getQueryLog(), $this->isPreferenceQuery(...)));
+        } finally {
+            $connection->disableQueryLog();
+            $connection->flushQueryLog();
+        }
+    }
+
+    /**
+     * Whether a query-log entry is a preference read.
+     *
+     * Declared as a named method with the log entry's shape rather than an
+     * inline closure, because without the shape Rector wants a `(string)` cast
+     * on the query and PHPStan rejects that same cast as useless.
+     *
+     * @param array{query: string, bindings: array<mixed>, time: float|null} $entry
+     */
+    private function isPreferenceQuery(array $entry): bool
+    {
+        return str_contains($entry['query'], 'module_setting');
+    }
 }
