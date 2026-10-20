@@ -86,6 +86,74 @@ class Configuration
      */
     private ?array $routeToggleParams = null;
 
+    // The getters below are each called once per node while the tree is built.
+    // AbstractModule::getPreference() runs a `module_setting` query on every
+    // call and holds no cache, and Validator::__construct() re-scans all request
+    // parameters for valid UTF-8, so both costs would scale with the size of the
+    // chart. Each getter therefore returns its memoised value before doing
+    // either, an assignment at the return site would be too late because the
+    // validator is built above it.
+
+    /**
+     * The resolved number of generations to display, or null until first resolved.
+     */
+    private ?int $generations = null;
+
+    /**
+     * The resolved tree layout, or null until first resolved.
+     */
+    private ?string $layout = null;
+
+    /**
+     * Whether a click opens a new tab, or null until first resolved.
+     */
+    private ?bool $openNewTabOnClick = null;
+
+    /**
+     * Whether nicknames are shown, or null until first resolved.
+     */
+    private ?bool $showNicknames = null;
+
+    /**
+     * Whether the alternative name is shown, or null until first resolved.
+     */
+    private ?bool $showAlternativeName = null;
+
+    /**
+     * Whether the SVG export button is hidden, or null until first resolved.
+     */
+    private ?bool $hideSvgExport = null;
+
+    /**
+     * Whether the PNG export button is hidden, or null until first resolved.
+     */
+    private ?bool $hidePngExport = null;
+
+    /**
+     * Whether person boxes are colored by lineage, or null until first resolved.
+     */
+    private ?bool $showFamilyColors = null;
+
+    /**
+     * The resolved paternal color, or null until first resolved.
+     */
+    private ?string $paternalColor = null;
+
+    /**
+     * The resolved maternal color, or null until first resolved.
+     */
+    private ?string $maternalColor = null;
+
+    /**
+     * Whether the add-parent placeholders are shown, or null until first resolved.
+     */
+    private ?bool $showAddParentLinks = null;
+
+    /**
+     * The resolved name-abbreviation strategy, or null until first resolved.
+     */
+    private ?NameAbbreviation $nameAbbreviation = null;
+
     /**
      * Configuration constructor.
      *
@@ -102,19 +170,35 @@ class Configuration
     }
 
     /**
+     * Returns the validator for whichever side of the request carries the
+     * parameters.
+     *
+     * Not memoised: every caller is a getter that returns its own memoised value
+     * before reaching this, so it runs at most once per setting per request.
+     */
+    private function requestValidator(): Validator
+    {
+        if ($this->request->getMethod() === RequestMethodInterface::METHOD_POST) {
+            return Validator::parsedBody($this->request);
+        }
+
+        return Validator::queryParams($this->request);
+    }
+
+    /**
      * Returns the number of generations to display.
      *
      * @return int
      */
     public function getGenerations(): int
     {
-        if ($this->request->getMethod() === RequestMethodInterface::METHOD_POST) {
-            $validator = Validator::parsedBody($this->request);
-        } else {
-            $validator = Validator::queryParams($this->request);
+        if ($this->generations !== null) {
+            return $this->generations;
         }
 
-        return $validator
+        $validator = $this->requestValidator();
+
+        return $this->generations = $validator
             ->isBetween(self::MIN_GENERATIONS, self::MAX_GENERATIONS)
             ->integer(
                 'generations',
@@ -148,13 +232,13 @@ class Configuration
      */
     public function getLayout(): string
     {
-        if ($this->request->getMethod() === RequestMethodInterface::METHOD_POST) {
-            $validator = Validator::parsedBody($this->request);
-        } else {
-            $validator = Validator::queryParams($this->request);
+        if ($this->layout !== null) {
+            return $this->layout;
         }
 
-        return $validator
+        $validator = $this->requestValidator();
+
+        return $this->layout = $validator
             ->isInArray([
                 self::LAYOUT_BOTTOMTOP,
                 self::LAYOUT_LEFTRIGHT,
@@ -202,13 +286,13 @@ class Configuration
      */
     public function getOpenNewTabOnClick(): bool
     {
-        if ($this->request->getMethod() === RequestMethodInterface::METHOD_POST) {
-            $validator = Validator::parsedBody($this->request);
-        } else {
-            $validator = Validator::queryParams($this->request);
+        if ($this->openNewTabOnClick !== null) {
+            return $this->openNewTabOnClick;
         }
 
-        return $validator
+        $validator = $this->requestValidator();
+
+        return $this->openNewTabOnClick = $validator
             ->boolean(
                 'openNewTabOnClick',
                 (bool) $this->module->getPreference(
@@ -228,13 +312,13 @@ class Configuration
      */
     public function getShowNicknames(): bool
     {
-        if ($this->request->getMethod() === RequestMethodInterface::METHOD_POST) {
-            $validator = Validator::parsedBody($this->request);
-        } else {
-            $validator = Validator::queryParams($this->request);
+        if ($this->showNicknames !== null) {
+            return $this->showNicknames;
         }
 
-        return $validator
+        $validator = $this->requestValidator();
+
+        return $this->showNicknames = $validator
             ->boolean(
                 'showNicknames',
                 (bool) $this->module->getPreference(
@@ -251,13 +335,13 @@ class Configuration
      */
     public function getShowAlternativeName(): bool
     {
-        if ($this->request->getMethod() === RequestMethodInterface::METHOD_POST) {
-            $validator = Validator::parsedBody($this->request);
-        } else {
-            $validator = Validator::queryParams($this->request);
+        if ($this->showAlternativeName !== null) {
+            return $this->showAlternativeName;
         }
 
-        return $validator
+        $validator = $this->requestValidator();
+
+        return $this->showAlternativeName = $validator
             ->boolean(
                 'showAlternativeName',
                 (bool) $this->module->getPreference(
@@ -274,13 +358,13 @@ class Configuration
      */
     public function getHideSvgExport(): bool
     {
-        if ($this->request->getMethod() === RequestMethodInterface::METHOD_POST) {
-            $validator = Validator::parsedBody($this->request);
-        } else {
-            $validator = Validator::queryParams($this->request);
+        if ($this->hideSvgExport !== null) {
+            return $this->hideSvgExport;
         }
 
-        return $validator
+        $validator = $this->requestValidator();
+
+        return $this->hideSvgExport = $validator
             ->boolean(
                 'hideSvgExport',
                 (bool) $this->module->getPreference(
@@ -297,13 +381,13 @@ class Configuration
      */
     public function getHidePngExport(): bool
     {
-        if ($this->request->getMethod() === RequestMethodInterface::METHOD_POST) {
-            $validator = Validator::parsedBody($this->request);
-        } else {
-            $validator = Validator::queryParams($this->request);
+        if ($this->hidePngExport !== null) {
+            return $this->hidePngExport;
         }
 
-        return $validator
+        $validator = $this->requestValidator();
+
+        return $this->hidePngExport = $validator
             ->boolean(
                 'hidePngExport',
                 (bool) $this->module->getPreference(
@@ -320,13 +404,13 @@ class Configuration
      */
     public function getShowFamilyColors(): bool
     {
-        if ($this->request->getMethod() === RequestMethodInterface::METHOD_POST) {
-            $validator = Validator::parsedBody($this->request);
-        } else {
-            $validator = Validator::queryParams($this->request);
+        if ($this->showFamilyColors !== null) {
+            return $this->showFamilyColors;
         }
 
-        return $validator
+        $validator = $this->requestValidator();
+
+        return $this->showFamilyColors = $validator
             ->boolean(
                 'showFamilyColors',
                 (bool) $this->module->getPreference(
@@ -343,13 +427,13 @@ class Configuration
      */
     public function getPaternalColor(): string
     {
-        if ($this->request->getMethod() === RequestMethodInterface::METHOD_POST) {
-            $validator = Validator::parsedBody($this->request);
-        } else {
-            $validator = Validator::queryParams($this->request);
+        if ($this->paternalColor !== null) {
+            return $this->paternalColor;
         }
 
-        return $validator
+        $validator = $this->requestValidator();
+
+        return $this->paternalColor = $validator
             ->string(
                 'paternalColor',
                 $this->module->getPreference(
@@ -366,13 +450,13 @@ class Configuration
      */
     public function getMaternalColor(): string
     {
-        if ($this->request->getMethod() === RequestMethodInterface::METHOD_POST) {
-            $validator = Validator::parsedBody($this->request);
-        } else {
-            $validator = Validator::queryParams($this->request);
+        if ($this->maternalColor !== null) {
+            return $this->maternalColor;
         }
 
-        return $validator
+        $validator = $this->requestValidator();
+
+        return $this->maternalColor = $validator
             ->string(
                 'maternalColor',
                 $this->module->getPreference(
@@ -392,13 +476,13 @@ class Configuration
      */
     public function getShowAddParentLinks(): bool
     {
-        if ($this->request->getMethod() === RequestMethodInterface::METHOD_POST) {
-            $validator = Validator::parsedBody($this->request);
-        } else {
-            $validator = Validator::queryParams($this->request);
+        if ($this->showAddParentLinks !== null) {
+            return $this->showAddParentLinks;
         }
 
-        return $validator
+        $validator = $this->requestValidator();
+
+        return $this->showAddParentLinks = $validator
             ->boolean(
                 'showAddParentLinks',
                 (bool) $this->module->getPreference(
@@ -434,11 +518,11 @@ class Configuration
      */
     public function getNameAbbreviation(): NameAbbreviation
     {
-        if ($this->request->getMethod() === RequestMethodInterface::METHOD_POST) {
-            $validator = Validator::parsedBody($this->request);
-        } else {
-            $validator = Validator::queryParams($this->request);
+        if ($this->nameAbbreviation instanceof NameAbbreviation) {
+            return $this->nameAbbreviation;
         }
+
+        $validator = $this->requestValidator();
 
         $value = $validator
             ->string(
@@ -449,7 +533,7 @@ class Configuration
                 )
             );
 
-        return NameAbbreviation::tryFrom($value) ?? NameAbbreviation::Auto;
+        return $this->nameAbbreviation = NameAbbreviation::tryFrom($value) ?? NameAbbreviation::Auto;
     }
 
     /**
