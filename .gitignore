@@ -14,7 +14,6 @@ node_modules/
 
 # Custom
 resources/js/pedigree-chart-*.js
-resources/js/pedigree-chart-storage.js
 # Allow minified file
 !resources/js/pedigree-chart-*.min.js
 webtrees-pedigree-chart.zip

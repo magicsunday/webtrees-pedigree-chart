@@ -232,8 +232,13 @@ dist-smoke:
 	if echo "$$paths" | grep -qE '(^|/)composer\.json$$'; then \
 		echo "Error: composer.json found in zip"; exit 1; \
 	fi; \
-	if echo "$$paths" | grep -qE '^assets/'; then \
-		echo "Error: assets/ found in zip"; exit 1; \
+	for prefix in assets dev .githooks; do \
+		if echo "$$paths" | grep -qE "^$$prefix/"; then \
+			echo "Error: $$prefix/ found in zip"; exit 1; \
+		fi; \
+	done; \
+	if echo "$$paths" | grep -qxF jsconfig.json; then \
+		echo "Error: jsconfig.json found in zip"; exit 1; \
 	fi
 	@unzip -p $(MODULE_NAME).zip module.php | grep -qF 'MagicSunday\\$(SCOPE_NS)\\Webtrees\\ModuleBase' \
 		|| { echo "Error: module.php in zip is missing prefixed namespace ($(SCOPE_NS))"; exit 1; }
