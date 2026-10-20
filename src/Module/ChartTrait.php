@@ -30,9 +30,9 @@ trait ChartTrait
     /**
      * Returns the CSS class applied to the pedigree-chart menu item.
      *
-     * Not redundant with the core module: the trait imported above brings in
-     * the core chart trait, whose empty value would take precedence over the
-     * parent class method.
+     * This is not redundant with the core module. The trait imported above
+     * brings in the core chart trait, whose empty value would take precedence
+     * over the parent class method.
      */
     public function chartMenuClass(): string
     {
@@ -51,6 +51,8 @@ trait ChartTrait
     /**
      * Returns the page title. It names the individual only when the visitor
      * may see the name, otherwise it is the plain chart title.
+     *
+     * @return string
      */
     public function pageTitle(Individual $individual): string
     {

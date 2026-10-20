@@ -163,7 +163,7 @@ msgstr ""
 msgid "Paternal"
 msgstr "Föður"
 
-#: src/Module.php:130 src/Module/ChartTrait.php:61
+#: src/Module.php:130 src/Module/ChartTrait.php:63
 msgid "Pedigree chart"
 msgstr "Ættartölugraf"
 
