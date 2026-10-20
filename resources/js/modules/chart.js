@@ -113,9 +113,12 @@ export default class Chart {
         let viewBoxWidth = Math.max(clientBoundingBox.width, svgBoundingBox.width);
         let viewBoxHeight = Math.max(clientBoundingBox.height, svgBoundingBox.height);
 
-        // Calculate offset to center chart inside svg
-        const offsetX = (viewBoxWidth - svgBoundingBox.width) >> 1;
-        const offsetY = (viewBoxHeight - svgBoundingBox.height) >> 1;
+        // Calculate offset to center chart inside svg.
+        // Use plain division, `>> 1` casts to int32 and silently overflows
+        // to a negative value once the bounding-box dimensions exceed ~2.1
+        // billion pixels, which a deeply zoomed-in chart can produce.
+        const offsetX = (viewBoxWidth - svgBoundingBox.width) / 2;
+        const offsetY = (viewBoxHeight - svgBoundingBox.height) / 2;
 
         // Adjust view box dimensions by padding and offset
         const viewBoxLeft = Math.ceil(svgBoundingBox.x - offsetX - padding);
@@ -130,9 +133,9 @@ export default class Chart {
                 .attr("height", clientBoundingBox.height);
         }
 
-        // Final width/height of view box
-        viewBoxWidth = Math.ceil(viewBoxWidth + (padding << 1));
-        viewBoxHeight = Math.ceil(viewBoxHeight + (padding << 1));
+        // Final width/height of view box (padding * 2, same int32 caveat as above)
+        viewBoxWidth = Math.ceil(viewBoxWidth + padding * 2);
+        viewBoxHeight = Math.ceil(viewBoxHeight + padding * 2);
 
         // Set view box attribute
         this.svg.attr("viewBox", [viewBoxLeft, viewBoxTop, viewBoxWidth, viewBoxHeight]);
