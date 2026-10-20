@@ -141,7 +141,6 @@ export default class NodeDrawer {
                                       ? "male"
                                       : "unknown",
                             )
-                            .classed("spouse", (person) => person.data.spouse)
                             .attr("rx", 20)
                             .attr("ry", 20)
                             .attr("x", -(this._orientation.boxWidth / 2))
