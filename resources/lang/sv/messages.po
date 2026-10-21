@@ -133,7 +133,7 @@ msgstr "Moderns"
 msgid "Modules"
 msgstr ""
 
-#: src/Module.php:244
+#: src/Module.php:236
 msgid "Move the view with two fingers"
 msgstr "Flytta vyn med två fingrar"
 
@@ -205,7 +205,7 @@ msgstr "Växla mellan helskärm och normal vy"
 msgid "The preferences for the module “%s” have been updated."
 msgstr ""
 
-#: src/Module.php:243
+#: src/Module.php:235
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Använd CTRL + scroll för att zooma i vyn"
 

@@ -135,7 +135,7 @@ msgstr "Mors"
 msgid "Modules"
 msgstr ""
 
-#: src/Module.php:244
+#: src/Module.php:236
 msgid "Move the view with two fingers"
 msgstr "Bruk to fingre for å endre synsfelt"
 
@@ -209,7 +209,7 @@ msgstr "Bytt mellom fullskjerm og normal visning"
 msgid "The preferences for the module “%s” have been updated."
 msgstr "Innstillingene for modulen “%s” har blitt oppdatert."
 
-#: src/Module.php:243
+#: src/Module.php:235
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Bruk Ctrl + scroll for zoom"
 

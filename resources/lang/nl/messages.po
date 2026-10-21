@@ -137,7 +137,7 @@ msgstr "Moederlijk"
 msgid "Modules"
 msgstr ""
 
-#: src/Module.php:244
+#: src/Module.php:236
 msgid "Move the view with two fingers"
 msgstr "Verplaats de weergave met twee vingers"
 
@@ -212,7 +212,7 @@ msgstr "Schakelen tussen volledig scherm en normale weergave"
 msgid "The preferences for the module “%s” have been updated."
 msgstr "De voorkeuren voor de module \"%s\" zijn bijgewerkt."
 
-#: src/Module.php:243
+#: src/Module.php:235
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Gebruik Ctrl + scroll om in te zoomen op de weergave"
 

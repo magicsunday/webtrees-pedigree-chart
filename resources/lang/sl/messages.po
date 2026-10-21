@@ -138,7 +138,7 @@ msgstr "Materina"
 msgid "Modules"
 msgstr "Moduli"
 
-#: src/Module.php:244
+#: src/Module.php:236
 msgid "Move the view with two fingers"
 msgstr "Premakni pogled z dvema prstoma"
 
@@ -212,7 +212,7 @@ msgstr "Preklopi med celozaslonskim in običajnim načinom"
 msgid "The preferences for the module “%s” have been updated."
 msgstr "Nastavitve modula “%s” so posodobljene."
 
-#: src/Module.php:243
+#: src/Module.php:235
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Uporabi Ctrl+Scroll kolesce za povečavo diagrama"
 
