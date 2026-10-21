@@ -31,13 +31,20 @@
  * @property {string}   thumbnail       The URL of the thumbnail image
  * @property {string}   silhouette      The sex-specific silhouette URL used as image fallback
  * @property {string}   name            The full name of the individual
- * @property {string}   preferredName   The preferred first name
- * @property {string[]} firstNames      The list of first names
- * @property {string[]} lastNames       The list of last names
- * @property {string}   nickname        Quoted nickname inserted between given names and surname
+ * @property {NameSegment[]} nameSegments The name as ordered, drawable segments
  * @property {string}   alternativeName The alternative name of the individual
  * @property {boolean}  isNameRtl       Whether the primary name should render right-to-left
  * @property {boolean}  isAltRtl        Whether the alternative name should render right-to-left
+ */
+
+/**
+ * One drawable part of a name as emitted by the PHP NameSegment::jsonSerialize(). The
+ * segments are listed in display order, so the renderer only draws them.
+ *
+ * @typedef {object} NameSegment
+ * @property {string}                                     label       The text to draw, a nickname carries its quotes and a married surname its brackets
+ * @property {"given"|"surname"|"nickname"|"married"} kind        The role of the segment inside the name
+ * @property {boolean}                                    isPreferred Whether the segment is the preferred given name
  */
 
 /**
@@ -77,8 +84,9 @@
 
 /**
  * @typedef {object} LabelElementData
- * @property {string}  label
- * @property {boolean} isPreferred
- * @property {boolean} isLastName
- * @property {boolean} isNameRtl
+ * @property {string}   label
+ * @property {boolean}  isPreferred
+ * @property {boolean}  isLastName
+ * @property {boolean}  [isNickname]
+ * @property {boolean}  isNameRtl
  */

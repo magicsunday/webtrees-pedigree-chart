@@ -96,131 +96,166 @@ describe("Name.truncateNamesData", () => {
 /**
  * Builds the datum shape createNamesData() reads.
  *
- * @param {object} data Individual name data
+ * @param {Array<[string, string, boolean?]>} segments The label, kind and preferred flag of each segment
+ * @param {boolean}                          isNameRtl Whether the name is written right to left
  *
  * @return {object} Hierarchy datum wrapper
  */
-function makeDatum(data) {
+function makeDatum(segments, isNameRtl = false) {
     return {
         data: {
             data: {
-                nickname: "",
-                isNameRtl: false,
-                ...data,
+                isNameRtl,
+                nameSegments: segments.map(([label, kind, isPreferred = false]) => ({
+                    label,
+                    kind,
+                    isPreferred,
+                })),
             },
         },
     };
 }
 
+/**
+ * Reduces the blocks of createNamesData() to their labels.
+ *
+ * @param {object[][]} blocks
+ *
+ * @return {string[][]}
+ */
+function labelsOf(blocks) {
+    return blocks.map((block) => block.map((entry) => entry.label));
+}
+
 describe("Name.createNamesData", () => {
-    it("locates a surname that repeats an earlier given name", () => {
-        const name = Object.create(Name.prototype);
-        const datum = makeDatum({
-            name: "Anna Anna Anna",
-            firstNames: ["Anna", "Anna"],
-            lastNames: ["Anna"],
-            preferredName: "Anna",
-        });
+    const name = Object.create(Name.prototype);
 
-        const groups = name.createNamesData(datum);
-        const surnames = groups.flat().filter((entry) => entry.isLastName);
+    it("groups the given names and the surnames into two blocks", () => {
+        const blocks = name.createNamesData(
+            makeDatum([
+                ["Anna", "given"],
+                ["Maria", "given"],
+                ["Schmidt", "surname"],
+            ]),
+        );
 
-        // The surname occupies the third "Anna"; the two earlier ones are given
-        // names. Skipping forward past a match must advance to the absolute end
-        // of that match, not accumulate absolute indices — otherwise the search
-        // overshoots the string and the surname is dropped from the label.
-        expect(surnames).toHaveLength(1);
-        expect(surnames[0].label).toBe("Anna");
+        expect(labelsOf(blocks)).toEqual([["Anna", "Maria"], ["Schmidt"]]);
     });
 
-    it("keeps both parts of a surname that repeats itself", () => {
-        const name = Object.create(Name.prototype);
-        const datum = makeDatum({
-            name: "Anna Schmidt Schmidt",
-            firstNames: ["Anna"],
-            lastNames: ["Schmidt", "Schmidt"],
-            preferredName: "Anna",
-        });
+    it("keeps the nickname with the given names and the married surname with the surnames", () => {
+        const blocks = name.createNamesData(
+            makeDatum([
+                ["Anna", "given"],
+                ['"Annie"', "nickname"],
+                ["Schmidt", "surname"],
+                ["(Müller)", "married"],
+            ]),
+        );
 
-        const groups = name.createNamesData(datum);
-        const surnames = groups.flat().filter((entry) => entry.isLastName);
-
-        // After a match is accepted the search has to resume behind it. Resuming
-        // at the match itself makes the next identical surname token find the
-        // same position again, so both collapse onto one entry and the second
-        // one is lost.
-        expect(surnames.map((entry) => entry.label)).toEqual(["Schmidt", "Schmidt"]);
+        expect(labelsOf(blocks)).toEqual([
+            ["Anna", '"Annie"'],
+            ["Schmidt", "(Müller)"],
+        ]);
     });
 
-    it("omits a surname that does not occur in the assembled name", () => {
-        const name = Object.create(Name.prototype);
-        const datum = makeDatum({
-            name: "Anna Schmidt",
-            firstNames: ["Anna"],
-            lastNames: ["Schmidt", "Meier"],
-            preferredName: "Anna",
-        });
+    it("follows the order of the segments instead of putting the given names first", () => {
+        const blocks = name.createNamesData(
+            makeDatum([
+                ["Sigurðsson", "surname"],
+                ["Jón", "given"],
+            ]),
+        );
 
-        const groups = name.createNamesData(datum);
-        const surnames = groups.flat().filter((entry) => entry.isLastName);
-
-        expect(surnames.map((entry) => entry.label)).toEqual(["Schmidt"]);
+        expect(labelsOf(blocks)).toEqual([["Sigurðsson"], ["Jón"]]);
     });
 
-    it("locates every surname when their order differs from the assembled name", () => {
-        const name = Object.create(Name.prototype);
-        const datum = makeDatum({
-            name: "Anna Meier Schmidt",
-            firstNames: ["Anna"],
-            lastNames: ["Schmidt", "Meier"],
-            preferredName: "Anna",
-        });
+    it("starts a block of its own for a nickname that follows the surnames", () => {
+        const blocks = name.createNamesData(
+            makeDatum([
+                ["White", "surname"],
+                ['"Chalky"', "nickname"],
+            ]),
+        );
 
-        const groups = name.createNamesData(datum);
-        const surnames = groups.flat().filter((entry) => entry.isLastName);
-
-        // A single offset that only ever moves forward ties the search order to
-        // the order of `lastNames`. Accepting "Schmidt" at 11 pushed the offset
-        // past "Meier" at 5, so the earlier surname was dropped entirely.
-        expect(surnames.map((entry) => entry.label).sort()).toEqual(["Meier", "Schmidt"]);
+        expect(labelsOf(blocks)).toEqual([["White"], ['"Chalky"']]);
     });
 
-    it("skips an empty given name instead of registering a blank entry", () => {
-        const name = Object.create(Name.prototype);
-        const datum = makeDatum({
-            name: "Anna Schmidt",
-            firstNames: ["Anna", ""],
-            lastNames: ["Schmidt"],
-            preferredName: "Anna",
-        });
+    it("keeps repeated labels apart and in order", () => {
+        const blocks = name.createNamesData(
+            makeDatum([
+                ["Anna", "given"],
+                ["Anna", "given"],
+                ["Anna", "surname"],
+                ["Anna", "surname"],
+            ]),
+        );
 
-        const groups = name.createNamesData(datum);
-        const entries = groups.flat();
-
-        // `indexOf("", offset)` returns the offset, so an empty given name
-        // registered a zero-length entry at index 4 — a blank label in the
-        // output, and a position the surname search then treats as occupied.
-        expect(entries.map((entry) => entry.label)).toEqual(["Anna", "Schmidt"]);
+        expect(labelsOf(blocks)).toEqual([
+            ["Anna", "Anna"],
+            ["Anna", "Anna"],
+        ]);
+        expect(blocks.map((block) => block.map((entry) => entry.isLastName))).toEqual([
+            [false, false],
+            [true, true],
+        ]);
     });
 
-    it("skips an empty surname instead of searching for it forever", () => {
-        const name = Object.create(Name.prototype);
-        const datum = makeDatum({
-            name: "Anna Schmidt",
-            firstNames: ["Anna"],
-            lastNames: ["", "Schmidt"],
-            preferredName: "Anna",
-        });
+    it("returns no block for a name without segments", () => {
+        expect(name.createNamesData(makeDatum([]))).toEqual([]);
+    });
 
-        // `indexOf("", offset)` returns `offset` itself, so the skip-forward step
-        // advances by the match length of zero and the position never moves. If
-        // that position also belongs to a given name the loop cannot terminate
-        // and the browser tab hangs. NameProcessor::splitAndCleanName() filters
-        // empty parts out today, but that guarantee lives in a separate package
-        // (webtrees-module-base), so this unit defends its own input.
-        const groups = name.createNamesData(datum);
-        const surnames = groups.flat().filter((entry) => entry.isLastName);
+    it("flags every entry for the renderer", () => {
+        const [given, surname] = name.createNamesData(
+            makeDatum(
+                [
+                    ["Anna", "given", false],
+                    ["Maria", "given", true],
+                    ['"Annie"', "nickname"],
+                    ["Schmidt", "surname"],
+                    ["(Müller)", "married"],
+                ],
+                true,
+            ),
+        );
 
-        expect(surnames.map((entry) => entry.label)).toEqual(["Schmidt"]);
-    }, 5000);
+        expect(given).toEqual([
+            {
+                label: "Anna",
+                isPreferred: false,
+                isLastName: false,
+                isNickname: false,
+                isNameRtl: true,
+            },
+            {
+                label: "Maria",
+                isPreferred: true,
+                isLastName: false,
+                isNickname: false,
+                isNameRtl: true,
+            },
+            {
+                label: '"Annie"',
+                isPreferred: false,
+                isLastName: false,
+                isNickname: true,
+                isNameRtl: true,
+            },
+        ]);
+        expect(surname).toEqual([
+            {
+                label: "Schmidt",
+                isPreferred: false,
+                isLastName: true,
+                isNickname: false,
+                isNameRtl: true,
+            },
+            {
+                label: "(Müller)",
+                isPreferred: false,
+                isLastName: true,
+                isNickname: false,
+                isNameRtl: true,
+            },
+        ]);
+    });
 });

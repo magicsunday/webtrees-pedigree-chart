@@ -11,31 +11,22 @@ declare(strict_types=1);
 
 namespace MagicSunday\Webtrees\PedigreeChart\Test\Module;
 
-use Aura\Router\Map;
-use Aura\Router\Route;
 use Fig\Http\Message\RequestMethodInterface;
-use Fisharebest\Localization\Locale;
-use Fisharebest\Localization\Translator;
-use Fisharebest\Webtrees\Contracts\ContainerInterface;
-use Fisharebest\Webtrees\Contracts\RouteFactoryInterface;
 use Fisharebest\Webtrees\Contracts\UserInterface;
-use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
-use Fisharebest\Webtrees\Registry;
 use Fisharebest\Webtrees\Services\ChartService;
 use Fisharebest\Webtrees\Tree;
-use GuzzleHttp\Psr7\HttpFactory;
 use GuzzleHttp\Psr7\ServerRequest;
 use MagicSunday\Webtrees\PedigreeChart\Configuration;
 use MagicSunday\Webtrees\PedigreeChart\Facade\DataFacade;
 use MagicSunday\Webtrees\PedigreeChart\Module;
+use MagicSunday\Webtrees\PedigreeChart\Test\Support\EnglishLocaleFixture;
 use MagicSunday\Webtrees\PedigreeChart\Test\Support\ModuleSettingsFixtureTrait;
+use MagicSunday\Webtrees\PedigreeChart\Test\Support\RouteFactoryFixture;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\ResponseFactoryInterface;
-use ReflectionProperty;
 
 /**
  * Validates module metadata exposure and chart helpers.
@@ -52,14 +43,14 @@ final class ModuleTest extends TestCase
     #[Test]
     public function traitHelpersExposeExpectedValues(): void
     {
-        $this->registerRouteFactory();
+        RouteFactoryFixture::register();
 
         $chartService = self::createStub(ChartService::class);
         $module       = new Module($chartService, new DataFacade());
         $individual   = self::createStub(Individual::class);
         $tree         = self::createStub(Tree::class);
 
-        $this->useEnglishLocale();
+        EnglishLocaleFixture::install();
 
         $individual->method('fullName')->willReturn('Example Person');
         $individual->method('xref')->willReturn('I1');
@@ -78,7 +69,7 @@ final class ModuleTest extends TestCase
     #[Test]
     public function pageTitleNamesTheIndividualOnlyWhenTheNameIsVisible(): void
     {
-        $this->useEnglishLocale();
+        EnglishLocaleFixture::install();
 
         $module = new Module(self::createStub(ChartService::class), new DataFacade());
 
@@ -102,7 +93,7 @@ final class ModuleTest extends TestCase
     #[Test]
     public function postRedirectCarriesEveryRouteToggleParameter(): void
     {
-        $this->registerRouteFactory();
+        RouteFactoryFixture::register();
 
         $module  = $this->createModuleWithPreferences([]);
         $tree    = self::createStub(Tree::class);
@@ -155,67 +146,5 @@ final class ModuleTest extends TestCase
         self::assertArrayHasKey('tree', $query);
         self::assertSame('I1', $query['xref']);
         self::assertSame('main', $query['tree']);
-    }
-
-    /**
-     * Registers a route factory that renders a route as a plain path with its
-     * query string, and a container that hands out the PSR-17 response factory
-     * the global redirect() helper resolves.
-     */
-    private function registerRouteFactory(): void
-    {
-        $routeFactory = new class implements RouteFactoryInterface {
-            public function route(string $route_name, array $parameters = []): string
-            {
-                return '/route/' . $route_name . '?' . http_build_query($parameters);
-            }
-
-            public function routeMap(): Map
-            {
-                return new Map(new Route());
-            }
-        };
-
-        $container = new readonly class($routeFactory, new HttpFactory()) implements ContainerInterface {
-            public function __construct(
-                private RouteFactoryInterface $routeFactory,
-                private ResponseFactoryInterface $responseFactory,
-            ) {
-            }
-
-            public function get(string $id): object
-            {
-                return $id === ResponseFactoryInterface::class ? $this->responseFactory : $this->routeFactory;
-            }
-
-            public function has(string $id): bool
-            {
-                return in_array($id, [RouteFactoryInterface::class, ResponseFactoryInterface::class], true);
-            }
-
-            public function set(string $id, object $object): static
-            {
-                return $this;
-            }
-        };
-
-        Registry::routeFactory($routeFactory);
-        Registry::container($container);
-    }
-
-    /**
-     * Installs an English locale and translator, so translated titles are
-     * deterministic.
-     */
-    private function useEnglishLocale(): void
-    {
-        $locale     = Locale::create('en');
-        $translator = new Translator([], $locale->pluralRule());
-
-        $localeProperty = new ReflectionProperty(I18N::class, 'locale');
-        $localeProperty->setValue(null, $locale);
-
-        $translatorProperty = new ReflectionProperty(I18N::class, 'translator');
-        $translatorProperty->setValue(null, $translator);
     }
 }
