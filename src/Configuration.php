@@ -74,7 +74,7 @@ final class Configuration
     /**
      * The memoised route parameters, resolved on first use.
      *
-     * @var array{generations: int, layout: string, showNicknames: string, showAddParentLinks: string}|null
+     * @var array{generations: int, layout: string, openNewTabOnClick: string, showAlternativeName: string, showNicknames: string, showFamilyColors: string, paternalColor: string, maternalColor: string, showAddParentLinks: string}|null
      */
     private ?array $routeToggleParams = null;
 
@@ -529,30 +529,44 @@ final class Configuration
     }
 
     /**
-     * Returns the settings that have to travel with the re-centering URL.
+     * Returns the settings that have to travel with every URL the chart
+     * navigates to: the re-centering link of each node, the redirect that turns
+     * a form POST into a GET and the URL of the AJAX rebuild. All three read this
+     * one list, so a setting cannot reach two of them and be missing from the
+     * third.
      *
-     * The update route rebuilds the node data server-side, so every setting the
-     * data facade reads while building it must be forwarded — otherwise
-     * clicking a person to re-center silently resets that setting to the module
-     * preference default. Settings the browser applies on its own (family
-     * colours, name abbreviation) live in the client-side chart options and are
-     * deliberately not listed here.
+     * Clicking a person navigates to the page route afresh, so every setting the
+     * re-centered page has to restore must travel in the URL. Otherwise that
+     * setting silently falls back to the module preference default. The list is
+     * therefore the user-settable form fields, not just what the data facade
+     * reads. Several settings, such as the lineage colours and
+     * `openNewTabOnClick`, are applied by the view rather than the facade and
+     * still have to be forwarded. `showAddParentLinks` is the one entry without
+     * a form field, because the data facade reads it while building the nodes.
+     *
+     * `nameAbbreviation` is deliberately absent. It is an admin preference with
+     * no form field, so it resolves identically on the re-centered page.
      *
      * Memoised because the update route is built once per node, while
-     * AbstractModule::getPreference() issues a database query on every call —
-     * resolving four settings per node would put the query count in linear
+     * AbstractModule::getPreference() issues a database query on every call.
+     * Resolving every setting per node would put the query count in linear
      * proportion to the tree size. The configuration is constructed per request,
      * so the resolved values cannot go stale within its lifetime.
      *
-     * @return array{generations: int, layout: string, showNicknames: string, showAddParentLinks: string}
+     * @return array{generations: int, layout: string, openNewTabOnClick: string, showAlternativeName: string, showNicknames: string, showFamilyColors: string, paternalColor: string, maternalColor: string, showAddParentLinks: string}
      */
     public function getRouteToggleParams(): array
     {
         return $this->routeToggleParams ??= [
-            'generations'        => $this->getGenerations(),
-            'layout'             => $this->getLayout(),
-            'showNicknames'      => $this->getShowNicknames() ? '1' : '0',
-            'showAddParentLinks' => $this->getShowAddParentLinks() ? '1' : '0',
+            'generations'         => $this->getGenerations(),
+            'layout'              => $this->getLayout(),
+            'openNewTabOnClick'   => $this->getOpenNewTabOnClick() ? '1' : '0',
+            'showAlternativeName' => $this->getShowAlternativeName() ? '1' : '0',
+            'showNicknames'       => $this->getShowNicknames() ? '1' : '0',
+            'showFamilyColors'    => $this->getShowFamilyColors() ? '1' : '0',
+            'paternalColor'       => $this->getPaternalColor(),
+            'maternalColor'       => $this->getMaternalColor(),
+            'showAddParentLinks'  => $this->getShowAddParentLinks() ? '1' : '0',
         ];
     }
 }

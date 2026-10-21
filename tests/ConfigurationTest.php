@@ -13,19 +13,14 @@ namespace MagicSunday\Webtrees\PedigreeChart\Test;
 
 use Fig\Http\Message\RequestMethodInterface;
 use Fisharebest\Webtrees\DB;
-use Fisharebest\Webtrees\Module\AbstractModule;
-use Fisharebest\Webtrees\Services\ChartService;
 use GuzzleHttp\Psr7\ServerRequest;
-use Illuminate\Database\Schema\Blueprint;
 use MagicSunday\Webtrees\ModuleBase\Model\NameAbbreviation;
 use MagicSunday\Webtrees\PedigreeChart\Configuration;
-use MagicSunday\Webtrees\PedigreeChart\Facade\DataFacade;
-use MagicSunday\Webtrees\PedigreeChart\Module;
+use MagicSunday\Webtrees\PedigreeChart\Test\Support\ModuleSettingsFixtureTrait;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
-use ReflectionProperty;
 
 /**
  * Verifies which settings travel with the re-centering URL and that each one is
@@ -38,57 +33,7 @@ use ReflectionProperty;
 #[CoversClass(Configuration::class)]
 final class ConfigurationTest extends TestCase
 {
-    /**
-     * Boots an in-memory SQLite + minimal `module_setting` schema once per
-     * process; subsequent calls just truncate the table and re-seed.
-     *
-     * @param array<string, string> $preferences
-     */
-    private function createModuleWithPreferences(array $preferences): Module
-    {
-        static $initialised = false;
-
-        if ($initialised === false) {
-            $database = new DB();
-            $database->addConnection([
-                'driver'   => 'sqlite',
-                'database' => ':memory:',
-            ]);
-            $database->setAsGlobal();
-            $database->bootEloquent();
-            DB::connection()->getSchemaBuilder()->create('module_setting', static function (Blueprint $table): void {
-                $table->string('module_name');
-                $table->string('setting_name');
-                $table->string('setting_value');
-            });
-
-            $initialised = true;
-        }
-
-        DB::table('module_setting')->delete();
-
-        if ($preferences !== []) {
-            DB::table('module_setting')->insert(
-                array_map(
-                    static fn (string $name, string $value): array => [
-                        'module_name'   => 'webtrees-pedigree-chart',
-                        'setting_name'  => $name,
-                        'setting_value' => $value,
-                    ],
-                    array_keys($preferences),
-                    array_values($preferences),
-                )
-            );
-        }
-
-        $chartService = self::createStub(ChartService::class);
-        $module       = new Module($chartService, new DataFacade());
-
-        $reflection = new ReflectionProperty(AbstractModule::class, 'name');
-        $reflection->setValue($module, 'webtrees-pedigree-chart');
-
-        return $module;
-    }
+    use ModuleSettingsFixtureTrait;
 
     /**
      * Builds a Configuration from the given query parameters and seeded module
@@ -116,20 +61,30 @@ final class ConfigurationTest extends TestCase
     {
         $configuration = $this->buildConfiguration(
             [
-                'generations'        => '5',
-                'layout'             => Configuration::LAYOUT_TOPBOTTOM,
-                'showNicknames'      => '1',
-                'showAddParentLinks' => '1',
+                'generations'         => '5',
+                'layout'              => Configuration::LAYOUT_TOPBOTTOM,
+                'openNewTabOnClick'   => '1',
+                'showAlternativeName' => '1',
+                'showNicknames'       => '1',
+                'showFamilyColors'    => '1',
+                'paternalColor'       => '#112233',
+                'maternalColor'       => '#445566',
+                'showAddParentLinks'  => '1',
             ],
             []
         );
 
         self::assertSame(
             [
-                'generations'        => 5,
-                'layout'             => Configuration::LAYOUT_TOPBOTTOM,
-                'showNicknames'      => '1',
-                'showAddParentLinks' => '1',
+                'generations'         => 5,
+                'layout'              => Configuration::LAYOUT_TOPBOTTOM,
+                'openNewTabOnClick'   => '1',
+                'showAlternativeName' => '1',
+                'showNicknames'       => '1',
+                'showFamilyColors'    => '1',
+                'paternalColor'       => '#112233',
+                'maternalColor'       => '#445566',
+                'showAddParentLinks'  => '1',
             ],
             $configuration->getRouteToggleParams()
         );
@@ -146,20 +101,30 @@ final class ConfigurationTest extends TestCase
     {
         $configuration = $this->buildConfiguration(
             [
-                'generations'        => '3',
-                'layout'             => Configuration::LAYOUT_LEFTRIGHT,
-                'showNicknames'      => '0',
-                'showAddParentLinks' => '0',
+                'generations'         => '3',
+                'layout'              => Configuration::LAYOUT_LEFTRIGHT,
+                'openNewTabOnClick'   => '0',
+                'showAlternativeName' => '0',
+                'showNicknames'       => '0',
+                'showFamilyColors'    => '0',
+                'paternalColor'       => '#aabbcc',
+                'maternalColor'       => '#ddeeff',
+                'showAddParentLinks'  => '0',
             ],
             []
         );
 
         self::assertSame(
             [
-                'generations'        => 3,
-                'layout'             => Configuration::LAYOUT_LEFTRIGHT,
-                'showNicknames'      => '0',
-                'showAddParentLinks' => '0',
+                'generations'         => 3,
+                'layout'              => Configuration::LAYOUT_LEFTRIGHT,
+                'openNewTabOnClick'   => '0',
+                'showAlternativeName' => '0',
+                'showNicknames'       => '0',
+                'showFamilyColors'    => '0',
+                'paternalColor'       => '#aabbcc',
+                'maternalColor'       => '#ddeeff',
+                'showAddParentLinks'  => '0',
             ],
             $configuration->getRouteToggleParams()
         );
@@ -176,19 +141,29 @@ final class ConfigurationTest extends TestCase
         $configuration = $this->buildConfiguration(
             [],
             [
-                'default_generations'        => '7',
-                'default_layout'             => Configuration::LAYOUT_RIGHTLEFT,
-                'default_showNicknames'      => '1',
-                'default_showAddParentLinks' => '1',
+                'default_generations'         => '7',
+                'default_layout'              => Configuration::LAYOUT_RIGHTLEFT,
+                'default_openNewTabOnClick'   => '0',
+                'default_showAlternativeName' => '1',
+                'default_showNicknames'       => '1',
+                'default_showFamilyColors'    => '0',
+                'default_paternalColor'       => '#010203',
+                'default_maternalColor'       => '#040506',
+                'default_showAddParentLinks'  => '1',
             ]
         );
 
         self::assertSame(
             [
-                'generations'        => 7,
-                'layout'             => Configuration::LAYOUT_RIGHTLEFT,
-                'showNicknames'      => '1',
-                'showAddParentLinks' => '1',
+                'generations'         => 7,
+                'layout'              => Configuration::LAYOUT_RIGHTLEFT,
+                'openNewTabOnClick'   => '0',
+                'showAlternativeName' => '1',
+                'showNicknames'       => '1',
+                'showFamilyColors'    => '0',
+                'paternalColor'       => '#010203',
+                'maternalColor'       => '#040506',
+                'showAddParentLinks'  => '1',
             ],
             $configuration->getRouteToggleParams()
         );
