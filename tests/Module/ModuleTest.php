@@ -110,7 +110,7 @@ final class ModuleTest extends TestCase
                 'generations'         => '3',
                 'layout'              => Configuration::LAYOUT_TOPBOTTOM,
                 'openNewTabOnClick'   => '0',
-                'showAlternativeName' => '0',
+                'showAlternativeName' => '1',
                 'showNicknames'       => '1',
                 'showFamilyColors'    => '0',
                 'paternalColor'       => '#112233',
@@ -142,7 +142,7 @@ final class ModuleTest extends TestCase
         self::assertSame('3', $query['generations']);
         self::assertSame(Configuration::LAYOUT_TOPBOTTOM, $query['layout']);
         self::assertSame('0', $query['openNewTabOnClick']);
-        self::assertSame('0', $query['showAlternativeName']);
+        self::assertSame('1', $query['showAlternativeName']);
         self::assertSame('1', $query['showNicknames']);
         self::assertSame('0', $query['showFamilyColors']);
         self::assertSame('#112233', $query['paternalColor']);

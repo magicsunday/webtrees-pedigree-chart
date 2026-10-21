@@ -539,10 +539,10 @@ final class Configuration
      * re-centered page has to restore must travel in the URL. Otherwise that
      * setting silently falls back to the module preference default. The list is
      * therefore the user-settable form fields, not just what the data facade
-     * reads: the display toggles and the lineage colours are applied by the view
-     * rather than the facade and still have to be forwarded. `showAddParentLinks`
-     * is the one entry without a form field, because the data facade reads it
-     * while building the nodes.
+     * reads. Several settings, such as the lineage colours and
+     * `openNewTabOnClick`, are applied by the view rather than the facade and
+     * still have to be forwarded. `showAddParentLinks` is the one entry without
+     * a form field, because the data facade reads it while building the nodes.
      *
      * `nameAbbreviation` is deliberately absent. It is an admin preference with
      * no form field, so it resolves identically on the re-centered page.
