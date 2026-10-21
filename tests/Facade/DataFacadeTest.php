@@ -22,6 +22,7 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
 use MagicSunday\Webtrees\PedigreeChart\Facade\DataFacade;
 use MagicSunday\Webtrees\PedigreeChart\Model\Node;
 use MagicSunday\Webtrees\PedigreeChart\Model\NodeData;
+use MagicSunday\Webtrees\PedigreeChart\Module;
 use MagicSunday\Webtrees\PedigreeChart\Test\Support\ModuleSettingsFixtureTrait;
 use MagicSunday\Webtrees\PedigreeChart\Test\Support\RouteFactoryFixture;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -44,6 +45,7 @@ use const JSON_THROW_ON_ERROR;
  */
 #[CoversClass(DataFacade::class)]
 #[UsesClass(Configuration::class)]
+#[UsesClass(Module::class)]
 #[UsesClass(Node::class)]
 #[UsesClass(NodeData::class)]
 final class DataFacadeTest extends TestCase
