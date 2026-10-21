@@ -9,12 +9,11 @@ import { SEX_FEMALE, SEX_MALE } from "../constants.js";
 import Name from "./name.js";
 import DateRenderer from "./date.js";
 import FamilyColor from "./family-color.js";
-import ImageBox from "../chart/box/image.js";
-import TextBox from "../chart/box/text.js";
+import { ImageBox, TextBox } from "@magicsunday/webtrees-chart-lib/linked-tree";
 
 /**
  * @import { Selection } from "d3-selection"
- * @import Svg from "../chart/svg.js"
+ * @import { LinkedTreeSvg as Svg } from "@magicsunday/webtrees-chart-lib/linked-tree"
  * @import Hierarchy, { Individual } from "../hierarchy.js"
  * @import Configuration from "../configuration.js"
  */

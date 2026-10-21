@@ -6,14 +6,12 @@
  */
 
 import { measureText } from "@magicsunday/webtrees-chart-lib/infra";
-import { LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET } from "../constants.js";
+import { LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET } from "@magicsunday/webtrees-chart-lib/linked-tree";
 
 /**
  * @import { Selection } from "d3-selection"
  * @import { Orientation } from "@magicsunday/webtrees-chart-lib/infra"
- * @import Svg from "../chart/svg.js"
- * @import ImageBox from "../chart/box/image.js"
- * @import TextBox from "../chart/box/text.js"
+ * @import { ImageBox, LinkedTreeSvg as Svg, TextBox } from "@magicsunday/webtrees-chart-lib/linked-tree"
  */
 
 /**

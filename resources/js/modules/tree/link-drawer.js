@@ -10,7 +10,7 @@ import { elbowsPath } from "@magicsunday/webtrees-chart-lib/infra";
 /**
  * @import { EnterElement, Selection } from "d3-selection"
  * @import { HierarchyPointLink } from "d3-hierarchy"
- * @import Svg from "../chart/svg.js"
+ * @import { LinkedTreeSvg as Svg } from "@magicsunday/webtrees-chart-lib/linked-tree"
  * @import Configuration from "../configuration.js"
  * @import { Individual } from "../hierarchy.js"
  */
