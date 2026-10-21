@@ -20,21 +20,21 @@ use JsonSerializable;
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
  * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
-class Node implements JsonSerializable
+final class Node implements JsonSerializable
 {
     /**
      * The list of parents.
      *
      * @var Node[]
      */
-    protected array $parents = [];
+    private array $parents = [];
 
     /**
      * Constructor.
      *
      * @param NodeData $data
      */
-    public function __construct(protected NodeData $data)
+    public function __construct(private readonly NodeData $data)
     {
     }
 

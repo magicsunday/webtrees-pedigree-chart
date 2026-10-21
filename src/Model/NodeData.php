@@ -20,110 +20,110 @@ use JsonSerializable;
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
  * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
-class NodeData implements JsonSerializable
+final class NodeData implements JsonSerializable
 {
     /**
      * The unique ID of the individual.
      */
-    protected int $id = 0;
+    private int $id = 0;
 
     /**
      * The XREF of the individual.
      */
-    protected string $xref = '';
+    private string $xref = '';
 
     /**
      * The URL to this individual in webtrees.
      */
-    protected string $url = '';
+    private string $url = '';
 
     /**
      * The URL used to update the clicked entry in the tree with this
      * individual.
      */
-    protected string $updateUrl = '';
+    private string $updateUrl = '';
 
     /**
      * The generation the individual belongs to.
      */
-    protected int $generation = 0;
+    private int $generation = 0;
 
     /**
      * The full name of the individual.
      */
-    protected string $name = '';
+    private string $name = '';
 
     /**
      * TRUE if the name is written right to left.
      */
-    protected bool $isNameRtl = false;
+    private bool $isNameRtl = false;
 
     /**
      * The list of first names.
      *
      * @var string[]
      */
-    protected array $firstNames = [];
+    private array $firstNames = [];
 
     /**
      * The list of last names.
      *
      * @var string[]
      */
-    protected array $lastNames = [];
+    private array $lastNames = [];
 
     /**
      * The extracted preferred name.
      */
-    protected string $preferredName = '';
+    private string $preferredName = '';
 
     /**
      * The legacy GEDCOM `2 NICK` value rendered between given names and surname
      * when the chart's "Show nicknames" option is enabled. Empty string when no
      * nickname is set or the option is off.
      */
-    protected string $nickname = '';
+    private string $nickname = '';
 
     /**
      * The alternative name.
      */
-    protected string $alternativeName = '';
+    private string $alternativeName = '';
 
     /**
      * TRUE if the alternative name is written right to left.
      */
-    protected bool $isAltRtl = false;
+    private bool $isAltRtl = false;
 
     /**
      * The URL of the individuals highlight image.
      */
-    protected string $thumbnail = '';
+    private string $thumbnail = '';
 
     /**
      * The URL of the sex-specific silhouette image. Used as a client-side
      * onerror fallback when the highlight image's media file is missing.
      */
-    protected string $silhouette = '';
+    private string $silhouette = '';
 
     /**
      * The sex of the individual.
      */
-    protected string $sex = 'U';
+    private string $sex = 'U';
 
     /**
      * The formatted birthdate without HTML tags.
      */
-    protected string $birth = '';
+    private string $birth = '';
 
     /**
      * The formatted death date without HTML tags.
      */
-    protected string $death = '';
+    private string $death = '';
 
     /**
      * The timespan label.
      */
-    protected string $timespan = '';
+    private string $timespan = '';
 
     /**
      * @param int $id

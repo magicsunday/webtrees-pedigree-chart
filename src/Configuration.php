@@ -26,48 +26,40 @@ use Psr\Http\Message\ServerRequestInterface;
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
  * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
-class Configuration
+final class Configuration
 {
     /**
      * Tree layout variants.
      *
      * @see PedigreeChartModule
      */
-    public const LAYOUT_TOPBOTTOM = PedigreeChartModule::STYLE_DOWN;
+    public const string LAYOUT_TOPBOTTOM = PedigreeChartModule::STYLE_DOWN;
 
-    public const LAYOUT_BOTTOMTOP = PedigreeChartModule::STYLE_UP;
+    public const string LAYOUT_BOTTOMTOP = PedigreeChartModule::STYLE_UP;
 
-    public const LAYOUT_LEFTRIGHT = PedigreeChartModule::STYLE_RIGHT;
+    public const string LAYOUT_LEFTRIGHT = PedigreeChartModule::STYLE_RIGHT;
 
-    public const LAYOUT_RIGHTLEFT = PedigreeChartModule::STYLE_LEFT;
+    public const string LAYOUT_RIGHTLEFT = PedigreeChartModule::STYLE_LEFT;
 
     /**
      * The default number of generations to display.
-     *
-     * @var int
      */
-    public const DEFAULT_GENERATIONS = 4;
+    public const int DEFAULT_GENERATIONS = 4;
 
     /**
      * Minimum number of displayable generations.
-     *
-     * @var int
      */
-    public const MIN_GENERATIONS = 2;
+    public const int MIN_GENERATIONS = 2;
 
     /**
      * Maximum number of displayable generations.
-     *
-     * @var int
      */
-    public const MAX_GENERATIONS = 25;
+    public const int MAX_GENERATIONS = 25;
 
     /**
      * Tree layout.
-     *
-     * @var string
      */
-    public const DEFAULT_TREE_LAYOUT = self::LAYOUT_LEFTRIGHT;
+    public const string DEFAULT_TREE_LAYOUT = self::LAYOUT_LEFTRIGHT;
 
     /**
      * Default base color for the paternal lineage (hex).
