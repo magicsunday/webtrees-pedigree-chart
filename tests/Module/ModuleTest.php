@@ -12,10 +12,7 @@ declare(strict_types=1);
 namespace MagicSunday\Webtrees\PedigreeChart\Test\Module;
 
 use Fig\Http\Message\RequestMethodInterface;
-use Fisharebest\Localization\Locale;
-use Fisharebest\Localization\Translator;
 use Fisharebest\Webtrees\Contracts\UserInterface;
-use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Services\ChartService;
 use Fisharebest\Webtrees\Tree;
@@ -23,13 +20,13 @@ use GuzzleHttp\Psr7\ServerRequest;
 use MagicSunday\Webtrees\PedigreeChart\Configuration;
 use MagicSunday\Webtrees\PedigreeChart\Facade\DataFacade;
 use MagicSunday\Webtrees\PedigreeChart\Module;
+use MagicSunday\Webtrees\PedigreeChart\Test\Support\EnglishLocaleFixture;
 use MagicSunday\Webtrees\PedigreeChart\Test\Support\ModuleSettingsFixtureTrait;
 use MagicSunday\Webtrees\PedigreeChart\Test\Support\RouteFactoryFixture;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
-use ReflectionProperty;
 
 /**
  * Validates module metadata exposure and chart helpers.
@@ -53,7 +50,7 @@ final class ModuleTest extends TestCase
         $individual   = self::createStub(Individual::class);
         $tree         = self::createStub(Tree::class);
 
-        $this->useEnglishLocale();
+        EnglishLocaleFixture::install();
 
         $individual->method('fullName')->willReturn('Example Person');
         $individual->method('xref')->willReturn('I1');
@@ -72,7 +69,7 @@ final class ModuleTest extends TestCase
     #[Test]
     public function pageTitleNamesTheIndividualOnlyWhenTheNameIsVisible(): void
     {
-        $this->useEnglishLocale();
+        EnglishLocaleFixture::install();
 
         $module = new Module(self::createStub(ChartService::class), new DataFacade());
 
@@ -149,21 +146,5 @@ final class ModuleTest extends TestCase
         self::assertArrayHasKey('tree', $query);
         self::assertSame('I1', $query['xref']);
         self::assertSame('main', $query['tree']);
-    }
-
-    /**
-     * Installs an English locale and translator, so translated titles are
-     * deterministic.
-     */
-    private function useEnglishLocale(): void
-    {
-        $locale     = Locale::create('en');
-        $translator = new Translator([], $locale->pluralRule());
-
-        $localeProperty = new ReflectionProperty(I18N::class, 'locale');
-        $localeProperty->setValue(null, $locale);
-
-        $translatorProperty = new ReflectionProperty(I18N::class, 'translator');
-        $translatorProperty->setValue(null, $translator);
     }
 }
