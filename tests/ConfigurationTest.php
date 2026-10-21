@@ -61,20 +61,30 @@ final class ConfigurationTest extends TestCase
     {
         $configuration = $this->buildConfiguration(
             [
-                'generations'        => '5',
-                'layout'             => Configuration::LAYOUT_TOPBOTTOM,
-                'showNicknames'      => '1',
-                'showAddParentLinks' => '1',
+                'generations'         => '5',
+                'layout'              => Configuration::LAYOUT_TOPBOTTOM,
+                'openNewTabOnClick'   => '1',
+                'showAlternativeName' => '1',
+                'showNicknames'       => '1',
+                'showFamilyColors'    => '1',
+                'paternalColor'       => '#112233',
+                'maternalColor'       => '#445566',
+                'showAddParentLinks'  => '1',
             ],
             []
         );
 
         self::assertSame(
             [
-                'generations'        => 5,
-                'layout'             => Configuration::LAYOUT_TOPBOTTOM,
-                'showNicknames'      => '1',
-                'showAddParentLinks' => '1',
+                'generations'         => 5,
+                'layout'              => Configuration::LAYOUT_TOPBOTTOM,
+                'openNewTabOnClick'   => '1',
+                'showAlternativeName' => '1',
+                'showNicknames'       => '1',
+                'showFamilyColors'    => '1',
+                'paternalColor'       => '#112233',
+                'maternalColor'       => '#445566',
+                'showAddParentLinks'  => '1',
             ],
             $configuration->getRouteToggleParams()
         );
@@ -91,20 +101,30 @@ final class ConfigurationTest extends TestCase
     {
         $configuration = $this->buildConfiguration(
             [
-                'generations'        => '3',
-                'layout'             => Configuration::LAYOUT_LEFTRIGHT,
-                'showNicknames'      => '0',
-                'showAddParentLinks' => '0',
+                'generations'         => '3',
+                'layout'              => Configuration::LAYOUT_LEFTRIGHT,
+                'openNewTabOnClick'   => '0',
+                'showAlternativeName' => '0',
+                'showNicknames'       => '0',
+                'showFamilyColors'    => '0',
+                'paternalColor'       => '#aabbcc',
+                'maternalColor'       => '#ddeeff',
+                'showAddParentLinks'  => '0',
             ],
             []
         );
 
         self::assertSame(
             [
-                'generations'        => 3,
-                'layout'             => Configuration::LAYOUT_LEFTRIGHT,
-                'showNicknames'      => '0',
-                'showAddParentLinks' => '0',
+                'generations'         => 3,
+                'layout'              => Configuration::LAYOUT_LEFTRIGHT,
+                'openNewTabOnClick'   => '0',
+                'showAlternativeName' => '0',
+                'showNicknames'       => '0',
+                'showFamilyColors'    => '0',
+                'paternalColor'       => '#aabbcc',
+                'maternalColor'       => '#ddeeff',
+                'showAddParentLinks'  => '0',
             ],
             $configuration->getRouteToggleParams()
         );
@@ -121,19 +141,29 @@ final class ConfigurationTest extends TestCase
         $configuration = $this->buildConfiguration(
             [],
             [
-                'default_generations'        => '7',
-                'default_layout'             => Configuration::LAYOUT_RIGHTLEFT,
-                'default_showNicknames'      => '1',
-                'default_showAddParentLinks' => '1',
+                'default_generations'         => '7',
+                'default_layout'              => Configuration::LAYOUT_RIGHTLEFT,
+                'default_openNewTabOnClick'   => '0',
+                'default_showAlternativeName' => '0',
+                'default_showNicknames'       => '1',
+                'default_showFamilyColors'    => '0',
+                'default_paternalColor'       => '#010203',
+                'default_maternalColor'       => '#040506',
+                'default_showAddParentLinks'  => '1',
             ]
         );
 
         self::assertSame(
             [
-                'generations'        => 7,
-                'layout'             => Configuration::LAYOUT_RIGHTLEFT,
-                'showNicknames'      => '1',
-                'showAddParentLinks' => '1',
+                'generations'         => 7,
+                'layout'              => Configuration::LAYOUT_RIGHTLEFT,
+                'openNewTabOnClick'   => '0',
+                'showAlternativeName' => '0',
+                'showNicknames'       => '1',
+                'showFamilyColors'    => '0',
+                'paternalColor'       => '#010203',
+                'maternalColor'       => '#040506',
+                'showAddParentLinks'  => '1',
             ],
             $configuration->getRouteToggleParams()
         );
