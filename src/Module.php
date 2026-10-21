@@ -240,7 +240,7 @@ class Module extends PedigreeChartModule implements ModuleAssetUrlInterface, Mod
      *
      * @param Tree $tree
      *
-     * @return array<string, string|bool|array<string, string>>
+     * @return array{rtl: bool, nameAbbreviation: string, labels: array{zoom: string, move: string}}
      */
     private function getChartParameters(Tree $tree): array
     {
@@ -286,7 +286,7 @@ class Module extends PedigreeChartModule implements ModuleAssetUrlInterface, Mod
     /**
      * Returns a list of used stylesheets with this module.
      *
-     * @return array<string>
+     * @return array{string, string}
      */
     private function getStylesheets(): array
     {
