@@ -74,9 +74,10 @@ final class Configuration
     public const string MATERNAL_COLOR_DEFAULT = '#d06f94';
 
     /**
-     * The pattern of an accepted lineage colour, a hash and six hex digits.
+     * The pattern of an accepted lineage colour, a hash and six hex digits and
+     * nothing else, a trailing line break included.
      */
-    private const string HEX_COLOR_PATTERN = '/^#[0-9a-fA-F]{6}$/';
+    private const string HEX_COLOR_PATTERN = '/^#[0-9a-fA-F]{6}$/D';
 
     /**
      * The memoised route parameters, resolved on first use.

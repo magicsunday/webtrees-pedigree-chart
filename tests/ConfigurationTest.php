@@ -184,6 +184,9 @@ final class ConfigurationTest extends TestCase
             'short form'                => ['#123'],
             'non-hex digit'             => ['#11223g'],
             'trailing declaration'      => ['#112233;color:red'],
+            'trailing line break'       => ["#112233\n"],
+            'leading text'              => ['x#112233'],
+            'surrounding space'         => [' #112233 '],
             'empty'                     => [''],
         ];
     }
