@@ -19,15 +19,15 @@ msgstr ""
 "X-Poedit-SearchPath-0: src\n"
 "X-Poedit-SearchPath-1: resources/views\n"
 
-#: src/Module.php:141
+#: src/Module.php:130
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "Родословная карта предков в виде дерева."
 
-#: src/Configuration.php:505
+#: src/Configuration.php:497
 msgid "Abbreviate given names first"
 msgstr "Сокращать сначала имена"
 
-#: src/Configuration.php:506
+#: src/Configuration.php:498
 msgid "Abbreviate surnames first"
 msgstr "Сокращать сначала фамилии"
 
@@ -39,7 +39,7 @@ msgstr ""
 msgid "Add a mother"
 msgstr ""
 
-#: src/Configuration.php:504
+#: src/Configuration.php:496
 msgid "Automatic (based on tree's surname tradition)"
 msgstr "Автоматически (по традиции фамилий дерева)"
 
@@ -134,7 +134,7 @@ msgstr "Материнский"
 msgid "Modules"
 msgstr ""
 
-#: src/Module.php:255
+#: src/Module.php:244
 msgid "Move the view with two fingers"
 msgstr "Измените вид двумя пальцами"
 
@@ -160,7 +160,7 @@ msgstr ""
 msgid "Paternal"
 msgstr "Отцовский"
 
-#: src/Module.php:130 src/Module/ChartTrait.php:63
+#: src/Module.php:119 src/Module/ChartTrait.php:63
 msgid "Pedigree chart"
 msgstr "Восходящее дерево"
 
@@ -206,7 +206,7 @@ msgstr "Переключение между полноэкранным и обы
 msgid "The preferences for the module “%s” have been updated."
 msgstr ""
 
-#: src/Module.php:254
+#: src/Module.php:243
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Используйте \"Ctrl + колесико мышки\" для увеличения"
 
@@ -226,15 +226,15 @@ msgstr ""
 msgid "cancel"
 msgstr ""
 
-#: src/Configuration.php:269 src/Configuration.php:277
+#: src/Configuration.php:261 src/Configuration.php:269
 msgid "down"
 msgstr ""
 
-#: src/Configuration.php:266 src/Configuration.php:274
+#: src/Configuration.php:258 src/Configuration.php:266
 msgid "left"
 msgstr "влево"
 
-#: src/Configuration.php:267 src/Configuration.php:275
+#: src/Configuration.php:259 src/Configuration.php:267
 msgid "right"
 msgstr "вправо"
 
@@ -242,7 +242,7 @@ msgstr "вправо"
 msgid "save"
 msgstr ""
 
-#: src/Configuration.php:268 src/Configuration.php:276
+#: src/Configuration.php:260 src/Configuration.php:268
 msgid "up"
 msgstr ""
 

@@ -43,7 +43,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
  * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
-class Module extends PedigreeChartModule implements ModuleAssetUrlInterface, ModuleCustomInterface, ModuleConfigInterface
+final class Module extends PedigreeChartModule implements ModuleAssetUrlInterface, ModuleCustomInterface, ModuleConfigInterface
 {
     use ModuleCustomTrait;
     use ChartTrait;
@@ -55,15 +55,9 @@ class Module extends PedigreeChartModule implements ModuleAssetUrlInterface, Mod
 
     private const string GITHUB_REPO = 'magicsunday/webtrees-pedigree-chart';
 
-    /**
-     * @var string
-     */
-    public const CUSTOM_AUTHOR = 'Rico Sonntag';
+    public const string CUSTOM_AUTHOR = 'Rico Sonntag';
 
-    /**
-     * @var string
-     */
-    public const CUSTOM_VERSION = '2.7.5-dev';
+    public const string CUSTOM_VERSION = '2.7.5-dev';
 
     /**
      * Webtrees renders this URL as the "For more information, see …" link
@@ -72,15 +66,10 @@ class Module extends PedigreeChartModule implements ModuleAssetUrlInterface, Mod
      * GitHub /releases/latest page so admins who notice an available update
      * land directly on the release notes — including the "Manual / FTP
      * installation" banner and the install-ready asset zip.
-     *
-     * @var string
      */
-    public const CUSTOM_SUPPORT_URL = 'https://github.com/' . self::GITHUB_REPO . '/releases/latest';
+    public const string CUSTOM_SUPPORT_URL = 'https://github.com/' . self::GITHUB_REPO . '/releases/latest';
 
-    /**
-     * @var string
-     */
-    public const CUSTOM_LATEST_VERSION = 'https://api.github.com/repos/' . self::GITHUB_REPO . '/releases/latest';
+    public const string CUSTOM_LATEST_VERSION = 'https://api.github.com/repos/' . self::GITHUB_REPO . '/releases/latest';
 
     /**
      * The configuration instance.

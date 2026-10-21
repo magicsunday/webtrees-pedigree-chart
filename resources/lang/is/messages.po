@@ -18,15 +18,15 @@ msgstr ""
 "X-Poedit-SearchPath-0: src\n"
 "X-Poedit-SearchPath-1: resources/views\n"
 
-#: src/Module.php:141
+#: src/Module.php:130
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "Ættartafla yfir forfeður einstaklings."
 
-#: src/Configuration.php:505
+#: src/Configuration.php:497
 msgid "Abbreviate given names first"
 msgstr "Stytta eiginnöfn fyrst"
 
-#: src/Configuration.php:506
+#: src/Configuration.php:498
 msgid "Abbreviate surnames first"
 msgstr "Stytta eftirnöfn fyrst"
 
@@ -38,7 +38,7 @@ msgstr ""
 msgid "Add a mother"
 msgstr ""
 
-#: src/Configuration.php:504
+#: src/Configuration.php:496
 msgid "Automatic (based on tree's surname tradition)"
 msgstr "Sjálfvirkt (byggt á eftirnafnshefð trésins)"
 
@@ -135,7 +135,7 @@ msgstr "Móður"
 msgid "Modules"
 msgstr ""
 
-#: src/Module.php:255
+#: src/Module.php:244
 msgid "Move the view with two fingers"
 msgstr "Færðu yfirlitið með tveimur fingrum"
 
@@ -163,7 +163,7 @@ msgstr ""
 msgid "Paternal"
 msgstr "Föður"
 
-#: src/Module.php:130 src/Module/ChartTrait.php:63
+#: src/Module.php:119 src/Module/ChartTrait.php:63
 msgid "Pedigree chart"
 msgstr "Ættartölugraf"
 
@@ -209,7 +209,7 @@ msgstr "Skiptu á milli fullsskjás og venjulegs skjás"
 msgid "The preferences for the module “%s” have been updated."
 msgstr "Kjörstillingar fyrir eininguna “%s“ hafa verið uppfærðar."
 
-#: src/Module.php:254
+#: src/Module.php:243
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Notið Ctrl + Skrunhjól til að þysja í grafinu"
 
@@ -229,15 +229,15 @@ msgstr ""
 msgid "cancel"
 msgstr "hætta"
 
-#: src/Configuration.php:269 src/Configuration.php:277
+#: src/Configuration.php:261 src/Configuration.php:269
 msgid "down"
 msgstr ""
 
-#: src/Configuration.php:266 src/Configuration.php:274
+#: src/Configuration.php:258 src/Configuration.php:266
 msgid "left"
 msgstr ""
 
-#: src/Configuration.php:267 src/Configuration.php:275
+#: src/Configuration.php:259 src/Configuration.php:267
 msgid "right"
 msgstr ""
 
@@ -245,7 +245,7 @@ msgstr ""
 msgid "save"
 msgstr ""
 
-#: src/Configuration.php:268 src/Configuration.php:276
+#: src/Configuration.php:260 src/Configuration.php:268
 msgid "up"
 msgstr ""
 

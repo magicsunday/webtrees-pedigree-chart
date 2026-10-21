@@ -31,6 +31,11 @@ use PHPat\Test\PHPat;
 final class ArchitectureTest
 {
     /**
+     * The root namespace of the module.
+     */
+    private const string NAMESPACE_ROOT = 'MagicSunday\\Webtrees\\PedigreeChart';
+
+    /**
      * Every abstract class carries the `Abstract` name prefix. The pattern is
      * matched against the fully qualified name, so `[^\\]*$` pins it to the
      * short class name rather than any namespace segment.
@@ -50,5 +55,33 @@ final class ArchitectureTest
             ->classes(Selector::isAbstract())
             ->should()->beNamed('/\\\\Abstract[^\\\\]*$/', true)
             ->because('House rule: abstract classes are named Abstract<Name>.');
+    }
+
+    /**
+     * Every class of the module is final. None is designed for extension, and
+     * the webtrees core instantiates the module class by name, so nothing
+     * downstream subclasses it either.
+     *
+     * Why phpat: a structural invariant (a class modifier) Deptrac cannot inspect.
+     *
+     * The rule does not cover the module traits. The test namespace is excluded
+     * because test classes are not part of the shipped module.
+     *
+     * @return Rule
+     */
+    #[TestRule]
+    public function moduleClassesAreFinal(): Rule
+    {
+        return PHPat::rule()
+            ->classes(Selector::inNamespace(self::NAMESPACE_ROOT))
+            ->excluding(
+                Selector::inNamespace(self::NAMESPACE_ROOT . '\\Test'),
+                Selector::isInterface(),
+                Selector::isEnum(),
+                Selector::isAbstract(),
+            )
+            ->should()
+            ->beFinal()
+            ->because('Nothing extends the module classes, so they are final.');
     }
 }
