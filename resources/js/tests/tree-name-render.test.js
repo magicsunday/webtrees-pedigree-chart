@@ -22,7 +22,8 @@ const IMAGE_BOX = { width: 50 };
 
 /**
  * Builds the name part of the person payload from a layout independent
- * description of the person.
+ * description of the person, in the order the name is displayed. A person
+ * without given names carries the nickname behind the surnames.
  *
  * @param {object}   person
  * @param {string}   person.name       The assembled full name
@@ -35,16 +36,31 @@ const IMAGE_BOX = { width: 50 };
  * @return {object}
  */
 function buildNameData(person) {
-    const nickname = person.nickname ?? "";
-    const surnames = person.surnames ?? [];
-    const married = person.married ?? "";
+    const given = person.given.map((label) => ({
+        label,
+        kind: "given",
+        isPreferred: label === person.preferred,
+    }));
+    const surnames = (person.surnames ?? []).map((label) => ({
+        label,
+        kind: "surname",
+        isPreferred: false,
+    }));
+    const nickname =
+        (person.nickname ?? "") === ""
+            ? []
+            : [{ label: `"${person.nickname}"`, kind: "nickname", isPreferred: false }];
+    const married =
+        (person.married ?? "") === ""
+            ? []
+            : [{ label: person.married, kind: "married", isPreferred: false }];
 
     return {
         name: person.name,
-        firstNames: person.given,
-        lastNames: married === "" ? surnames : [...surnames, married],
-        preferredName: person.preferred ?? "",
-        nickname,
+        nameSegments:
+            given.length === 0
+                ? [...surnames, ...nickname, ...married]
+                : [...given, ...nickname, ...surnames, ...married],
     };
 }
 

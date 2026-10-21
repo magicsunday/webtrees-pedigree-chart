@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace MagicSunday\Webtrees\PedigreeChart\Model;
 
 use JsonSerializable;
+use MagicSunday\Webtrees\ModuleBase\Model\NameSegment;
 
 /**
  * This class holds the data required to render and display the tree.
@@ -59,30 +60,11 @@ final class NodeData implements JsonSerializable
     private bool $isNameRtl = false;
 
     /**
-     * The list of first names.
+     * The name of the individual as ordered, drawable segments.
      *
-     * @var string[]
+     * @var list<NameSegment>
      */
-    private array $firstNames = [];
-
-    /**
-     * The list of last names.
-     *
-     * @var string[]
-     */
-    private array $lastNames = [];
-
-    /**
-     * The extracted preferred name.
-     */
-    private string $preferredName = '';
-
-    /**
-     * The legacy GEDCOM `2 NICK` value rendered between given names and surname
-     * when the chart's "Show nicknames" option is enabled. Empty string when no
-     * nickname is set or the option is off.
-     */
-    private string $nickname = '';
+    private array $nameSegments = [];
 
     /**
      * The alternative name.
@@ -210,44 +192,13 @@ final class NodeData implements JsonSerializable
     }
 
     /**
-     * @param string[] $firstNames
+     * @param list<NameSegment> $nameSegments
      *
      * @return NodeData
      */
-    public function setFirstNames(array $firstNames): NodeData
+    public function setNameSegments(array $nameSegments): NodeData
     {
-        $this->firstNames = $firstNames;
-
-        return $this;
-    }
-
-    /**
-     * @param string[] $lastNames
-     *
-     * @return NodeData
-     */
-    public function setLastNames(array $lastNames): NodeData
-    {
-        $this->lastNames = $lastNames;
-
-        return $this;
-    }
-
-    /**
-     * @param string $preferredName
-     *
-     * @return NodeData
-     */
-    public function setPreferredName(string $preferredName): NodeData
-    {
-        $this->preferredName = $preferredName;
-
-        return $this;
-    }
-
-    public function setNickname(string $nickname): NodeData
-    {
-        $this->nickname = $nickname;
+        $this->nameSegments = $nameSegments;
 
         return $this;
     }
@@ -351,7 +302,7 @@ final class NodeData implements JsonSerializable
     /**
      * Returns the relevant data as an array.
      *
-     * @return array<string, int|bool|string|string[]>
+     * @return array<string, int|bool|string|list<NameSegment>>
      */
     public function jsonSerialize(): array
     {
@@ -363,10 +314,7 @@ final class NodeData implements JsonSerializable
             'generation'      => $this->generation,
             'name'            => $this->name,
             'isNameRtl'       => $this->isNameRtl,
-            'firstNames'      => $this->firstNames,
-            'lastNames'       => $this->lastNames,
-            'preferredName'   => $this->preferredName,
-            'nickname'        => $this->nickname,
+            'nameSegments'    => $this->nameSegments,
             'alternativeName' => $this->alternativeName,
             'isAltRtl'        => $this->isAltRtl,
             'thumbnail'       => $this->thumbnail,

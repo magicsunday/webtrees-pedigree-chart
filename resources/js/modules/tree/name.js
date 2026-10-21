@@ -17,38 +17,12 @@ import * as d3 from "../d3.js";
  */
 
 /**
- * Locates a surname inside the assembled name, skipping every occurrence that
- * starts where a given name starts or that an earlier surname already claimed.
+ * The kinds of name segments that make up the surname block of a name. Every other
+ * kind belongs to the block of the given names.
  *
- * The search restarts at zero for every surname on purpose. A single offset that
- * only moves forward ties the result to the order of the `lastNames` array: for
- * "Anna Meier Schmidt" with `["Schmidt", "Meier"]`, accepting "Schmidt" at 11
- * pushes the offset past "Meier" at 5 and loses it. Claiming positions instead
- * keeps a repeated token ("Schmidt Schmidt") on two separate entries without
- * depending on that order.
- *
- * @param {string}      fullName   The assembled name to search
- * @param {string}      lastName   The surname to locate; must not be empty
- * @param {Map<number, LabelElementData>} firstnames Given-name entries keyed by start position
- * @param {Set<number>} taken      Positions already claimed by earlier surnames
- *
- * @return {number} The start position, or -1 when no free occurrence exists
+ * @type {ReadonlySet<string>}
  */
-function locateSurname(fullName, lastName, firstnames, taken) {
-    let searchFrom = 0;
-
-    while (searchFrom <= fullName.length) {
-        const pos = fullName.indexOf(lastName, searchFrom);
-
-        if (pos === -1 || (!taken.has(pos) && !firstnames.has(pos))) {
-            return pos;
-        }
-
-        searchFrom = pos + 1;
-    }
-
-    return -1;
-}
+const SURNAME_KINDS = new Set(["surname", "married"]);
 
 /**
  * The class handles the creation of the tree.
@@ -82,146 +56,154 @@ export default class Name {
      */
     appendName(parent) {
         const name = parent.append("g").attr("class", "name");
+        const isVertical = this._orientation.isVertical;
 
-        // Top/Bottom and Bottom/Top
-        if (this._orientation.isVertical) {
-            const that = this;
+        const enter = name
+            .selectAll("text")
+            .data((datum) => [
+                {
+                    data: datum.data,
+                    isRtl: datum.data.data.isNameRtl,
+                    isAltRtl: datum.data.data.isAltRtl,
+                    // Vertical layouts always arrange the text at the same position
+                    // regardless if an image is displayed or not
+                    withImage: isVertical || datum.data.data.thumbnail !== "",
+                },
+            ])
+            .enter();
 
-            const enter = name
-                .selectAll("text")
-                .data((datum) => [
-                    {
-                        data: datum.data,
-                        isRtl: datum.data.data.isNameRtl,
-                        isAltRtl: datum.data.data.isAltRtl,
-                        // Always arrange the text at the same position regardless if an image is displayed or not
-                        withImage: true,
-                    },
-                ])
-                .enter();
-
-            enter.each(function (datum) {
-                const element = d3.select(this);
-                const nameGroups = that.createNamesData(datum);
-                const availableWidth = that.getAvailableWidth(datum);
-
-                nameGroups.forEach((nameGroup, index) => {
-                    const text = element
-                        .append("text")
-                        .attr("class", "wt-chart-box-name")
-                        .attr("direction", (datum) => (datum.isRtl ? "rtl" : "ltr"))
-                        .attr("text-anchor", "middle")
-                        .attr("dominant-baseline", "central")
-                        .attr("y", that._text.y - 5 + index * 20);
-
-                    that.addNameElements(
-                        text,
-                        that.truncateNamesData(text, nameGroup, availableWidth),
-                    );
-                });
-            });
-
-            // Add alternative name if present
-            if (this._svg._configuration.showAlternativeName) {
-                enter
-                    .filter((datum) => datum.data.data.alternativeName !== "")
-                    .call((g) => {
-                        const text = g
-                            .append("text")
-                            .classed("wt-chart-box-name-alt", true)
-                            .attr("class", "wt-chart-box-name")
-                            .attr("direction", (datum) => (datum.isAltRtl ? "rtl" : "ltr"))
-                            .attr("text-anchor", "middle")
-                            .attr("dominant-baseline", "central")
-                            .attr("y", this._text.y + 40);
-
-                        this.addNameElements(text, (datum) =>
-                            this.truncateNamesData(
-                                text,
-                                this.createAlternativeNamesData(datum),
-                                this.getAvailableWidth(datum),
-                            ),
-                        );
-                    });
-            }
-
-            // Left/Right and Right/Left
+        if (isVertical) {
+            // Top/Bottom and Bottom/Top
+            this.appendNameLines(enter);
         } else {
-            const enter = name
-                .selectAll("text")
-                .data((datum) => [
-                    {
-                        data: datum.data,
-                        isRtl: datum.data.data.isNameRtl,
-                        isAltRtl: datum.data.data.isAltRtl,
-                        withImage: datum.data.data.thumbnail !== "",
-                    },
-                ])
-                .enter();
-
-            enter.call((g) => {
-                const text = g
-                    .append("text")
-                    .attr("class", "wt-chart-box-name")
-                    .attr("direction", (datum) => (datum.isRtl ? "rtl" : "ltr"))
-                    .attr("text-anchor", (datum) => {
-                        if (datum.isRtl && this._orientation.isDocumentRtl) {
-                            return "start";
-                        }
-
-                        if (datum.isRtl || this._orientation.isDocumentRtl) {
-                            return "end";
-                        }
-
-                        return "start";
-                    })
-                    .attr("x", (datum) => this.textX(datum))
-                    .attr("y", this._text.y - 10);
-
-                this.addNameElements(text, (datum) => {
-                    const [first, ...last] = this.createNamesData(datum);
-
-                    // Merge the firstname and lastname groups, as we display the whole name in one line
-                    const combined = [...(first ?? []), ...(last[0] ?? [])];
-
-                    return this.truncateNamesData(text, combined, this.getAvailableWidth(datum));
-                });
-            });
-
-            // Add alternative name if present
-            if (this._svg._configuration.showAlternativeName) {
-                enter
-                    .filter((datum) => datum.data.data.alternativeName !== "")
-                    .call((g) => {
-                        const text = g
-                            .append("text")
-                            .classed("wt-chart-box-name-alt", true)
-                            .attr("class", "wt-chart-box-name")
-                            .attr("direction", (datum) => (datum.isAltRtl ? "rtl" : "ltr"))
-                            .attr("text-anchor", (datum) => {
-                                if (datum.isAltRtl && this._orientation.isDocumentRtl) {
-                                    return "start";
-                                }
-
-                                if (datum.isAltRtl || this._orientation.isDocumentRtl) {
-                                    return "end";
-                                }
-
-                                return "start";
-                            })
-                            .attr("x", (datum) => this.textX(datum))
-                            .attr("y", this._text.y + 8);
-
-                        this.addNameElements(text, (datum) =>
-                            this.truncateNamesData(
-                                text,
-                                this.createAlternativeNamesData(datum),
-                                this.getAvailableWidth(datum),
-                            ),
-                        );
-                    });
-            }
+            // Left/Right and Right/Left
+            this.appendNameLine(enter);
         }
+
+        this.appendAlternativeName(enter, this._text.y + (isVertical ? 40 : 8));
+    }
+
+    /**
+     * Adds one text line per name block, the given names above the surnames.
+     *
+     * @param {Selection<any, any, any, any>} enter The entered selection holding the name datum
+     *
+     * @private
+     */
+    appendNameLines(enter) {
+        const that = this;
+
+        enter.each(function (datum) {
+            const element = d3.select(this);
+            const nameGroups = that.createNamesData(datum);
+            const availableWidth = that.getAvailableWidth(datum);
+
+            nameGroups.forEach((nameGroup, index) => {
+                const text = that.createNameText(element, "isRtl", that._text.y - 5 + index * 20);
+
+                that.addNameElements(text, that.truncateNamesData(text, nameGroup, availableWidth));
+            });
+        });
+    }
+
+    /**
+     * Adds a single text line holding the whole name.
+     *
+     * @param {Selection<any, any, any, any>} enter The entered selection holding the name datum
+     *
+     * @private
+     */
+    appendNameLine(enter) {
+        const text = this.createNameText(enter, "isRtl", this._text.y - 10);
+
+        this.addNameElements(text, (datum) =>
+            // The whole name is displayed in one line, so the blocks are merged
+            this.truncateNamesData(
+                text,
+                this.createNamesData(datum).flat(),
+                this.getAvailableWidth(datum),
+            ),
+        );
+    }
+
+    /**
+     * Adds the alternative name below the name when it is present and enabled.
+     *
+     * @param {Selection<any, any, any, any>} enter The entered selection holding the name datum
+     * @param {number}                        y     The vertical position of the line
+     *
+     * @private
+     */
+    appendAlternativeName(enter, y) {
+        if (!this._svg._configuration.showAlternativeName) {
+            return;
+        }
+
+        enter
+            .filter((datum) => datum.data.data.alternativeName !== "")
+            .call((g) => {
+                const text = this.createNameText(g, "isAltRtl", y);
+
+                this.addNameElements(text, (datum) =>
+                    this.truncateNamesData(
+                        text,
+                        this.createAlternativeNamesData(datum),
+                        this.getAvailableWidth(datum),
+                    ),
+                );
+            });
+    }
+
+    /**
+     * Appends an empty name <text> element and positions it for the current layout.
+     *
+     * @param {Selection<any, any, any, any>} parent The element or entered selection to append to
+     * @param {"isRtl"|"isAltRtl"}            rtlKey The datum flag holding the text direction of the line
+     * @param {number}                        y      The vertical position of the line
+     *
+     * @return {Selection<any, any, any, any>}
+     *
+     * @private
+     */
+    createNameText(parent, rtlKey, y) {
+        const text = parent
+            .append("text")
+            .attr("class", "wt-chart-box-name")
+            .attr("direction", (datum) => (datum[rtlKey] ? "rtl" : "ltr"))
+            .attr("text-anchor", (datum) => this.textAnchor(datum[rtlKey]));
+
+        if (this._orientation.isVertical) {
+            text.attr("dominant-baseline", "central");
+        } else {
+            text.attr("x", (datum) => this.textX(datum));
+        }
+
+        return text.attr("y", y);
+    }
+
+    /**
+     * Returns the text anchor of a name line.
+     *
+     * @param {boolean} isRtl Whether the line is written right to left
+     *
+     * @return {"start"|"middle"|"end"}
+     *
+     * @private
+     */
+    textAnchor(isRtl) {
+        if (this._orientation.isVertical) {
+            return "middle";
+        }
+
+        if (isRtl && this._orientation.isDocumentRtl) {
+            return "start";
+        }
+
+        if (isRtl || this._orientation.isDocumentRtl) {
+            return "end";
+        }
+
+        return "start";
     }
 
     /**
@@ -273,7 +255,9 @@ export default class Name {
     }
 
     /**
-     * Creates the data array for the names in top/bottom layout.
+     * Groups the name segments into blocks. Consecutive segments of the given-name side
+     * (given names and nickname) form one block and consecutive segments of the surname
+     * side (surnames and married surname) the next one, in the order of the segments.
      *
      * @param {NameElementData} datum
      *
@@ -282,107 +266,28 @@ export default class Name {
      * @private
      */
     createNamesData(datum) {
-        // Keyed by the smallest character position of the group, so the groups
-        // come out in the order they occur in the assembled name.
-        /** @type {Object<number, LabelElementData[]>} */
-        const names = {};
-        let minPosFirstnames = Number.MAX_SAFE_INTEGER;
-        let minPosLastnames = Number.MAX_SAFE_INTEGER;
+        /** @type {LabelElementData[][]} */
+        const blocks = [];
+        let previousIsLastName = null;
 
-        let firstnameOffset = 0;
-        const firstnameMap = new Map();
+        for (const segment of datum.data.data.nameSegments) {
+            const isLastName = SURNAME_KINDS.has(segment.kind);
 
-        // Iterate over the individual name components and determine their position in the overall
-        // name and insert the component at the corresponding position in the result object.
-        for (const firstName of datum.data.data.firstNames) {
-            // Mirrors the surname guard below. `indexOf("", offset)` returns the
-            // offset itself, so an empty given name registers a zero-length entry
-            // at whatever position the search had reached. That entry renders as
-            // an empty label and, worse, occupies a position the surname search
-            // then treats as taken.
-            if (!firstName) {
-                continue;
+            if (isLastName !== previousIsLastName) {
+                blocks.push([]);
+                previousIsLastName = isLastName;
             }
 
-            const pos = datum.data.data.name.indexOf(firstName, firstnameOffset);
-
-            if (pos !== -1) {
-                firstnameOffset = pos + firstName.length;
-
-                if (pos < minPosFirstnames) {
-                    minPosFirstnames = pos;
-                }
-
-                firstnameMap.set(pos, {
-                    label: firstName,
-                    isPreferred: firstName === datum.data.data.preferredName,
-                    isLastName: false,
-                    isNameRtl: datum.data.data.isNameRtl,
-                });
-            }
+            blocks[blocks.length - 1]?.push({
+                label: segment.label,
+                isPreferred: segment.isPreferred,
+                isLastName,
+                isNickname: segment.kind === "nickname",
+                isNameRtl: datum.data.data.isNameRtl,
+            });
         }
 
-        // Insert the optional nickname (e.g. "Chalky") into the first-names
-        // group when getShowNicknames is enabled and the GEDCOM has a NICK.
-        // Adding it to the firstname map keeps it inside the same slot as the
-        // given names; position-keyed iteration places it after the given names
-        // before the surname slot starts.
-        const nickname = datum.data.data.nickname;
-
-        if (nickname && nickname !== "") {
-            const nickQuoted = `"${nickname}"`;
-            const nickPos = datum.data.data.name.indexOf(nickQuoted);
-
-            if (nickPos !== -1) {
-                firstnameMap.set(nickPos, {
-                    label: nickQuoted,
-                    isPreferred: false,
-                    isLastName: false,
-                    isNickname: true,
-                    isNameRtl: datum.data.data.isNameRtl,
-                });
-            }
-        }
-
-        names[minPosFirstnames] = [...firstnameMap].map(([, value]) => value);
-
-        const lastnameMap = new Map();
-        const takenPositions = new Set();
-
-        for (const lastName of datum.data.data.lastNames) {
-            // An empty surname would never terminate the search below:
-            // `indexOf("", offset)` returns `offset` itself, so the skip-forward
-            // step advances by a match length of zero and the position never
-            // moves. NameProcessor::splitAndCleanName() drops empty parts today,
-            // but that guarantee lives in a separate package, so guard here.
-            if (!lastName) {
-                continue;
-            }
-
-            const pos = locateSurname(datum.data.data.name, lastName, firstnameMap, takenPositions);
-
-            if (pos !== -1) {
-                takenPositions.add(pos);
-            }
-
-            if (pos !== -1) {
-                if (pos < minPosLastnames) {
-                    minPosLastnames = pos;
-                }
-
-                lastnameMap.set(pos, {
-                    label: lastName,
-                    isPreferred: false,
-                    isLastName: true,
-                    isNameRtl: datum.data.data.isNameRtl,
-                });
-            }
-        }
-
-        names[minPosLastnames] = [...lastnameMap].map(([, value]) => value);
-
-        // Extract the values (keys don't matter anymore)
-        return Object.values(names);
+        return blocks;
     }
 
     /**
