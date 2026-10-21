@@ -32,6 +32,7 @@ use MagicSunday\Webtrees\PedigreeChart\Module;
 use MagicSunday\Webtrees\PedigreeChart\Test\Support\ModuleSettingsFixtureTrait;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseFactoryInterface;
 use ReflectionProperty;
@@ -40,6 +41,7 @@ use ReflectionProperty;
  * Validates module metadata exposure and chart helpers.
  */
 #[CoversClass(Module::class)]
+#[UsesClass(Configuration::class)]
 final class ModuleTest extends TestCase
 {
     use ModuleSettingsFixtureTrait;
