@@ -31,14 +31,11 @@ parameters:
                 - src/Module/ConfigTrait.php
                 - tests/Support/ModuleSettingsFixtureTrait.php
 
-        # NodeData is a fluent builder, DataFacade assembles each node in one
-        # chained call, and the module chains DataFacade::setConfiguration()
-        # when it wires the facade for a request. The setters return the
-        # instance by design.
+        # The module chains DataFacade::setConfiguration() when it wires the
+        # facade for a request. The setter returns the instance by design.
         -
             identifier: symplify.noReturnSetterMethod
             paths:
-                - src/Model/NodeData.php
                 - src/Facade/DataFacade.php
 
         # The per-request configuration cannot be built in the constructor, it

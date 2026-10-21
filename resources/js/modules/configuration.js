@@ -5,8 +5,10 @@
  * LICENSE file distributed with this source code.
  */
 
-import OrientationCollection from "./chart/orientation-collection.js";
-import { LAYOUT_LEFTRIGHT } from "./constants.js";
+import {
+    LAYOUT_LEFTRIGHT,
+    OrientationCollection,
+} from "@magicsunday/webtrees-chart-lib/linked-tree";
 
 /**
  * @import { Orientation } from "@magicsunday/webtrees-chart-lib/infra"

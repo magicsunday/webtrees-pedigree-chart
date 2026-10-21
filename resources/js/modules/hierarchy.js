@@ -6,7 +6,7 @@
  */
 
 import * as d3 from "./d3.js";
-import { LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET } from "./constants.js";
+import { LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET } from "@magicsunday/webtrees-chart-lib/linked-tree";
 
 /**
  * @import { HierarchyNode, HierarchyPointNode } from "d3-hierarchy"
