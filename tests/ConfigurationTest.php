@@ -170,6 +170,109 @@ final class ConfigurationTest extends TestCase
     }
 
     /**
+     * Values that are not a six digit hex colour, among them the opener of an
+     * HTML comment followed by a script opener that an inline script would
+     * keep intact after JSON encoding.
+     *
+     * @return array<string, array{string}>
+     */
+    public static function invalidColourProvider(): array
+    {
+        return [
+            'comment and script opener' => ['<!--<script>'],
+            'missing hash'              => ['112233'],
+            'short form'                => ['#123'],
+            'non-hex digit'             => ['#11223g'],
+            'trailing declaration'      => ['#112233;color:red'],
+            'empty'                     => [''],
+        ];
+    }
+
+    /**
+     * A request value that is no hex colour never reaches the page. Both
+     * lineage colours resolve to their defaults instead.
+     */
+    #[Test]
+    #[DataProvider('invalidColourProvider')]
+    public function aColourFromTheRequestThatIsNoHexColourFallsBackToTheDefault(string $value): void
+    {
+        $configuration = $this->buildConfiguration(
+            [
+                'paternalColor' => $value,
+                'maternalColor' => $value,
+            ],
+            []
+        );
+
+        self::assertSame(Configuration::PATERNAL_COLOR_DEFAULT, $configuration->getPaternalColor());
+        self::assertSame(Configuration::MATERNAL_COLOR_DEFAULT, $configuration->getMaternalColor());
+    }
+
+    /**
+     * A module preference that is no hex colour is ignored the same way, so
+     * the stored value cannot reach the page either.
+     */
+    #[Test]
+    #[DataProvider('invalidColourProvider')]
+    public function aColourFromTheModulePreferenceThatIsNoHexColourFallsBackToTheDefault(string $value): void
+    {
+        $configuration = $this->buildConfiguration(
+            [],
+            [
+                'default_paternalColor' => $value,
+                'default_maternalColor' => $value,
+            ]
+        );
+
+        self::assertSame(Configuration::PATERNAL_COLOR_DEFAULT, $configuration->getPaternalColor());
+        self::assertSame(Configuration::MATERNAL_COLOR_DEFAULT, $configuration->getMaternalColor());
+    }
+
+    /**
+     * A valid colour of the request wins over the module preference, and the
+     * letters of the digits keep their case.
+     */
+    #[Test]
+    public function aHexColourFromTheRequestWinsOverTheModulePreference(): void
+    {
+        $configuration = $this->buildConfiguration(
+            [
+                'paternalColor' => '#AbCdEf',
+                'maternalColor' => '#fEdCbA',
+            ],
+            [
+                'default_paternalColor' => '#010203',
+                'default_maternalColor' => '#040506',
+            ]
+        );
+
+        self::assertSame('#AbCdEf', $configuration->getPaternalColor());
+        self::assertSame('#fEdCbA', $configuration->getMaternalColor());
+    }
+
+    /**
+     * A request value that is no hex colour falls back to the stored module
+     * preference when that one is valid, not to the built-in default.
+     */
+    #[Test]
+    public function aColourFromTheRequestThatIsNoHexColourFallsBackToTheValidModulePreference(): void
+    {
+        $configuration = $this->buildConfiguration(
+            [
+                'paternalColor' => '<!--<script>',
+                'maternalColor' => '#11223g',
+            ],
+            [
+                'default_paternalColor' => '#010203',
+                'default_maternalColor' => '#040506',
+            ]
+        );
+
+        self::assertSame('#010203', $configuration->getPaternalColor());
+        self::assertSame('#040506', $configuration->getMaternalColor());
+    }
+
+    /**
      * The name-abbreviation strategy is resolved to a typed {@see NameAbbreviation}
      * case: a request parameter wins, then the module preference. An unknown or
      * stale value falls back to {@see NameAbbreviation::Auto} instead of leaking
