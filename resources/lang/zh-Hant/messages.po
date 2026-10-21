@@ -18,15 +18,15 @@ msgstr ""
 "X-Poedit-SearchPath-0: src\n"
 "X-Poedit-SearchPath-1: resources/views\n"
 
-#: src/Module.php:141
+#: src/Module.php:130
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "個人祖先的世系圖。"
 
-#: src/Configuration.php:505
+#: src/Configuration.php:497
 msgid "Abbreviate given names first"
 msgstr "優先縮寫名字"
 
-#: src/Configuration.php:506
+#: src/Configuration.php:498
 msgid "Abbreviate surnames first"
 msgstr "優先縮寫姓氏"
 
@@ -38,7 +38,7 @@ msgstr ""
 msgid "Add a mother"
 msgstr ""
 
-#: src/Configuration.php:504
+#: src/Configuration.php:496
 msgid "Automatic (based on tree's surname tradition)"
 msgstr "自動（根據族譜的姓氏傳統）"
 
@@ -131,7 +131,7 @@ msgstr "母系"
 msgid "Modules"
 msgstr ""
 
-#: src/Module.php:255
+#: src/Module.php:244
 msgid "Move the view with two fingers"
 msgstr "用兩根手指拖動視圖"
 
@@ -157,7 +157,7 @@ msgstr ""
 msgid "Paternal"
 msgstr "父系"
 
-#: src/Module.php:130 src/Module/ChartTrait.php:63
+#: src/Module.php:119 src/Module/ChartTrait.php:63
 msgid "Pedigree chart"
 msgstr ""
 
@@ -203,7 +203,7 @@ msgstr "切換全螢幕與一般檢視"
 msgid "The preferences for the module “%s” have been updated."
 msgstr ""
 
-#: src/Module.php:254
+#: src/Module.php:243
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "按住Ctrl和鼠標滾輪放大查看"
 
@@ -222,15 +222,15 @@ msgstr ""
 msgid "cancel"
 msgstr ""
 
-#: src/Configuration.php:269 src/Configuration.php:277
+#: src/Configuration.php:261 src/Configuration.php:269
 msgid "down"
 msgstr "祖輩在下"
 
-#: src/Configuration.php:266 src/Configuration.php:274
+#: src/Configuration.php:258 src/Configuration.php:266
 msgid "left"
 msgstr "祖輩在左"
 
-#: src/Configuration.php:267 src/Configuration.php:275
+#: src/Configuration.php:259 src/Configuration.php:267
 msgid "right"
 msgstr "祖輩在右"
 
@@ -238,7 +238,7 @@ msgstr "祖輩在右"
 msgid "save"
 msgstr ""
 
-#: src/Configuration.php:268 src/Configuration.php:276
+#: src/Configuration.php:260 src/Configuration.php:268
 msgid "up"
 msgstr "祖輩在上"
 
