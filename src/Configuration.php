@@ -536,7 +536,7 @@ final class Configuration
      * third.
      *
      * Clicking a person navigates to the page route afresh, so every setting the
-     * re-centered page has to restore must travel in the URL — otherwise that
+     * re-centered page has to restore must travel in the URL. Otherwise that
      * setting silently falls back to the module preference default. The list is
      * therefore the user-settable form fields, not just what the data facade
      * reads: the display toggles and the lineage colours are applied by the view
@@ -544,12 +544,12 @@ final class Configuration
      * is the one entry without a form field, because the data facade reads it
      * while building the nodes.
      *
-     * `nameAbbreviation` is deliberately absent — it is an admin preference with
+     * `nameAbbreviation` is deliberately absent. It is an admin preference with
      * no form field, so it resolves identically on the re-centered page.
      *
      * Memoised because the update route is built once per node, while
-     * AbstractModule::getPreference() issues a database query on every call —
-     * resolving nine settings per node would put the query count in linear
+     * AbstractModule::getPreference() issues a database query on every call.
+     * Resolving every setting per node would put the query count in linear
      * proportion to the tree size. The configuration is constructed per request,
      * so the resolved values cannot go stale within its lifetime.
      *
