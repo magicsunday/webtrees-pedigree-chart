@@ -307,6 +307,28 @@ describe("Name rendering in the top/bottom layout", () => {
     it("draws no alternative name line when there is none", () => {
         expect(drawName(SCHMIDT)).toHaveLength(2);
     });
+
+    it("draws a name that has only surnames on a single line", () => {
+        const texts = drawName({ name: "Schmidt", given: [], surnames: ["Schmidt"] });
+
+        expect(texts).toHaveLength(1);
+        expect(labels(texts[0])).toEqual(["Schmidt"]);
+        expect(texts[0].y).toBe("15");
+        expect(texts[0].tspans[0].lastName).toBe(true);
+    });
+
+    it("draws a name that has only given names on a single line", () => {
+        const texts = drawName({ name: "Anna Maria", given: ["Anna", "Maria"] });
+
+        expect(texts).toHaveLength(1);
+        expect(labels(texts[0])).toEqual(["Anna", "Maria"]);
+        expect(texts[0].y).toBe("15");
+        expect(texts[0].tspans.some((tspan) => tspan.lastName)).toBe(false);
+    });
+
+    it("draws no name line for a name without segments", () => {
+        expect(drawName({ name: "", given: [] })).toEqual([]);
+    });
 });
 
 describe("Name rendering in the left/right layout", () => {
