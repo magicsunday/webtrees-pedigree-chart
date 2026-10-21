@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace MagicSunday\Webtrees\PedigreeChart\Model;
 
 use JsonSerializable;
+use MagicSunday\Webtrees\ModuleBase\Model\NodeData;
 
 /**
  * This class holds information about a node.
