@@ -16,10 +16,12 @@ use Fisharebest\Webtrees\DB;
 use GuzzleHttp\Psr7\ServerRequest;
 use MagicSunday\Webtrees\ModuleBase\Model\NameAbbreviation;
 use MagicSunday\Webtrees\PedigreeChart\Configuration;
+use MagicSunday\Webtrees\PedigreeChart\Module;
 use MagicSunday\Webtrees\PedigreeChart\Test\Support\ModuleSettingsFixtureTrait;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -31,6 +33,7 @@ use PHPUnit\Framework\TestCase;
  * `module_setting` table.
  */
 #[CoversClass(Configuration::class)]
+#[UsesClass(Module::class)]
 final class ConfigurationTest extends TestCase
 {
     use ModuleSettingsFixtureTrait;
