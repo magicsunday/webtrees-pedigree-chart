@@ -12,6 +12,7 @@
 /assets/              export-ignore
 /biome.json            export-ignore
 /compose.yaml          export-ignore
+/infection.json5       export-ignore
 /jest.config.mjs       export-ignore
 /jsconfig.json         export-ignore
 /Make/                 export-ignore
