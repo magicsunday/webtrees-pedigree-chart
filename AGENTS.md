@@ -57,7 +57,7 @@ Module.php (entry point, registers routes)
 - **Module.php** — Entry point, extends webtrees PedigreeChartModule, registers chart route.
 - **Configuration.php** — Reads form parameters from request (POST/GET) with user preference fallback.
 - **Facade/DataFacade.php** — Builds hierarchical Node tree from an Individual and recurses to the configured generation depth.
-- **Model/Node, NodeData** — Tree node with JSON serialization for D3. `NodeData` carries the name as `nameSegments`, the ordered `NameSegment` list of module-base (`label`, `kind`, `isPreferred`), next to the flat `name`. Its serialised shape equals the shared `NodeData` of module-base.
+- **Model/Node** — Tree node with JSON serialization for D3. It wraps the `NodeData` of module-base (`MagicSunday\Webtrees\ModuleBase\Model\NodeData`), which the module does not copy. `NodeData` carries the name as `nameSegments`, the ordered `NameSegment` list of module-base (`label`, `kind`, `isPreferred`), next to the flat `name`. `DataFacadeTest` pins the key order of the serialised payload.
 - **Shared classes from [`magicsunday/webtrees-module-base`](https://github.com/magicsunday/webtrees-module-base)** (composer dependency `^3.4`):
   - `Processor/DateProcessor` — date extraction; pedigree currently uses the legacy locale-aware methods (`getBirthDate`, `getDeathDate`, `getLifetimeDescription`).
   - `Processor/NameProcessor`, `Processor/ImageProcessor`, `Processor/PlaceProcessor` — name/image/place extraction. `DataFacade` fills the name segments from `NameProcessor::getNameSegments()`.
@@ -66,13 +66,12 @@ Module.php (entry point, registers routes)
   - For local edits to module-base while developing pedigree-chart, run `make link-base` (symlinks `.build/vendor/.../webtrees-module-base` → the sibling clone). Reverse with `make unlink-base` or any `composer install/update`.
 
 ### JS (`resources/js/modules/`)
-Flat layout — every file is pedigree-specific glue. Reusable base classes (Storage, ChartExport, ChartOverlay, ChartZoom, Orientations, measureText, truncateNames) live in the external [`@magicsunday/webtrees-chart-lib`](https://github.com/magicsunday/webtrees-chart-lib) package, shared with the fan- and descendants-chart modules. Consumed via Git URL pinned in `package.json` (`github:magicsunday/webtrees-chart-lib#vX.Y.Z`); chart-lib's `prepare` script builds its `dist/` during install, so `npm ci --ignore-scripts` will break the build.
+Flat layout — every file is pedigree-specific glue. Reusable base classes (Storage, ChartExport, ChartOverlay, ChartZoom, Orientations, measureText, truncateNames) and the linked-tree render layer (`LinkedTreeSvg`, `OrientationCollection`, `ImageBox`, `TextBox`, the `LAYOUT_*` constants, imported from the `@magicsunday/webtrees-chart-lib/linked-tree` subpath) live in the external [`@magicsunday/webtrees-chart-lib`](https://github.com/magicsunday/webtrees-chart-lib) package, shared with the fan- and descendants-chart modules. Consumed via Git URL pinned in `package.json` (`github:magicsunday/webtrees-chart-lib#X.Y.Z`); chart-lib's `prepare` script builds its `dist/` during install, so `npm ci --ignore-scripts` will break the build.
 - **`index.js`** — Exports `PedigreeChart` class (ES module entry point for Rollup).
 - **`page-entry.js` / `page-init.js`** — UMD bundle (`pedigree-chart-page.min.js`) loaded by `page.phtml`. Owns localStorage form-state wiring; `initPage()` resolves user options and publishes them under `WebtreesPedigreeChart.chartOptions` for `chart.phtml` getters.
 - **`chart.js`** (D3 hierarchy.tree layout, click handling), **`hierarchy.js`** (D3 hierarchy), **`tree.js`** (draws the nodes and links), **`configuration.js`**.
-- **`chart/`** — `box/{image,text}.js` (box rendering), `orientation-collection.js` (picks the matching `Orientation*` class from chart-lib), `svg.js`.
 - **`tree/`** — `date.js` (DateRenderer), `name.js` (draws the `nameSegments` as runs, a given-name block and a surname block, without searching the full name), `node-drawer.js`, `link-drawer.js`, `family-color.js`.
-- **`constants.js`**, **`d3.js`** (re-export facade).
+- **`constants.js`** (the sex constants), **`d3.js`** (re-export facade).
 
 ### Views (`resources/views/`)
 - **`pedigree-chart/page.phtml`** — Form + AJAX container. Loads `pedigree-chart-page.min.js` and calls `WebtreesPedigreeChart.initPage({ ajaxUrl })`.
@@ -83,7 +82,7 @@ Flat layout — every file is pedigree-specific glue. Reusable base classes (Sto
 ## Key patterns
 - **ES module loading**: `import().then(({ PedigreeChart }) => ...)` in `<script type="module">`, avoiding the `webtrees.load()` race condition.
 - **Storage flow**: `page-init.js` reads localStorage → publishes resolved options under `WebtreesPedigreeChart.chartOptions` → `chart.phtml` getter reads `opts.x ?? PHP default`.
-- **Orientation strategy**: chart layout is configurable in 4 directions (top-bottom, bottom-top, left-right, right-left). The orientation-collection.js picks the matching `Orientation*` class which provides node coordinate transforms and elbow connector geometry.
+- **Orientation strategy**: chart layout is configurable in 4 directions (top-bottom, bottom-top, left-right, right-left). The `OrientationCollection` of the chart-lib linked-tree layer picks the matching `Orientation*` class which provides node coordinate transforms and elbow connector geometry.
 - **Block template**: Overrides core `modules/charts/chart.phtml` — must stay in sync with webtrees core changes (e.g. VanillaJS conversion).
 
 ## Release process

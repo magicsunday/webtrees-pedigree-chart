@@ -9,7 +9,7 @@ import NodeDrawer from "./tree/node-drawer.js";
 import LinkDrawer from "./tree/link-drawer.js";
 
 /**
- * @import Svg from "./chart/svg.js"
+ * @import { LinkedTreeSvg as Svg } from "@magicsunday/webtrees-chart-lib/linked-tree"
  * @import Configuration from "./configuration.js"
  * @import Hierarchy, { Individual } from "./hierarchy.js"
  */

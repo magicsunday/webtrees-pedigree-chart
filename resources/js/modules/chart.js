@@ -6,8 +6,8 @@
  */
 import * as d3 from "./d3.js";
 import Hierarchy from "./hierarchy.js";
-import Svg from "./chart/svg.js";
 import { ChartOverlay as Overlay } from "@magicsunday/webtrees-chart-lib/infra";
+import { LinkedTreeSvg as Svg } from "@magicsunday/webtrees-chart-lib/linked-tree";
 import Tree from "./tree.js";
 
 /**

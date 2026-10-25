@@ -14,8 +14,8 @@ import {
     LAYOUT_RIGHTLEFT,
     LAYOUT_TOPBOTTOM,
     LAYOUT_VERTICAL_NODE_HEIGHT,
-} from "../modules/constants.js";
-import OrientationCollection from "../modules/chart/orientation-collection.js";
+    OrientationCollection,
+} from "@magicsunday/webtrees-chart-lib/linked-tree";
 import Hierarchy from "../modules/hierarchy.js";
 
 // Two parents of the root person. The tree layout places them one generation away from the root

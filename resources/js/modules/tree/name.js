@@ -11,9 +11,8 @@ import * as d3 from "../d3.js";
 /**
  * @import { Selection } from "d3-selection"
  * @import { Orientation } from "@magicsunday/webtrees-chart-lib/infra"
- * @import Svg from "../chart/svg.js"
- * @import ImageBox from "../chart/box/image.js"
- * @import TextBox from "../chart/box/text.js"
+ * @import { ImageBox, LinkedTreeSvg as Svg, TextBox } from "@magicsunday/webtrees-chart-lib/linked-tree"
+ * @import Configuration from "../configuration.js"
  */
 
 /**
@@ -311,7 +310,8 @@ export default class Name {
                 availableWidth,
                 (text) => this.measureText(text, fontSize, fontWeight),
                 {
-                    strategy: this._svg._configuration.nameAbbreviation,
+                    strategy: /** @type {Configuration} */ (this._svg._configuration)
+                        .nameAbbreviation,
                     // Married-name suffixes like "(Müller)" are supplementary;
                     // drop them entirely instead of truncating to "(.".
                     dropEmptyBracketed: true,
