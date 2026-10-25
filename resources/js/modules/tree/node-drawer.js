@@ -7,9 +7,8 @@
 
 import { SEX_FEMALE, SEX_MALE } from "../constants.js";
 import Name from "./name.js";
-import DateRenderer from "./date.js";
 import FamilyColor from "./family-color.js";
-import { ImageBox, TextBox } from "@magicsunday/webtrees-chart-lib/linked-tree";
+import { DateRenderer, ImageBox, TextBox } from "@magicsunday/webtrees-chart-lib/linked-tree";
 
 /**
  * @import { Selection } from "d3-selection"
