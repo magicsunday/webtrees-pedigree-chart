@@ -5,13 +5,12 @@
  * LICENSE file distributed with this source code.
  */
 
-import { measureText, truncateNames } from "@magicsunday/webtrees-chart-lib/infra";
+import { truncateNames } from "@magicsunday/webtrees-chart-lib/infra";
+import { TextRenderer } from "@magicsunday/webtrees-chart-lib/linked-tree";
 import * as d3 from "../d3.js";
 
 /**
  * @import { Selection } from "d3-selection"
- * @import { Orientation } from "@magicsunday/webtrees-chart-lib/infra"
- * @import { ImageBox, LinkedTreeSvg as Svg, TextBox } from "@magicsunday/webtrees-chart-lib/linked-tree"
  * @import Configuration from "../configuration.js"
  */
 
@@ -30,22 +29,7 @@ const SURNAME_KINDS = new Set(["surname", "married"]);
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
  * @link    https://github.com/magicsunday/webtrees-pedigree-chart/
  */
-export default class Name {
-    /**
-     * Constructor.
-     *
-     * @param {Svg}         svg
-     * @param {Orientation} orientation
-     * @param {ImageBox}    image
-     * @param {TextBox}     text
-     */
-    constructor(svg, orientation, image, text) {
-        this._svg = svg;
-        this._orientation = orientation;
-        this._image = image;
-        this._text = text;
-    }
-
+export default class Name extends TextRenderer {
     /**
      * Add the individual names to the given parent element.
      *
@@ -348,39 +332,5 @@ export default class Name {
         );
 
         return names;
-    }
-
-    /**
-     * Returns the horizontal text position of a name row.
-     *
-     * @param {NameElementData} d The name element datum
-     *
-     * @return {number}
-     *
-     * @private
-     */
-    textX(d) {
-        const xPos = this._text.x + (d.withImage ? this._image.width : 0);
-
-        // Reverse direction of text elements for RTL layouts
-        return this._orientation.isDocumentRtl ? -xPos : xPos;
-    }
-
-    /**
-     * Measures the given text and return its width depending on the used font
-     * (including size and weight).
-     *
-     * @param {string}        text       The text to measure
-     * @param {string}        fontSize   The CSS font-size string
-     * @param {string|number} fontWeight The CSS font-weight
-     *
-     * @return {number}
-     *
-     * @private
-     */
-    measureText(text, fontSize, fontWeight = 400) {
-        const fontFamily = this._svg.style("font-family");
-
-        return measureText(text, fontFamily, fontSize, fontWeight);
     }
 }

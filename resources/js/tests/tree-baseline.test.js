@@ -8,7 +8,6 @@
 import { jest } from "@jest/globals";
 
 await jest.unstable_mockModule("@magicsunday/webtrees-chart-lib/infra", () => ({
-    measureText: jest.fn(() => 0),
     truncateNames: jest.fn((names) => names),
 }));
 
