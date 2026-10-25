@@ -10,7 +10,6 @@ import { jest } from "@jest/globals";
 // The truncation itself is covered by chart-lib. An identity stand-in keeps the
 // rendered labels equal to the labels the name renderer hands over.
 await jest.unstable_mockModule("@magicsunday/webtrees-chart-lib/infra", () => ({
-    measureText: jest.fn(() => 0),
     truncateNames: jest.fn((names) => names),
 }));
 

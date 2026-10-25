@@ -8,13 +8,12 @@
 import { jest } from "@jest/globals";
 
 await jest.unstable_mockModule("@magicsunday/webtrees-chart-lib/infra", () => ({
-    measureText: jest.fn(() => 0),
     truncateNames: jest.fn((names) => names),
 }));
 
 const d3 = await import("resources/js/modules/d3.js");
 const { default: Name } = await import("resources/js/modules/tree/name.js");
-const { default: DateRenderer } = await import("resources/js/modules/tree/date.js");
+const { DateRenderer } = await import("@magicsunday/webtrees-chart-lib/linked-tree");
 
 const TEXT_BOX = { y: 10, width: 100 };
 
@@ -75,8 +74,8 @@ function makeName() {
 }
 
 /**
- * Builds a Date renderer for a vertical layout with the text truncation
- * stubbed out.
+ * Builds the shared Date renderer for a vertical layout with the text
+ * truncation stubbed out.
  */
 function makeDate() {
     const date = new DateRenderer(

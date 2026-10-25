@@ -70,13 +70,13 @@
 
 /**
  * The datum bound to the date <text> elements of a person box. Vertical
- * layouts render a single combined timespan row (label + withImage only),
+ * layouts render a single combined timespan row (the label only),
  * while horizontal layouts render one row per event, each carrying its own
  * glyph and event marker.
  *
  * @typedef {object} DateElementData
  * @property {string}  label      The formatted date text
- * @property {boolean} withImage  Whether the box reserves room for a thumbnail
+ * @property {boolean} [withImage] Whether the box reserves room for a thumbnail, horizontal layouts only
  * @property {string}  [icon]     The event glyph, horizontal layouts only
  * @property {boolean} [birth]    TRUE for the birth row
  * @property {boolean} [death]    TRUE for the death row
