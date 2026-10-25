@@ -13,11 +13,12 @@ await jest.unstable_mockModule("@magicsunday/webtrees-chart-lib/infra", () => ({
 
 const d3 = await import("resources/js/modules/d3.js");
 const { default: Name } = await import("resources/js/modules/tree/name.js");
+const { DateRenderer } = await import("@magicsunday/webtrees-chart-lib/linked-tree");
 
 const TEXT_BOX = { y: 10, width: 100 };
 
 /**
- * Draws the name renderer into a fresh SVG with a single person datum and returns
+ * Draws one renderer into a fresh SVG with a single person datum and returns
  * the <text> elements it appended.
  *
  * @param {Function} draw Receives the parent selection and appends the renderer output
@@ -72,10 +73,30 @@ function makeName() {
     return name;
 }
 
+/**
+ * Builds the shared Date renderer for a vertical layout with the text
+ * truncation stubbed out.
+ */
+function makeDate() {
+    const date = new DateRenderer(
+        { _configuration: { showAlternativeName: true } },
+        { isVertical: true },
+        {},
+        TEXT_BOX,
+    );
+
+    date.truncateDate = () => "";
+
+    return date;
+}
+
 describe("vertical layout text baseline", () => {
-    test("centres the names, including the alternative name, through dominant-baseline", () => {
-        const name = makeName();
-        const texts = drawTexts((parent) => name.appendName(parent));
+    test.each([
+        ["names, including the alternative name", () => makeName(), "appendName"],
+        ["dates", () => makeDate(), "appendDate"],
+    ])("centres the %s through dominant-baseline", (_label, factory, method) => {
+        const renderer = factory();
+        const texts = drawTexts((parent) => renderer[method](parent));
 
         // A silent zero must fail, so something has to have been drawn
         expect(texts.length).toBeGreaterThan(0);
