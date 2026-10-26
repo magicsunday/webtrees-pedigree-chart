@@ -62,6 +62,16 @@ import(<?php echo json_encode($javascript); ?>).then(({ PedigreeChart }) => {
                 return opts.maternalColor ?? <?php echo json_encode($configuration->getMaternalColor()); ?>;
             },
 
+            get showPlaces() {
+                return opts.showPlaces ?? <?php echo json_encode($configuration->getShowPlaces()); ?>;
+            },
+
+            get showAdditionalFacts() {
+                return opts.showAdditionalFacts ?? <?php echo json_encode($configuration->getShowAdditionalFacts()); ?>;
+            },
+
+            optionalRows: <?php echo json_encode($chartParams['optionalRows']); ?>,
+
             nameAbbreviation: <?php echo json_encode($chartParams['nameAbbreviation']); ?>,
 
             data: <?php echo json_encode($data); ?>

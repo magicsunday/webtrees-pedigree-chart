@@ -8,7 +8,13 @@
 import { SEX_FEMALE, SEX_MALE } from "../constants.js";
 import Name from "./name.js";
 import FamilyColor from "./family-color.js";
-import { DateRenderer, ImageBox, TextBox } from "@magicsunday/webtrees-chart-lib/linked-tree";
+import {
+    DateRenderer,
+    FactRowsRenderer,
+    ImageBox,
+    LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET,
+    TextBox,
+} from "@magicsunday/webtrees-chart-lib/linked-tree";
 
 /**
  * @import { Selection } from "d3-selection"
@@ -42,6 +48,9 @@ export default class NodeDrawer {
         this._text = new TextBox(this._orientation, this._image);
         this._name = new Name(this._svg, this._orientation, this._image, this._text);
         this._date = new DateRenderer(this._svg, this._orientation, this._image, this._text);
+        this._facts = configuration.showFactRows
+            ? new FactRowsRenderer(this._svg, this._orientation, this._image, this._text)
+            : null;
         this._familyColor = configuration.showFamilyColors ? new FamilyColor(configuration) : null;
 
         // Tag the visual group when family-colors is on so svg.css can soften
@@ -362,6 +371,36 @@ export default class NodeDrawer {
             .attr("stroke-width", 1.5);
 
         this._name.appendName(parent);
-        this._date.appendDate(parent);
+
+        if (this._facts === null) {
+            this._date.appendDate(parent);
+
+            return;
+        }
+
+        this._facts.appendFacts(parent, {
+            firstRowY: this._firstFactRowY(),
+            showPlaces: this._configuration.showPlaces,
+            showOptionalRows: this._configuration.showOptionalRows,
+        });
+    }
+
+    /**
+     * Returns the y position of the first date row, where the legacy date line starts.
+     *
+     * @return {number}
+     *
+     * @private
+     */
+    _firstFactRowY() {
+        if (!this._orientation.isVertical) {
+            return this._text.y + 30;
+        }
+
+        const alternativeNameOffset = this._configuration.showAlternativeName
+            ? LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET
+            : 0;
+
+        return this._text.y + 45 + alternativeNameOffset;
     }
 }

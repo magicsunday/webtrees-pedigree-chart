@@ -34,6 +34,9 @@ export default class Configuration {
      * @param {string}   maternalColor
      * @param {string}   nameAbbreviation One of "GIVEN" or "SURNAME". Resolved server-side from the tree's SURNAME_TRADITION when admin sets it to AUTO.
      * @param {boolean}  rtl
+     * @param {boolean}  showPlaces          Whether the place rows are shown below the birth and death dates
+     * @param {boolean}  showAdditionalFacts Whether the optional facts of the tree are shown
+     * @param {number}   optionalRows        The number of optional facts the tree offers
      */
     constructor(
         labels,
@@ -45,6 +48,9 @@ export default class Configuration {
         maternalColor = "#d06f94",
         nameAbbreviation = "GIVEN",
         rtl = false,
+        showPlaces = false,
+        showAdditionalFacts = false,
+        optionalRows = 0,
     ) {
         // The layout/orientation of the tree
         this._treeLayout = treeLayout;
@@ -56,6 +62,9 @@ export default class Configuration {
         this._paternalColor = paternalColor;
         this._maternalColor = maternalColor;
         this._nameAbbreviation = nameAbbreviation;
+        this._showPlaces = showPlaces;
+        this._showAdditionalFacts = showAdditionalFacts;
+        this._optionalRows = optionalRows;
 
         // Duration of the node and link transitions in milliseconds
         this.duration = 750;
@@ -153,5 +162,49 @@ export default class Configuration {
      */
     get nameAbbreviation() {
         return this._nameAbbreviation;
+    }
+
+    /**
+     * Returns whether the place rows are shown.
+     *
+     * @return {boolean}
+     */
+    get showPlaces() {
+        return this._showPlaces;
+    }
+
+    /**
+     * Returns whether the optional facts are shown. They need at least one optional tag
+     * on the tree, otherwise there is nothing to show.
+     *
+     * @return {boolean}
+     */
+    get showOptionalRows() {
+        return this._showAdditionalFacts && this._optionalRows > 0;
+    }
+
+    /**
+     * Returns whether the boxes show fact rows instead of the single date line.
+     *
+     * @return {boolean}
+     */
+    get showFactRows() {
+        return this._showPlaces || this.showOptionalRows;
+    }
+
+    /**
+     * Returns the layout of the fact rows, or null when the boxes show the date line.
+     *
+     * @return {{showPlaces: boolean, optionalRows: number}|null}
+     */
+    get factLayout() {
+        if (!this.showFactRows) {
+            return null;
+        }
+
+        return {
+            showPlaces: this._showPlaces,
+            optionalRows: this.showOptionalRows ? this._optionalRows : 0,
+        };
     }
 }

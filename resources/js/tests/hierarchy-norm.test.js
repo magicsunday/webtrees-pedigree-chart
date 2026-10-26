@@ -32,6 +32,7 @@ const HORIZONTAL_DEPTH = LAYOUT_HORIZONTAL_NODE_WIDTH + 40;
 const parentsOf = (layout) => {
     const configuration = {
         showAlternativeName: false,
+        factLayout: null,
         orientation: new OrientationCollection().get()[layout],
     };
     const hierarchy = new Hierarchy(configuration);
