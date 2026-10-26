@@ -200,43 +200,9 @@
 }
 
 /*
- * From this width the panel stands beside the chart. The value is the one of PANEL_BREAKPOINT in
- * detail-panel.js, a test keeps both in step. The rules overrule the offcanvas rules of Bootstrap
- * by their specificity, the panel is the same element in both forms. The row grows into the free
- * margin beside the page content, so the chart keeps the width it has without the panel. At this
- * width the margin is wider than the panel. In fullscreen there is no margin, the row keeps its
- * width and the chart makes room.
+ * The panel is an offcanvas that opens on a click on a person. It has no backdrop, so the chart
+ * stays usable, and the shadow to the chart makes it look as if it lies above the page.
  */
-@media (min-width: 2000px) {
-    .row.has-detail-panel {
-        margin-inline-end: -20rem;
-    }
-
-    .has-detail-panel > #pedigree-chart-url {
-        flex: 1 1 0;
-        min-width: 0;
-    }
-
-    .has-detail-panel > .webtrees-pedigree-detail-panel.offcanvas.offcanvas-end {
-        position: static;
-        transform: none;
-        visibility: visible;
-        flex: 0 0 20rem;
-        width: 20rem;
-        height: auto;
-        border-inline-start: 1px solid var(--bs-border-color, rgb(222, 226, 230));
-        transition: none;
-    }
-
-    .has-detail-panel > .webtrees-pedigree-detail-panel .btn-close {
-        display: none;
-    }
-
-    [fullscreen] .row.has-detail-panel {
-        margin-inline-end: 0;
-    }
-
-    [fullscreen] .has-detail-panel > .btn-toolbar {
-        inset-inline-end: 20rem;
-    }
+.webtrees-pedigree-detail-panel.offcanvas-end {
+    box-shadow: -0.75rem 0 1.5rem rgba(0, 0, 0, 0.25);
 }

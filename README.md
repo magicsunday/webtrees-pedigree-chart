@@ -154,11 +154,11 @@ installed pedigree chart module) and save your settings.
 At the charts' menu, you will find a new link called `Pedigree chart`. Use the provided configuration options
 to adjust the layout of the charts according to your needs.
 
-With ``Show details panel`` switched on, a click on a person selects the person and a panel shows the birth and the
-death with their places and further facts such as the occupation. From a viewport width of 2000 pixels the panel stands
-beside the chart, below that it slides in over the chart. The panel has buttons to open the individual page and to center
-the chart on the person. The facts come from the tree setting ``Other facts to show in charts``, and the level of detail
-of a place is set by the administrator in the module settings. The option is off by default.
+With ``Show details panel`` switched on, a click on a person selects the person and a panel slides in over the chart
+from the right. It shows the birth and the death with their places and further facts such as the occupation, and it has
+buttons to open the individual page and to center the chart on the person. The chart stays usable while the panel is
+open. The facts come from the tree setting ``Other facts to show in charts``, and the level of detail of a place is set
+by the administrator in the module settings. The option is off by default.
 
 
 ## Troubleshooting

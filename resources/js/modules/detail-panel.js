@@ -6,21 +6,6 @@
  */
 
 /**
- * The viewport width in pixels from which the panel stands beside the chart. The
- * stylesheet repeats this value in its media query, a test keeps both in step.
- *
- * @type {number}
- */
-export const PANEL_BREAKPOINT = 2000;
-
-/**
- * The media query of the wide layout. The boundary is inclusive, so 2000 pixels are wide.
- *
- * @type {string}
- */
-export const PANEL_MEDIA_QUERY = `(min-width: ${PANEL_BREAKPOINT}px)`;
-
-/**
  * One fact of a person as the server serialises it.
  *
  * @typedef {object} PanelFact
@@ -49,7 +34,6 @@ export const PANEL_MEDIA_QUERY = `(min-width: ${PANEL_BREAKPOINT}px)`;
  * @property {(url: string) => void} onIndividual   Opens the individual page
  * @property {(url: string) => void} onCenter       Centres the chart on the person
  * @property {() => void}            onClose        Called when the panel closes and focus should go back to the chart
- * @property {() => void}            onLayoutChange Called when the layout changes between the wide and the narrow form
  */
 
 /**
@@ -64,7 +48,6 @@ export const PANEL_MEDIA_QUERY = `(min-width: ${PANEL_BREAKPOINT}px)`;
  * The part of the window the panel depends on, so tests can hand in stand-ins.
  *
  * @typedef {object} PanelWindow
- * @property {((query: string) => MediaQueryList)|undefined} matchMedia
  * @property {{Offcanvas?: {getOrCreateInstance: (element: Element, options: object) => OffcanvasInstance}}|undefined} bootstrap
  */
 
@@ -80,9 +63,8 @@ function isFact(value) {
 }
 
 /**
- * The detail panel shows the facts of the selected person. Below the breakpoint it is a Bootstrap
- * offcanvas that leaves the chart usable, from the breakpoint on a stylesheet turns the same element
- * into a column beside the chart. All texts that do not come from a person are in the markup of the
+ * The detail panel shows the facts of the selected person. It is a Bootstrap offcanvas without a
+ * backdrop that opens on a selection and leaves the chart usable. All texts that do not come from a person are in the markup of the
  * page, so they are translated on the server, and everything that comes from a person is written
  * with textContent only.
  *
@@ -106,7 +88,6 @@ export default class DetailPanel {
         this._element = element;
         this._callbacks = callbacks;
         this._window = win;
-        this._suppressClose = false;
 
         this._title = this.part("title");
         this._hint = this.part("hint");
@@ -131,30 +112,9 @@ export default class DetailPanel {
             }
         });
 
-        // Bootstrap closes the offcanvas on Escape only while it is shown, so the wide column
-        // needs a handler of its own that hands the focus back to the chart.
-        this._element.addEventListener("keydown", (event) => {
-            if (event.key === "Escape" && this.isWide()) {
-                this._callbacks.onClose();
-            }
-        });
-
-        this._element.addEventListener("hidden.bs.offcanvas", () => {
-            if (this._suppressClose) {
-                this._suppressClose = false;
-
-                return;
-            }
-
-            this._callbacks.onClose();
-        });
-
-        this._query =
-            typeof win.matchMedia === "function" ? win.matchMedia(PANEL_MEDIA_QUERY) : null;
-
-        if (this._query !== null) {
-            this._query.addEventListener("change", () => this.layoutChanged());
-        }
+        // Bootstrap closes the offcanvas on Escape and by its close button, and the focus goes back
+        // to the chart then
+        this._element.addEventListener("hidden.bs.offcanvas", () => this._callbacks.onClose());
     }
 
     /**
@@ -184,37 +144,17 @@ export default class DetailPanel {
      */
     enable() {
         this._element.hidden = false;
-        this._element.parentElement?.classList.add("has-detail-panel");
     }
 
     /**
-     * Returns whether the panel stands beside the chart.
-     *
-     * @return {boolean}
-     */
-    isWide() {
-        return this._query?.matches === true;
-    }
-
-    /**
-     * Shows the facts of a person. Below the breakpoint the offcanvas opens. Re-selecting only
-     * replaces the content.
+     * Shows the facts of a person and opens the offcanvas. Re-selecting only replaces the content.
      *
      * @param {PanelPerson} person The data of the person
      * @param {boolean}   focus  Whether the focus moves to the heading of the panel
      */
     select(person, focus = false) {
         this.render(person);
-
-        if (!this.isWide()) {
-            this.open(focus);
-
-            return;
-        }
-
-        if (focus) {
-            this._title.focus();
-        }
+        this.open(focus);
     }
 
     /**
@@ -265,22 +205,6 @@ export default class DetailPanel {
         }
 
         return offcanvas.getOrCreateInstance(this._element, { scroll: true, backdrop: false });
-    }
-
-    /**
-     * Reacts on a change between the wide and the narrow layout. A panel that is shown as an
-     * offcanvas is hidden when the layout turns wide, so that Bootstrap removes its state from the
-     * element, and the chart gets the width it has now.
-     *
-     * @private
-     */
-    layoutChanged() {
-        if (this.isWide() && this._element.classList.contains("show")) {
-            this._suppressClose = true;
-            this.offcanvas()?.hide();
-        }
-
-        this._callbacks.onLayoutChange();
     }
 
     /**

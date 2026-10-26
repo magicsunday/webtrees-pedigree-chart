@@ -100,7 +100,6 @@ export class PedigreeChart {
             onIndividual: (url) => this._chart.redirectToIndividual(url),
             onCenter: (url) => this._chart.update(url),
             onClose: () => this._chart.restoreFocus(),
-            onLayoutChange: () => this._chart.updateViewBox(),
         });
 
         panel.enable();
