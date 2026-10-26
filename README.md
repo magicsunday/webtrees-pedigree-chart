@@ -154,6 +154,10 @@ installed pedigree chart module) and save your settings.
 At the charts' menu, you will find a new link called `Pedigree chart`. Use the provided configuration options
 to adjust the layout of the charts according to your needs.
 
+The boxes can show the places of the birth and the death below the dates (``Show places``) and further facts of the
+person, such as the occupation (``Show additional facts``). The facts come from the tree setting
+``Other facts to show in charts``, and the level of detail of a place is set by the administrator in the module settings.
+
 
 ## Troubleshooting
 
