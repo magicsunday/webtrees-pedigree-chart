@@ -50,11 +50,11 @@ describe("boxSize", () => {
 
     test("grows a horizontal box symmetrically around the centre", () => {
         const facts = { showPlaces: true, optionalRows: 3 };
-        const extent = factRowsExtent(facts);
 
+        expect(factRowsExtent(facts)).toBe(102);
         expect(boxSize({ vertical: false, showAlternativeName: true, facts })).toEqual({
             width: 325,
-            height: 2 * (15 + extent + 11.5),
+            height: 257,
         });
     });
 
