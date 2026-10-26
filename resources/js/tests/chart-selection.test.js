@@ -163,6 +163,66 @@ describe("Chart keyboard access", () => {
     });
 });
 
+describe("Chart click binding", () => {
+    /**
+     * Builds a chart stand-in whose person elements are the given data, and records the
+     * element that each handler is bound to.
+     *
+     * @param {boolean} showDetailPanel Whether the panel is on
+     * @param {object[]} nodes          The d3 data of the person elements
+     */
+    function bind(showDetailPanel, nodes) {
+        const bound = [];
+        const element = { on: jest.fn(() => element) };
+        const selection = {
+            filter(predicate) {
+                return { ...selection, nodes: this.nodes.filter(predicate) };
+            },
+            each(callback) {
+                this.nodes.forEach((node) => callback.call("element", node));
+            },
+            nodes,
+        };
+        const context = {
+            _configuration: { showDetailPanel },
+            _svg: { visual: { selectAll: () => selection } },
+            makeKeyboardOperable: jest.fn((target, node) => bound.push([target, node])),
+            applySelection: jest.fn(),
+            personClick: jest.fn(),
+        };
+
+        return { context, bound, element };
+    }
+
+    const node = (xref, url) => ({ data: { data: { xref, url } } });
+
+    test("makes the selectable persons keyboard operable with the panel on", () => {
+        const first = node("I1", "/i/1");
+        const { context, bound } = bind(true, [first, node("", "")]);
+
+        Chart.prototype.bindClickEventListener.call(context);
+
+        expect(context.makeKeyboardOperable).toHaveBeenCalledTimes(1);
+        expect(bound[0][1]).toBe(first);
+    });
+
+    test("leaves the persons as they were with the panel off", () => {
+        const { context } = bind(false, [node("I1", "/i/1")]);
+
+        Chart.prototype.bindClickEventListener.call(context);
+
+        expect(context.makeKeyboardOperable).not.toHaveBeenCalled();
+    });
+
+    test("applies the selection again after the persons are bound", () => {
+        const { context } = bind(true, [node("I1", "/i/1")]);
+
+        Chart.prototype.bindClickEventListener.call(context);
+
+        expect(context.applySelection).toHaveBeenCalledTimes(1);
+    });
+});
+
 describe("Chart selection marks", () => {
     test("marks the selected person and nobody else", () => {
         const { context, selection } = buildChart();
