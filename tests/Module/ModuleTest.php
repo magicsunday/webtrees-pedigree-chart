@@ -113,6 +113,29 @@ final class ModuleTest extends TestCase
     }
 
     /**
+     * Pins that saving the administration form with the switch off takes the panel
+     * default back. The form submits a hidden zero for an unchecked box.
+     */
+    #[Test]
+    public function theAdminActionTakesThePanelDefaultBackWhenTheSwitchIsOff(): void
+    {
+        RouteFactoryFixture::register();
+        EnglishLocaleFixture::install();
+
+        $module = $this->createModuleWithPreferences(['default_showDetailPanel' => '1']);
+
+        $module->postAdminAction(
+            (new ServerRequest(RequestMethodInterface::METHOD_POST, '/'))->withParsedBody([
+                'showDetailPanel' => '0',
+            ])
+        );
+
+        $stored = new Configuration(new ServerRequest(RequestMethodInterface::METHOD_GET, '/'), $module);
+
+        self::assertFalse($stored->getShowDetailPanel());
+    }
+
+    /**
      * Pins that saving the administration form stores every option of the form as
      * the default of the chart, so none of them is lost when the form is saved.
      */

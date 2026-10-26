@@ -43,6 +43,11 @@ describe("initPage", () => {
     beforeEach(() => {
         registered.length = 0;
         ajaxOptions.length = 0;
+
+        for (const name of Object.keys(stored)) {
+            delete stored[name];
+        }
+
         document.body.innerHTML = '<form id="webtrees-pedigree-chart-form"></form>';
     });
 
@@ -60,8 +65,6 @@ describe("initPage", () => {
         initPage({ ajaxUrl: "/ajax" });
 
         expect(globalThis.WebtreesPedigreeChart.chartOptions).not.toHaveProperty("showDetailPanel");
-
-        delete stored.showDetailPanel;
     });
 
     test("sends the stored state of the switch to the server with the chart request", () => {
@@ -70,8 +73,14 @@ describe("initPage", () => {
         initPage({ ajaxUrl: "/ajax" });
 
         expect(ajaxOptions[0].query).toContainEqual({ key: "showDetailPanel", value: true });
+    });
 
-        delete stored.showDetailPanel;
+    test("sends a stored off state of the switch to the server as well", () => {
+        stored.showDetailPanel = false;
+
+        initPage({ ajaxUrl: "/ajax" });
+
+        expect(ajaxOptions[0].query).toContainEqual({ key: "showDetailPanel", value: false });
     });
 
     test("leaves the switch out of the chart request while nothing is stored", () => {
@@ -86,7 +95,5 @@ describe("initPage", () => {
         initPage({ ajaxUrl: "/ajax" });
 
         expect(globalThis.WebtreesPedigreeChart.chartOptions).not.toHaveProperty("showPlaces");
-
-        delete stored.showPlaces;
     });
 });

@@ -446,6 +446,40 @@ describe("DetailPanel content", () => {
             expect(labelsOf(element)).toEqual(["Birth", "Second", "First", "Death"]);
         });
 
+        test("keeps the death last when the birth slot is empty", () => {
+            const { panel, element } = build();
+
+            panel.select({
+                ...person,
+                facts: [
+                    null,
+                    fact("Death", 2401000),
+                    fact("Late", 2420000),
+                    fact("Early", 2410000),
+                ],
+            });
+
+            expect(labelsOf(element)).toEqual(["Early", "Late", "Death"]);
+        });
+
+        test("treats a sort day that is no positive number as no date", () => {
+            const { panel, element } = build();
+
+            panel.select({
+                ...person,
+                facts: [
+                    null,
+                    null,
+                    fact("Late", 2420000),
+                    fact("Text", "abc"),
+                    fact("Negative", -5),
+                    fact("Early", 2410000),
+                ],
+            });
+
+            expect(labelsOf(element)).toEqual(["Early", "Text", "Negative", "Late"]);
+        });
+
         test("does not sort the facts of the same day away from their payload order", () => {
             const { panel, element } = build();
 
@@ -646,6 +680,27 @@ describe("DetailPanel image", () => {
         panel.select(person);
 
         expect(imageOf(element).hidden).toBe(true);
+    });
+
+    test("hides the image on the first error when there is no silhouette", () => {
+        const { panel, element } = build();
+
+        panel.select({ ...person, thumbnail: "/thumb/gone.jpg" });
+        imageOf(element).dispatchEvent(new Event("error"));
+
+        expect(imageOf(element).hidden).toBe(true);
+    });
+
+    test("shows the image again for the next person after both images failed", () => {
+        const { panel, element } = build();
+
+        panel.select({ ...person, thumbnail: "/thumb/a.jpg", silhouette: "/sil/a.svg" });
+        imageOf(element).dispatchEvent(new Event("error"));
+        imageOf(element).dispatchEvent(new Event("error"));
+        panel.select({ ...person, thumbnail: "/thumb/b.jpg", silhouette: "/sil/b.svg" });
+
+        expect(imageOf(element).hidden).toBe(false);
+        expect(imageOf(element).getAttribute("src")).toBe("/thumb/b.jpg");
     });
 
     test("selecting a person without a thumbnail clears the image of the previous person", () => {
