@@ -23,29 +23,25 @@ msgstr ""
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "個人祖先的世系圖。"
 
-#: src/Configuration.php:536
+#: src/Configuration.php:510
 msgid "Abbreviate given names first"
 msgstr "優先縮寫名字"
 
-#: src/Configuration.php:537
+#: src/Configuration.php:511
 msgid "Abbreviate surnames first"
 msgstr "優先縮寫姓氏"
 
-#: src/Facade/DataFacade.php:225
+#: src/Facade/DataFacade.php:226
 msgid "Add a father"
 msgstr ""
 
-#: src/Facade/DataFacade.php:226
+#: src/Facade/DataFacade.php:227
 msgid "Add a mother"
 msgstr ""
 
-#: src/Configuration.php:535
+#: src/Configuration.php:509
 msgid "Automatic (based on tree's surname tradition)"
 msgstr "自動（根據族譜的姓氏傳統）"
-
-#: src/Configuration.php:662
-msgid "Automatic (from the tree configuration)"
-msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/behavior.phtml:23
 msgid "Behavior"
@@ -98,10 +94,6 @@ msgstr "導出為圖片"
 msgid "Export as SVG"
 msgstr "導出為SVG"
 
-#: src/Configuration.php:663
-msgid "Full place name"
-msgstr ""
-
 #: resources/views/modules/pedigree-chart/config.phtml:50
 msgid "General"
 msgstr ""
@@ -122,13 +114,6 @@ msgstr "隱藏 PNG 匯出按鈕"
 msgid "Hide the SVG export button"
 msgstr "隱藏 SVG 匯出按鈕"
 
-#: resources/views/modules/pedigree-chart/config.phtml:114
-msgid ""
-"How much of each place the details panel shows: the full name, only the "
-"lowest levels, or the place combined with its country as a name or country "
-"code."
-msgstr ""
-
 #: resources/views/modules/pedigree-chart/page.phtml:39
 msgid "Individual"
 msgstr "個人"
@@ -142,18 +127,6 @@ msgstr ""
 "將 GEDCOM NICK 欄位的值以引號插入在名字與姓氏之間（例如 Martin \"Chalky\" "
 "White）。模擬舊版 webtrees 的行為，適用於在獨立的 GEDCOM NICK 欄位中儲存暱稱"
 "的家譜。"
-
-#: src/Configuration.php:664
-msgid "Lowest level (e.g. parish)"
-msgstr ""
-
-#: src/Configuration.php:666
-msgid "Lowest three levels"
-msgstr ""
-
-#: src/Configuration.php:665
-msgid "Lowest two levels"
-msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:43
 msgid "Maternal"
@@ -206,22 +179,6 @@ msgstr ""
 msgid "Pedigree chart of %s"
 msgstr "%s的世系圖"
 
-#: src/Configuration.php:667
-msgid "Place and country"
-msgstr ""
-
-#: src/Configuration.php:668
-msgid "Place and country code (2 letters)"
-msgstr ""
-
-#: src/Configuration.php:669
-msgid "Place and country code (3 letters)"
-msgstr ""
-
-#: resources/views/modules/pedigree-chart/config.phtml:103
-msgid "Place detail"
-msgstr ""
-
 #: resources/views/modules/components/buttonbar/center-button.phtml:18
 msgid "Re center"
 msgstr "居中"
@@ -270,7 +227,7 @@ msgstr "在顯示名中顯示暱稱"
 msgid "Switch between full screen mode and normal view"
 msgstr "切換全螢幕與一般檢視"
 
-#: src/Module/ConfigTrait.php:121
+#: src/Module/ConfigTrait.php:117
 #, php-format
 msgid "The preferences for the module “%s” have been updated."
 msgstr ""
@@ -290,7 +247,7 @@ msgstr ""
 "轉到對應子女的 webtrees「新增父母」表單。僅向對相關人員有編輯權限的使用者顯示"
 "這些佔位符。"
 
-#: resources/views/modules/pedigree-chart/config.phtml:129
+#: resources/views/modules/pedigree-chart/config.phtml:112
 msgid "cancel"
 msgstr ""
 
@@ -298,23 +255,23 @@ msgstr ""
 msgid "close"
 msgstr ""
 
-#: src/Configuration.php:300 src/Configuration.php:308
+#: src/Configuration.php:274 src/Configuration.php:282
 msgid "down"
 msgstr "祖輩在下"
 
-#: src/Configuration.php:297 src/Configuration.php:305
+#: src/Configuration.php:271 src/Configuration.php:279
 msgid "left"
 msgstr "祖輩在左"
 
-#: src/Configuration.php:298 src/Configuration.php:306
+#: src/Configuration.php:272 src/Configuration.php:280
 msgid "right"
 msgstr "祖輩在右"
 
-#: resources/views/modules/pedigree-chart/config.phtml:124
+#: resources/views/modules/pedigree-chart/config.phtml:107
 msgid "save"
 msgstr ""
 
-#: src/Configuration.php:299 src/Configuration.php:307
+#: src/Configuration.php:273 src/Configuration.php:281
 msgid "up"
 msgstr "祖輩在上"
 

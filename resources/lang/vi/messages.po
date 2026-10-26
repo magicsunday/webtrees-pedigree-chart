@@ -23,29 +23,25 @@ msgstr ""
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "Biểu đồ phả hệ của tổ tiên của một cá nhân."
 
-#: src/Configuration.php:536
+#: src/Configuration.php:510
 msgid "Abbreviate given names first"
 msgstr "Viết tắt tên gọi trước"
 
-#: src/Configuration.php:537
+#: src/Configuration.php:511
 msgid "Abbreviate surnames first"
 msgstr "Viết tắt họ trước"
 
-#: src/Facade/DataFacade.php:225
+#: src/Facade/DataFacade.php:226
 msgid "Add a father"
 msgstr ""
 
-#: src/Facade/DataFacade.php:226
+#: src/Facade/DataFacade.php:227
 msgid "Add a mother"
 msgstr ""
 
-#: src/Configuration.php:535
+#: src/Configuration.php:509
 msgid "Automatic (based on tree's surname tradition)"
 msgstr "Tự động (dựa trên truyền thống họ của cây phả hệ)"
-
-#: src/Configuration.php:662
-msgid "Automatic (from the tree configuration)"
-msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/behavior.phtml:23
 msgid "Behavior"
@@ -100,10 +96,6 @@ msgstr "Xuất định dạng PNG"
 msgid "Export as SVG"
 msgstr "Xuất định dạng SVG"
 
-#: src/Configuration.php:663
-msgid "Full place name"
-msgstr ""
-
 #: resources/views/modules/pedigree-chart/config.phtml:50
 msgid "General"
 msgstr ""
@@ -124,13 +116,6 @@ msgstr "Ẩn nút xuất PNG"
 msgid "Hide the SVG export button"
 msgstr "Ẩn nút xuất SVG"
 
-#: resources/views/modules/pedigree-chart/config.phtml:114
-msgid ""
-"How much of each place the details panel shows: the full name, only the "
-"lowest levels, or the place combined with its country as a name or country "
-"code."
-msgstr ""
-
 #: resources/views/modules/pedigree-chart/page.phtml:39
 msgid "Individual"
 msgstr ""
@@ -144,18 +129,6 @@ msgstr ""
 "Chèn giá trị GEDCOM NICK trong dấu ngoặc kép giữa các tên đệm và họ (ví dụ "
 "Martin \"Chalky\" White). Tái hiện hành vi webtrees cũ cho cây gia phả lưu "
 "biệt danh trong trường GEDCOM NICK riêng."
-
-#: src/Configuration.php:664
-msgid "Lowest level (e.g. parish)"
-msgstr ""
-
-#: src/Configuration.php:666
-msgid "Lowest three levels"
-msgstr ""
-
-#: src/Configuration.php:665
-msgid "Lowest two levels"
-msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:43
 msgid "Maternal"
@@ -208,22 +181,6 @@ msgstr ""
 msgid "Pedigree chart of %s"
 msgstr "Biểu đồ phả hệ của %s"
 
-#: src/Configuration.php:667
-msgid "Place and country"
-msgstr ""
-
-#: src/Configuration.php:668
-msgid "Place and country code (2 letters)"
-msgstr ""
-
-#: src/Configuration.php:669
-msgid "Place and country code (3 letters)"
-msgstr ""
-
-#: resources/views/modules/pedigree-chart/config.phtml:103
-msgid "Place detail"
-msgstr ""
-
 #: resources/views/modules/components/buttonbar/center-button.phtml:18
 msgid "Re center"
 msgstr "Chỉnh biểu đồ về giữa màn hình"
@@ -272,7 +229,7 @@ msgstr "Hiển thị biệt danh trong tên hiển thị"
 msgid "Switch between full screen mode and normal view"
 msgstr "Chuyển giữa toàn màn hình và xem bình thường"
 
-#: src/Module/ConfigTrait.php:121
+#: src/Module/ConfigTrait.php:117
 #, php-format
 msgid "The preferences for the module “%s” have been updated."
 msgstr ""
@@ -293,7 +250,7 @@ msgstr ""
 "biểu mẫu webtrees \"thêm cha mẹ\" cho người con tương ứng. Các ô chỗ chỉ "
 "hiển thị cho người dùng có quyền chỉnh sửa cá nhân đó."
 
-#: resources/views/modules/pedigree-chart/config.phtml:129
+#: resources/views/modules/pedigree-chart/config.phtml:112
 msgid "cancel"
 msgstr ""
 
@@ -301,23 +258,23 @@ msgstr ""
 msgid "close"
 msgstr ""
 
-#: src/Configuration.php:300 src/Configuration.php:308
+#: src/Configuration.php:274 src/Configuration.php:282
 msgid "down"
 msgstr "Từ trên xuống"
 
-#: src/Configuration.php:297 src/Configuration.php:305
+#: src/Configuration.php:271 src/Configuration.php:279
 msgid "left"
 msgstr "Từ trái sang phải"
 
-#: src/Configuration.php:298 src/Configuration.php:306
+#: src/Configuration.php:272 src/Configuration.php:280
 msgid "right"
 msgstr "Từ phải sang trái"
 
-#: resources/views/modules/pedigree-chart/config.phtml:124
+#: resources/views/modules/pedigree-chart/config.phtml:107
 msgid "save"
 msgstr ""
 
-#: src/Configuration.php:299 src/Configuration.php:307
+#: src/Configuration.php:273 src/Configuration.php:281
 msgid "up"
 msgstr "Từ dưới lên"
 

@@ -24,29 +24,25 @@ msgstr ""
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "Rodokmeň predkov jednotlivca"
 
-#: src/Configuration.php:536
+#: src/Configuration.php:510
 msgid "Abbreviate given names first"
 msgstr "Najprv skrátiť krstné mená"
 
-#: src/Configuration.php:537
+#: src/Configuration.php:511
 msgid "Abbreviate surnames first"
 msgstr "Najprv skrátiť priezviská"
 
-#: src/Facade/DataFacade.php:225
+#: src/Facade/DataFacade.php:226
 msgid "Add a father"
 msgstr ""
 
-#: src/Facade/DataFacade.php:226
+#: src/Facade/DataFacade.php:227
 msgid "Add a mother"
 msgstr ""
 
-#: src/Configuration.php:535
+#: src/Configuration.php:509
 msgid "Automatic (based on tree's surname tradition)"
 msgstr "Automaticky (podľa tradície priezvisk stromu)"
-
-#: src/Configuration.php:662
-msgid "Automatic (from the tree configuration)"
-msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/behavior.phtml:23
 msgid "Behavior"
@@ -101,10 +97,6 @@ msgstr "Exportovať ako PNG"
 msgid "Export as SVG"
 msgstr "Exportovať ako SVG"
 
-#: src/Configuration.php:663
-msgid "Full place name"
-msgstr ""
-
 #: resources/views/modules/pedigree-chart/config.phtml:50
 msgid "General"
 msgstr ""
@@ -125,13 +117,6 @@ msgstr "Skryť tlačidlo exportu PNG"
 msgid "Hide the SVG export button"
 msgstr "Skryť tlačidlo exportu SVG"
 
-#: resources/views/modules/pedigree-chart/config.phtml:114
-msgid ""
-"How much of each place the details panel shows: the full name, only the "
-"lowest levels, or the place combined with its country as a name or country "
-"code."
-msgstr ""
-
 #: resources/views/modules/pedigree-chart/page.phtml:39
 msgid "Individual"
 msgstr "Jednotlivec"
@@ -145,18 +130,6 @@ msgstr ""
 "Vloží hodnotu GEDCOM NICK v úvodzovkách medzi krstné mená a priezvisko "
 "(napr. Martin \"Chalky\" White). Napodobňuje pôvodné správanie webtrees pre "
 "stromy, ktoré ukladajú prezývky v samostatnom poli GEDCOM NICK."
-
-#: src/Configuration.php:664
-msgid "Lowest level (e.g. parish)"
-msgstr ""
-
-#: src/Configuration.php:666
-msgid "Lowest three levels"
-msgstr ""
-
-#: src/Configuration.php:665
-msgid "Lowest two levels"
-msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:43
 msgid "Maternal"
@@ -209,22 +182,6 @@ msgstr "Rodokmeň"
 msgid "Pedigree chart of %s"
 msgstr "Rodokmeň %s"
 
-#: src/Configuration.php:667
-msgid "Place and country"
-msgstr ""
-
-#: src/Configuration.php:668
-msgid "Place and country code (2 letters)"
-msgstr ""
-
-#: src/Configuration.php:669
-msgid "Place and country code (3 letters)"
-msgstr ""
-
-#: resources/views/modules/pedigree-chart/config.phtml:103
-msgid "Place detail"
-msgstr ""
-
 #: resources/views/modules/components/buttonbar/center-button.phtml:18
 msgid "Re center"
 msgstr "Znova vycentrovať"
@@ -273,7 +230,7 @@ msgstr "Zobraziť prezývky v zobrazovaných menách"
 msgid "Switch between full screen mode and normal view"
 msgstr "Prepnúť medzi celou obrazovkou a normálnym zobrazením"
 
-#: src/Module/ConfigTrait.php:121
+#: src/Module/ConfigTrait.php:117
 #, php-format
 msgid "The preferences for the module “%s” have been updated."
 msgstr ""
@@ -294,7 +251,7 @@ msgstr ""
 "formulár webtrees „pridať rodiča\" pre príslušné dieťa. Zástupné polia sa "
 "zobrazujú iba používateľom s právom upravovať danú osobu."
 
-#: resources/views/modules/pedigree-chart/config.phtml:129
+#: resources/views/modules/pedigree-chart/config.phtml:112
 msgid "cancel"
 msgstr ""
 
@@ -302,23 +259,23 @@ msgstr ""
 msgid "close"
 msgstr ""
 
-#: src/Configuration.php:300 src/Configuration.php:308
+#: src/Configuration.php:274 src/Configuration.php:282
 msgid "down"
 msgstr "dole"
 
-#: src/Configuration.php:297 src/Configuration.php:305
+#: src/Configuration.php:271 src/Configuration.php:279
 msgid "left"
 msgstr ""
 
-#: src/Configuration.php:298 src/Configuration.php:306
+#: src/Configuration.php:272 src/Configuration.php:280
 msgid "right"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/config.phtml:124
+#: resources/views/modules/pedigree-chart/config.phtml:107
 msgid "save"
 msgstr ""
 
-#: src/Configuration.php:299 src/Configuration.php:307
+#: src/Configuration.php:273 src/Configuration.php:281
 msgid "up"
 msgstr ""
 

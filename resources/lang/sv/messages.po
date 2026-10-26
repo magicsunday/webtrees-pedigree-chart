@@ -23,29 +23,25 @@ msgstr ""
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "En antavla för en individs anor."
 
-#: src/Configuration.php:536
+#: src/Configuration.php:510
 msgid "Abbreviate given names first"
 msgstr "Förkorta förnamn först"
 
-#: src/Configuration.php:537
+#: src/Configuration.php:511
 msgid "Abbreviate surnames first"
 msgstr "Förkorta efternamn först"
 
-#: src/Facade/DataFacade.php:225
+#: src/Facade/DataFacade.php:226
 msgid "Add a father"
 msgstr ""
 
-#: src/Facade/DataFacade.php:226
+#: src/Facade/DataFacade.php:227
 msgid "Add a mother"
 msgstr ""
 
-#: src/Configuration.php:535
+#: src/Configuration.php:509
 msgid "Automatic (based on tree's surname tradition)"
 msgstr "Automatiskt (baserat på trädets efternamnstradition)"
-
-#: src/Configuration.php:662
-msgid "Automatic (from the tree configuration)"
-msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/behavior.phtml:23
 msgid "Behavior"
@@ -100,10 +96,6 @@ msgstr "Exportera som PNG"
 msgid "Export as SVG"
 msgstr "Exportera som SVG"
 
-#: src/Configuration.php:663
-msgid "Full place name"
-msgstr ""
-
 #: resources/views/modules/pedigree-chart/config.phtml:50
 msgid "General"
 msgstr ""
@@ -124,13 +116,6 @@ msgstr "Dölj PNG-exportknappen"
 msgid "Hide the SVG export button"
 msgstr "Dölj SVG-exportknappen"
 
-#: resources/views/modules/pedigree-chart/config.phtml:114
-msgid ""
-"How much of each place the details panel shows: the full name, only the "
-"lowest levels, or the place combined with its country as a name or country "
-"code."
-msgstr ""
-
 #: resources/views/modules/pedigree-chart/page.phtml:39
 msgid "Individual"
 msgstr "Individ"
@@ -144,18 +129,6 @@ msgstr ""
 "Infogar GEDCOM NICK-värdet inom citattecken mellan förnamnen och efternamnet "
 "(t.ex. Martin \"Chalky\" White). Återskapar det tidigare webtrees-beteendet "
 "för träd som lagrar smeknamn i det separata GEDCOM NICK-fältet."
-
-#: src/Configuration.php:664
-msgid "Lowest level (e.g. parish)"
-msgstr ""
-
-#: src/Configuration.php:666
-msgid "Lowest three levels"
-msgstr ""
-
-#: src/Configuration.php:665
-msgid "Lowest two levels"
-msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:43
 msgid "Maternal"
@@ -208,22 +181,6 @@ msgstr ""
 msgid "Pedigree chart of %s"
 msgstr "Antavla för %s"
 
-#: src/Configuration.php:667
-msgid "Place and country"
-msgstr ""
-
-#: src/Configuration.php:668
-msgid "Place and country code (2 letters)"
-msgstr ""
-
-#: src/Configuration.php:669
-msgid "Place and country code (3 letters)"
-msgstr ""
-
-#: resources/views/modules/pedigree-chart/config.phtml:103
-msgid "Place detail"
-msgstr ""
-
 #: resources/views/modules/components/buttonbar/center-button.phtml:18
 msgid "Re center"
 msgstr "Centrera"
@@ -272,7 +229,7 @@ msgstr "Visa smeknamn i visningsnamn"
 msgid "Switch between full screen mode and normal view"
 msgstr "Växla mellan helskärm och normal vy"
 
-#: src/Module/ConfigTrait.php:121
+#: src/Module/ConfigTrait.php:117
 #, php-format
 msgid "The preferences for the module “%s” have been updated."
 msgstr ""
@@ -293,7 +250,7 @@ msgstr ""
 "formuläret \"lägg till förälder\" för motsvarande barn. Platshållarna visas "
 "endast för användare med redigeringsrättigheter på personen."
 
-#: resources/views/modules/pedigree-chart/config.phtml:129
+#: resources/views/modules/pedigree-chart/config.phtml:112
 msgid "cancel"
 msgstr ""
 
@@ -301,23 +258,23 @@ msgstr ""
 msgid "close"
 msgstr ""
 
-#: src/Configuration.php:300 src/Configuration.php:308
+#: src/Configuration.php:274 src/Configuration.php:282
 msgid "down"
 msgstr ""
 
-#: src/Configuration.php:297 src/Configuration.php:305
+#: src/Configuration.php:271 src/Configuration.php:279
 msgid "left"
 msgstr ""
 
-#: src/Configuration.php:298 src/Configuration.php:306
+#: src/Configuration.php:272 src/Configuration.php:280
 msgid "right"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/config.phtml:124
+#: resources/views/modules/pedigree-chart/config.phtml:107
 msgid "save"
 msgstr ""
 
-#: src/Configuration.php:299 src/Configuration.php:307
+#: src/Configuration.php:273 src/Configuration.php:281
 msgid "up"
 msgstr ""
 

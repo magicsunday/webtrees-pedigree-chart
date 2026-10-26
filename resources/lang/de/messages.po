@@ -23,29 +23,25 @@ msgstr ""
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "Ein Stammbaum der Vorfahren einer Person."
 
-#: src/Configuration.php:536
+#: src/Configuration.php:510
 msgid "Abbreviate given names first"
 msgstr "Zuerst Vornamen abkürzen"
 
-#: src/Configuration.php:537
+#: src/Configuration.php:511
 msgid "Abbreviate surnames first"
 msgstr "Zuerst Nachnamen abkürzen"
 
-#: src/Facade/DataFacade.php:225
+#: src/Facade/DataFacade.php:226
 msgid "Add a father"
 msgstr ""
 
-#: src/Facade/DataFacade.php:226
+#: src/Facade/DataFacade.php:227
 msgid "Add a mother"
 msgstr ""
 
-#: src/Configuration.php:535
+#: src/Configuration.php:509
 msgid "Automatic (based on tree's surname tradition)"
 msgstr "Automatisch (basierend auf der Nachnamen-Tradition des Stammbaums)"
-
-#: src/Configuration.php:662
-msgid "Automatic (from the tree configuration)"
-msgstr "Automatisch (aus der Baumkonfiguration)"
 
 #: resources/views/modules/pedigree-chart/form/behavior.phtml:23
 msgid "Behavior"
@@ -103,10 +99,6 @@ msgstr "Als PNG exportieren"
 msgid "Export as SVG"
 msgstr "Als SVG exportieren"
 
-#: src/Configuration.php:663
-msgid "Full place name"
-msgstr "Vollständiger Ortsname"
-
 #: resources/views/modules/pedigree-chart/config.phtml:50
 msgid "General"
 msgstr "Allgemein"
@@ -127,16 +119,6 @@ msgstr "Die Schaltfläche für den PNG-Export ausblenden"
 msgid "Hide the SVG export button"
 msgstr "Die Schaltfläche für den SVG-Export ausblenden"
 
-#: resources/views/modules/pedigree-chart/config.phtml:114
-msgid ""
-"How much of each place the details panel shows: the full name, only the "
-"lowest levels, or the place combined with its country as a name or country "
-"code."
-msgstr ""
-"Wie ausführlich Orte im Detailbereich erscheinen: der vollständige Name, nur "
-"die untersten Ebenen oder der Ort zusammen mit seinem Land, ausgeschrieben "
-"oder als Ländercode."
-
 #: resources/views/modules/pedigree-chart/page.phtml:39
 msgid "Individual"
 msgstr ""
@@ -151,18 +133,6 @@ msgstr ""
 "Nachnamen ein (z.B. Martin \"Chalky\" White). Bildet das alte webtrees-"
 "Verhalten für Bäume nach, die Spitznamen im separaten GEDCOM NICK-Feld "
 "speichern."
-
-#: src/Configuration.php:664
-msgid "Lowest level (e.g. parish)"
-msgstr "Unterste Ebene (z. B. Kirchgemeinde)"
-
-#: src/Configuration.php:666
-msgid "Lowest three levels"
-msgstr "Unterste drei Ebenen"
-
-#: src/Configuration.php:665
-msgid "Lowest two levels"
-msgstr "Unterste zwei Ebenen"
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:43
 msgid "Maternal"
@@ -218,22 +188,6 @@ msgstr ""
 msgid "Pedigree chart of %s"
 msgstr "Vorfahrentafel von %s"
 
-#: src/Configuration.php:667
-msgid "Place and country"
-msgstr "Ort und Land"
-
-#: src/Configuration.php:668
-msgid "Place and country code (2 letters)"
-msgstr "Ort und Ländercode (2 Buchstaben)"
-
-#: src/Configuration.php:669
-msgid "Place and country code (3 letters)"
-msgstr "Ort und Ländercode (3 Buchstaben)"
-
-#: resources/views/modules/pedigree-chart/config.phtml:103
-msgid "Place detail"
-msgstr "Ortsdetail"
-
 #: resources/views/modules/components/buttonbar/center-button.phtml:18
 msgid "Re center"
 msgstr "Neu zentrieren"
@@ -287,7 +241,7 @@ msgstr "Spitznamen in den angezeigten Namen anzeigen"
 msgid "Switch between full screen mode and normal view"
 msgstr "Zwischen Vollbildmodus und normaler Ansicht umschalten"
 
-#: src/Module/ConfigTrait.php:121
+#: src/Module/ConfigTrait.php:117
 #, php-format
 msgid "The preferences for the module “%s” have been updated."
 msgstr ""
@@ -309,7 +263,7 @@ msgstr ""
 "entsprechende Kind zu springen. Die Platzhalter werden nur Benutzern "
 "angezeigt, die Bearbeitungsrechte für die Person haben."
 
-#: resources/views/modules/pedigree-chart/config.phtml:129
+#: resources/views/modules/pedigree-chart/config.phtml:112
 msgid "cancel"
 msgstr ""
 
@@ -317,23 +271,23 @@ msgstr ""
 msgid "close"
 msgstr ""
 
-#: src/Configuration.php:300 src/Configuration.php:308
+#: src/Configuration.php:274 src/Configuration.php:282
 msgid "down"
 msgstr "Unten"
 
-#: src/Configuration.php:297 src/Configuration.php:305
+#: src/Configuration.php:271 src/Configuration.php:279
 msgid "left"
 msgstr "Links"
 
-#: src/Configuration.php:298 src/Configuration.php:306
+#: src/Configuration.php:272 src/Configuration.php:280
 msgid "right"
 msgstr "Rechts"
 
-#: resources/views/modules/pedigree-chart/config.phtml:124
+#: resources/views/modules/pedigree-chart/config.phtml:107
 msgid "save"
 msgstr ""
 
-#: src/Configuration.php:299 src/Configuration.php:307
+#: src/Configuration.php:273 src/Configuration.php:281
 msgid "up"
 msgstr "Oben"
 
