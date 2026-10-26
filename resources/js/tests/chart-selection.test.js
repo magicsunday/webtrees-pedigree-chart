@@ -256,3 +256,61 @@ describe("Chart selection hand-over", () => {
         expect(context._selection.restoreFocus).toHaveBeenCalledTimes(1);
     });
 });
+
+describe("A real chart with the detail panel", () => {
+    // The d3 datum is the hierarchy node, its data is the datum of the chart, and that holds the person
+    const node = (xref) => ({
+        data: { data: { xref, url: `/individual/${xref}`, generation: 2 } },
+    });
+
+    /**
+     * Builds a real chart whose persons are real SVG groups that carry d3 data.
+     *
+     * @param {object[]} nodes The d3 data of the person groups
+     */
+    function buildRealChart(nodes) {
+        document.body.innerHTML = '<div id="parent"></div><svg><g class="visual"></g></svg>';
+
+        const visual = d3.select(document.querySelector("g.visual"));
+        const elements = visual
+            .selectAll("g.person")
+            .data(nodes)
+            .enter()
+            .append("g")
+            .attr("class", "person")
+            .nodes();
+        const chart = new Chart(d3.select("#parent"), {
+            showDetailPanel: true,
+            openNewTabOnClick: false,
+        });
+
+        chart._svg = { visual };
+
+        return { chart, elements };
+    }
+
+    test("hands the clicked person to the panel that was set on the chart", () => {
+        const first = node("I1");
+        const { chart } = buildRealChart([first]);
+        const panel = { select: jest.fn() };
+
+        chart.detailPanel = panel;
+        chart.personClick(first.data);
+
+        expect(panel.select).toHaveBeenCalledTimes(1);
+        expect(panel.select.mock.calls[0][0].xref).toBe("I1");
+    });
+
+    test("marks the selected person in the drawn chart and no other one", () => {
+        const first = node("I1");
+        const second = node("I2");
+        const { chart, elements } = buildRealChart([first, second]);
+
+        chart.detailPanel = { select: jest.fn() };
+        chart.personClick(second.data);
+
+        expect(elements[0].classList.contains("selected")).toBe(false);
+        expect(elements[1].classList.contains("selected")).toBe(true);
+        expect(elements[1].getAttribute("aria-current")).toBe("true");
+    });
+});
