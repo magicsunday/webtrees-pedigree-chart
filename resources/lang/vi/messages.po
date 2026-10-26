@@ -18,29 +18,33 @@ msgstr ""
 "X-Poedit-SearchPath-0: src\n"
 "X-Poedit-SearchPath-1: resources/views\n"
 
-#: src/Module.php:130
+#: src/Module.php:132
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "Biểu đồ phả hệ của tổ tiên của một cá nhân."
 
-#: src/Configuration.php:505
+#: src/Configuration.php:542
 msgid "Abbreviate given names first"
 msgstr "Viết tắt tên gọi trước"
 
-#: src/Configuration.php:506
+#: src/Configuration.php:543
 msgid "Abbreviate surnames first"
 msgstr "Viết tắt họ trước"
 
-#: src/Facade/DataFacade.php:200
+#: src/Facade/DataFacade.php:226
 msgid "Add a father"
 msgstr ""
 
-#: src/Facade/DataFacade.php:201
+#: src/Facade/DataFacade.php:227
 msgid "Add a mother"
 msgstr ""
 
-#: src/Configuration.php:504
+#: src/Configuration.php:541
 msgid "Automatic (based on tree's surname tradition)"
 msgstr "Tự động (dựa trên truyền thống họ của cây phả hệ)"
+
+#: src/Configuration.php:684
+msgid "Automatic (from the tree configuration)"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/behavior.phtml:23
 msgid "Behavior"
@@ -83,6 +87,19 @@ msgid ""
 "the display."
 msgstr ""
 
+#: resources/views/modules/pedigree-chart/form/details.phtml:59
+msgid ""
+"Displays the birth and death places below the dates in the person boxes. The "
+"level of detail is configured site-wide in the module settings."
+msgstr ""
+
+#: resources/views/modules/pedigree-chart/form/details.phtml:72
+msgid ""
+"Displays the facts that the tree names for the chart boxes in its "
+"preferences (\"Other facts to show in charts\") as rows below the dates. The "
+"boxes grow to make room for them."
+msgstr ""
+
 #: resources/views/modules/components/buttonbar/png-export-button.phtml:18
 msgid "Export as PNG"
 msgstr "Xuất định dạng PNG"
@@ -90,6 +107,10 @@ msgstr "Xuất định dạng PNG"
 #: resources/views/modules/components/buttonbar/svg-export-button.phtml:18
 msgid "Export as SVG"
 msgstr "Xuất định dạng SVG"
+
+#: src/Configuration.php:685
+msgid "Full place name"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:50
 msgid "General"
@@ -111,6 +132,13 @@ msgstr "Ẩn nút xuất PNG"
 msgid "Hide the SVG export button"
 msgstr "Ẩn nút xuất SVG"
 
+#: resources/views/modules/pedigree-chart/config.phtml:114
+msgid ""
+"How much of each place is shown in the person boxes: the full name, only the "
+"lowest levels, or the place combined with its country as a name or country "
+"code. Users switch the places on and off in the chart form."
+msgstr ""
+
 #: resources/views/modules/pedigree-chart/page.phtml:39
 msgid "Individual"
 msgstr ""
@@ -125,6 +153,18 @@ msgstr ""
 "Martin \"Chalky\" White). Tái hiện hành vi webtrees cũ cho cây gia phả lưu "
 "biệt danh trong trường GEDCOM NICK riêng."
 
+#: src/Configuration.php:686
+msgid "Lowest level (e.g. parish)"
+msgstr ""
+
+#: src/Configuration.php:688
+msgid "Lowest three levels"
+msgstr ""
+
+#: src/Configuration.php:687
+msgid "Lowest two levels"
+msgstr ""
+
 #: resources/views/modules/pedigree-chart/form/colors.phtml:43
 msgid "Maternal"
 msgstr "Bên ngoại"
@@ -133,7 +173,7 @@ msgstr "Bên ngoại"
 msgid "Modules"
 msgstr ""
 
-#: src/Module.php:236
+#: src/Module.php:241
 msgid "Move the view with two fingers"
 msgstr "Di chuyển tầm nhìn bằng hai ngón tay"
 
@@ -159,7 +199,7 @@ msgstr "Chiều hiển thị biểu đồ"
 msgid "Paternal"
 msgstr "Bên nội"
 
-#: src/Module.php:119 src/Module/ChartTrait.php:63
+#: src/Module.php:121 src/Module/ChartTrait.php:63
 msgid "Pedigree chart"
 msgstr ""
 
@@ -168,6 +208,22 @@ msgstr ""
 msgid "Pedigree chart of %s"
 msgstr "Biểu đồ phả hệ của %s"
 
+#: src/Configuration.php:689
+msgid "Place and country"
+msgstr ""
+
+#: src/Configuration.php:690
+msgid "Place and country code (2 letters)"
+msgstr ""
+
+#: src/Configuration.php:691
+msgid "Place and country code (3 letters)"
+msgstr ""
+
+#: resources/views/modules/pedigree-chart/config.phtml:103
+msgid "Place detail"
+msgstr ""
+
 #: resources/views/modules/components/buttonbar/center-button.phtml:18
 msgid "Re center"
 msgstr "Chỉnh biểu đồ về giữa màn hình"
@@ -175,6 +231,10 @@ msgstr "Chỉnh biểu đồ về giữa màn hình"
 #: resources/views/modules/pedigree-chart/config.phtml:74
 msgid "Show \"add parent\" placeholders for missing ancestors"
 msgstr "Hiển thị ô chỗ \"thêm cha mẹ\" cho tổ tiên còn thiếu"
+
+#: resources/views/modules/pedigree-chart/form/details.phtml:66
+msgid "Show additional facts"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:28
 msgid "Show alternative name of individual"
@@ -196,16 +256,20 @@ msgstr "Hiển thị thêm tùy chọn"
 msgid "Show nicknames in display names"
 msgstr "Hiển thị biệt danh trong tên hiển thị"
 
+#: resources/views/modules/pedigree-chart/form/details.phtml:53
+msgid "Show places"
+msgstr ""
+
 #: resources/views/modules/components/buttonbar/fullscreen-button.phtml:18
 msgid "Switch between full screen mode and normal view"
 msgstr "Chuyển giữa toàn màn hình và xem bình thường"
 
-#: src/Module/ConfigTrait.php:113
+#: src/Module/ConfigTrait.php:125
 #, php-format
 msgid "The preferences for the module “%s” have been updated."
 msgstr ""
 
-#: src/Module.php:235
+#: src/Module.php:240
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Sử dụng Ctrl + cuộn để phóng to chế độ xem"
 
@@ -221,27 +285,27 @@ msgstr ""
 "biểu mẫu webtrees \"thêm cha mẹ\" cho người con tương ứng. Các ô chỗ chỉ "
 "hiển thị cho người dùng có quyền chỉnh sửa cá nhân đó."
 
-#: resources/views/modules/pedigree-chart/config.phtml:112
+#: resources/views/modules/pedigree-chart/config.phtml:129
 msgid "cancel"
 msgstr ""
 
-#: src/Configuration.php:269 src/Configuration.php:277
+#: src/Configuration.php:306 src/Configuration.php:314
 msgid "down"
 msgstr "Từ trên xuống"
 
-#: src/Configuration.php:266 src/Configuration.php:274
+#: src/Configuration.php:303 src/Configuration.php:311
 msgid "left"
 msgstr "Từ trái sang phải"
 
-#: src/Configuration.php:267 src/Configuration.php:275
+#: src/Configuration.php:304 src/Configuration.php:312
 msgid "right"
 msgstr "Từ phải sang trái"
 
-#: resources/views/modules/pedigree-chart/config.phtml:107
+#: resources/views/modules/pedigree-chart/config.phtml:124
 msgid "save"
 msgstr ""
 
-#: src/Configuration.php:268 src/Configuration.php:276
+#: src/Configuration.php:305 src/Configuration.php:313
 msgid "up"
 msgstr "Từ dưới lên"
 

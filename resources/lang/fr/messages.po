@@ -18,29 +18,33 @@ msgstr ""
 "X-Poedit-SearchPath-0: src\n"
 "X-Poedit-SearchPath-1: resources/views\n"
 
-#: src/Module.php:130
+#: src/Module.php:132
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "Un arbre généalogique des ancêtres d'un individu."
 
-#: src/Configuration.php:505
+#: src/Configuration.php:542
 msgid "Abbreviate given names first"
 msgstr "Abréger d'abord les prénoms"
 
-#: src/Configuration.php:506
+#: src/Configuration.php:543
 msgid "Abbreviate surnames first"
 msgstr "Abréger d'abord les noms de famille"
 
-#: src/Facade/DataFacade.php:200
+#: src/Facade/DataFacade.php:226
 msgid "Add a father"
 msgstr ""
 
-#: src/Facade/DataFacade.php:201
+#: src/Facade/DataFacade.php:227
 msgid "Add a mother"
 msgstr ""
 
-#: src/Configuration.php:504
+#: src/Configuration.php:541
 msgid "Automatic (based on tree's surname tradition)"
 msgstr "Automatique (selon la tradition des noms de famille de l'arbre)"
+
+#: src/Configuration.php:684
+msgid "Automatic (from the tree configuration)"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/behavior.phtml:23
 msgid "Behavior"
@@ -84,6 +88,19 @@ msgid ""
 "the display."
 msgstr ""
 
+#: resources/views/modules/pedigree-chart/form/details.phtml:59
+msgid ""
+"Displays the birth and death places below the dates in the person boxes. The "
+"level of detail is configured site-wide in the module settings."
+msgstr ""
+
+#: resources/views/modules/pedigree-chart/form/details.phtml:72
+msgid ""
+"Displays the facts that the tree names for the chart boxes in its "
+"preferences (\"Other facts to show in charts\") as rows below the dates. The "
+"boxes grow to make room for them."
+msgstr ""
+
 #: resources/views/modules/components/buttonbar/png-export-button.phtml:18
 msgid "Export as PNG"
 msgstr "Exporter en PNG"
@@ -91,6 +108,10 @@ msgstr "Exporter en PNG"
 #: resources/views/modules/components/buttonbar/svg-export-button.phtml:18
 msgid "Export as SVG"
 msgstr "Exporter en SVG"
+
+#: src/Configuration.php:685
+msgid "Full place name"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:50
 msgid "General"
@@ -112,6 +133,13 @@ msgstr "Masquer le bouton d’export PNG"
 msgid "Hide the SVG export button"
 msgstr "Masquer le bouton d’export SVG"
 
+#: resources/views/modules/pedigree-chart/config.phtml:114
+msgid ""
+"How much of each place is shown in the person boxes: the full name, only the "
+"lowest levels, or the place combined with its country as a name or country "
+"code. Users switch the places on and off in the chart form."
+msgstr ""
+
 #: resources/views/modules/pedigree-chart/page.phtml:39
 msgid "Individual"
 msgstr ""
@@ -127,6 +155,18 @@ msgstr ""
 "de webtrees pour les arbres qui stockent les surnoms dans le champ GEDCOM "
 "NICK séparé."
 
+#: src/Configuration.php:686
+msgid "Lowest level (e.g. parish)"
+msgstr ""
+
+#: src/Configuration.php:688
+msgid "Lowest three levels"
+msgstr ""
+
+#: src/Configuration.php:687
+msgid "Lowest two levels"
+msgstr ""
+
 #: resources/views/modules/pedigree-chart/form/colors.phtml:43
 msgid "Maternal"
 msgstr "Maternelle"
@@ -135,7 +175,7 @@ msgstr "Maternelle"
 msgid "Modules"
 msgstr ""
 
-#: src/Module.php:236
+#: src/Module.php:241
 msgid "Move the view with two fingers"
 msgstr "Déplacez la vue avec deux doigts"
 
@@ -161,7 +201,7 @@ msgstr ""
 msgid "Paternal"
 msgstr "Paternelle"
 
-#: src/Module.php:119 src/Module/ChartTrait.php:63
+#: src/Module.php:121 src/Module/ChartTrait.php:63
 msgid "Pedigree chart"
 msgstr "Arbre d'ascendance"
 
@@ -169,6 +209,22 @@ msgstr "Arbre d'ascendance"
 #, php-format
 msgid "Pedigree chart of %s"
 msgstr "Arbre généalogique de %s"
+
+#: src/Configuration.php:689
+msgid "Place and country"
+msgstr ""
+
+#: src/Configuration.php:690
+msgid "Place and country code (2 letters)"
+msgstr ""
+
+#: src/Configuration.php:691
+msgid "Place and country code (3 letters)"
+msgstr ""
+
+#: resources/views/modules/pedigree-chart/config.phtml:103
+msgid "Place detail"
+msgstr ""
 
 #: resources/views/modules/components/buttonbar/center-button.phtml:18
 msgid "Re center"
@@ -178,6 +234,10 @@ msgstr "Re centrer"
 msgid "Show \"add parent\" placeholders for missing ancestors"
 msgstr ""
 "Afficher les emplacements « ajouter un parent » pour les ancêtres manquants"
+
+#: resources/views/modules/pedigree-chart/form/details.phtml:66
+msgid "Show additional facts"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:28
 msgid "Show alternative name of individual"
@@ -199,16 +259,20 @@ msgstr "Afficher plus d’options"
 msgid "Show nicknames in display names"
 msgstr "Afficher les surnoms dans les noms affichés"
 
+#: resources/views/modules/pedigree-chart/form/details.phtml:53
+msgid "Show places"
+msgstr ""
+
 #: resources/views/modules/components/buttonbar/fullscreen-button.phtml:18
 msgid "Switch between full screen mode and normal view"
 msgstr "Basculer entre le plein écran et la vue normale"
 
-#: src/Module/ConfigTrait.php:113
+#: src/Module/ConfigTrait.php:125
 #, php-format
 msgid "The preferences for the module “%s” have been updated."
 msgstr ""
 
-#: src/Module.php:235
+#: src/Module.php:240
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Utilisez Ctrl + molette pour zoomer dans la vue"
 
@@ -225,27 +289,27 @@ msgstr ""
 "parent » pour l'enfant correspondant. Les emplacements ne sont visibles que "
 "pour les utilisateurs disposant des droits d'édition sur la personne."
 
-#: resources/views/modules/pedigree-chart/config.phtml:112
+#: resources/views/modules/pedigree-chart/config.phtml:129
 msgid "cancel"
 msgstr ""
 
-#: src/Configuration.php:269 src/Configuration.php:277
+#: src/Configuration.php:306 src/Configuration.php:314
 msgid "down"
 msgstr "bas"
 
-#: src/Configuration.php:266 src/Configuration.php:274
+#: src/Configuration.php:303 src/Configuration.php:311
 msgid "left"
 msgstr "gauche"
 
-#: src/Configuration.php:267 src/Configuration.php:275
+#: src/Configuration.php:304 src/Configuration.php:312
 msgid "right"
 msgstr "droite"
 
-#: resources/views/modules/pedigree-chart/config.phtml:107
+#: resources/views/modules/pedigree-chart/config.phtml:124
 msgid "save"
 msgstr ""
 
-#: src/Configuration.php:268 src/Configuration.php:276
+#: src/Configuration.php:305 src/Configuration.php:313
 msgid "up"
 msgstr "haut"
 
