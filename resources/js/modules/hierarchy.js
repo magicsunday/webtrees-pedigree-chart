@@ -6,7 +6,7 @@
  */
 
 import * as d3 from "./d3.js";
-import { boxSize } from "./box-size.js";
+import { LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET } from "@magicsunday/webtrees-chart-lib/linked-tree";
 
 /**
  * @import { HierarchyNode, HierarchyPointNode } from "d3-hierarchy"
@@ -48,17 +48,10 @@ export default class Hierarchy {
      * @param {NodeDatum} datum The JSON encoded chart data
      */
     init(datum) {
-        // Size the boxes for the alternative name and the fact rows. The size is derived
-        // from the options each time, so a second init does not grow the boxes again.
-        const orientation = this._configuration.orientation;
-        const size = boxSize({
-            vertical: orientation.isVertical,
-            showAlternativeName: this._configuration.showAlternativeName,
-            facts: this._configuration.factLayout,
-        });
-
-        orientation.boxWidth = size.width;
-        orientation.boxHeight = size.height;
+        // Adjust box height if we are going to display the alternative names
+        if (this._configuration.showAlternativeName && this._configuration.orientation.isVertical) {
+            this._configuration.orientation.boxHeight += LAYOUT_VERTICAL_NODE_HEIGHT_OFFSET;
+        }
 
         this._root = d3.hierarchy(datum, (datum) => datum.parents);
 

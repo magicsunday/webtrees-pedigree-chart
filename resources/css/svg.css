@@ -87,16 +87,6 @@
     font-size: 13px;
 }
 
-.webtrees-pedigree-chart-container svg text.fact {
-    fill: var(--chart-text-muted);
-    font-weight: normal;
-    font-size: 13px;
-}
-
-.webtrees-pedigree-chart-container svg text.fact-place {
-    font-size: 12px;
-}
-
 .webtrees-pedigree-chart-container svg text.wt-chart-box-name {
     fill: var(--chart-text-primary);
 }
