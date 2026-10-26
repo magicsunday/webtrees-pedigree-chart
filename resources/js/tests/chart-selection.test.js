@@ -182,9 +182,10 @@ describe("Chart click binding with real elements", () => {
     /**
      * Builds an SVG with person groups that carry d3 data, and binds the chart to it.
      *
-     * @param {object[]} nodes The d3 data of the person groups
+     * @param {object[]} nodes           The d3 data of the person groups
+     * @param {boolean}  showDetailPanel Whether the panel is on
      */
-    function bindReal(nodes) {
+    function bindReal(nodes, showDetailPanel = false) {
         document.body.innerHTML = '<svg><g class="visual"></g></svg>';
 
         const visual = d3.select(document.querySelector("g.visual"));
@@ -195,7 +196,7 @@ describe("Chart click binding with real elements", () => {
             .append("g")
             .attr("class", "person");
         const context = {
-            _configuration: { showDetailPanel: false },
+            _configuration: { showDetailPanel },
             _svg: { visual },
             _selection: { makeOperable: jest.fn(), apply: jest.fn() },
             personClick: jest.fn(),
@@ -212,6 +213,16 @@ describe("Chart click binding with real elements", () => {
     test("hands the data of a clicked person to the click routing", () => {
         const first = node("I1", "/i/1");
         const { context, elements } = bindReal([first]);
+
+        elements[0].dispatchEvent(new MouseEvent("click"));
+
+        expect(context.personClick).toHaveBeenCalledTimes(1);
+        expect(context.personClick).toHaveBeenCalledWith(first.data);
+    });
+
+    test("hands the data of a clicked person to the click routing with the panel on", () => {
+        const first = node("I1", "/i/1");
+        const { context, elements } = bindReal([first], true);
 
         elements[0].dispatchEvent(new MouseEvent("click"));
 
