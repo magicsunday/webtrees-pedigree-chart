@@ -210,6 +210,7 @@ final class DataFacadeTest extends TestCase
                     'placeFull' => 'Berlin, Germany',
                     'value'     => '',
                     'partner'   => '',
+                    'sortDay'   => 0,
                 ],
                 null,
                 [
@@ -220,6 +221,7 @@ final class DataFacadeTest extends TestCase
                     'placeFull' => '',
                     'value'     => 'Smith',
                     'partner'   => '',
+                    'sortDay'   => 0,
                 ],
                 null,
             ],

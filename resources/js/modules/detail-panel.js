@@ -15,6 +15,7 @@
  * @property {string} placeFull The full place name
  * @property {string} value     The value of the fact, empty when there is none
  * @property {string} partner   The plain text name of the other spouse of a family event, empty otherwise
+ * @property {number} [sortDay] The Julian day number of the earliest day the date can mean, zero without a usable date
  */
 
 /**
@@ -61,6 +62,43 @@
  */
 function isFact(value) {
     return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+/**
+ * Tells whether a fact has a usable date to sort by.
+ *
+ * @param {PanelFact} fact The fact of the payload
+ *
+ * @return {boolean}
+ */
+function hasSortDay(fact) {
+    return Number(fact.sortDay) > 0;
+}
+
+/**
+ * Puts the facts of a person into the order of the panel. The birth stays first and the death last,
+ * the facts between them follow the time. A fact without a usable date keeps its place among the
+ * others, so an undated note does not jump around.
+ *
+ * @param {unknown} slots The fact slots of the payload, the birth in slot 0 and the death in slot 1
+ *
+ * @return {PanelFact[]}
+ */
+function orderFacts(slots) {
+    if (!Array.isArray(slots)) {
+        return [];
+    }
+
+    const birth = isFact(slots[0]) ? [slots[0]] : [];
+    const death = isFact(slots[1]) ? [slots[1]] : [];
+    const between = slots.slice(2).filter(isFact);
+
+    const dated = between.filter(hasSortDay).sort((a, b) => Number(a.sortDay) - Number(b.sortDay));
+    let next = 0;
+
+    const ordered = between.map((fact) => (hasSortDay(fact) ? (dated[next++] ?? fact) : fact));
+
+    return [...birth, ...ordered, ...death];
 }
 
 /**
@@ -306,7 +344,7 @@ export default class DetailPanel {
 
         this._facts.replaceChildren();
 
-        const facts = Array.isArray(person?.facts) ? person.facts.filter(isFact) : [];
+        const facts = orderFacts(person?.facts);
 
         let rows = 0;
 

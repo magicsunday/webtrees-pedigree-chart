@@ -365,6 +365,85 @@ describe("DetailPanel content", () => {
         expect(element.querySelector("img")).toBeNull();
     });
 
+    describe("order of the facts", () => {
+        const fact = (label, sortDay) => ({
+            label,
+            date: "",
+            place: "",
+            placeFull: "",
+            value: label,
+            partner: "",
+            ...(sortDay === undefined ? {} : { sortDay }),
+        });
+
+        const labelsOf = (element) =>
+            [...element.querySelectorAll("dt")].map((term) => term.textContent);
+
+        test("keeps the birth first and the death last and sorts the rest by time", () => {
+            const { panel, element } = build();
+
+            panel.select({
+                ...person,
+                // The birth is dated after one fact and the death before another, so a sort that
+                // treats every slot alike would move them.
+                facts: [
+                    fact("Birth", 2406000),
+                    fact("Death", 2401000),
+                    fact("Marriage", 2415000),
+                    fact("Occupation", 2405000),
+                    fact("Residence", 2410000),
+                ],
+            });
+
+            expect(labelsOf(element)).toEqual([
+                "Birth",
+                "Occupation",
+                "Residence",
+                "Marriage",
+                "Death",
+            ]);
+        });
+
+        test("keeps a fact without a usable date at its place among the others", () => {
+            const { panel, element } = build();
+
+            panel.select({
+                ...person,
+                facts: [
+                    fact("Birth", 2400000),
+                    null,
+                    fact("Late", 2420000),
+                    fact("Note", 0),
+                    fact("Early", 2410000),
+                ],
+            });
+
+            expect(labelsOf(element)).toEqual(["Birth", "Early", "Note", "Late"]);
+        });
+
+        test("keeps the order of the payload when it carries no sort day", () => {
+            const { panel, element } = build();
+
+            panel.select({
+                ...person,
+                facts: [fact("Birth"), fact("Death"), fact("Second"), fact("First")],
+            });
+
+            expect(labelsOf(element)).toEqual(["Birth", "Second", "First", "Death"]);
+        });
+
+        test("does not sort the facts of the same day away from their payload order", () => {
+            const { panel, element } = build();
+
+            panel.select({
+                ...person,
+                facts: [null, null, fact("A", 2410000), fact("B", 2410000)],
+            });
+
+            expect(labelsOf(element)).toEqual(["A", "B"]);
+        });
+    });
+
     test("shows the other spouse before the value, the date and the place", () => {
         const { panel, element } = build();
 
