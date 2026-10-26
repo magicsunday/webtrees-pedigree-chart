@@ -32,11 +32,11 @@ msgstr "Forkort etternavn først"
 
 #: src/Facade/DataFacade.php:200
 msgid "Add a father"
-msgstr ""
+msgstr "Legg til en far"
 
 #: src/Facade/DataFacade.php:201
 msgid "Add a mother"
-msgstr ""
+msgstr "Legg til en mor"
 
 #: src/Configuration.php:504
 msgid "Automatic (based on tree's surname tradition)"
@@ -48,7 +48,7 @@ msgstr "Atferd"
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:23
 msgid "Colors"
-msgstr ""
+msgstr "Farger"
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:34
 msgid ""
@@ -60,7 +60,7 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:25
 msgid "Control panel"
-msgstr ""
+msgstr "Kontrollpanel"
 
 #: resources/views/modules/pedigree-chart/config.phtml:97
 msgid ""
@@ -74,7 +74,7 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:23
 msgid "Details"
-msgstr ""
+msgstr "Detaljer"
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:34
 msgid ""
@@ -95,11 +95,11 @@ msgstr "Eksporter som SVG"
 
 #: resources/views/modules/pedigree-chart/config.phtml:50
 msgid "General"
-msgstr ""
+msgstr "Generelt"
 
 #: resources/views/modules/pedigree-chart/form/generations.phtml:22
 msgid "Generations"
-msgstr ""
+msgstr "Generasjoner"
 
 #: resources/views/modules/pedigree-chart/page.phtml:77
 msgid "Hide more options"
@@ -115,7 +115,7 @@ msgstr "Skjul SVG-eksportknappen"
 
 #: resources/views/modules/pedigree-chart/page.phtml:39
 msgid "Individual"
-msgstr ""
+msgstr "Person"
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:46
 msgid ""
@@ -133,7 +133,7 @@ msgstr "Mors"
 
 #: resources/views/modules/pedigree-chart/config.phtml:25
 msgid "Modules"
-msgstr ""
+msgstr "Moduler"
 
 #: src/Module.php:236
 msgid "Move the view with two fingers"
@@ -165,7 +165,7 @@ msgstr "Fars"
 
 #: src/Module.php:119 src/Module/ChartTrait.php:63
 msgid "Pedigree chart"
-msgstr ""
+msgstr "Anediagram"
 
 #: src/Module/ChartTrait.php:48
 #, php-format
@@ -231,24 +231,24 @@ msgstr "avbryt"
 
 #: src/Configuration.php:269 src/Configuration.php:277
 msgid "down"
-msgstr ""
+msgstr "ned"
 
 #: src/Configuration.php:266 src/Configuration.php:274
 msgid "left"
-msgstr ""
+msgstr "venstre"
 
 #: src/Configuration.php:267 src/Configuration.php:275
 msgid "right"
-msgstr ""
+msgstr "høyre"
 
 #: resources/views/modules/pedigree-chart/config.phtml:107
 msgid "save"
-msgstr ""
+msgstr "lagre"
 
 #: src/Configuration.php:268 src/Configuration.php:276
 msgid "up"
-msgstr ""
+msgstr "opp"
 
 #: resources/views/modules/pedigree-chart/page.phtml:65
 msgid "view"
-msgstr ""
+msgstr "vis"
