@@ -83,7 +83,6 @@ final class ChartViewTest extends TestCase
         $chartParams = [
             'rtl'              => false,
             'nameAbbreviation' => 'GIVEN',
-            'optionalRows'     => 2,
             'labels'           => ['zoom' => 'Zoom', 'move' => 'Move'],
         ];
         $exportStylesheets = [];

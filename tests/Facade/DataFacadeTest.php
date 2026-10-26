@@ -151,42 +151,33 @@ final class DataFacadeTest extends TestCase
                 'birth',
                 'death',
                 'timespan',
-                'facts',
             ],
             array_keys($payload)
         );
     }
 
     /**
-     * The nodes of one request share one fact resolver, and a new configuration
-     * means a new place format, so it gets a resolver of its own.
+     * Without the detail panel the payload carries no facts, so the default chart
+     * pays neither their size nor their database work.
      */
     #[Test]
-    public function theFactResolverIsSharedUntilTheConfigurationIsReplaced(): void
+    public function leavesTheFactsOutWhileTheDetailPanelIsOff(): void
     {
-        EnglishLocaleFixture::install();
+        $individual = $this->individual(
+            self::STARRED_NAME,
+            'Anna Maria Schmidt',
+            '',
+            factsByTag: ['OCCU' => $this->factStub('Occupation', '', '', 'Smith')],
+            chartBoxTags: 'OCCU',
+        );
 
-        $module        = $this->createModuleWithPreferences([]);
-        $configuration = new Configuration(new ServerRequest(RequestMethodInterface::METHOD_GET, '/'), $module);
-        $tree          = self::createStub(Tree::class);
+        $payload = $this->serialisedRoot($this->builtTree($individual, 1, false));
 
-        $tree->method('getPreference')->willReturn('');
-
-        $facade = (new DataFacade())
-            ->setModule($module)
-            ->setConfiguration($configuration);
-
-        $first = $facade->getFactResolver($tree);
-
-        self::assertSame($first, $facade->getFactResolver($tree));
-
-        $facade->setConfiguration($configuration);
-
-        self::assertNotSame($first, $facade->getFactResolver($tree));
+        self::assertArrayNotHasKey('facts', $payload);
     }
 
     /**
-     * The payload carries one slot per row of the person box: the birth, the
+     * With the detail panel on, the payload carries one slot per fact: the birth, the
      * death and one slot for every tag the tree names for the chart box. A slot
      * the person has no fact for is null, so the rows stay aligned.
      */
@@ -204,7 +195,7 @@ final class DataFacadeTest extends TestCase
             chartBoxTags: 'OCCU,RESI',
         );
 
-        $node = $this->builtTree($individual, 1, false);
+        $node = $this->builtTree($individual, 1, false, false, true);
 
         /** @var array{data: array{facts: list<array<string, string>|null>}} $serialised */
         $serialised = json_decode(json_encode($node, JSON_THROW_ON_ERROR), true, 512, JSON_THROW_ON_ERROR);
@@ -249,7 +240,7 @@ final class DataFacadeTest extends TestCase
             chartBoxTags: '',
         );
 
-        $node = $this->builtTree($individual, 1, false);
+        $node = $this->builtTree($individual, 1, false, false, true);
 
         /** @var array{data: array{facts: list<array<string, string>|null>}} $serialised */
         $serialised = json_decode(json_encode($node, JSON_THROW_ON_ERROR), true, 512, JSON_THROW_ON_ERROR);
@@ -603,6 +594,19 @@ final class DataFacadeTest extends TestCase
     }
 
     /**
+     * Returns the serialised data of the root node.
+     *
+     * @return array<string, mixed>
+     */
+    private function serialisedRoot(Node $node): array
+    {
+        /** @var array{data: array<string, mixed>} $serialised */
+        $serialised = json_decode(json_encode($node, JSON_THROW_ON_ERROR), true, 512, JSON_THROW_ON_ERROR);
+
+        return $serialised['data'];
+    }
+
+    /**
      * Builds the tree of the individual with a fresh facade.
      */
     private function builtTree(
@@ -610,6 +614,7 @@ final class DataFacadeTest extends TestCase
         int $generations,
         bool $showAddParentLinks,
         bool $showNicknames = false,
+        bool $showDetailPanel = false,
     ): Node {
         RouteFactoryFixture::register();
         EnglishLocaleFixture::install();
@@ -620,6 +625,7 @@ final class DataFacadeTest extends TestCase
                 'generations'        => (string) $generations,
                 'showNicknames'      => $showNicknames ? '1' : '0',
                 'showAddParentLinks' => $showAddParentLinks ? '1' : '0',
+                'showDetailPanel'    => $showDetailPanel ? '1' : '0',
             ]),
             $module
         );

@@ -99,7 +99,7 @@ final class Configuration
     /**
      * The memoised route parameters, resolved on first use.
      *
-     * @var array{generations: int, layout: string, openNewTabOnClick: string, showAlternativeName: string, showNicknames: string, showFamilyColors: string, paternalColor: string, maternalColor: string, showAddParentLinks: string, showPlaces: string, showAdditionalFacts: string}|null
+     * @var array{generations: int, layout: string, openNewTabOnClick: string, showAlternativeName: string, showNicknames: string, showFamilyColors: string, paternalColor: string, maternalColor: string, showAddParentLinks: string, showDetailPanel: string}|null
      */
     private ?array $routeToggleParams = null;
 
@@ -172,14 +172,9 @@ final class Configuration
     private ?NameAbbreviation $nameAbbreviation = null;
 
     /**
-     * Whether the places of the facts are shown, or null until first resolved.
+     * Whether the detail panel is shown, or null until first resolved.
      */
-    private ?bool $showPlaces = null;
-
-    /**
-     * Whether the additional facts of the chart box are shown, or null until first resolved.
-     */
-    private ?bool $showAdditionalFacts = null;
+    private ?bool $showDetailPanel = null;
 
     /**
      * The stored place format, or null until first resolved.
@@ -573,49 +568,25 @@ final class Configuration
     }
 
     /**
-     * Returns whether the places of the facts are shown in the person boxes.
+     * Returns whether the detail panel with the facts of the selected person is
+     * shown. It is off unless the request or the module preference turns it on.
      *
      * @return bool
      */
-    public function getShowPlaces(): bool
+    public function getShowDetailPanel(): bool
     {
-        if ($this->showPlaces !== null) {
-            return $this->showPlaces;
+        if ($this->showDetailPanel !== null) {
+            return $this->showDetailPanel;
         }
 
         $validator = $this->requestValidator();
 
-        return $this->showPlaces = $validator
+        return $this->showDetailPanel = $validator
             ->boolean(
-                'showPlaces',
+                'showDetailPanel',
                 (bool) $this->module->getPreference(
-                    'default_showPlaces',
+                    'default_showDetailPanel',
                     '0'
-                )
-            );
-    }
-
-    /**
-     * Returns whether the additional facts of the chart box are shown in the
-     * person boxes. The facts are the tags the tree names for the chart box in
-     * its preferences, so the default shows nothing for a tree that names none.
-     *
-     * @return bool
-     */
-    public function getShowAdditionalFacts(): bool
-    {
-        if ($this->showAdditionalFacts !== null) {
-            return $this->showAdditionalFacts;
-        }
-
-        $validator = $this->requestValidator();
-
-        return $this->showAdditionalFacts = $validator
-            ->boolean(
-                'showAdditionalFacts',
-                (bool) $this->module->getPreference(
-                    'default_showAdditionalFacts',
-                    '1'
                 )
             );
     }
@@ -725,7 +696,7 @@ final class Configuration
      * proportion to the tree size. The configuration is constructed per request,
      * so the resolved values cannot go stale within its lifetime.
      *
-     * @return array{generations: int, layout: string, openNewTabOnClick: string, showAlternativeName: string, showNicknames: string, showFamilyColors: string, paternalColor: string, maternalColor: string, showAddParentLinks: string, showPlaces: string, showAdditionalFacts: string}
+     * @return array{generations: int, layout: string, openNewTabOnClick: string, showAlternativeName: string, showNicknames: string, showFamilyColors: string, paternalColor: string, maternalColor: string, showAddParentLinks: string, showDetailPanel: string}
      */
     public function getRouteToggleParams(): array
     {
@@ -739,8 +710,7 @@ final class Configuration
             'paternalColor'       => $this->getPaternalColor(),
             'maternalColor'       => $this->getMaternalColor(),
             'showAddParentLinks'  => $this->getShowAddParentLinks() ? '1' : '0',
-            'showPlaces'          => $this->getShowPlaces() ? '1' : '0',
-            'showAdditionalFacts' => $this->getShowAdditionalFacts() ? '1' : '0',
+            'showDetailPanel'     => $this->getShowDetailPanel() ? '1' : '0',
         ];
     }
 }

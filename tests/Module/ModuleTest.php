@@ -25,7 +25,6 @@ use MagicSunday\Webtrees\PedigreeChart\Test\Support\EnglishLocaleFixture;
 use MagicSunday\Webtrees\PedigreeChart\Test\Support\ModuleSettingsFixtureTrait;
 use MagicSunday\Webtrees\PedigreeChart\Test\Support\RouteFactoryFixture;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
@@ -88,52 +87,11 @@ final class ModuleTest extends TestCase
     }
 
     /**
-     * The page needs the number of optional rows that the tree names for the chart box, because
-     * every box reserves the rows of the fullest box and the additional facts are only shown
-     * when there is at least one. The birth and death equivalents have rows of their own.
+     * Pins that saving the administration form stores the detail panel option
+     * as the default of the chart, the place format under its stored value.
      */
     #[Test]
-    #[DataProvider('chartBoxTagsProvider')]
-    public function theChartParametersCountTheOptionalFactsOfTheTree(string $chartBoxTags, int $expected): void
-    {
-        EnglishLocaleFixture::install();
-
-        $configuration = new Configuration(
-            new ServerRequest(RequestMethodInterface::METHOD_GET, '/'),
-            $this->createModuleWithPreferences([])
-        );
-
-        $tree = self::createStub(Tree::class);
-        $tree->method('getPreference')->willReturnCallback(
-            static fn (string $name): string => $name === 'CHART_BOX_TAGS' ? $chartBoxTags : ''
-        );
-
-        $module = new Module(
-            self::createStub(ChartService::class),
-            (new DataFacade())->setConfiguration($configuration)
-        );
-
-        self::assertSame($expected, $module->getChartParameters($configuration, $tree)['optionalRows']);
-    }
-
-    /**
-     * @return array<string, array{string, int}>
-     */
-    public static function chartBoxTagsProvider(): array
-    {
-        return [
-            'two optional tags'                     => ['OCCU,RESI', 2],
-            'a birth equivalent is no optional row' => ['BIRT,OCCU', 1],
-            'a tree that names no tag has no rows'  => ['', 0],
-        ];
-    }
-
-    /**
-     * Pins that saving the administration form stores the place and fact options
-     * as the defaults of the chart, the place format under its stored value.
-     */
-    #[Test]
-    public function theAdminActionStoresThePlaceAndFactDefaults(): void
+    public function theAdminActionStoresThePanelAndPlaceFormatDefaults(): void
     {
         RouteFactoryFixture::register();
         EnglishLocaleFixture::install();
@@ -141,22 +99,20 @@ final class ModuleTest extends TestCase
         $module  = $this->createModuleWithPreferences([]);
         $request = (new ServerRequest(RequestMethodInterface::METHOD_POST, '/'))
             ->withParsedBody([
-                'showPlaces'          => '1',
-                'showAdditionalFacts' => '0',
-                'placeFormat'         => 'levels-2',
+                'showDetailPanel' => '1',
+                'placeFormat'     => 'levels-2',
             ]);
 
         $module->postAdminAction($request);
 
-        self::assertSame('1', $module->getPreference('default_showPlaces'));
+        self::assertSame('1', $module->getPreference('default_showDetailPanel'));
         self::assertSame('levels-2', $module->getPreference('default_placeFormat'));
 
         // A switch that is off is stored as an empty string, like every other switch of
         // the module, so what counts is that the stored defaults read back as submitted.
         $stored = new Configuration(new ServerRequest(RequestMethodInterface::METHOD_GET, '/'), $module);
 
-        self::assertTrue($stored->getShowPlaces());
-        self::assertFalse($stored->getShowAdditionalFacts());
+        self::assertTrue($stored->getShowDetailPanel());
         self::assertSame(PlaceFormatChoice::Levels2, $stored->getPlaceFormatChoice());
     }
 
@@ -184,8 +140,7 @@ final class ModuleTest extends TestCase
                 'paternalColor'       => '#112233',
                 'maternalColor'       => '#445566',
                 'showAddParentLinks'  => '1',
-                'showPlaces'          => '1',
-                'showAdditionalFacts' => '0',
+                'showDetailPanel'     => '1',
             ])
             ->withAttribute('tree', $tree)
             ->withAttribute('xref', 'I1')
@@ -218,8 +173,7 @@ final class ModuleTest extends TestCase
         self::assertSame('#112233', $query['paternalColor']);
         self::assertSame('#445566', $query['maternalColor']);
         self::assertSame('1', $query['showAddParentLinks']);
-        self::assertSame('1', $query['showPlaces']);
-        self::assertSame('0', $query['showAdditionalFacts']);
+        self::assertSame('1', $query['showDetailPanel']);
 
         self::assertArrayHasKey('xref', $query);
         self::assertArrayHasKey('tree', $query);

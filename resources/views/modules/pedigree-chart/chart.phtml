@@ -66,15 +66,9 @@ import(<?php echo json_encode($javascript, $jsonFlags); ?>).then(({ PedigreeChar
                 return opts.maternalColor ?? <?php echo json_encode($configuration->getMaternalColor(), $jsonFlags); ?>;
             },
 
-            get showPlaces() {
-                return opts.showPlaces ?? <?php echo json_encode($configuration->getShowPlaces(), $jsonFlags); ?>;
+            get showDetailPanel() {
+                return opts.showDetailPanel ?? <?php echo json_encode($configuration->getShowDetailPanel(), $jsonFlags); ?>;
             },
-
-            get showAdditionalFacts() {
-                return opts.showAdditionalFacts ?? <?php echo json_encode($configuration->getShowAdditionalFacts(), $jsonFlags); ?>;
-            },
-
-            optionalRows: <?php echo json_encode($chartParams['optionalRows'], $jsonFlags); ?>,
 
             nameAbbreviation: <?php echo json_encode($chartParams['nameAbbreviation'], $jsonFlags); ?>,
 

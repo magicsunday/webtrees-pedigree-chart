@@ -36,8 +36,6 @@ use Override;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-use function count;
-
 /**
  * Pedigree chart module class.
  *
@@ -195,7 +193,7 @@ final class Module extends PedigreeChartModule implements ModuleAssetUrlInterfac
                     'id'                => uniqid(),
                     'data'              => $this->dataFacade->createTreeStructure($individual),
                     'configuration'     => $this->configuration,
-                    'chartParams'       => $this->getChartParameters($this->configuration, $tree),
+                    'chartParams'       => $this->getChartParameters($tree),
                     'exportStylesheets' => $this->getExportStylesheets(),
                     'stylesheets'       => $this->getStylesheets(),
                     'javascript'        => $this->assetUrl('js/pedigree-chart-' . self::CUSTOM_VERSION . '.min.js'),
@@ -221,23 +219,19 @@ final class Module extends PedigreeChartModule implements ModuleAssetUrlInterfac
     /**
      * Collects and returns the required chart data.
      *
-     * @param Configuration $configuration The configuration of the request
-     * @param Tree          $tree          The tree of the chart
+     * @param Tree $tree
      *
-     * @return array{rtl: bool, nameAbbreviation: string, optionalRows: int, labels: array{zoom: string, move: string}}
+     * @return array{rtl: bool, nameAbbreviation: string, labels: array{zoom: string, move: string}}
      */
-    public function getChartParameters(Configuration $configuration, Tree $tree): array
+    private function getChartParameters(Tree $tree): array
     {
         return [
             'rtl'              => I18N::direction() === 'rtl',
-            'nameAbbreviation' => $configuration
+            'nameAbbreviation' => $this->configuration
                 ->getNameAbbreviation()
                 ->resolve($tree->getPreference('SURNAME_TRADITION'))
                 ->value,
-            // Every box reserves the rows of the fullest box, so the page needs the number
-            // of optional rows the tree names for the chart box.
-            'optionalRows' => count($this->dataFacade->getFactResolver($tree)->optionalTags()),
-            'labels'       => [
+            'labels' => [
                 'zoom' => I18N::translate('Use Ctrl + scroll to zoom in the view'),
                 'move' => I18N::translate('Move the view with two fingers'),
             ],

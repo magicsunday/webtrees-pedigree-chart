@@ -108,12 +108,8 @@ trait ConfigTrait
             $configuration->getNameAbbreviation()->value
         );
         $this->setPreference(
-            'default_showPlaces',
-            (string) $configuration->getShowPlaces()
-        );
-        $this->setPreference(
-            'default_showAdditionalFacts',
-            (string) $configuration->getShowAdditionalFacts()
+            'default_showDetailPanel',
+            (string) $configuration->getShowDetailPanel()
         );
         $this->setPreference(
             'default_placeFormat',

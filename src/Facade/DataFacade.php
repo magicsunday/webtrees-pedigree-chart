@@ -76,11 +76,10 @@ final class DataFacade
     }
 
     /**
-     * Returns the resolver of the fact rows of the person boxes. It is shared
-     * by every node of the request and also tells the page how many optional
-     * rows the boxes need.
+     * Returns the resolver of the facts of the detail panel. It is shared by
+     * every node of the request.
      */
-    public function getFactResolver(Tree $tree): FactResolver
+    private function getFactResolver(Tree $tree): FactResolver
     {
         return $this->factResolver ??= new FactResolver(
             $tree,
@@ -273,10 +272,13 @@ final class DataFacade
             ->setSex($individual->sex())
             ->setBirth($dateProcessor->getBirthDate())
             ->setDeath($dateProcessor->getDeathDate())
-            ->setTimespan($dateProcessor->getLifetimeDescription())
-            // The payload carries every optional row. Whether the rows are shown is
-            // decided in the browser, so a visitor can switch them without a reload.
-            ->setFacts($this->getFactResolver($individual->tree())->factsFor($individual, true));
+            ->setTimespan($dateProcessor->getLifetimeDescription());
+
+        // The facts are only read for the detail panel, so a chart without the panel
+        // pays neither their payload nor their database work.
+        if ($this->configuration->getShowDetailPanel()) {
+            $treeData->setFacts($this->getFactResolver($individual->tree())->factsFor($individual, true));
+        }
 
         return $treeData;
     }

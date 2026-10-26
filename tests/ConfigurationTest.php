@@ -77,8 +77,7 @@ final class ConfigurationTest extends TestCase
                 'paternalColor'       => '#112233',
                 'maternalColor'       => '#445566',
                 'showAddParentLinks'  => '1',
-                'showPlaces'          => '1',
-                'showAdditionalFacts' => '1',
+                'showDetailPanel'     => '1',
             ],
             []
         );
@@ -94,8 +93,7 @@ final class ConfigurationTest extends TestCase
                 'paternalColor'       => '#112233',
                 'maternalColor'       => '#445566',
                 'showAddParentLinks'  => '1',
-                'showPlaces'          => '1',
-                'showAdditionalFacts' => '1',
+                'showDetailPanel'     => '1',
             ],
             $configuration->getRouteToggleParams()
         );
@@ -121,8 +119,7 @@ final class ConfigurationTest extends TestCase
                 'paternalColor'       => '#aabbcc',
                 'maternalColor'       => '#ddeeff',
                 'showAddParentLinks'  => '0',
-                'showPlaces'          => '0',
-                'showAdditionalFacts' => '0',
+                'showDetailPanel'     => '0',
             ],
             []
         );
@@ -138,8 +135,7 @@ final class ConfigurationTest extends TestCase
                 'paternalColor'       => '#aabbcc',
                 'maternalColor'       => '#ddeeff',
                 'showAddParentLinks'  => '0',
-                'showPlaces'          => '0',
-                'showAdditionalFacts' => '0',
+                'showDetailPanel'     => '0',
             ],
             $configuration->getRouteToggleParams()
         );
@@ -165,8 +161,7 @@ final class ConfigurationTest extends TestCase
                 'default_paternalColor'       => '#010203',
                 'default_maternalColor'       => '#040506',
                 'default_showAddParentLinks'  => '1',
-                'default_showPlaces'          => '1',
-                'default_showAdditionalFacts' => '0',
+                'default_showDetailPanel'     => '1',
             ]
         );
 
@@ -181,8 +176,7 @@ final class ConfigurationTest extends TestCase
                 'paternalColor'       => '#010203',
                 'maternalColor'       => '#040506',
                 'showAddParentLinks'  => '1',
-                'showPlaces'          => '1',
-                'showAdditionalFacts' => '0',
+                'showDetailPanel'     => '1',
             ],
             $configuration->getRouteToggleParams()
         );
@@ -382,66 +376,32 @@ final class ConfigurationTest extends TestCase
     }
 
     /**
-     * The place switch is off until the request or the administrator turns it on,
+     * The detail panel is off until the request or the administrator turns it on,
      * and the request wins over the module preference in both directions.
      *
      * @param array<string, string> $queryParams
      * @param array<string, string> $preferences
      */
     #[Test]
-    #[DataProvider('showPlacesProvider')]
-    public function showPlacesResolvesFromTheRequestThenThePreference(
+    #[DataProvider('showDetailPanelProvider')]
+    public function showDetailPanelResolvesFromTheRequestThenThePreference(
         array $queryParams,
         array $preferences,
         bool $expected,
     ): void {
-        self::assertSame($expected, $this->buildConfiguration($queryParams, $preferences)->getShowPlaces());
+        self::assertSame($expected, $this->buildConfiguration($queryParams, $preferences)->getShowDetailPanel());
     }
 
     /**
      * @return array<string, array{array<string, string>, array<string, string>, bool}>
      */
-    public static function showPlacesProvider(): array
+    public static function showDetailPanelProvider(): array
     {
         return [
             'off without request or preference' => [[], [], false],
-            'on by the administrator'           => [[], ['default_showPlaces' => '1'], true],
-            'request switches it on'            => [['showPlaces' => '1'], [], true],
-            'request switches it off'           => [['showPlaces' => '0'], ['default_showPlaces' => '1'], false],
-        ];
-    }
-
-    /**
-     * The additional facts are on until the request or the administrator turns
-     * them off. The chart shows none unless the tree names tags for the chart
-     * box, so the default changes nothing for a tree that names none.
-     *
-     * @param array<string, string> $queryParams
-     * @param array<string, string> $preferences
-     */
-    #[Test]
-    #[DataProvider('showAdditionalFactsProvider')]
-    public function showAdditionalFactsResolvesFromTheRequestThenThePreference(
-        array $queryParams,
-        array $preferences,
-        bool $expected,
-    ): void {
-        self::assertSame(
-            $expected,
-            $this->buildConfiguration($queryParams, $preferences)->getShowAdditionalFacts()
-        );
-    }
-
-    /**
-     * @return array<string, array{array<string, string>, array<string, string>, bool}>
-     */
-    public static function showAdditionalFactsProvider(): array
-    {
-        return [
-            'on without request or preference' => [[], [], true],
-            'off by the administrator'         => [[], ['default_showAdditionalFacts' => '0'], false],
-            'request switches it off'          => [['showAdditionalFacts' => '0'], [], false],
-            'request switches it on'           => [['showAdditionalFacts' => '1'], ['default_showAdditionalFacts' => '0'], true],
+            'on by the administrator'           => [[], ['default_showDetailPanel' => '1'], true],
+            'request switches it on'            => [['showDetailPanel' => '1'], [], true],
+            'request switches it off'           => [['showDetailPanel' => '0'], ['default_showDetailPanel' => '1'], false],
         ];
     }
 
@@ -676,8 +636,7 @@ final class ConfigurationTest extends TestCase
                 $configuration->getMaternalColor();
                 $configuration->getShowAddParentLinks();
                 $configuration->getNameAbbreviation();
-                $configuration->getShowPlaces();
-                $configuration->getShowAdditionalFacts();
+                $configuration->getShowDetailPanel();
                 $configuration->getPlaceFormatChoice();
                 $configuration->getPlaceFormat();
             }
