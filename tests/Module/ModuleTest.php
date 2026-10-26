@@ -109,6 +109,8 @@ final class ModuleTest extends TestCase
                 'paternalColor'       => '#112233',
                 'maternalColor'       => '#445566',
                 'showAddParentLinks'  => '1',
+                'showPlaces'          => '1',
+                'showAdditionalFacts' => '0',
             ])
             ->withAttribute('tree', $tree)
             ->withAttribute('xref', 'I1')
@@ -141,6 +143,8 @@ final class ModuleTest extends TestCase
         self::assertSame('#112233', $query['paternalColor']);
         self::assertSame('#445566', $query['maternalColor']);
         self::assertSame('1', $query['showAddParentLinks']);
+        self::assertSame('1', $query['showPlaces']);
+        self::assertSame('0', $query['showAdditionalFacts']);
 
         self::assertArrayHasKey('xref', $query);
         self::assertArrayHasKey('tree', $query);

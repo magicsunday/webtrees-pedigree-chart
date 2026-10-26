@@ -18,9 +18,11 @@ use Fisharebest\Webtrees\Family;
 use Fisharebest\Webtrees\Http\RequestHandlers\AddParentToIndividualPage;
 use Fisharebest\Webtrees\Http\RequestHandlers\AddSpouseToFamilyPage;
 use Fisharebest\Webtrees\Individual;
+use Fisharebest\Webtrees\Place;
 use Fisharebest\Webtrees\Tree;
 use GuzzleHttp\Psr7\ServerRequest;
 use Illuminate\Support\Collection;
+use MagicSunday\Webtrees\ModuleBase\Model\FactView;
 use MagicSunday\Webtrees\ModuleBase\Model\NameSegment;
 use MagicSunday\Webtrees\ModuleBase\Model\NodeData;
 use MagicSunday\Webtrees\PedigreeChart\Configuration;
@@ -48,7 +50,7 @@ use const JSON_THROW_ON_ERROR;
  * Verifies how the data facade hands the name of an individual to the front
  * end, as ordered segments next to the flat name.
  *
- * @phpstan-type NodeFields array<string, int|bool|string|list<NameSegment>>
+ * @phpstan-type NodeFields array<string, int|bool|string|list<FactView|NameSegment|null>>
  *
  * @author  Rico Sonntag <mail@ricosonntag.de>
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
@@ -149,9 +151,82 @@ final class DataFacadeTest extends TestCase
                 'birth',
                 'death',
                 'timespan',
+                'facts',
             ],
             array_keys($payload)
         );
+    }
+
+    /**
+     * The payload carries one slot per row of the person box: the birth, the
+     * death and one slot for every tag the tree names for the chart box. A slot
+     * the person has no fact for is null, so the rows stay aligned.
+     */
+    #[Test]
+    public function handsOverOneFactSlotPerRowAndNullForAMissingFact(): void
+    {
+        $birth = $this->factStub('Birth', 'Berlin, Germany', 'Berlin', '');
+        $work  = $this->factStub('Occupation', '', '', 'Smith');
+
+        $individual = $this->individual(
+            self::STARRED_NAME,
+            'Anna Maria Schmidt',
+            '',
+            factsByTag: ['BIRT' => $birth, 'OCCU' => $work],
+            chartBoxTags: 'OCCU,RESI',
+        );
+
+        $node = $this->builtTree($individual, 1, false);
+
+        /** @var array{data: array{facts: list<array<string, string>|null>}} $serialised */
+        $serialised = json_decode(json_encode($node, JSON_THROW_ON_ERROR), true, 512, JSON_THROW_ON_ERROR);
+
+        self::assertSame(
+            [
+                [
+                    'tag'       => 'BIRT',
+                    'label'     => 'Birth',
+                    'date'      => '',
+                    'place'     => 'Berlin',
+                    'placeFull' => 'Berlin, Germany',
+                    'value'     => '',
+                ],
+                null,
+                [
+                    'tag'       => 'OCCU',
+                    'label'     => 'Occupation',
+                    'date'      => '',
+                    'place'     => '',
+                    'placeFull' => '',
+                    'value'     => 'Smith',
+                ],
+                null,
+            ],
+            $serialised['data']['facts']
+        );
+    }
+
+    /**
+     * A tree that names no tag for the chart box has the birth and the death
+     * slot only.
+     */
+    #[Test]
+    public function hasTheBirthAndDeathSlotOnlyWithoutChartBoxTags(): void
+    {
+        $individual = $this->individual(
+            self::STARRED_NAME,
+            'Anna Maria Schmidt',
+            '',
+            factsByTag: [],
+            chartBoxTags: '',
+        );
+
+        $node = $this->builtTree($individual, 1, false);
+
+        /** @var array{data: array{facts: list<array<string, string>|null>}} $serialised */
+        $serialised = json_decode(json_encode($node, JSON_THROW_ON_ERROR), true, 512, JSON_THROW_ON_ERROR);
+
+        self::assertSame([null, null], $serialised['data']['facts']);
     }
 
     /**
@@ -535,6 +610,8 @@ final class DataFacadeTest extends TestCase
 
     /**
      * Builds an individual with one name and the given parent family, if any.
+     *
+     * @param array<string, Fact>|null $factsByTag
      */
     private function individual(
         string $nameHtml,
@@ -543,10 +620,14 @@ final class DataFacadeTest extends TestCase
         string $xref = 'X1',
         ?Family $family = null,
         bool $canEdit = false,
+        ?array $factsByTag = null,
+        string $chartBoxTags = '',
     ): Individual {
         $tree = self::createStub(Tree::class);
         $tree->method('name')->willReturn('main');
-        $tree->method('getPreference')->willReturn('');
+        $tree->method('getPreference')->willReturnCallback(
+            static fn (string $name): string => $name === 'CHART_BOX_TAGS' ? $chartBoxTags : ''
+        );
 
         $nameFact = self::createStub(Fact::class);
         $nameFact->method('attribute')->willReturnMap([
@@ -566,7 +647,18 @@ final class DataFacadeTest extends TestCase
         $individual->method('getBirthDate')->willReturn($this->unknownDate());
         $individual->method('getDeathDate')->willReturn($this->unknownDate());
         $individual->method('childFamilies')->willReturn(new Collection($family instanceof Family ? [$family] : []));
-        $individual->method('facts')->willReturn(new Collection([$nameFact]));
+        $individual->method('facts')->willReturnCallback(
+            static function (array $filter = []) use ($nameFact, $factsByTag): Collection {
+                $first = $filter[0] ?? '';
+                $tag   = is_string($first) ? $first : '';
+
+                if (($factsByTag === null) || ($tag === 'NAME')) {
+                    return new Collection([$nameFact]);
+                }
+
+                return new Collection(isset($factsByTag[$tag]) ? [$factsByTag[$tag]] : []);
+            }
+        );
         $individual->method('getPrimaryName')->willReturn(0);
         $individual->method('getSecondaryName')->willReturn(0);
         $individual->method('getAllNames')->willReturn([
@@ -581,6 +673,24 @@ final class DataFacadeTest extends TestCase
         ]);
 
         return $individual;
+    }
+
+    /**
+     * Builds a fact with the given label, place and value, and no date.
+     */
+    private function factStub(string $label, string $placeFull, string $placeShort, string $value): Fact
+    {
+        $place = self::createStub(Place::class);
+        $place->method('gedcomName')->willReturn($placeFull);
+        $place->method('firstParts')->willReturn(new Collection($placeShort === '' ? [] : [$placeShort]));
+
+        $fact = self::createStub(Fact::class);
+        $fact->method('label')->willReturn($label);
+        $fact->method('date')->willReturn($this->unknownDate());
+        $fact->method('place')->willReturn($place);
+        $fact->method('value')->willReturn($value);
+
+        return $fact;
     }
 
     /**

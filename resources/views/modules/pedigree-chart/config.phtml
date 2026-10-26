@@ -97,6 +97,23 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
                         <?php echo I18N::translate('Controls which name part shrinks first when a box is too narrow for the full name. "Automatic" uses the tree\'s surname tradition (Icelandic abbreviates surnames; everything else abbreviates given names).'); ?>
                     </small>
                 </div>
+
+                <div class="mt-3">
+                    <label for="<?php echo e(Configuration::PLACE_FORMAT_PARAM); ?>" class="form-label">
+                        <?php echo I18N::translate('Place detail'); ?>
+                    </label>
+                    <?php echo view('components/select', [
+                        'name'     => Configuration::PLACE_FORMAT_PARAM,
+                        'id'       => Configuration::PLACE_FORMAT_PARAM,
+                        'selected' => $configuration->getPlaceFormatChoice()->value,
+                        'options'  => $configuration->getPlaceFormatList(),
+                        'class'    => 'form-control-sm',
+                    ]);
+?>
+                    <small class="form-text text-muted form-element-description" style="box-decoration-break: clone;">
+                        <?php echo I18N::translate('How much of each place is shown in the person boxes: the full name, only the lowest levels, or the place combined with its country as a name or country code. Users switch the places on and off in the chart form.'); ?>
+                    </small>
+                </div>
             </div>
         </div>
     </div>

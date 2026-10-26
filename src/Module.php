@@ -36,6 +36,8 @@ use Override;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+use function count;
+
 /**
  * Pedigree chart module class.
  *
@@ -156,7 +158,7 @@ final class Module extends PedigreeChartModule implements ModuleAssetUrlInterfac
         $user = Validator::attributes($request)->user();
         $ajax = Validator::queryParams($request)->boolean('ajax', false);
 
-        $this->configuration = new Configuration($request, $this);
+        $this->configuration = new Configuration($request, $this, $tree);
 
         // Convert POST requests into GET requests for pretty URLs.
         // This also updates the name above the form, which won't get updated if only a POST request is used
@@ -221,7 +223,7 @@ final class Module extends PedigreeChartModule implements ModuleAssetUrlInterfac
      *
      * @param Tree $tree
      *
-     * @return array{rtl: bool, nameAbbreviation: string, labels: array{zoom: string, move: string}}
+     * @return array{rtl: bool, nameAbbreviation: string, optionalRows: int, labels: array{zoom: string, move: string}}
      */
     private function getChartParameters(Tree $tree): array
     {
@@ -231,7 +233,10 @@ final class Module extends PedigreeChartModule implements ModuleAssetUrlInterfac
                 ->getNameAbbreviation()
                 ->resolve($tree->getPreference('SURNAME_TRADITION'))
                 ->value,
-            'labels' => [
+            // Every box reserves the rows of the fullest box, so the page needs the number
+            // of optional rows the tree names for the chart box.
+            'optionalRows' => count($this->dataFacade->getFactResolver($tree)->optionalTags()),
+            'labels'       => [
                 'zoom' => I18N::translate('Use Ctrl + scroll to zoom in the view'),
                 'move' => I18N::translate('Move the view with two fingers'),
             ],

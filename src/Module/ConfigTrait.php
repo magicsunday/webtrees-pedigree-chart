@@ -107,6 +107,18 @@ trait ConfigTrait
             'default_nameAbbreviation',
             $configuration->getNameAbbreviation()->value
         );
+        $this->setPreference(
+            'default_showPlaces',
+            (string) $configuration->getShowPlaces()
+        );
+        $this->setPreference(
+            'default_showAdditionalFacts',
+            (string) $configuration->getShowAdditionalFacts()
+        );
+        $this->setPreference(
+            'default_placeFormat',
+            $configuration->getPlaceFormatChoice()->value
+        );
 
         FlashMessages::addMessage(
             I18N::translate(

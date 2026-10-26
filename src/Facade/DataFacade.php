@@ -16,11 +16,15 @@ use Fisharebest\Webtrees\Http\RequestHandlers\AddParentToIndividualPage;
 use Fisharebest\Webtrees\Http\RequestHandlers\AddSpouseToFamilyPage;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
+use Fisharebest\Webtrees\Tree;
 use MagicSunday\Webtrees\ModuleBase\Facade\RouteAwareDataFacadeTrait;
 use MagicSunday\Webtrees\ModuleBase\Model\NodeData;
 use MagicSunday\Webtrees\ModuleBase\Processor\DateProcessor;
+use MagicSunday\Webtrees\ModuleBase\Processor\FactResolver;
 use MagicSunday\Webtrees\ModuleBase\Processor\ImageProcessor;
 use MagicSunday\Webtrees\ModuleBase\Processor\NameProcessor;
+use MagicSunday\Webtrees\ModuleBase\Support\CompactDateFormat;
+use MagicSunday\Webtrees\ModuleBase\Support\Locale\IsoCountryMap;
 use MagicSunday\Webtrees\ModuleBase\Support\TextDirection;
 use MagicSunday\Webtrees\PedigreeChart\Configuration;
 use MagicSunday\Webtrees\PedigreeChart\Model\Node;
@@ -55,13 +59,35 @@ final class DataFacade
     private int $placeholderIdCounter = 0;
 
     /**
+     * The resolver of the fact rows, built on first use and shared by every node
+     * of the request.
+     */
+    private ?FactResolver $factResolver = null;
+
+    /**
      * Injects the per-request configuration before tree-structure assembly.
      */
     public function setConfiguration(Configuration $configuration): DataFacade
     {
         $this->configuration = $configuration;
+        $this->factResolver  = null;
 
         return $this;
+    }
+
+    /**
+     * Returns the resolver of the fact rows of the person boxes. It is shared
+     * by every node of the request and also tells the page how many optional
+     * rows the boxes need.
+     */
+    public function getFactResolver(Tree $tree): FactResolver
+    {
+        return $this->factResolver ??= new FactResolver(
+            $tree,
+            $this->configuration->getPlaceFormat(),
+            new IsoCountryMap(),
+            CompactDateFormat::forLocale(I18N::languageTag())
+        );
     }
 
     /**
@@ -247,7 +273,10 @@ final class DataFacade
             ->setSex($individual->sex())
             ->setBirth($dateProcessor->getBirthDate())
             ->setDeath($dateProcessor->getDeathDate())
-            ->setTimespan($dateProcessor->getLifetimeDescription());
+            ->setTimespan($dateProcessor->getLifetimeDescription())
+            // The payload carries every optional row. Whether the rows are shown is
+            // decided in the browser, so a visitor can switch them without a reload.
+            ->setFacts($this->getFactResolver($individual->tree())->factsFor($individual, true));
 
         return $treeData;
     }
