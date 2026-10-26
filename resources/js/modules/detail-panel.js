@@ -112,9 +112,51 @@ export default class DetailPanel {
             }
         });
 
+        this._skipFocusReturn = false;
+        this._outsideClick = (/** @type {Event} */ event) => this.closeOnOutsideClick(event);
+
+        // A click beside the panel closes it. The listener only lives while the panel is shown, so
+        // the click that opened it cannot close it again.
+        this._element.addEventListener("shown.bs.offcanvas", () => {
+            document.addEventListener("click", this._outsideClick);
+        });
+
         // Bootstrap closes the offcanvas on Escape and by its close button, and the focus goes back
-        // to the chart then
-        this._element.addEventListener("hidden.bs.offcanvas", () => this._callbacks.onClose());
+        // to the chart then. After a click somewhere else the focus stays where the user put it.
+        this._element.addEventListener("hidden.bs.offcanvas", () => {
+            document.removeEventListener("click", this._outsideClick);
+
+            if (this._skipFocusReturn) {
+                this._skipFocusReturn = false;
+
+                return;
+            }
+
+            this._callbacks.onClose();
+        });
+    }
+
+    /**
+     * Closes the panel on a click that is neither inside the panel nor on a person, as a click on a
+     * person only swaps the content of the panel.
+     *
+     * @param {Event} event The click
+     *
+     * @private
+     */
+    closeOnOutsideClick(event) {
+        const target = event.target;
+
+        if (
+            !(target instanceof Element) ||
+            this._element.contains(target) ||
+            target.closest("g.person") !== null
+        ) {
+            return;
+        }
+
+        this._skipFocusReturn = true;
+        this.offcanvas()?.hide();
     }
 
     /**
@@ -259,7 +301,6 @@ export default class DetailPanel {
         const lines = [
             ["date", String(fact.date ?? "")],
             ["place", place],
-            ["place-full", placeFull === place ? "" : placeFull],
             ["value", String(fact.value ?? "")],
         ];
 
@@ -271,6 +312,12 @@ export default class DetailPanel {
             const line = document.createElement("div");
             line.className = `detail-${name}`;
             line.textContent = text;
+
+            // The place shows in the format the administrator chose, the full name is its tooltip
+            if (name === "place" && placeFull !== "" && placeFull !== place) {
+                line.title = placeFull;
+            }
+
             description.appendChild(line);
         }
 

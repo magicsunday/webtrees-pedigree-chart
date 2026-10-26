@@ -125,6 +125,85 @@ describe("DetailPanel offcanvas", () => {
     });
 });
 
+describe("DetailPanel outside click", () => {
+    /**
+     * Opens the panel and lets Bootstrap report that it is shown.
+     */
+    function openPanel() {
+        const built = build();
+
+        built.panel.select(person);
+        built.element.dispatchEvent(new Event("shown.bs.offcanvas"));
+
+        return built;
+    }
+
+    test("closes on a click beside the panel and keeps the focus where the user put it", () => {
+        const { instance, element, callbacks } = openPanel();
+
+        document.body.click();
+
+        expect(instance.hide).toHaveBeenCalledTimes(1);
+
+        element.dispatchEvent(new Event("hidden.bs.offcanvas"));
+
+        expect(callbacks.onClose).not.toHaveBeenCalled();
+    });
+
+    test("hands the focus back after a close by other means", () => {
+        const { instance, element, callbacks } = openPanel();
+
+        document.body.click();
+        element.dispatchEvent(new Event("hidden.bs.offcanvas"));
+        element.dispatchEvent(new Event("hidden.bs.offcanvas"));
+
+        expect(instance.hide).toHaveBeenCalledTimes(1);
+        expect(callbacks.onClose).toHaveBeenCalledTimes(1);
+    });
+
+    test("stays open on a click inside the panel", () => {
+        const { instance, element } = openPanel();
+
+        element.querySelector("[data-panel='title']").click();
+
+        expect(instance.hide).not.toHaveBeenCalled();
+    });
+
+    test("stays open on a click on a person, which only swaps the content", () => {
+        const { instance } = openPanel();
+        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+
+        group.setAttribute("class", "person");
+        group.appendChild(rect);
+        svg.appendChild(group);
+        document.body.appendChild(svg);
+
+        rect.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+
+        expect(instance.hide).not.toHaveBeenCalled();
+    });
+
+    test("does not react before the panel is shown, so the opening click cannot close it", () => {
+        const { instance, panel } = build();
+
+        panel.select(person);
+        document.body.click();
+
+        expect(instance.hide).not.toHaveBeenCalled();
+    });
+
+    test("stops listening once the panel is hidden", () => {
+        const { instance, element } = openPanel();
+
+        element.dispatchEvent(new Event("hidden.bs.offcanvas"));
+        document.body.click();
+
+        expect(instance.hide).not.toHaveBeenCalled();
+    });
+});
+
 describe("DetailPanel focus", () => {
     test("moves the focus to the heading once the offcanvas is shown after a keyboard selection", () => {
         const { panel, element } = build();
@@ -172,19 +251,25 @@ describe("DetailPanel content", () => {
         expect(terms).toEqual(["Birth", "Occupation"]);
         expect(element.querySelector(".detail-date").textContent).toBe("12 MAR 1980");
         expect(element.querySelector(".detail-place").textContent).toBe("Leipzig");
-        expect(element.querySelector(".detail-place-full").textContent).toBe("Leipzig, Sachsen");
+        expect(element.querySelector(".detail-place").title).toBe("Leipzig, Sachsen");
+        expect(element.querySelector(".detail-place-full")).toBeNull();
         expect(element.querySelector(".detail-value").textContent).toBe("Teacher");
     });
 
-    test("leaves the full place out when it equals the short one", () => {
+    test("gives no tooltip when the full place equals the shown one or is missing", () => {
         const { panel, element } = build();
 
         panel.select({
             ...person,
-            facts: [{ label: "Birth", date: "", place: "Berlin", placeFull: "Berlin", value: "" }],
+            facts: [
+                { label: "Birth", date: "", place: "Berlin", placeFull: "Berlin", value: "" },
+                { label: "Death", date: "", place: "Rom", placeFull: "", value: "" },
+            ],
         });
 
-        expect(element.querySelector(".detail-place-full")).toBeNull();
+        const places = [...element.querySelectorAll(".detail-place")];
+
+        expect(places.map((place) => place.title)).toEqual(["", ""]);
     });
 
     test("replaces the content of the previous person", () => {

@@ -190,11 +190,6 @@
     margin-bottom: 0;
 }
 
-.webtrees-pedigree-detail-panel .detail-place-full {
-    color: var(--bs-secondary-color, rgb(108, 117, 125));
-    font-size: 0.875em;
-}
-
 .webtrees-pedigree-detail-panel .offcanvas-title:focus {
     outline: none;
 }
