@@ -66,9 +66,9 @@ import(<?php echo json_encode($javascript, $jsonFlags); ?>).then(({ PedigreeChar
                 return opts.maternalColor ?? <?php echo json_encode($configuration->getMaternalColor(), $jsonFlags); ?>;
             },
 
-            get showDetailPanel() {
-                return opts.showDetailPanel ?? <?php echo json_encode($configuration->getShowDetailPanel(), $jsonFlags); ?>;
-            },
+            // The server reads the facts for the panel only while the switch is on, so its value
+            // decides and the browser storage cannot override it.
+            showDetailPanel: <?php echo json_encode($configuration->getShowDetailPanel(), $jsonFlags); ?>,
 
             nameAbbreviation: <?php echo json_encode($chartParams['nameAbbreviation'], $jsonFlags); ?>,
 

@@ -190,6 +190,10 @@
     margin-bottom: 0;
 }
 
+.webtrees-pedigree-detail-panel .detail-place {
+    font-style: italic;
+}
+
 .webtrees-pedigree-detail-panel .offcanvas-title:focus {
     outline: none;
 }

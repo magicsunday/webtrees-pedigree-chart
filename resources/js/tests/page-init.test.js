@@ -48,18 +48,12 @@ describe("initPage", () => {
         expect(registered).not.toContain("showAdditionalFacts");
     });
 
-    test("publishes null for a switch that was never stored", () => {
-        initPage({ ajaxUrl: "/ajax" });
-
-        expect(globalThis.WebtreesPedigreeChart.chartOptions.showDetailPanel).toBeNull();
-    });
-
-    test("publishes the stored value of the switch", () => {
+    test("does not publish the switch, because the server reads the facts and its value decides", () => {
         stored.showDetailPanel = true;
 
         initPage({ ajaxUrl: "/ajax" });
 
-        expect(globalThis.WebtreesPedigreeChart.chartOptions.showDetailPanel).toBe(true);
+        expect(globalThis.WebtreesPedigreeChart.chartOptions).not.toHaveProperty("showDetailPanel");
 
         delete stored.showDetailPanel;
     });

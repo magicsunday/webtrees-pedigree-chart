@@ -66,8 +66,8 @@ export class PedigreeChart {
         // Set up chart instance
         this._chart = new Chart(this._parent, this._configuration);
 
-        // The panel is set up before the first draw, so the view box is calculated with the
-        // width the chart really has beside the panel.
+        // The panel is set up before the first draw, so a chart that is drawn while the panel
+        // switch is on already finds the panel connected.
         this.initDetailPanel();
 
         this.init();

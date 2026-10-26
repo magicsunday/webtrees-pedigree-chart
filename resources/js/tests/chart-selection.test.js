@@ -8,6 +8,7 @@
 import { jest } from "@jest/globals";
 
 const { default: Chart } = await import("resources/js/modules/chart.js");
+const d3 = await import("resources/js/modules/d3.js");
 
 /**
  * Builds a stand-in for a chart that has the pieces the click routing uses.
@@ -223,6 +224,57 @@ describe("Chart click binding", () => {
     });
 });
 
+describe("Chart click binding with real elements", () => {
+    /**
+     * Builds an SVG with person groups that carry d3 data, and binds the chart to it.
+     *
+     * @param {object[]} nodes The d3 data of the person groups
+     */
+    function bindReal(nodes) {
+        document.body.innerHTML = '<svg><g class="visual"></g></svg>';
+
+        const visual = d3.select(document.querySelector("g.visual"));
+        const personNodes = visual
+            .selectAll("g.person")
+            .data(nodes)
+            .enter()
+            .append("g")
+            .attr("class", "person");
+        const context = {
+            _configuration: { showDetailPanel: false },
+            _svg: { visual },
+            makeKeyboardOperable: jest.fn(),
+            applySelection: jest.fn(),
+            personClick: jest.fn(),
+        };
+
+        Chart.prototype.bindClickEventListener.call(context);
+
+        return { context, elements: personNodes.nodes() };
+    }
+
+    // The d3 datum is the hierarchy node, its data is the datum of the chart, and that holds the person
+    const node = (xref, url) => ({ data: { data: { xref, url } } });
+
+    test("hands the data of a clicked person to the click routing", () => {
+        const first = node("I1", "/i/1");
+        const { context, elements } = bindReal([first]);
+
+        elements[0].dispatchEvent(new MouseEvent("click"));
+
+        expect(context.personClick).toHaveBeenCalledTimes(1);
+        expect(context.personClick).toHaveBeenCalledWith(first.data);
+    });
+
+    test("binds no click to a box that has neither an xref nor a url", () => {
+        const { context, elements } = bindReal([node("", "")]);
+
+        elements[0].dispatchEvent(new MouseEvent("click"));
+
+        expect(context.personClick).not.toHaveBeenCalled();
+    });
+});
+
 describe("Chart selection marks", () => {
     test("marks the selected person and nobody else", () => {
         const { context, selection } = buildChart();
@@ -255,15 +307,50 @@ describe("Chart selection marks", () => {
         const focus = jest.fn();
         const element = document.createElementNS("http://www.w3.org/2000/svg", "g");
         element.focus = focus;
-        const context = { _svg: { visual: { select: () => ({ node: () => element }) } } };
+        const context = {
+            _selectedDatum: {},
+            _svg: { visual: { selectAll: () => ({ filter: () => ({ node: () => element }) }) } },
+        };
 
         Chart.prototype.restoreFocus.call(context);
 
         expect(focus).toHaveBeenCalledWith({ preventScroll: true });
     });
 
+    test("gives the focus back to the occurrence the user activated, not to the first one", () => {
+        const first = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        const second = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        first.focus = jest.fn();
+        second.focus = jest.fn();
+
+        // The same ancestor appears twice in the chart, so both groups carry the same xref
+        const datumOfFirst = { data: { xref: "I5" } };
+        const datumOfSecond = { data: { xref: "I5" } };
+        const nodes = [
+            [first, { data: datumOfFirst }],
+            [second, { data: datumOfSecond }],
+        ];
+        const selection = {
+            filter(predicate) {
+                return { node: () => nodes.find(([, node]) => predicate(node))?.[0] ?? null };
+            },
+        };
+        const context = {
+            _selectedDatum: datumOfSecond,
+            _svg: { visual: { selectAll: () => selection } },
+        };
+
+        Chart.prototype.restoreFocus.call(context);
+
+        expect(second.focus).toHaveBeenCalledWith({ preventScroll: true });
+        expect(first.focus).not.toHaveBeenCalled();
+    });
+
     test("does nothing when the selected person is gone after a redraw", () => {
-        const context = { _svg: { visual: { select: () => ({ node: () => null }) } } };
+        const context = {
+            _selectedDatum: {},
+            _svg: { visual: { selectAll: () => ({ filter: () => ({ node: () => null }) }) } },
+        };
 
         expect(() => Chart.prototype.restoreFocus.call(context)).not.toThrow();
     });

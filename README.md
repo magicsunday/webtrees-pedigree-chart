@@ -157,9 +157,8 @@ to adjust the layout of the charts according to your needs.
 With ``Show details panel`` switched on, a click on a person selects the person and a panel slides in over the chart
 from the right. It shows the birth and the death with their places and further facts such as the occupation, and it has
 buttons to open the individual page and to center the chart on the person. The chart stays usable while the panel is
-open and closes with a click beside it, with its close button or with Escape. A place shows in the format the
-administrator chose, the full name is its tooltip. The facts come from the tree setting ``Other facts to show in charts``, and the level of detail of a place is set
-by the administrator in the module settings. The option is off by default.
+open and closes with a click beside it, with its close button or with Escape. Places show with their full name. The facts come from the tree setting ``Other facts to show in charts``.
+The option is off by default.
 
 
 ## Troubleshooting

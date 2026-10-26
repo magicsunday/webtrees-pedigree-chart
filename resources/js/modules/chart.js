@@ -47,6 +47,8 @@ export default class Chart {
         this._detailPanel = null;
         /** @type {string|null} */
         this._selectedXref = null;
+        /** @type {NodeDatum|null} */
+        this._selectedDatum = null;
     }
 
     /**
@@ -255,7 +257,11 @@ export default class Chart {
      * Gives the focus back to the selected person, if it is still in the chart.
      */
     restoreFocus() {
-        const selected = this._svg?.visual.select("g.person.selected").node();
+        const datum = this._selectedDatum;
+        const selected = this._svg?.visual
+            .selectAll("g.person")
+            .filter((person) => person.data === datum)
+            .node();
 
         if (selected instanceof SVGElement) {
             selected.focus({ preventScroll: true });
@@ -284,6 +290,7 @@ export default class Chart {
         // With the detail panel a click selects the person, the panel offers both actions
         if (this._configuration.showDetailPanel && this._detailPanel !== null) {
             this._selectedXref = data.data.xref;
+            this._selectedDatum = data;
             this.applySelection();
             this._detailPanel.select(
                 /** @type {PanelPerson} */ (/** @type {unknown} */ (data.data)),

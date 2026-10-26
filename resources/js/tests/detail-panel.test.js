@@ -105,6 +105,7 @@ describe("DetailPanel offcanvas", () => {
         panel.select({ ...person, name: "Karl Schmidt" });
 
         expect(element.querySelector("[data-panel='title']").textContent).toBe("Karl Schmidt");
+        expect(instance.show).toHaveBeenCalledTimes(2);
         expect(instance.hide).not.toHaveBeenCalled();
     });
 
@@ -204,6 +205,65 @@ describe("DetailPanel outside click", () => {
     });
 });
 
+describe("DetailPanel escape and semantics", () => {
+    function openPanel() {
+        const built = build();
+
+        built.panel.select(person);
+        built.element.dispatchEvent(new Event("shown.bs.offcanvas"));
+
+        return built;
+    }
+
+    test("closes on Escape while the focus is on the chart and keeps the focus there", () => {
+        const { instance, element, callbacks } = openPanel();
+
+        document.body.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+
+        expect(instance.hide).toHaveBeenCalledTimes(1);
+
+        element.dispatchEvent(new Event("hidden.bs.offcanvas"));
+
+        expect(callbacks.onClose).not.toHaveBeenCalled();
+    });
+
+    test("leaves Escape inside the panel to Bootstrap, which hands the focus back", () => {
+        const { instance, element } = openPanel();
+
+        element
+            .querySelector("[data-panel='title']")
+            .dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+
+        expect(instance.hide).not.toHaveBeenCalled();
+    });
+
+    test("ignores every other key and stops listening once hidden", () => {
+        const { instance, element } = openPanel();
+
+        document.body.dispatchEvent(new KeyboardEvent("keydown", { key: "a", bubbles: true }));
+
+        expect(instance.hide).not.toHaveBeenCalled();
+
+        element.dispatchEvent(new Event("hidden.bs.offcanvas"));
+        document.body.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+
+        expect(instance.hide).not.toHaveBeenCalled();
+    });
+
+    test("is no modal dialog, as the chart stays usable beside it", () => {
+        const built = build();
+
+        // Bootstrap sets these when it shows the offcanvas
+        built.element.setAttribute("role", "dialog");
+        built.element.setAttribute("aria-modal", "true");
+        built.panel.select(person);
+        built.element.dispatchEvent(new Event("shown.bs.offcanvas"));
+
+        expect(built.element.hasAttribute("aria-modal")).toBe(false);
+        expect(built.element.getAttribute("role")).toBe("complementary");
+    });
+});
+
 describe("DetailPanel focus", () => {
     test("moves the focus to the heading once the offcanvas is shown after a keyboard selection", () => {
         const { panel, element } = build();
@@ -250,26 +310,46 @@ describe("DetailPanel content", () => {
 
         expect(terms).toEqual(["Birth", "Occupation"]);
         expect(element.querySelector(".detail-date").textContent).toBe("12 MAR 1980");
-        expect(element.querySelector(".detail-place").textContent).toBe("Leipzig");
-        expect(element.querySelector(".detail-place").title).toBe("Leipzig, Sachsen");
-        expect(element.querySelector(".detail-place-full")).toBeNull();
+        expect(element.querySelector(".detail-place").textContent).toBe("Leipzig, Sachsen");
+        expect(element.querySelector(".detail-place").title).toBe("");
         expect(element.querySelector(".detail-value").textContent).toBe("Teacher");
     });
 
-    test("gives no tooltip when the full place equals the shown one or is missing", () => {
+    test("shows the short place when the payload has no full name", () => {
+        const { panel, element } = build();
+
+        panel.select({
+            ...person,
+            facts: [{ label: "Birth", date: "", place: "Rom", placeFull: "", value: "" }],
+        });
+
+        expect(element.querySelector(".detail-place").textContent).toBe("Rom");
+    });
+
+    test("does not show the GEDCOM value Y, which only says that the event took place", () => {
         const { panel, element } = build();
 
         panel.select({
             ...person,
             facts: [
-                { label: "Birth", date: "", place: "Berlin", placeFull: "Berlin", value: "" },
-                { label: "Death", date: "", place: "Rom", placeFull: "", value: "" },
+                { label: "Birth", date: "", place: "", placeFull: "", value: "Y" },
+                { label: "Occupation", date: "", place: "", placeFull: "", value: "Y2" },
             ],
         });
 
-        const places = [...element.querySelectorAll(".detail-place")];
+        expect(element.querySelector(".detail-value").textContent).toBe("Y2");
+    });
 
-        expect(places.map((place) => place.title)).toEqual(["", ""]);
+    test("leaves out a fact that has nothing to show and notes an empty panel", () => {
+        const { panel, element } = build();
+
+        panel.select({
+            ...person,
+            facts: [{ label: "Birth", date: "", place: "", placeFull: "", value: "Y" }],
+        });
+
+        expect(element.querySelectorAll("dt")).toHaveLength(0);
+        expect(element.querySelector("[data-panel='empty']").hidden).toBe(false);
     });
 
     test("replaces the content of the previous person", () => {
@@ -314,11 +394,17 @@ describe("DetailPanel content", () => {
                 {
                     label: hostile,
                     date: hostile,
-                    place: hostile,
-                    placeFull: toStringObject,
+                    place: "",
+                    placeFull: hostile,
                     value: hostile,
                 },
-                { label: "__proto__", date: "", place: "", placeFull: "", value: "constructor" },
+                {
+                    label: "__proto__",
+                    date: "",
+                    place: "",
+                    placeFull: toStringObject,
+                    value: "constructor",
+                },
             ],
         });
 
@@ -327,6 +413,10 @@ describe("DetailPanel content", () => {
         expect(element.querySelector("b")).toBeNull();
         expect(element.querySelector("[data-panel='title']").textContent).toBe(hostile);
         expect(element.querySelector(".detail-value").textContent).toBe(hostile);
+
+        const places = [...element.querySelectorAll(".detail-place")];
+
+        expect(places.map((place) => place.textContent)).toEqual([hostile, "<b>bold</b>"]);
     });
 
     test("never writes person text through an HTML sink", () => {

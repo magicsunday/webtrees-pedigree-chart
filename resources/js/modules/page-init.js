@@ -60,7 +60,6 @@ export function initPage(config) {
      *   openNewTabOnClick: boolean|null,
      *   showAlternativeName: boolean|null,
      *   showFamilyColors: boolean|null,
-     *   showDetailPanel: boolean|null,
      *   paternalColor: string|null,
      *   maternalColor: string|null,
      * }}
@@ -70,7 +69,6 @@ export function initPage(config) {
         openNewTabOnClick: storage.readBool("openNewTabOnClick"),
         showAlternativeName: storage.readBool("showAlternativeName"),
         showFamilyColors: storage.readBool("showFamilyColors"),
-        showDetailPanel: storage.readBool("showDetailPanel"),
         paternalColor: storage.readString("paternalColor"),
         maternalColor: storage.readString("maternalColor"),
     };

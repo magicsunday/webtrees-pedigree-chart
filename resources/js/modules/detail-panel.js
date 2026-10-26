@@ -28,7 +28,7 @@
  */
 
 /**
- * The callbacks the panel hands the actions of its buttons and its layout to.
+ * The callbacks the panel hands the actions of its buttons and its closing to.
  *
  * @typedef {object} PanelCallbacks
  * @property {(url: string) => void} onIndividual   Opens the individual page
@@ -114,17 +114,24 @@ export default class DetailPanel {
 
         this._skipFocusReturn = false;
         this._outsideClick = (/** @type {Event} */ event) => this.closeOnOutsideClick(event);
+        this._escape = (/** @type {KeyboardEvent} */ event) => this.closeOnEscape(event);
 
         // A click beside the panel closes it. The listener only lives while the panel is shown, so
         // the click that opened it cannot close it again.
         this._element.addEventListener("shown.bs.offcanvas", () => {
             document.addEventListener("click", this._outsideClick);
+            document.addEventListener("keydown", this._escape);
+
+            // The chart stays operable beside the panel, so the panel is no modal dialog
+            this._element.removeAttribute("aria-modal");
+            this._element.setAttribute("role", "complementary");
         });
 
         // Bootstrap closes the offcanvas on Escape and by its close button, and the focus goes back
         // to the chart then. After a click somewhere else the focus stays where the user put it.
         this._element.addEventListener("hidden.bs.offcanvas", () => {
             document.removeEventListener("click", this._outsideClick);
+            document.removeEventListener("keydown", this._escape);
 
             if (this._skipFocusReturn) {
                 this._skipFocusReturn = false;
@@ -134,6 +141,26 @@ export default class DetailPanel {
 
             this._callbacks.onClose();
         });
+    }
+
+    /**
+     * Closes the panel on Escape while the focus is outside of it, for example on a person of the
+     * chart. Inside the panel Bootstrap closes it, and the focus goes back to the chart then.
+     *
+     * @param {KeyboardEvent} event The key press
+     *
+     * @private
+     */
+    closeOnEscape(event) {
+        if (
+            event.key !== "Escape" ||
+            (event.target instanceof Node && this._element.contains(event.target))
+        ) {
+            return;
+        }
+
+        this._skipFocusReturn = true;
+        this.offcanvas()?.hide();
     }
 
     /**
@@ -271,19 +298,27 @@ export default class DetailPanel {
 
         const facts = Array.isArray(person?.facts) ? person.facts.filter(isFact) : [];
 
+        let rows = 0;
+
         for (const fact of facts) {
-            this._facts.appendChild(this.factRow(fact));
+            const row = this.factRow(fact);
+
+            if (row !== null) {
+                this._facts.appendChild(row);
+                ++rows;
+            }
         }
 
-        this._empty.hidden = facts.length > 0;
+        this._empty.hidden = rows > 0;
     }
 
     /**
-     * Builds the term and the description of one fact.
+     * Builds the term and the description of one fact, or returns null when the fact has nothing
+     * to show. The GEDCOM value "Y" only says that the event took place, so it is not shown.
      *
      * @param {PanelFact} fact The fact of the payload
      *
-     * @return {DocumentFragment}
+     * @return {DocumentFragment|null}
      *
      * @private
      */
@@ -294,14 +329,14 @@ export default class DetailPanel {
         term.textContent = String(fact.label ?? "");
 
         const description = document.createElement("dd");
-        const place = String(fact.place ?? "");
         const placeFull = String(fact.placeFull ?? "");
+        const value = String(fact.value ?? "");
 
         /** @type {Array<[string, string]>} */
         const lines = [
             ["date", String(fact.date ?? "")],
-            ["place", place],
-            ["value", String(fact.value ?? "")],
+            ["place", placeFull === "" ? String(fact.place ?? "") : placeFull],
+            ["value", value === "Y" ? "" : value],
         ];
 
         for (const [name, text] of lines) {
@@ -312,13 +347,11 @@ export default class DetailPanel {
             const line = document.createElement("div");
             line.className = `detail-${name}`;
             line.textContent = text;
-
-            // The place shows in the format the administrator chose, the full name is its tooltip
-            if (name === "place" && placeFull !== "" && placeFull !== place) {
-                line.title = placeFull;
-            }
-
             description.appendChild(line);
+        }
+
+        if (description.childElementCount === 0) {
+            return null;
         }
 
         row.append(term, description);
