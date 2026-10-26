@@ -158,6 +158,34 @@ final class DataFacadeTest extends TestCase
     }
 
     /**
+     * The nodes of one request share one fact resolver, and a new configuration
+     * means a new place format, so it gets a resolver of its own.
+     */
+    #[Test]
+    public function theFactResolverIsSharedUntilTheConfigurationIsReplaced(): void
+    {
+        EnglishLocaleFixture::install();
+
+        $module        = $this->createModuleWithPreferences([]);
+        $configuration = new Configuration(new ServerRequest(RequestMethodInterface::METHOD_GET, '/'), $module);
+        $tree          = self::createStub(Tree::class);
+
+        $tree->method('getPreference')->willReturn('');
+
+        $facade = (new DataFacade())
+            ->setModule($module)
+            ->setConfiguration($configuration);
+
+        $first = $facade->getFactResolver($tree);
+
+        self::assertSame($first, $facade->getFactResolver($tree));
+
+        $facade->setConfiguration($configuration);
+
+        self::assertNotSame($first, $facade->getFactResolver($tree));
+    }
+
+    /**
      * The payload carries one slot per row of the person box: the birth, the
      * death and one slot for every tag the tree names for the chart box. A slot
      * the person has no fact for is null, so the rows stay aligned.
