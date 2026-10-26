@@ -177,9 +177,9 @@ final class DataFacadeTest extends TestCase
     }
 
     /**
-     * With the detail panel on, the payload carries one slot per fact: the birth, the
-     * death and one slot for every tag the tree names for the chart box. A slot
-     * the person has no fact for is null, so the rows stay aligned.
+     * With the detail panel on, the payload carries the birth, the death and one
+     * entry for every tag the tree names for the chart box. An entry the person has
+     * no fact for is null. A fact carries an empty partner unless it is a family event.
      */
     #[Test]
     public function handsOverOneFactSlotPerRowAndNullForAMissingFact(): void
@@ -209,6 +209,7 @@ final class DataFacadeTest extends TestCase
                     'place'     => 'Berlin, Germany',
                     'placeFull' => 'Berlin, Germany',
                     'value'     => '',
+                    'partner'   => '',
                 ],
                 null,
                 [
@@ -218,6 +219,7 @@ final class DataFacadeTest extends TestCase
                     'place'     => '',
                     'placeFull' => '',
                     'value'     => 'Smith',
+                    'partner'   => '',
                 ],
                 null,
             ],

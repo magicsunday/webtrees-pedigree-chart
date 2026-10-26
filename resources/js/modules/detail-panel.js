@@ -14,6 +14,7 @@
  * @property {string} place     The place name as the server formats it, empty when there is none
  * @property {string} placeFull The full place name
  * @property {string} value     The value of the fact, empty when there is none
+ * @property {string} partner   The plain text name of the other spouse of a family event, empty otherwise
  */
 
 /**
@@ -323,7 +324,9 @@ export default class DetailPanel {
 
     /**
      * Builds the term and the description of one fact, or returns null when the fact has nothing
-     * to show. The GEDCOM value "Y" only says that the event took place, so it is not shown.
+     * to show. The GEDCOM value "Y" only says that the event took place, so it is not shown. The
+     * name of the other spouse of a marriage or divorce comes first, as it says who the event is
+     * about.
      *
      * @param {PanelFact} fact The fact of the payload
      *
@@ -343,6 +346,7 @@ export default class DetailPanel {
 
         /** @type {Array<[string, string]>} */
         const lines = [
+            ["partner", String(fact.partner ?? "")],
             ["value", value === "Y" ? "" : value],
             ["date", String(fact.date ?? "")],
             ["place", placeFull === "" ? String(fact.place ?? "") : placeFull],

@@ -336,6 +336,43 @@ describe("DetailPanel content", () => {
         expect(classes).toEqual(["detail-value", "detail-date", "detail-place"]);
     });
 
+    test("shows the other spouse of a family event first, and writes it as text", () => {
+        const { panel, element } = build();
+        const hostile = '<img src=x onerror="window.pwned=1">';
+
+        panel.select({
+            ...person,
+            facts: [
+                {
+                    label: "Marriage",
+                    date: "05 MAY 1950",
+                    place: "",
+                    placeFull: "Wurzen, Sachsen",
+                    value: "",
+                    partner: hostile,
+                },
+            ],
+        });
+
+        const lines = [...element.querySelector("dd").children];
+
+        expect(lines.map((line) => line.className)).toEqual([
+            "detail-partner",
+            "detail-date",
+            "detail-place",
+        ]);
+        expect(lines[0].textContent).toBe(hostile);
+        expect(element.querySelector("img")).toBeNull();
+    });
+
+    test("leaves the partner line out when the payload has none", () => {
+        const { panel, element } = build();
+
+        panel.select(person);
+
+        expect(element.querySelector(".detail-partner")).toBeNull();
+    });
+
     test("shows the short place when the payload has no full name", () => {
         const { panel, element } = build();
 
