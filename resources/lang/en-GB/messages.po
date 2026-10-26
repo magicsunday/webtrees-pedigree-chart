@@ -49,7 +49,7 @@ msgstr "Behaviour"
 
 #: resources/views/modules/pedigree-chart/page.phtml:116
 msgid "Center chart on this person"
-msgstr "Center chart on this person"
+msgstr "Centre chart on this person"
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:23
 msgid "Colors"
