@@ -108,6 +108,7 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="<?php echo e(I18N::translate('close')); ?>"></button>
             </div>
             <div class="offcanvas-body">
+                <img class="detail-image" data-panel="image" alt="" hidden>
                 <p class="text-muted" data-panel="hint"><?php echo I18N::translate('Select a person in the chart to see the details here.'); ?></p>
                 <dl class="detail-facts mb-0" data-panel="facts"></dl>
                 <p class="text-muted" data-panel="empty" hidden><?php echo I18N::translate('No details are available for this person.'); ?></p>

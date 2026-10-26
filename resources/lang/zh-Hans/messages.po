@@ -47,7 +47,7 @@ msgstr "自动（根据族谱的姓氏传统）"
 msgid "Behavior"
 msgstr "行为"
 
-#: resources/views/modules/pedigree-chart/page.phtml:116
+#: resources/views/modules/pedigree-chart/page.phtml:117
 msgid "Center chart on this person"
 msgstr ""
 
@@ -144,7 +144,7 @@ msgstr "用两根手指拖动视图"
 msgid "Name abbreviation when space is tight"
 msgstr "空间不足时的姓名缩写方式"
 
-#: resources/views/modules/pedigree-chart/page.phtml:113
+#: resources/views/modules/pedigree-chart/page.phtml:114
 msgid "No details are available for this person."
 msgstr ""
 
@@ -152,7 +152,7 @@ msgstr ""
 msgid "Open individual in new browser window/tab"
 msgstr "在新浏览器窗口/标签页中打开个人"
 
-#: resources/views/modules/pedigree-chart/page.phtml:115
+#: resources/views/modules/pedigree-chart/page.phtml:116
 msgid "Open individual page"
 msgstr ""
 
@@ -183,7 +183,7 @@ msgstr "%s的世系图"
 msgid "Re center"
 msgstr "居中"
 
-#: resources/views/modules/pedigree-chart/page.phtml:111
+#: resources/views/modules/pedigree-chart/page.phtml:112
 msgid "Select a person in the chart to see the details here."
 msgstr ""
 

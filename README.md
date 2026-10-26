@@ -160,7 +160,8 @@ buttons to open the individual page and to center the chart on the person. The c
 open and closes with a click beside it, with its close button or with Escape. Places show with their full name. The facts come from the tree setting ``Other facts to show in charts``. Add the tags ``MARR`` and ``DIV`` there to
 show the marriages and divorces as well, one entry per marriage with the name of the spouse. The birth stays first and
 the death last, the facts between them are ordered by time, whatever the order of the tags in the setting. A fact
-without a usable date keeps its place among the others.
+without a usable date keeps its place among the others. Above the facts the panel shows the same highlight image as
+the person box, and none for a person whose box shows none.
 The option is off by default.
 
 

@@ -20,6 +20,7 @@ function buildPanelElement() {
         <div class="row">
             <aside id="panel" class="offcanvas" hidden>
                 <h2 data-panel="title" tabindex="-1"></h2>
+                <img data-panel="image" alt="" hidden>
                 <p data-panel="hint"></p>
                 <dl data-panel="facts"></dl>
                 <p data-panel="empty" hidden></p>
@@ -362,7 +363,7 @@ describe("DetailPanel content", () => {
             "detail-place",
         ]);
         expect(lines[0].textContent).toBe(hostile);
-        expect(element.querySelector("img")).toBeNull();
+        expect(element.querySelector("[data-panel='facts'] img")).toBeNull();
     });
 
     describe("order of the facts", () => {
@@ -567,7 +568,7 @@ describe("DetailPanel content", () => {
             ],
         });
 
-        expect(element.querySelector("img")).toBeNull();
+        expect(element.querySelector("[data-panel='facts'] img")).toBeNull();
         expect(element.querySelector("script")).toBeNull();
         expect(element.querySelector("b")).toBeNull();
         expect(element.querySelector("[data-panel='title']").textContent).toBe(hostile);
@@ -582,6 +583,76 @@ describe("DetailPanel content", () => {
         const source = readFileSync("resources/js/modules/detail-panel.js", "utf8");
 
         expect(source).not.toMatch(/innerHTML|insertAdjacentHTML|\.html\(/);
+    });
+});
+
+describe("DetailPanel image", () => {
+    const imageOf = (element) => element.querySelector("[data-panel='image']");
+
+    test("shows the thumbnail of the person", () => {
+        const { panel, element } = build();
+
+        panel.select({ ...person, thumbnail: "/thumb/anna.jpg", silhouette: "/sil/f.svg" });
+
+        expect(imageOf(element).getAttribute("src")).toBe("/thumb/anna.jpg");
+        expect(imageOf(element).hidden).toBe(false);
+    });
+
+    test("falls back to the silhouette when the thumbnail cannot be loaded", () => {
+        const { panel, element } = build();
+
+        panel.select({ ...person, thumbnail: "/thumb/gone.jpg", silhouette: "/sil/f.svg" });
+        imageOf(element).dispatchEvent(new Event("error"));
+
+        expect(imageOf(element).getAttribute("src")).toBe("/sil/f.svg");
+        expect(imageOf(element).hidden).toBe(false);
+    });
+
+    test("hides the image when the silhouette fails as well, without looping", () => {
+        const { panel, element } = build();
+
+        panel.select({ ...person, thumbnail: "/thumb/gone.jpg", silhouette: "/sil/f.svg" });
+        imageOf(element).dispatchEvent(new Event("error"));
+        imageOf(element).dispatchEvent(new Event("error"));
+
+        expect(imageOf(element).hidden).toBe(true);
+    });
+
+    test("hides the image when the person has no thumbnail, as the box shows no silhouette then", () => {
+        const { panel, element } = build();
+
+        panel.select({ ...person, thumbnail: "", silhouette: "/sil/f.svg" });
+
+        expect(imageOf(element).hidden).toBe(true);
+        expect(imageOf(element).hasAttribute("src")).toBe(false);
+    });
+
+    test("hides the image for a payload without image fields", () => {
+        const { panel, element } = build();
+
+        panel.select(person);
+
+        expect(imageOf(element).hidden).toBe(true);
+    });
+
+    test("selecting a person without a thumbnail clears the image of the previous person", () => {
+        const { panel, element } = build();
+
+        panel.select({ ...person, thumbnail: "/thumb/anna.jpg", silhouette: "/sil/f.svg" });
+        panel.select({ ...person, name: "Karl Schmidt" });
+
+        expect(imageOf(element).hidden).toBe(true);
+        expect(imageOf(element).hasAttribute("src")).toBe(false);
+    });
+
+    test("falls back to the silhouette of the person that is shown", () => {
+        const { panel, element } = build();
+
+        panel.select({ ...person, thumbnail: "/thumb/a.jpg", silhouette: "/sil/a.svg" });
+        panel.select({ ...person, thumbnail: "/thumb/b.jpg", silhouette: "/sil/b.svg" });
+        imageOf(element).dispatchEvent(new Event("error"));
+
+        expect(imageOf(element).getAttribute("src")).toBe("/sil/b.svg");
     });
 });
 

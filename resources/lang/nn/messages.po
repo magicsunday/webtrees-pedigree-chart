@@ -47,7 +47,7 @@ msgstr "Automatisk (basert på etternamnstradisjonen til treet)"
 msgid "Behavior"
 msgstr "Åtferd"
 
-#: resources/views/modules/pedigree-chart/page.phtml:116
+#: resources/views/modules/pedigree-chart/page.phtml:117
 msgid "Center chart on this person"
 msgstr ""
 
@@ -148,7 +148,7 @@ msgstr "Bruk to fingrar for å endre synsfelt"
 msgid "Name abbreviation when space is tight"
 msgstr "Namneforkorting når plassen er trong"
 
-#: resources/views/modules/pedigree-chart/page.phtml:113
+#: resources/views/modules/pedigree-chart/page.phtml:114
 msgid "No details are available for this person."
 msgstr ""
 
@@ -156,7 +156,7 @@ msgstr ""
 msgid "Open individual in new browser window/tab"
 msgstr "Opne person i nytt vindauge/fane"
 
-#: resources/views/modules/pedigree-chart/page.phtml:115
+#: resources/views/modules/pedigree-chart/page.phtml:116
 msgid "Open individual page"
 msgstr ""
 
@@ -189,7 +189,7 @@ msgstr "Anediagram for %s"
 msgid "Re center"
 msgstr "Tibakestill"
 
-#: resources/views/modules/pedigree-chart/page.phtml:111
+#: resources/views/modules/pedigree-chart/page.phtml:112
 msgid "Select a person in the chart to see the details here."
 msgstr ""
 

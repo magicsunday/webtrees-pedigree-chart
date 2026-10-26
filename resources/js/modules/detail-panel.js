@@ -26,6 +26,8 @@
  * @property {string}                     url        The URL of the individual page
  * @property {string}                     updateUrl  The URL that centres the chart on the person
  * @property {number}                     generation The generation of the person, 1 for the root
+ * @property {string|undefined}           thumbnail  The URL of the highlight image, empty when the chart shows none
+ * @property {string|undefined}           silhouette The URL of the silhouette that replaces a highlight image that cannot be loaded
  * @property {(PanelFact|null)[]|undefined} facts    The fact slots, absent without the panel on the server
  */
 
@@ -129,6 +131,7 @@ export default class DetailPanel {
         this._window = win;
 
         this._title = this.part("title");
+        this._image = /** @type {HTMLImageElement} */ (this.part("image"));
         this._hint = this.part("hint");
         this._facts = this.part("facts");
         this._empty = this.part("empty");
@@ -138,6 +141,9 @@ export default class DetailPanel {
 
         this._individualUrl = "";
         this._centerUrl = "";
+        this._imageFallback = "";
+
+        this._image.addEventListener("error", () => this.imageFailed());
 
         this._individualButton.addEventListener("click", () => {
             if (this._individualUrl !== "") {
@@ -342,6 +348,8 @@ export default class DetailPanel {
         this._individualButton.hidden = this._individualUrl === "";
         this._centerButton.hidden = this._centerUrl === "";
 
+        this.renderImage(person);
+
         this._facts.replaceChildren();
 
         const facts = orderFacts(person?.facts);
@@ -358,6 +366,49 @@ export default class DetailPanel {
         }
 
         this._empty.hidden = rows > 0;
+    }
+
+    /**
+     * Shows the highlight image of the person, as the box in the chart does. A person without one
+     * shows no image at all, the silhouette only replaces an image that cannot be loaded.
+     *
+     * @param {PanelPerson} person The data of the person
+     *
+     * @private
+     */
+    renderImage(person) {
+        const thumbnail = String(person?.thumbnail ?? "");
+
+        this._imageFallback = thumbnail === "" ? "" : String(person?.silhouette ?? "");
+
+        if (thumbnail === "") {
+            this._image.removeAttribute("src");
+            this._image.hidden = true;
+
+            return;
+        }
+
+        this._image.setAttribute("src", thumbnail);
+        this._image.hidden = false;
+    }
+
+    /**
+     * Swaps an image that cannot be loaded for the silhouette, and hides the image when there is
+     * none or when the silhouette fails as well.
+     *
+     * @private
+     */
+    imageFailed() {
+        if (this._imageFallback === "") {
+            this._image.hidden = true;
+
+            return;
+        }
+
+        const silhouette = this._imageFallback;
+
+        this._imageFallback = "";
+        this._image.setAttribute("src", silhouette);
     }
 
     /**
