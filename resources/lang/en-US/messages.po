@@ -178,8 +178,8 @@ msgid "Name abbreviation when space is tight"
 msgstr "Name abbreviation when space is tight"
 
 #: resources/views/modules/pedigree-chart/page.phtml:113
-msgid "No details were loaded for this person."
-msgstr "No details were loaded for this person."
+msgid "No details are available for this person."
+msgstr "No details are available for this person."
 
 #: resources/views/modules/pedigree-chart/form/behavior.phtml:28
 msgid "Open individual in new browser window/tab"
@@ -240,13 +240,13 @@ msgstr "Select a person in the chart to see the details here."
 msgid ""
 "Selecting a person shows the birth, the death with places and the facts that "
 "the tree names for the chart box (\"Other facts to show in charts\") in a "
-"panel next to the chart. A click then selects a person instead of opening "
-"the chart for them, and the panel offers both actions."
+"panel that slides in over the chart. A click then selects a person instead "
+"of opening the chart for them, and the panel offers both actions."
 msgstr ""
 "Selecting a person shows the birth, the death with places and the facts that "
 "the tree names for the chart box (\"Other facts to show in charts\") in a "
-"panel next to the chart. A click then selects a person instead of opening "
-"the chart for them, and the panel offers both actions."
+"panel that slides in over the chart. A click then selects a person instead "
+"of opening the chart for them, and the panel offers both actions."
 
 #: resources/views/modules/pedigree-chart/config.phtml:74
 msgid "Show \"add parent\" placeholders for missing ancestors"

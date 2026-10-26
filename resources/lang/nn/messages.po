@@ -176,7 +176,7 @@ msgid "Name abbreviation when space is tight"
 msgstr "Namneforkorting når plassen er trong"
 
 #: resources/views/modules/pedigree-chart/page.phtml:113
-msgid "No details were loaded for this person."
+msgid "No details are available for this person."
 msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/behavior.phtml:28
@@ -240,8 +240,8 @@ msgstr ""
 msgid ""
 "Selecting a person shows the birth, the death with places and the facts that "
 "the tree names for the chart box (\"Other facts to show in charts\") in a "
-"panel next to the chart. A click then selects a person instead of opening "
-"the chart for them, and the panel offers both actions."
+"panel that slides in over the chart. A click then selects a person instead "
+"of opening the chart for them, and the panel offers both actions."
 msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:74
