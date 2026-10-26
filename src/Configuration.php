@@ -83,12 +83,11 @@ final class Configuration
     private const string HEX_COLOR_PATTERN = '/^#[0-9a-fA-F]{6}$/D';
 
     /**
-     * Name of the request parameter and admin form field carrying the place
-     * format. The admin form's field name and the key read back here have to be
-     * the same string, and nothing else enforces that: a mismatch does not error,
-     * it makes every save persist the previously stored choice and silently
-     * discard the selection. Both sides reference this constant so they cannot
-     * drift apart.
+     * Name of the administration form field carrying the place format. The field
+     * name and the key read back from the submitted form have to be the same
+     * string, and nothing else enforces that. A mismatch does not error. It makes
+     * every save persist the previously stored choice and silently discard the
+     * selection. Both sides reference this constant so they cannot drift apart.
      */
     public const string PLACE_FORMAT_PARAM = 'placeFormat';
 
@@ -183,7 +182,7 @@ final class Configuration
     private ?bool $showAdditionalFacts = null;
 
     /**
-     * The place format as selected, or null until first resolved.
+     * The stored place format, or null until first resolved.
      */
     private ?PlaceFormatChoice $placeFormatChoice = null;
 
@@ -622,39 +621,47 @@ final class Configuration
     }
 
     /**
-     * Returns the place format as selected, before the tree preferences are
-     * applied. This is the value the administration select shows.
+     * Returns the place format that the administrator stored, before the tree
+     * preferences are applied. This is the value the administration select shows
+     * and the value the chart uses. The request never changes it, so a visitor
+     * cannot pick the detail of the places.
      *
-     * A request value that is no choice never replaces the stored preference,
-     * and a stored value that is no choice falls back to the automatic choice.
+     * A stored value that is no choice falls back to the automatic choice.
      *
      * @return PlaceFormatChoice
      */
     public function getPlaceFormatChoice(): PlaceFormatChoice
     {
-        if ($this->placeFormatChoice instanceof PlaceFormatChoice) {
-            return $this->placeFormatChoice;
-        }
+        return $this->placeFormatChoice ??= PlaceFormatChoice::tryFrom(
+            $this->module->getPreference('default_placeFormat', '')
+        ) ?? PlaceFormatChoice::Automatic;
+    }
 
-        $stored = PlaceFormatChoice::tryFrom($this->module->getPreference('default_placeFormat', ''))
-            ?? PlaceFormatChoice::Automatic;
+    /**
+     * Returns the place format that the submitted administration form selects.
+     * A submitted value that is no choice keeps the stored one. Only the save of
+     * the administration form reads it, the chart never does.
+     *
+     * @return PlaceFormatChoice
+     */
+    public function getSubmittedPlaceFormatChoice(): PlaceFormatChoice
+    {
+        $stored = $this->getPlaceFormatChoice();
 
-        $validator = $this->requestValidator();
-
-        return $this->placeFormatChoice = PlaceFormatChoice::tryFrom(
-            $validator->string(self::PLACE_FORMAT_PARAM, $stored->value)
+        return PlaceFormatChoice::tryFrom(
+            $this->requestValidator()->string(self::PLACE_FORMAT_PARAM, $stored->value)
         ) ?? $stored;
     }
 
     /**
      * Returns the fully resolved formatting instruction. The automatic choice is
-     * applied against the pedigree place preferences of the tree here, because
-     * this is where the tree is available, the processor stays free of webtrees
+     * applied against the pedigree place preferences of the tree here. This is
+     * where the tree is available, so the processor stays free of webtrees
      * configuration.
      *
-     * Not memoised: it reads no module preference of its own, the choice comes
-     * from the memoised getPlaceFormatChoice() and the tree caches its
-     * preferences.
+     * It is not memoised, because it reads no module preference of its own. The
+     * choice comes from the memoised getPlaceFormatChoice() and the tree caches
+     * its preferences.
      *
      * @return PlaceFormatSpec
      */

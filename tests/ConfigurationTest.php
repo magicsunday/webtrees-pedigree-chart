@@ -446,16 +446,16 @@ final class ConfigurationTest extends TestCase
     }
 
     /**
-     * The place format is an administrator choice. A request value wins over the
-     * stored preference, and a value that is no choice never replaces the stored
-     * one.
+     * The place format is an administrator choice. The chart reads the stored
+     * preference only, so a request value never replaces it and a stored value
+     * that is no choice falls back to the automatic one.
      *
      * @param array<string, string> $queryParams
      * @param array<string, string> $preferences
      */
     #[Test]
     #[DataProvider('placeFormatChoiceProvider')]
-    public function placeFormatChoiceResolvesToATypedCase(
+    public function placeFormatChoiceComesFromTheStoredPreferenceOnly(
         array $queryParams,
         array $preferences,
         PlaceFormatChoice $expected,
@@ -472,17 +472,67 @@ final class ConfigurationTest extends TestCase
     public static function placeFormatChoiceProvider(): array
     {
         return [
-            'automatic without request or preference' => [[], [], PlaceFormatChoice::Automatic],
-            'stored preference'                       => [[], ['default_placeFormat' => 'levels-2'], PlaceFormatChoice::Levels2],
-            'request wins over the preference'        => [['placeFormat' => 'full'], ['default_placeFormat' => 'levels-2'], PlaceFormatChoice::Full],
-            'unknown request keeps the preference'    => [['placeFormat' => 'nonsense'], ['default_placeFormat' => 'levels-3'], PlaceFormatChoice::Levels3],
-            'unknown preference falls back'           => [[], ['default_placeFormat' => 'nonsense'], PlaceFormatChoice::Automatic],
+            'automatic without request or preference'       => [[], [], PlaceFormatChoice::Automatic],
+            'stored preference'                             => [[], ['default_placeFormat' => 'levels-2'], PlaceFormatChoice::Levels2],
+            'a request value never replaces the preference' => [['placeFormat' => 'full'], ['default_placeFormat' => 'levels-2'], PlaceFormatChoice::Levels2],
+            'a request value never replaces the default'    => [['placeFormat' => 'full'], [], PlaceFormatChoice::Automatic],
+            'unknown preference falls back'                 => [[], ['default_placeFormat' => 'nonsense'], PlaceFormatChoice::Automatic],
+        ];
+    }
+
+    /**
+     * A visitor adds a place format to the address of the chart. The places of
+     * the chart keep the format that the administrator stored.
+     */
+    #[Test]
+    public function aVisitorCannotChangeThePlaceFormatOfTheChart(): void
+    {
+        $configuration = $this->buildConfiguration(
+            ['placeFormat' => 'full'],
+            ['default_placeFormat' => 'levels-1']
+        );
+
+        self::assertEquals(PlaceFormatChoice::Levels1->toSpec(1, false), $configuration->getPlaceFormat());
+    }
+
+    /**
+     * The save of the administration form reads the submitted choice. A value
+     * that is no choice keeps the stored one.
+     *
+     * @param array<string, string> $body
+     * @param array<string, string> $preferences
+     */
+    #[Test]
+    #[DataProvider('submittedPlaceFormatChoiceProvider')]
+    public function theSubmittedFormSelectsThePlaceFormat(
+        array $body,
+        array $preferences,
+        PlaceFormatChoice $expected,
+    ): void {
+        $request = (new ServerRequest(RequestMethodInterface::METHOD_POST, '/'))
+            ->withParsedBody($body);
+
+        $configuration = new Configuration($request, $this->createModuleWithPreferences($preferences));
+
+        self::assertSame($expected, $configuration->getSubmittedPlaceFormatChoice());
+    }
+
+    /**
+     * @return array<string, array{array<string, string>, array<string, string>, PlaceFormatChoice}>
+     */
+    public static function submittedPlaceFormatChoiceProvider(): array
+    {
+        return [
+            'a submitted choice wins over the stored one'  => [['placeFormat' => 'full'], ['default_placeFormat' => 'levels-2'], PlaceFormatChoice::Full],
+            'an unknown submitted value keeps the stored'  => [['placeFormat' => 'nonsense'], ['default_placeFormat' => 'levels-3'], PlaceFormatChoice::Levels3],
+            'nothing submitted keeps the stored one'       => [[], ['default_placeFormat' => 'levels-2'], PlaceFormatChoice::Levels2],
+            'nothing submitted and stored gives automatic' => [[], [], PlaceFormatChoice::Automatic],
         ];
     }
 
     /**
      * Automatic resolves against the tree preferences, and against the right
-     * ones: swapping the level count with its suffix sibling must fail this.
+     * ones. Swapping the level count with its suffix sibling must fail this.
      */
     #[Test]
     public function automaticResolvesTheTreePreferencesIntoASpec(): void

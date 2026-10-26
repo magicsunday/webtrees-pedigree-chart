@@ -117,7 +117,7 @@ trait ConfigTrait
         );
         $this->setPreference(
             'default_placeFormat',
-            $configuration->getPlaceFormatChoice()->value
+            $configuration->getSubmittedPlaceFormatChoice()->value
         );
 
         FlashMessages::addMessage(
