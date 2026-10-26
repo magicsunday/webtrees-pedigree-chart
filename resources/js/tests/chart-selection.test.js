@@ -303,6 +303,18 @@ describe("Chart selection marks", () => {
         expect(selection.classed.mock.calls[0][1]({ data: person({ xref: "" }) })).toBe(false);
     });
 
+    test("clears the selection and the marks when the panel has closed", () => {
+        const { context } = buildChart();
+        context._selectedXref = "I2";
+        context._selectedDatum = {};
+
+        Chart.prototype.clearSelection.call(context);
+
+        expect(context._selectedXref).toBeNull();
+        expect(context._selectedDatum).toBeNull();
+        expect(context.applySelection).toHaveBeenCalledTimes(1);
+    });
+
     test("gives the focus back to the selected person if it is still there", () => {
         const focus = jest.fn();
         const element = document.createElementNS("http://www.w3.org/2000/svg", "g");

@@ -17,6 +17,7 @@ await jest.unstable_mockModule("resources/js/modules/chart.js", () => ({
             this.configuration = configuration;
             this.detailPanel = null;
             this.restoreFocus = jest.fn();
+            this.clearSelection = jest.fn();
             this.redirectToIndividual = jest.fn();
             this.update = jest.fn();
             charts.push(this);
@@ -122,9 +123,11 @@ describe("PedigreeChart detail panel", () => {
         panels[0].callbacks.onIndividual("/individual/I1");
         panels[0].callbacks.onCenter("/chart/I1");
         panels[0].callbacks.onClose();
+        panels[0].callbacks.onHidden();
 
         expect(charts[0].redirectToIndividual).toHaveBeenCalledWith("/individual/I1");
         expect(charts[0].update).toHaveBeenCalledWith("/chart/I1");
         expect(charts[0].restoreFocus).toHaveBeenCalledTimes(1);
+        expect(charts[0].clearSelection).toHaveBeenCalledTimes(1);
     });
 });

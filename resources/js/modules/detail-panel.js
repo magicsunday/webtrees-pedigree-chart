@@ -38,6 +38,7 @@
  * @property {(url: string) => void} onIndividual   Opens the individual page
  * @property {(url: string) => void} onCenter       Centres the chart on the person
  * @property {() => void}            onClose        Called when the panel closes and focus should go back to the chart
+ * @property {() => void}            onHidden       Called whenever the panel has closed, however it was closed
  */
 
 /**
@@ -178,13 +179,16 @@ export default class DetailPanel {
             document.removeEventListener("click", this._outsideClick);
             document.removeEventListener("keydown", this._escape);
 
-            if (this._skipFocusReturn) {
-                this._skipFocusReturn = false;
+            const keepFocus = this._skipFocusReturn;
 
-                return;
+            this._skipFocusReturn = false;
+
+            if (!keepFocus) {
+                this._callbacks.onClose();
             }
 
-            this._callbacks.onClose();
+            // The selected mark leaves with the panel, after the focus went back to the person
+            this._callbacks.onHidden();
         });
     }
 

@@ -254,6 +254,15 @@ export default class Chart {
     }
 
     /**
+     * Removes the selection, so no person stays marked once the panel has closed.
+     */
+    clearSelection() {
+        this._selectedXref = null;
+        this._selectedDatum = null;
+        this.applySelection();
+    }
+
+    /**
      * Gives the focus back to the selected person, if it is still in the chart.
      */
     restoreFocus() {

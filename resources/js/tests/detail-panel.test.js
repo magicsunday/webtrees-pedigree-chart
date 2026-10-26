@@ -50,6 +50,7 @@ function build({ bootstrap = true } = {}) {
         onIndividual: jest.fn(),
         onCenter: jest.fn(),
         onClose: jest.fn(),
+        onHidden: jest.fn(),
     };
     const win = { bootstrap: bootstrap ? { Offcanvas: { getOrCreateInstance } } : undefined };
     const panel = new DetailPanel(element, callbacks, win);
@@ -125,6 +126,17 @@ describe("DetailPanel offcanvas", () => {
 
         expect(callbacks.onClose).toHaveBeenCalledTimes(1);
     });
+
+    test("tells the chart that the panel is hidden, after the focus went back", () => {
+        const { element, callbacks } = build();
+        const calls = [];
+        callbacks.onClose.mockImplementation(() => calls.push("close"));
+        callbacks.onHidden.mockImplementation(() => calls.push("hidden"));
+
+        element.dispatchEvent(new Event("hidden.bs.offcanvas"));
+
+        expect(calls).toEqual(["close", "hidden"]);
+    });
 });
 
 describe("DetailPanel outside click", () => {
@@ -150,6 +162,7 @@ describe("DetailPanel outside click", () => {
         element.dispatchEvent(new Event("hidden.bs.offcanvas"));
 
         expect(callbacks.onClose).not.toHaveBeenCalled();
+        expect(callbacks.onHidden).toHaveBeenCalledTimes(1);
     });
 
     test("hands the focus back after a close by other means", () => {
