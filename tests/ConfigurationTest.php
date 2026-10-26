@@ -13,14 +13,10 @@ namespace MagicSunday\Webtrees\PedigreeChart\Test;
 
 use Fig\Http\Message\RequestMethodInterface;
 use Fisharebest\Webtrees\DB;
-use Fisharebest\Webtrees\Tree;
 use GuzzleHttp\Psr7\ServerRequest;
 use MagicSunday\Webtrees\ModuleBase\Model\NameAbbreviation;
-use MagicSunday\Webtrees\ModuleBase\Model\PlaceFormatChoice;
-use MagicSunday\Webtrees\ModuleBase\Model\PlaceStyle;
 use MagicSunday\Webtrees\PedigreeChart\Configuration;
 use MagicSunday\Webtrees\PedigreeChart\Module;
-use MagicSunday\Webtrees\PedigreeChart\Test\Support\EnglishLocaleFixture;
 use MagicSunday\Webtrees\PedigreeChart\Test\Support\ModuleSettingsFixtureTrait;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -406,187 +402,6 @@ final class ConfigurationTest extends TestCase
     }
 
     /**
-     * The place format is an administrator choice. The chart reads the stored
-     * preference only, so a request value never replaces it and a stored value
-     * that is no choice falls back to the automatic one.
-     *
-     * @param array<string, string> $queryParams
-     * @param array<string, string> $preferences
-     */
-    #[Test]
-    #[DataProvider('placeFormatChoiceProvider')]
-    public function placeFormatChoiceComesFromTheStoredPreferenceOnly(
-        array $queryParams,
-        array $preferences,
-        PlaceFormatChoice $expected,
-    ): void {
-        self::assertSame(
-            $expected,
-            $this->buildConfiguration($queryParams, $preferences)->getPlaceFormatChoice()
-        );
-    }
-
-    /**
-     * @return array<string, array{array<string, string>, array<string, string>, PlaceFormatChoice}>
-     */
-    public static function placeFormatChoiceProvider(): array
-    {
-        return [
-            'automatic without request or preference'       => [[], [], PlaceFormatChoice::Automatic],
-            'stored preference'                             => [[], ['default_placeFormat' => 'levels-2'], PlaceFormatChoice::Levels2],
-            'a request value never replaces the preference' => [['placeFormat' => 'full'], ['default_placeFormat' => 'levels-2'], PlaceFormatChoice::Levels2],
-            'a request value never replaces the default'    => [['placeFormat' => 'full'], [], PlaceFormatChoice::Automatic],
-            'unknown preference falls back'                 => [[], ['default_placeFormat' => 'nonsense'], PlaceFormatChoice::Automatic],
-        ];
-    }
-
-    /**
-     * A visitor adds a place format to the address of the chart. The places of
-     * the chart keep the format that the administrator stored.
-     */
-    #[Test]
-    public function aVisitorCannotChangeThePlaceFormatOfTheChart(): void
-    {
-        $configuration = $this->buildConfiguration(
-            ['placeFormat' => 'full'],
-            ['default_placeFormat' => 'levels-1']
-        );
-
-        self::assertEquals(PlaceFormatChoice::Levels1->toSpec(1, false), $configuration->getPlaceFormat());
-    }
-
-    /**
-     * The save of the administration form reads the submitted choice. A value
-     * that is no choice keeps the stored one.
-     *
-     * @param array<string, string> $body
-     * @param array<string, string> $preferences
-     */
-    #[Test]
-    #[DataProvider('submittedPlaceFormatChoiceProvider')]
-    public function theSubmittedFormSelectsThePlaceFormat(
-        array $body,
-        array $preferences,
-        PlaceFormatChoice $expected,
-    ): void {
-        $request = (new ServerRequest(RequestMethodInterface::METHOD_POST, '/'))
-            ->withParsedBody($body);
-
-        $configuration = new Configuration($request, $this->createModuleWithPreferences($preferences));
-
-        self::assertSame($expected, $configuration->getSubmittedPlaceFormatChoice());
-    }
-
-    /**
-     * @return array<string, array{array<string, string>, array<string, string>, PlaceFormatChoice}>
-     */
-    public static function submittedPlaceFormatChoiceProvider(): array
-    {
-        return [
-            'a submitted choice wins over the stored one'  => [['placeFormat' => 'full'], ['default_placeFormat' => 'levels-2'], PlaceFormatChoice::Full],
-            'an unknown submitted value keeps the stored'  => [['placeFormat' => 'nonsense'], ['default_placeFormat' => 'levels-3'], PlaceFormatChoice::Levels3],
-            'nothing submitted keeps the stored one'       => [[], ['default_placeFormat' => 'levels-2'], PlaceFormatChoice::Levels2],
-            'nothing submitted and stored gives automatic' => [[], [], PlaceFormatChoice::Automatic],
-        ];
-    }
-
-    /**
-     * Automatic resolves against the tree preferences, and against the right
-     * ones. Swapping the level count with its suffix sibling must fail this.
-     */
-    #[Test]
-    public function automaticResolvesTheTreePreferencesIntoASpec(): void
-    {
-        $tree = self::createStub(Tree::class);
-        // Two-element rows: getPreference() is called with one argument and the
-        // value map matches on the arguments actually passed.
-        $tree->method('getPreference')->willReturnMap([
-            ['SHOW_PEDIGREE_PLACES', '2'],
-            ['SHOW_PEDIGREE_PLACES_SUFFIX', '1'],
-        ]);
-
-        $configuration = new Configuration(
-            new ServerRequest(RequestMethodInterface::METHOD_GET, '/'),
-            $this->createModuleWithPreferences([]),
-            $tree
-        );
-        $spec = $configuration->getPlaceFormat();
-
-        self::assertSame(PlaceStyle::Levels, $spec->style);
-        self::assertSame(2, $spec->levels);
-        self::assertTrue($spec->fromEnd);
-    }
-
-    /**
-     * The admin page has no tree. Automatic then shows the lowest level only.
-     */
-    #[Test]
-    public function automaticWithoutATreeFallsBackToOneLevel(): void
-    {
-        $spec = $this->buildConfiguration([], [])->getPlaceFormat();
-
-        self::assertSame(PlaceStyle::Levels, $spec->style);
-        self::assertSame(1, $spec->levels);
-        self::assertFalse($spec->fromEnd);
-    }
-
-    /**
-     * An explicit choice ignores the suffix preference of the tree, the module
-     * has no direction control of its own.
-     */
-    #[Test]
-    public function anExplicitChoiceIgnoresTheTreeSuffix(): void
-    {
-        $tree = self::createStub(Tree::class);
-        $tree->method('getPreference')->willReturnMap([
-            ['SHOW_PEDIGREE_PLACES', '2'],
-            ['SHOW_PEDIGREE_PLACES_SUFFIX', '1'],
-        ]);
-
-        $configuration = new Configuration(
-            new ServerRequest(RequestMethodInterface::METHOD_GET, '/'),
-            $this->createModuleWithPreferences(['default_placeFormat' => 'levels-3']),
-            $tree
-        );
-        $spec = $configuration->getPlaceFormat();
-
-        self::assertSame(PlaceStyle::Levels, $spec->style);
-        self::assertSame(3, $spec->levels);
-        self::assertFalse($spec->fromEnd);
-    }
-
-    /**
-     * Every choice has a label, and every label key round-trips through
-     * tryFrom(), otherwise a select option silently fails to store.
-     */
-    #[Test]
-    public function everyPlaceFormatChoiceHasALabelKeyedByItsStoredValue(): void
-    {
-        EnglishLocaleFixture::install();
-
-        $list = $this->buildConfiguration([], [])->getPlaceFormatList();
-
-        self::assertCount(count(PlaceFormatChoice::cases()), $list, 'one label per choice');
-
-        foreach (PlaceFormatChoice::cases() as $choice) {
-            self::assertArrayHasKey($choice->value, $list);
-            self::assertNotSame('', $list[$choice->value]);
-        }
-    }
-
-    /**
-     * The place format is an administrator setting without a form field, so it
-     * does not travel with the re-centering URL, like the name abbreviation.
-     */
-    #[Test]
-    public function thePlaceFormatDoesNotTravelWithTheRouteParameters(): void
-    {
-        $params = $this->buildConfiguration(['placeFormat' => 'full'], [])->getRouteToggleParams();
-
-        self::assertArrayNotHasKey('placeFormat', $params);
-    }
-
-    /**
      * Pins the per-request query cost: however often the getters are called
      * while the tree is built, each preference is read at most once.
      */
@@ -637,8 +452,6 @@ final class ConfigurationTest extends TestCase
                 $configuration->getShowAddParentLinks();
                 $configuration->getNameAbbreviation();
                 $configuration->getShowDetailPanel();
-                $configuration->getPlaceFormatChoice();
-                $configuration->getPlaceFormat();
             }
 
             // Counts only the preference reads the assertion talks about, so an

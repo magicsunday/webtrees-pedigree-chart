@@ -111,10 +111,6 @@ trait ConfigTrait
             'default_showDetailPanel',
             (string) $configuration->getShowDetailPanel()
         );
-        $this->setPreference(
-            'default_placeFormat',
-            $configuration->getSubmittedPlaceFormatChoice()->value
-        );
 
         FlashMessages::addMessage(
             I18N::translate(

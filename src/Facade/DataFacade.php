@@ -19,6 +19,7 @@ use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Tree;
 use MagicSunday\Webtrees\ModuleBase\Facade\RouteAwareDataFacadeTrait;
 use MagicSunday\Webtrees\ModuleBase\Model\NodeData;
+use MagicSunday\Webtrees\ModuleBase\Model\PlaceFormatChoice;
 use MagicSunday\Webtrees\ModuleBase\Processor\DateProcessor;
 use MagicSunday\Webtrees\ModuleBase\Processor\FactResolver;
 use MagicSunday\Webtrees\ModuleBase\Processor\ImageProcessor;
@@ -83,7 +84,7 @@ final class DataFacade
     {
         return $this->factResolver ??= new FactResolver(
             $tree,
-            $this->configuration->getPlaceFormat(),
+            PlaceFormatChoice::Full->toSpec(0, false),
             new IsoCountryMap(),
             CompactDateFormat::forLocale(I18N::languageTag())
         );

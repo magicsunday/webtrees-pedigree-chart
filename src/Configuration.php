@@ -15,11 +15,8 @@ use Fig\Http\Message\RequestMethodInterface;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Module\AbstractModule;
 use Fisharebest\Webtrees\Module\PedigreeChartModule;
-use Fisharebest\Webtrees\Tree;
 use Fisharebest\Webtrees\Validator;
 use MagicSunday\Webtrees\ModuleBase\Model\NameAbbreviation;
-use MagicSunday\Webtrees\ModuleBase\Model\PlaceFormatChoice;
-use MagicSunday\Webtrees\ModuleBase\Model\PlaceFormatSpec;
 use Psr\Http\Message\ServerRequestInterface;
 
 use function preg_match;
@@ -81,20 +78,6 @@ final class Configuration
      * nothing else, a trailing line break included.
      */
     private const string HEX_COLOR_PATTERN = '/^#[0-9a-fA-F]{6}$/D';
-
-    /**
-     * Name of the administration form field carrying the place format. The field
-     * name and the key read back from the submitted form have to be the same
-     * string, and nothing else enforces that. A mismatch does not error. It makes
-     * every save persist the previously stored choice and silently discard the
-     * selection. Both sides reference this constant so they cannot drift apart.
-     */
-    public const string PLACE_FORMAT_PARAM = 'placeFormat';
-
-    /**
-     * Hierarchy levels shown when no tree is available to inherit from.
-     */
-    private const int DEFAULT_PLACE_LEVELS = 1;
 
     /**
      * The memoised route parameters, resolved on first use.
@@ -177,18 +160,10 @@ final class Configuration
     private ?bool $showDetailPanel = null;
 
     /**
-     * The stored place format, or null until first resolved.
-     */
-    private ?PlaceFormatChoice $placeFormatChoice = null;
-
-    /**
      * Configuration constructor.
      *
      * @param ServerRequestInterface $request
      * @param AbstractModule         $module
-     * @param Tree|null              $tree    The active tree, used to resolve the automatic place format from
-     *                                        its pedigree place preferences, null where no tree exists, such
-     *                                        as on the administration page
      */
     public function __construct(
         /**
@@ -196,7 +171,6 @@ final class Configuration
          */
         private readonly ServerRequestInterface $request,
         private readonly AbstractModule $module,
-        private readonly ?Tree $tree = null,
     ) {
     }
 
@@ -592,85 +566,6 @@ final class Configuration
     }
 
     /**
-     * Returns the place format that the administrator stored, before the tree
-     * preferences are applied. This is the value the administration select shows
-     * and the value the chart uses. The request never changes it, so a visitor
-     * cannot pick the detail of the places.
-     *
-     * A stored value that is no choice falls back to the automatic choice.
-     *
-     * @return PlaceFormatChoice
-     */
-    public function getPlaceFormatChoice(): PlaceFormatChoice
-    {
-        return $this->placeFormatChoice ??= PlaceFormatChoice::tryFrom(
-            $this->module->getPreference('default_placeFormat', '')
-        ) ?? PlaceFormatChoice::Automatic;
-    }
-
-    /**
-     * Returns the place format that the submitted administration form selects.
-     * A submitted value that is no choice keeps the stored one. Only the save of
-     * the administration form reads it, the chart never does.
-     *
-     * @return PlaceFormatChoice
-     */
-    public function getSubmittedPlaceFormatChoice(): PlaceFormatChoice
-    {
-        $stored = $this->getPlaceFormatChoice();
-
-        return PlaceFormatChoice::tryFrom(
-            $this->requestValidator()->string(self::PLACE_FORMAT_PARAM, $stored->value)
-        ) ?? $stored;
-    }
-
-    /**
-     * Returns the fully resolved formatting instruction. The automatic choice is
-     * applied against the pedigree place preferences of the tree here. This is
-     * where the tree is available, so the processor stays free of webtrees
-     * configuration.
-     *
-     * It is not memoised, because it reads no module preference of its own. The
-     * choice comes from the memoised getPlaceFormatChoice() and the tree caches
-     * its preferences.
-     *
-     * @return PlaceFormatSpec
-     */
-    public function getPlaceFormat(): PlaceFormatSpec
-    {
-        if (!$this->tree instanceof Tree) {
-            return $this->getPlaceFormatChoice()->toSpec(self::DEFAULT_PLACE_LEVELS, false);
-        }
-
-        return $this->getPlaceFormatChoice()->toSpec(
-            (int) $this->tree->getPreference('SHOW_PEDIGREE_PLACES'),
-            $this->tree->getPreference('SHOW_PEDIGREE_PLACES_SUFFIX') === '1'
-        );
-    }
-
-    /**
-     * Returns the localised labels for the place format select of the
-     * administration form, keyed by the stored value. The literals live here, not
-     * in the shared package, so xgettext extracts them into the catalogue of this
-     * module.
-     *
-     * @return array<string, string>
-     */
-    public function getPlaceFormatList(): array
-    {
-        return [
-            PlaceFormatChoice::Automatic->value   => I18N::translate('Automatic (from the tree configuration)'),
-            PlaceFormatChoice::Full->value        => I18N::translate('Full place name'),
-            PlaceFormatChoice::Levels1->value     => I18N::translate('Lowest level (e.g. parish)'),
-            PlaceFormatChoice::Levels2->value     => I18N::translate('Lowest two levels'),
-            PlaceFormatChoice::Levels3->value     => I18N::translate('Lowest three levels'),
-            PlaceFormatChoice::CityCountry->value => I18N::translate('Place and country'),
-            PlaceFormatChoice::CityIso2->value    => I18N::translate('Place and country code (2 letters)'),
-            PlaceFormatChoice::CityIso3->value    => I18N::translate('Place and country code (3 letters)'),
-        ];
-    }
-
-    /**
      * Returns the settings that have to travel with every URL the chart
      * navigates to: the re-centering link of each node, the redirect that turns
      * a form POST into a GET and the URL of the AJAX rebuild. All three read this
@@ -686,9 +581,8 @@ final class Configuration
      * still have to be forwarded. `showAddParentLinks` is the one entry without
      * a form field, because the data facade reads it while building the nodes.
      *
-     * `nameAbbreviation` and `placeFormat` are deliberately absent. They are admin
-     * preferences with no form field, so they resolve identically on the
-     * re-centered page.
+     * `nameAbbreviation` is deliberately absent. It is an admin preference with
+     * no form field, so it resolves identically on the re-centered page.
      *
      * Memoised because the update route is built once per node, while
      * AbstractModule::getPreference() issues a database query on every call.

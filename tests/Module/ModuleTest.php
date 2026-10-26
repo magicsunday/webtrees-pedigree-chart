@@ -17,7 +17,6 @@ use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Services\ChartService;
 use Fisharebest\Webtrees\Tree;
 use GuzzleHttp\Psr7\ServerRequest;
-use MagicSunday\Webtrees\ModuleBase\Model\PlaceFormatChoice;
 use MagicSunday\Webtrees\PedigreeChart\Configuration;
 use MagicSunday\Webtrees\PedigreeChart\Facade\DataFacade;
 use MagicSunday\Webtrees\PedigreeChart\Module;
@@ -88,10 +87,10 @@ final class ModuleTest extends TestCase
 
     /**
      * Pins that saving the administration form stores the detail panel option
-     * as the default of the chart, the place format under its stored value.
+     * as the default of the chart.
      */
     #[Test]
-    public function theAdminActionStoresThePanelAndPlaceFormatDefaults(): void
+    public function theAdminActionStoresThePanelDefault(): void
     {
         RouteFactoryFixture::register();
         EnglishLocaleFixture::install();
@@ -100,20 +99,17 @@ final class ModuleTest extends TestCase
         $request = (new ServerRequest(RequestMethodInterface::METHOD_POST, '/'))
             ->withParsedBody([
                 'showDetailPanel' => '1',
-                'placeFormat'     => 'levels-2',
             ]);
 
         $module->postAdminAction($request);
 
         self::assertSame('1', $module->getPreference('default_showDetailPanel'));
-        self::assertSame('levels-2', $module->getPreference('default_placeFormat'));
 
         // A switch that is off is stored as an empty string, like every other switch of
         // the module, so what counts is that the stored defaults read back as submitted.
         $stored = new Configuration(new ServerRequest(RequestMethodInterface::METHOD_GET, '/'), $module);
 
         self::assertTrue($stored->getShowDetailPanel());
-        self::assertSame(PlaceFormatChoice::Levels2, $stored->getPlaceFormatChoice());
     }
 
     /**

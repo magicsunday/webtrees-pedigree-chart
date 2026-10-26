@@ -156,7 +156,7 @@ final class Module extends PedigreeChartModule implements ModuleAssetUrlInterfac
         $user = Validator::attributes($request)->user();
         $ajax = Validator::queryParams($request)->boolean('ajax', false);
 
-        $this->configuration = new Configuration($request, $this, $tree);
+        $this->configuration = new Configuration($request, $this);
 
         // Convert POST requests into GET requests for pretty URLs.
         // This also updates the name above the form, which won't get updated if only a POST request is used

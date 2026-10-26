@@ -206,7 +206,7 @@ final class DataFacadeTest extends TestCase
                     'tag'       => 'BIRT',
                     'label'     => 'Birth',
                     'date'      => '',
-                    'place'     => 'Berlin',
+                    'place'     => 'Berlin, Germany',
                     'placeFull' => 'Berlin, Germany',
                     'value'     => '',
                 ],
