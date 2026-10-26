@@ -24,11 +24,11 @@ msgstr ""
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "Rodokmeň predkov jednotlivca"
 
-#: src/Configuration.php:542
+#: src/Configuration.php:541
 msgid "Abbreviate given names first"
 msgstr "Najprv skrátiť krstné mená"
 
-#: src/Configuration.php:543
+#: src/Configuration.php:542
 msgid "Abbreviate surnames first"
 msgstr "Najprv skrátiť priezviská"
 
@@ -40,11 +40,11 @@ msgstr ""
 msgid "Add a mother"
 msgstr ""
 
-#: src/Configuration.php:541
+#: src/Configuration.php:540
 msgid "Automatic (based on tree's surname tradition)"
 msgstr "Automaticky (podľa tradície priezvisk stromu)"
 
-#: src/Configuration.php:684
+#: src/Configuration.php:691
 msgid "Automatic (from the tree configuration)"
 msgstr ""
 
@@ -110,7 +110,7 @@ msgstr "Exportovať ako PNG"
 msgid "Export as SVG"
 msgstr "Exportovať ako SVG"
 
-#: src/Configuration.php:685
+#: src/Configuration.php:692
 msgid "Full place name"
 msgstr ""
 
@@ -155,15 +155,15 @@ msgstr ""
 "(napr. Martin \"Chalky\" White). Napodobňuje pôvodné správanie webtrees pre "
 "stromy, ktoré ukladajú prezývky v samostatnom poli GEDCOM NICK."
 
-#: src/Configuration.php:686
+#: src/Configuration.php:693
 msgid "Lowest level (e.g. parish)"
 msgstr ""
 
-#: src/Configuration.php:688
+#: src/Configuration.php:695
 msgid "Lowest three levels"
 msgstr ""
 
-#: src/Configuration.php:687
+#: src/Configuration.php:694
 msgid "Lowest two levels"
 msgstr ""
 
@@ -210,15 +210,15 @@ msgstr "Rodokmeň"
 msgid "Pedigree chart of %s"
 msgstr "Rodokmeň %s"
 
-#: src/Configuration.php:689
+#: src/Configuration.php:696
 msgid "Place and country"
 msgstr ""
 
-#: src/Configuration.php:690
+#: src/Configuration.php:697
 msgid "Place and country code (2 letters)"
 msgstr ""
 
-#: src/Configuration.php:691
+#: src/Configuration.php:698
 msgid "Place and country code (3 letters)"
 msgstr ""
 
@@ -291,15 +291,15 @@ msgstr ""
 msgid "cancel"
 msgstr ""
 
-#: src/Configuration.php:306 src/Configuration.php:314
+#: src/Configuration.php:305 src/Configuration.php:313
 msgid "down"
 msgstr "dole"
 
-#: src/Configuration.php:303 src/Configuration.php:311
+#: src/Configuration.php:302 src/Configuration.php:310
 msgid "left"
 msgstr ""
 
-#: src/Configuration.php:304 src/Configuration.php:312
+#: src/Configuration.php:303 src/Configuration.php:311
 msgid "right"
 msgstr ""
 
@@ -307,7 +307,7 @@ msgstr ""
 msgid "save"
 msgstr ""
 
-#: src/Configuration.php:305 src/Configuration.php:313
+#: src/Configuration.php:304 src/Configuration.php:312
 msgid "up"
 msgstr ""
 
