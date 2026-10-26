@@ -67,6 +67,22 @@ final class ChartViewTest extends TestCase
     }
 
     /**
+     * The panel switch reaches the chart through a getter that lets the browser storage override
+     * the server value, and the options of the removed box rows are gone.
+     */
+    #[Test]
+    public function handsTheDetailPanelSwitchToTheChartAndNoBoxRowOptions(): void
+    {
+        $output = $this->render([]);
+
+        self::assertStringContainsString('get showDetailPanel()', $output);
+        self::assertStringContainsString('opts.showDetailPanel ?? false', $output);
+        self::assertStringNotContainsString('showPlaces', $output);
+        self::assertStringNotContainsString('showAdditionalFacts', $output);
+        self::assertStringNotContainsString('optionalRows', $output);
+    }
+
+    /**
      * Renders the view with the variables of the chart action and returns the page together with
      * the script that the view pushes onto the javascript stack.
      *
