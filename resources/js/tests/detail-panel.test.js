@@ -315,6 +315,27 @@ describe("DetailPanel content", () => {
         expect(element.querySelector(".detail-value").textContent).toBe("Teacher");
     });
 
+    test("shows the value first, then the date and the place", () => {
+        const { panel, element } = build();
+
+        panel.select({
+            ...person,
+            facts: [
+                {
+                    label: "Occupation",
+                    date: "01.10.2008",
+                    place: "",
+                    placeFull: "Wurzen, Sachsen",
+                    value: "Clerk",
+                },
+            ],
+        });
+
+        const classes = [...element.querySelector("dd").children].map((line) => line.className);
+
+        expect(classes).toEqual(["detail-value", "detail-date", "detail-place"]);
+    });
+
     test("shows the short place when the payload has no full name", () => {
         const { panel, element } = build();
 

@@ -77,8 +77,13 @@ export function initPage(config) {
     // bundle; chart.phtml reads chartOptions from it.
     setChartOptionsGlobal("WebtreesPedigreeChart", chartOptions);
 
+    // The server reads the facts of the panel only while its switch is on, so the stored state of
+    // the checkbox, which the form shows, has to reach the server with the request as well.
     const ajaxUrl = buildChartAjaxUrl(config.ajaxUrl, {
-        query: [{ key: "generations", value: storage.readString("generations") }],
+        query: [
+            { key: "generations", value: storage.readString("generations") },
+            { key: "showDetailPanel", value: storage.readBool("showDetailPanel") },
+        ],
     });
     setChartAjaxUrl("pedigree-chart-url", ajaxUrl);
 }

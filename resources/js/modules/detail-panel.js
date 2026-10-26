@@ -11,7 +11,7 @@
  * @typedef {object} PanelFact
  * @property {string} label     The plain text label of the fact
  * @property {string} date      The date as plain text, empty when there is none
- * @property {string} place     The place in the configured style, empty when there is none
+ * @property {string} place     The place name as the server formats it, empty when there is none
  * @property {string} placeFull The full place name
  * @property {string} value     The value of the fact, empty when there is none
  */
@@ -159,8 +159,7 @@ export default class DetailPanel {
             return;
         }
 
-        this._skipFocusReturn = true;
-        this.offcanvas()?.hide();
+        this.dismiss();
     }
 
     /**
@@ -182,6 +181,16 @@ export default class DetailPanel {
             return;
         }
 
+        this.dismiss();
+    }
+
+    /**
+     * Hides the panel without handing the focus back to the chart, as the user has put it
+     * somewhere else.
+     *
+     * @private
+     */
+    dismiss() {
         this._skipFocusReturn = true;
         this.offcanvas()?.hide();
     }
@@ -334,9 +343,9 @@ export default class DetailPanel {
 
         /** @type {Array<[string, string]>} */
         const lines = [
+            ["value", value === "Y" ? "" : value],
             ["date", String(fact.date ?? "")],
             ["place", placeFull === "" ? String(fact.place ?? "") : placeFull],
-            ["value", value === "Y" ? "" : value],
         ];
 
         for (const [name, text] of lines) {

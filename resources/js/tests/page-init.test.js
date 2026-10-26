@@ -8,6 +8,7 @@
 import { jest } from "@jest/globals";
 
 const registered = [];
+const ajaxOptions = [];
 const stored = {};
 
 await jest.unstable_mockModule("@magicsunday/webtrees-chart-lib/chart-core", () => ({
@@ -25,7 +26,11 @@ await jest.unstable_mockModule("@magicsunday/webtrees-chart-lib/chart-core", () 
         }
     },
     syncCollapseToggle: () => {},
-    buildChartAjaxUrl: (url) => url,
+    buildChartAjaxUrl: (url, options) => {
+        ajaxOptions.push(options);
+
+        return url;
+    },
     setChartAjaxUrl: () => {},
     setChartOptionsGlobal: (name, options) => {
         globalThis[name] = { chartOptions: options };
@@ -37,6 +42,7 @@ const { initPage } = await import("resources/js/modules/page-init.js");
 describe("initPage", () => {
     beforeEach(() => {
         registered.length = 0;
+        ajaxOptions.length = 0;
         document.body.innerHTML = '<form id="webtrees-pedigree-chart-form"></form>';
     });
 
@@ -56,6 +62,22 @@ describe("initPage", () => {
         expect(globalThis.WebtreesPedigreeChart.chartOptions).not.toHaveProperty("showDetailPanel");
 
         delete stored.showDetailPanel;
+    });
+
+    test("sends the stored state of the switch to the server with the chart request", () => {
+        stored.showDetailPanel = true;
+
+        initPage({ ajaxUrl: "/ajax" });
+
+        expect(ajaxOptions[0].query).toContainEqual({ key: "showDetailPanel", value: true });
+
+        delete stored.showDetailPanel;
+    });
+
+    test("leaves the switch out of the chart request while nothing is stored", () => {
+        initPage({ ajaxUrl: "/ajax" });
+
+        expect(ajaxOptions[0].query).toContainEqual({ key: "showDetailPanel", value: null });
     });
 
     test("ignores a stale storage key of a removed switch", () => {

@@ -78,6 +78,11 @@ final class ChartViewTest extends TestCase
 
         self::assertStringContainsString('showDetailPanel: false,', $output);
         self::assertStringNotContainsString('opts.showDetailPanel', $output);
+
+        // The value is the one of the configuration, not a constant of the view
+        $enabled = $this->render([], ['default_showDetailPanel' => '1']);
+
+        self::assertStringContainsString('showDetailPanel: true,', $enabled);
         self::assertStringNotContainsString('showPlaces', $output);
         self::assertStringNotContainsString('showAdditionalFacts', $output);
         self::assertStringNotContainsString('optionalRows', $output);
@@ -87,14 +92,15 @@ final class ChartViewTest extends TestCase
      * Renders the view with the variables of the chart action and returns the page together with
      * the script that the view pushes onto the javascript stack.
      *
-     * @param array<string, list<array<string, string>>> $chartData The chart data tree
+     * @param array<string, list<array<string, string>>> $chartData   The chart data tree
+     * @param array<string, string>                      $preferences The module preferences of the test
      */
-    private function render(array $chartData): string
+    private function render(array $chartData, array $preferences = []): string
     {
         $javascript    = 'https://example.test/pedigree-chart.js?asset=1&hash=2';
         $configuration = new Configuration(
             new ServerRequest(RequestMethodInterface::METHOD_GET, '/'),
-            $this->createModuleWithPreferences([])
+            $this->createModuleWithPreferences($preferences)
         );
         $id          = 'abc';
         $chartParams = [
