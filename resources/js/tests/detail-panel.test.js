@@ -365,6 +365,28 @@ describe("DetailPanel content", () => {
         expect(element.querySelector("img")).toBeNull();
     });
 
+    test("shows the other spouse before the value, the date and the place", () => {
+        const { panel, element } = build();
+
+        panel.select({
+            ...person,
+            facts: [
+                {
+                    label: "Marriage",
+                    date: "05 MAY 1950",
+                    place: "",
+                    placeFull: "Wurzen, Sachsen",
+                    value: "Civil",
+                    partner: "Anna Schmidt",
+                },
+            ],
+        });
+
+        const classes = [...element.querySelector("dd").children].map((line) => line.className);
+
+        expect(classes).toEqual(["detail-partner", "detail-value", "detail-date", "detail-place"]);
+    });
+
     test("leaves the partner line out when the payload has none", () => {
         const { panel, element } = build();
 
