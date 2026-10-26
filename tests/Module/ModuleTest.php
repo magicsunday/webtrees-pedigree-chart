@@ -25,6 +25,7 @@ use MagicSunday\Webtrees\PedigreeChart\Test\Support\EnglishLocaleFixture;
 use MagicSunday\Webtrees\PedigreeChart\Test\Support\ModuleSettingsFixtureTrait;
 use MagicSunday\Webtrees\PedigreeChart\Test\Support\RouteFactoryFixture;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
@@ -84,6 +85,47 @@ final class ModuleTest extends TestCase
 
         self::assertSame('Pedigree chart of Example Person', $module->pageTitle($visible));
         self::assertSame('Pedigree chart', $module->pageTitle($hidden));
+    }
+
+    /**
+     * The page needs the number of optional rows that the tree names for the chart box, because
+     * every box reserves the rows of the fullest box and the additional facts are only shown
+     * when there is at least one. The birth and death equivalents have rows of their own.
+     */
+    #[Test]
+    #[DataProvider('chartBoxTagsProvider')]
+    public function theChartParametersCountTheOptionalFactsOfTheTree(string $chartBoxTags, int $expected): void
+    {
+        EnglishLocaleFixture::install();
+
+        $configuration = new Configuration(
+            new ServerRequest(RequestMethodInterface::METHOD_GET, '/'),
+            $this->createModuleWithPreferences([])
+        );
+
+        $tree = self::createStub(Tree::class);
+        $tree->method('getPreference')->willReturnCallback(
+            static fn (string $name): string => $name === 'CHART_BOX_TAGS' ? $chartBoxTags : ''
+        );
+
+        $module = new Module(
+            self::createStub(ChartService::class),
+            (new DataFacade())->setConfiguration($configuration)
+        );
+
+        self::assertSame($expected, $module->getChartParameters($configuration, $tree)['optionalRows']);
+    }
+
+    /**
+     * @return array<string, array{string, int}>
+     */
+    public static function chartBoxTagsProvider(): array
+    {
+        return [
+            'two optional tags'                     => ['OCCU,RESI', 2],
+            'a birth equivalent is no optional row' => ['BIRT,OCCU', 1],
+            'a tree that names no tag has no rows'  => ['', 0],
+        ];
     }
 
     /**

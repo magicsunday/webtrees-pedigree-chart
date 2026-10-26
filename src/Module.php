@@ -195,7 +195,7 @@ final class Module extends PedigreeChartModule implements ModuleAssetUrlInterfac
                     'id'                => uniqid(),
                     'data'              => $this->dataFacade->createTreeStructure($individual),
                     'configuration'     => $this->configuration,
-                    'chartParams'       => $this->getChartParameters($tree),
+                    'chartParams'       => $this->getChartParameters($this->configuration, $tree),
                     'exportStylesheets' => $this->getExportStylesheets(),
                     'stylesheets'       => $this->getStylesheets(),
                     'javascript'        => $this->assetUrl('js/pedigree-chart-' . self::CUSTOM_VERSION . '.min.js'),
@@ -221,15 +221,16 @@ final class Module extends PedigreeChartModule implements ModuleAssetUrlInterfac
     /**
      * Collects and returns the required chart data.
      *
-     * @param Tree $tree
+     * @param Configuration $configuration The configuration of the request
+     * @param Tree          $tree          The tree of the chart
      *
      * @return array{rtl: bool, nameAbbreviation: string, optionalRows: int, labels: array{zoom: string, move: string}}
      */
-    private function getChartParameters(Tree $tree): array
+    public function getChartParameters(Configuration $configuration, Tree $tree): array
     {
         return [
             'rtl'              => I18N::direction() === 'rtl',
-            'nameAbbreviation' => $this->configuration
+            'nameAbbreviation' => $configuration
                 ->getNameAbbreviation()
                 ->resolve($tree->getPreference('SURNAME_TRADITION'))
                 ->value,
