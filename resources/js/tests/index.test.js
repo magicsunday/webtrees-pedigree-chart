@@ -58,7 +58,7 @@ function configurationOf(overrides) {
 }
 
 describe("PedigreeChart options", () => {
-    test("hands the place switch over as the place switch", () => {
+    test("turns the place rows on and the optional rows off when only places are requested", () => {
         const configuration = configurationOf({
             showPlaces: true,
             showAdditionalFacts: false,
@@ -70,7 +70,7 @@ describe("PedigreeChart options", () => {
         expect(configuration.factLayout).toEqual({ showPlaces: true, optionalRows: 0 });
     });
 
-    test("hands the fact switch and the number of optional rows over as such", () => {
+    test("turns the optional rows on and the place rows off when only additional facts are requested", () => {
         const configuration = configurationOf({
             showPlaces: false,
             showAdditionalFacts: true,

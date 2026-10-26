@@ -45,7 +45,7 @@ final class ChartViewTest extends TestCase
     #[Test]
     public function aFactValueCannotBreakOutOfTheInlineScript(): void
     {
-        $hostile = '<!--<script>';
+        $hostile = '<!--<script>&\'"';
 
         $output = $this->render([
             'facts' => [
@@ -63,7 +63,7 @@ final class ChartViewTest extends TestCase
         self::assertStringNotContainsString('<!--', $output);
         self::assertSame(1, substr_count($output, '<script'), 'only the script element of the view opens');
         self::assertSame(1, substr_count($output, '</script>'), 'only the script element of the view closes');
-        self::assertStringContainsString('\\u003C!--\\u003Cscript\\u003E', $output);
+        self::assertStringContainsString('\\u003C!--\\u003Cscript\\u003E\\u0026\\u0027\\u0022', $output);
     }
 
     /**
