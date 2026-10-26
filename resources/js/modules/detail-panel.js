@@ -182,8 +182,11 @@ export default class DetailPanel {
 
         this._element.addEventListener("hidden.bs.offcanvas", () => {
             // A person picked while the panel was still closing shows it again, and the end of
-            // the earlier close must then leave the panel and the chart as they are.
+            // the earlier close must then leave the panel and the chart as they are. The wish of
+            // that close to keep the focus where it is ends with it.
             if (this._reopened) {
+                this._skipFocusReturn = false;
+
                 return;
             }
 

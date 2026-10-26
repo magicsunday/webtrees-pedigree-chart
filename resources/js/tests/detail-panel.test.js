@@ -192,6 +192,37 @@ describe("DetailPanel outside click", () => {
         expect(callbacks.onHidden).not.toHaveBeenCalled();
     });
 
+    test("keeps listening for a click beside the panel after a person reopened it while it was closing", () => {
+        const { instance, element, panel } = openPanel();
+
+        element.dispatchEvent(new Event("hide.bs.offcanvas"));
+        panel.select(person);
+        element.dispatchEvent(new Event("hidden.bs.offcanvas"));
+        document.body.click();
+
+        expect(instance.hide).toHaveBeenCalledTimes(1);
+    });
+
+    test("hands the focus back at a later close after a reopened close skipped it", () => {
+        const { instance, element, callbacks, panel } = openPanel();
+
+        // A click beside the panel starts the close and asks to keep the focus where it is,
+        // then a person reopens the panel before that close has ended.
+        document.body.click();
+        panel.select(person);
+        element.dispatchEvent(new Event("hidden.bs.offcanvas"));
+
+        expect(callbacks.onClose).not.toHaveBeenCalled();
+
+        // The panel is closed again by its own button, which has nothing to do with that click.
+        element.dispatchEvent(new Event("shown.bs.offcanvas"));
+        instance.hide();
+        element.dispatchEvent(new Event("hidden.bs.offcanvas"));
+
+        expect(callbacks.onClose).toHaveBeenCalledTimes(1);
+        expect(callbacks.onHidden).toHaveBeenCalledTimes(1);
+    });
+
     test("stays open on a click inside the panel", () => {
         const { instance, element } = openPanel();
 
