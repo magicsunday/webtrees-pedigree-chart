@@ -129,7 +129,8 @@
 
 /*
  * The selected person of the detail panel, and the person with the keyboard focus. Both use the
- * stroke width as well as the colour, so the mark does not rely on colour alone.
+ * stroke width as well as the colour, so the mark does not rely on colour alone. The focus adds a
+ * dashed line, so a focused box differs from the selected one without a colour change.
  */
 .webtrees-pedigree-chart-container svg g.person.selected rect.male,
 .webtrees-pedigree-chart-container svg g.person.selected rect.female,
@@ -142,6 +143,12 @@
 
 .webtrees-pedigree-chart-container svg g.person:focus-visible {
     outline: none;
+}
+
+.webtrees-pedigree-chart-container svg g.person:focus-visible rect.male,
+.webtrees-pedigree-chart-container svg g.person:focus-visible rect.female,
+.webtrees-pedigree-chart-container svg g.person:focus-visible rect.unknown {
+    stroke-dasharray: 8 4;
 }
 
 /*
