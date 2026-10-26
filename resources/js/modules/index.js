@@ -8,7 +8,7 @@
 import * as d3 from "./d3.js";
 import Configuration from "./configuration.js";
 import Chart from "./chart.js";
-import DetailPanel from "./detail-panel.js";
+import { DetailPanel } from "@magicsunday/webtrees-chart-lib/chart-core";
 
 /**
  * @import { Selection } from "d3-selection"

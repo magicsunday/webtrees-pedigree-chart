@@ -6,6 +6,7 @@
  */
 import * as d3 from "./d3.js";
 import Hierarchy from "./hierarchy.js";
+import { PanelSelection } from "@magicsunday/webtrees-chart-lib/chart-core";
 import { ChartOverlay as Overlay } from "@magicsunday/webtrees-chart-lib/infra";
 import { LinkedTreeSvg as Svg } from "@magicsunday/webtrees-chart-lib/linked-tree";
 import Tree from "./tree.js";
@@ -13,8 +14,7 @@ import Tree from "./tree.js";
 /**
  * @import { Selection } from "d3-selection"
  * @import Configuration from "./configuration.js"
- * @import { Individual } from "./hierarchy.js"
- * @import { PanelPerson } from "./detail-panel.js"
+ * @import { DetailPanel, PanelPerson } from "@magicsunday/webtrees-chart-lib/chart-core"
  */
 
 const MIN_PADDING = 1; // Minimum padding around view box in "rem"
@@ -43,18 +43,16 @@ export default class Chart {
         this._svg = /** @type {Svg} */ (/** @type {unknown} */ (null));
         /** @type {Overlay} */
         this._overlay = /** @type {Overlay} */ (/** @type {unknown} */ (null));
-        /** @type {import("./detail-panel.js").default|null} */
+        /** @type {DetailPanel|null} */
         this._detailPanel = null;
-        /** @type {string|null} */
-        this._selectedXref = null;
-        /** @type {NodeDatum|null} */
-        this._selectedDatum = null;
+        /** @type {PanelSelection<NodeDatum>} */
+        this._selection = new PanelSelection(() => this._svg?.visual);
     }
 
     /**
      * Sets the detail panel that shows the selected person.
      *
-     * @param {import("./detail-panel.js").default|null} panel The detail panel
+     * @param {DetailPanel|null} panel The detail panel
      */
     set detailPanel(panel) {
         this._detailPanel = panel;
@@ -204,77 +202,27 @@ export default class Chart {
                 element.on("click", () => that.personClick(person.data));
 
                 if (that._configuration.showDetailPanel) {
-                    that.makeKeyboardOperable(element, person);
+                    that._selection.makeOperable(element, person, (datum, byKeyboard) =>
+                        that.personClick(datum, byKeyboard),
+                    );
                 }
             });
 
-        this.applySelection();
-    }
-
-    /**
-     * Lets a person box be reached with the Tab key and be activated with Enter or Space.
-     * Only a chart with the detail panel gets this, so the other charts stay as they were.
-     *
-     * @param {Selection<any, any, any, any>} element The person element
-     * @param {Individual}                    person  The person
-     *
-     * @private
-     */
-    makeKeyboardOperable(element, person) {
-        element
-            .attr("tabindex", 0)
-            .attr("role", "button")
-            .attr("aria-label", String(person.data.data.name ?? ""))
-            .on("keydown", (event) => {
-                if (event.key !== "Enter" && event.key !== " ") {
-                    return;
-                }
-
-                // Space would scroll the page otherwise
-                event.preventDefault();
-                this.personClick(person.data, true);
-            });
-    }
-
-    /**
-     * Marks the selected person in the chart. The marks are applied again after every
-     * draw, as the person elements are created anew.
-     *
-     * @private
-     */
-    applySelection() {
-        const xref = this._selectedXref;
-
-        this._svg.visual
-            .selectAll("g.person")
-            .classed("selected", (person) => xref !== null && person.data.data.xref === xref)
-            .attr("aria-current", (person) =>
-                xref !== null && person.data.data.xref === xref ? "true" : null,
-            );
+        this._selection.apply();
     }
 
     /**
      * Removes the selection, so no person stays marked once the panel has closed.
      */
     clearSelection() {
-        this._selectedXref = null;
-        this._selectedDatum = null;
-        this.applySelection();
+        this._selection.clear();
     }
 
     /**
      * Gives the focus back to the selected person, if it is still in the chart.
      */
     restoreFocus() {
-        const datum = this._selectedDatum;
-        const selected = this._svg?.visual
-            .selectAll("g.person")
-            .filter((person) => person.data === datum)
-            .node();
-
-        if (selected instanceof SVGElement) {
-            selected.focus({ preventScroll: true });
-        }
+        this._selection.restoreFocus();
     }
 
     /**
@@ -298,9 +246,7 @@ export default class Chart {
 
         // With the detail panel a click selects the person, the panel offers both actions
         if (this._configuration.showDetailPanel && this._detailPanel !== null) {
-            this._selectedXref = data.data.xref;
-            this._selectedDatum = data;
-            this.applySelection();
+            this._selection.select(data);
             this._detailPanel.select(
                 /** @type {PanelPerson} */ (/** @type {unknown} */ (data.data)),
                 byKeyboard,

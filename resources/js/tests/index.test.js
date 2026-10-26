@@ -29,8 +29,8 @@ await jest.unstable_mockModule("resources/js/modules/chart.js", () => ({
     },
 }));
 
-await jest.unstable_mockModule("resources/js/modules/detail-panel.js", () => ({
-    default: class {
+await jest.unstable_mockModule("@magicsunday/webtrees-chart-lib/chart-core", () => ({
+    DetailPanel: class {
         constructor(element, callbacks) {
             this.element = element;
             this.callbacks = callbacks;
