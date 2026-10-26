@@ -43,7 +43,10 @@ function build({ bootstrap = true } = {}) {
     const element = buildPanelElement();
     const instance = {
         show: jest.fn(() => element.classList.add("show")),
-        hide: jest.fn(() => element.classList.remove("show")),
+        hide: jest.fn(() => {
+            element.dispatchEvent(new Event("hide.bs.offcanvas"));
+            element.classList.remove("show");
+        }),
     };
     const getOrCreateInstance = jest.fn(() => instance);
     const callbacks = {
@@ -176,6 +179,19 @@ describe("DetailPanel outside click", () => {
         expect(callbacks.onClose).toHaveBeenCalledTimes(1);
     });
 
+    test("leaves the chart alone when a person opened the panel again while it was closing", () => {
+        const { element, callbacks, panel } = openPanel();
+
+        // The close that began before the click on the person reports its end after the panel
+        // was shown again, so it must neither return the focus nor clear the new selection.
+        element.dispatchEvent(new Event("hide.bs.offcanvas"));
+        panel.select(person);
+        element.dispatchEvent(new Event("hidden.bs.offcanvas"));
+
+        expect(callbacks.onClose).not.toHaveBeenCalled();
+        expect(callbacks.onHidden).not.toHaveBeenCalled();
+    });
+
     test("stays open on a click inside the panel", () => {
         const { instance, element } = openPanel();
 
@@ -212,6 +228,7 @@ describe("DetailPanel outside click", () => {
     test("stops listening once the panel is hidden", () => {
         const { instance, element } = openPanel();
 
+        element.dispatchEvent(new Event("hide.bs.offcanvas"));
         element.dispatchEvent(new Event("hidden.bs.offcanvas"));
         document.body.click();
 
@@ -258,6 +275,7 @@ describe("DetailPanel escape and semantics", () => {
 
         expect(instance.hide).not.toHaveBeenCalled();
 
+        element.dispatchEvent(new Event("hide.bs.offcanvas"));
         element.dispatchEvent(new Event("hidden.bs.offcanvas"));
         document.body.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
 

@@ -143,6 +143,7 @@ export default class DetailPanel {
         this._individualUrl = "";
         this._centerUrl = "";
         this._imageFallback = "";
+        this._reopened = false;
 
         this._image.addEventListener("error", () => this.imageFailed());
 
@@ -175,7 +176,17 @@ export default class DetailPanel {
 
         // Bootstrap closes the offcanvas on Escape and by its close button, and the focus goes back
         // to the chart then. After a click somewhere else the focus stays where the user put it.
+        this._element.addEventListener("hide.bs.offcanvas", () => {
+            this._reopened = false;
+        });
+
         this._element.addEventListener("hidden.bs.offcanvas", () => {
+            // A person picked while the panel was still closing shows it again, and the end of
+            // the earlier close must then leave the panel and the chart as they are.
+            if (this._reopened) {
+                return;
+            }
+
             document.removeEventListener("click", this._outsideClick);
             document.removeEventListener("keydown", this._escape);
 
@@ -280,6 +291,7 @@ export default class DetailPanel {
      * @param {boolean}   focus  Whether the focus moves to the heading of the panel
      */
     select(person, focus = false) {
+        this._reopened = true;
         this.render(person);
         this.open(focus);
     }
