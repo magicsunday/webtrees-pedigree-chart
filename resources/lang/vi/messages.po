@@ -31,11 +31,11 @@ msgstr "Viết tắt tên gọi trước"
 msgid "Abbreviate surnames first"
 msgstr "Viết tắt họ trước"
 
-#: src/Facade/DataFacade.php:226
+#: src/Facade/DataFacade.php:227
 msgid "Add a father"
 msgstr ""
 
-#: src/Facade/DataFacade.php:227
+#: src/Facade/DataFacade.php:228
 msgid "Add a mother"
 msgstr ""
 

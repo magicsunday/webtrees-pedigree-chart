@@ -113,6 +113,51 @@ final class ModuleTest extends TestCase
     }
 
     /**
+     * Pins that saving the administration form stores every option of the form as
+     * the default of the chart, so none of them is lost when the form is saved.
+     */
+    #[Test]
+    public function theAdminActionStoresEveryDefaultOfTheForm(): void
+    {
+        RouteFactoryFixture::register();
+        EnglishLocaleFixture::install();
+
+        $module  = $this->createModuleWithPreferences([]);
+        $request = (new ServerRequest(RequestMethodInterface::METHOD_POST, '/'))
+            ->withParsedBody([
+                'generations'         => '6',
+                'layout'              => Configuration::LAYOUT_BOTTOMTOP,
+                'openNewTabOnClick'   => '1',
+                'showAlternativeName' => '1',
+                'showNicknames'       => '1',
+                'hideSvgExport'       => '1',
+                'hidePngExport'       => '1',
+                'showAddParentLinks'  => '1',
+                'showFamilyColors'    => '1',
+                'paternalColor'       => '#112233',
+                'maternalColor'       => '#445566',
+                'nameAbbreviation'    => 'GIVEN',
+                'showDetailPanel'     => '1',
+            ]);
+
+        $module->postAdminAction($request);
+
+        self::assertSame('6', $module->getPreference('default_generations'));
+        self::assertSame(Configuration::LAYOUT_BOTTOMTOP, $module->getPreference('default_layout'));
+        self::assertSame('1', $module->getPreference('default_openNewTabOnClick'));
+        self::assertSame('1', $module->getPreference('default_showAlternativeName'));
+        self::assertSame('1', $module->getPreference('default_showNicknames'));
+        self::assertSame('1', $module->getPreference('default_hideSvgExport'));
+        self::assertSame('1', $module->getPreference('default_hidePngExport'));
+        self::assertSame('1', $module->getPreference('default_showAddParentLinks'));
+        self::assertSame('1', $module->getPreference('default_showFamilyColors'));
+        self::assertSame('#112233', $module->getPreference('default_paternalColor'));
+        self::assertSame('#445566', $module->getPreference('default_maternalColor'));
+        self::assertSame('GIVEN', $module->getPreference('default_nameAbbreviation'));
+        self::assertSame('1', $module->getPreference('default_showDetailPanel'));
+    }
+
+    /**
      * Pins that the redirect which turns a form POST into a GET carries every
      * route toggle parameter, so a setting added to the shared list cannot be
      * missing from the URL the user lands on.
