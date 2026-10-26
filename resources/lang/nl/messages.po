@@ -1,3 +1,4 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Pedigree chart\n"
@@ -18,37 +19,41 @@ msgstr ""
 "X-Poedit-SearchPath-0: src\n"
 "X-Poedit-SearchPath-1: resources/views\n"
 
-#: src/Module.php:132
+#: src/Module.php:130
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "Een kwartierstaat van de voorouders van een persoon."
 
-#: src/Configuration.php:541
+#: src/Configuration.php:536
 msgid "Abbreviate given names first"
 msgstr "Voornamen eerst afkorten"
 
-#: src/Configuration.php:542
+#: src/Configuration.php:537
 msgid "Abbreviate surnames first"
 msgstr "Achternamen eerst afkorten"
 
-#: src/Facade/DataFacade.php:226
+#: src/Facade/DataFacade.php:225
 msgid "Add a father"
 msgstr ""
 
-#: src/Facade/DataFacade.php:227
+#: src/Facade/DataFacade.php:226
 msgid "Add a mother"
 msgstr ""
 
-#: src/Configuration.php:540
+#: src/Configuration.php:535
 msgid "Automatic (based on tree's surname tradition)"
 msgstr "Automatisch (op basis van de achternaamtraditie van de stamboom)"
 
-#: src/Configuration.php:691
+#: src/Configuration.php:662
 msgid "Automatic (from the tree configuration)"
 msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/behavior.phtml:23
 msgid "Behavior"
 msgstr "Gedrag"
+
+#: resources/views/modules/pedigree-chart/page.phtml:116
+msgid "Center chart on this person"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:23
 msgid "Colors"
@@ -90,19 +95,6 @@ msgstr ""
 "tegelijkertijd de respectievelijke persoonsvakken om de nodige ruimte voor "
 "de weergave te maken."
 
-#: resources/views/modules/pedigree-chart/form/details.phtml:59
-msgid ""
-"Displays the birth and death places below the dates in the person boxes. The "
-"level of detail is configured site-wide in the module settings."
-msgstr ""
-
-#: resources/views/modules/pedigree-chart/form/details.phtml:72
-msgid ""
-"Displays the facts that the tree names for the chart boxes in its "
-"preferences (\"Other facts to show in charts\") as rows below the dates. The "
-"boxes grow to make room for them."
-msgstr ""
-
 #: resources/views/modules/components/buttonbar/png-export-button.phtml:18
 msgid "Export as PNG"
 msgstr "Exporteren als PNG"
@@ -111,7 +103,7 @@ msgstr "Exporteren als PNG"
 msgid "Export as SVG"
 msgstr "Exporteren als SVG"
 
-#: src/Configuration.php:692
+#: src/Configuration.php:663
 msgid "Full place name"
 msgstr ""
 
@@ -137,9 +129,9 @@ msgstr "Verberg de SVG-exportknop"
 
 #: resources/views/modules/pedigree-chart/config.phtml:114
 msgid ""
-"How much of each place is shown in the person boxes: the full name, only the "
+"How much of each place the details panel shows: the full name, only the "
 "lowest levels, or the place combined with its country as a name or country "
-"code. Users switch the places on and off in the chart form."
+"code."
 msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:39
@@ -157,15 +149,15 @@ msgstr ""
 "gedrag na voor stambomen die bijnamen in het afzonderlijke GEDCOM NICK-veld "
 "opslaan."
 
-#: src/Configuration.php:693
+#: src/Configuration.php:664
 msgid "Lowest level (e.g. parish)"
 msgstr ""
 
-#: src/Configuration.php:695
+#: src/Configuration.php:666
 msgid "Lowest three levels"
 msgstr ""
 
-#: src/Configuration.php:694
+#: src/Configuration.php:665
 msgid "Lowest two levels"
 msgstr ""
 
@@ -177,7 +169,7 @@ msgstr "Moederlijk"
 msgid "Modules"
 msgstr ""
 
-#: src/Module.php:241
+#: src/Module.php:236
 msgid "Move the view with two fingers"
 msgstr "Verplaats de weergave met twee vingers"
 
@@ -185,9 +177,17 @@ msgstr "Verplaats de weergave met twee vingers"
 msgid "Name abbreviation when space is tight"
 msgstr "Afkorting van naam bij beperkte ruimte"
 
+#: resources/views/modules/pedigree-chart/page.phtml:113
+msgid "No details were loaded for this person."
+msgstr ""
+
 #: resources/views/modules/pedigree-chart/form/behavior.phtml:28
 msgid "Open individual in new browser window/tab"
 msgstr "Open persoon in nieuw browservenster/tabblad"
+
+#: resources/views/modules/pedigree-chart/page.phtml:115
+msgid "Open individual page"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/behavior.phtml:34
 msgid ""
@@ -206,7 +206,7 @@ msgstr ""
 msgid "Paternal"
 msgstr "Vaderlijk"
 
-#: src/Module.php:121 src/Module/ChartTrait.php:63
+#: src/Module.php:119 src/Module/ChartTrait.php:63
 msgid "Pedigree chart"
 msgstr ""
 
@@ -215,15 +215,15 @@ msgstr ""
 msgid "Pedigree chart of %s"
 msgstr "Kwartierstaat van %s"
 
-#: src/Configuration.php:696
+#: src/Configuration.php:667
 msgid "Place and country"
 msgstr ""
 
-#: src/Configuration.php:697
+#: src/Configuration.php:668
 msgid "Place and country code (2 letters)"
 msgstr ""
 
-#: src/Configuration.php:698
+#: src/Configuration.php:669
 msgid "Place and country code (3 letters)"
 msgstr ""
 
@@ -235,17 +235,29 @@ msgstr ""
 msgid "Re center"
 msgstr "Opnieuw centreren"
 
+#: resources/views/modules/pedigree-chart/page.phtml:111
+msgid "Select a person in the chart to see the details here."
+msgstr ""
+
+#: resources/views/modules/pedigree-chart/form/details.phtml:59
+msgid ""
+"Selecting a person shows the birth, the death with places and the facts that "
+"the tree names for the chart box (\"Other facts to show in charts\") in a "
+"panel next to the chart. A click then selects a person instead of opening "
+"the chart for them, and the panel offers both actions."
+msgstr ""
+
 #: resources/views/modules/pedigree-chart/config.phtml:74
 msgid "Show \"add parent\" placeholders for missing ancestors"
 msgstr "Plaatshouders \"ouder toevoegen\" tonen voor ontbrekende voorouders"
 
-#: resources/views/modules/pedigree-chart/form/details.phtml:66
-msgid "Show additional facts"
-msgstr ""
-
 #: resources/views/modules/pedigree-chart/form/details.phtml:28
 msgid "Show alternative name of individual"
 msgstr "Toon alternatieve naam van persoon"
+
+#: resources/views/modules/pedigree-chart/form/details.phtml:53
+msgid "Show details panel"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:28
 msgid "Show family colors"
@@ -263,20 +275,16 @@ msgstr "Meer opties"
 msgid "Show nicknames in display names"
 msgstr "Toon bijnamen in weergavenamen"
 
-#: resources/views/modules/pedigree-chart/form/details.phtml:53
-msgid "Show places"
-msgstr ""
-
 #: resources/views/modules/components/buttonbar/fullscreen-button.phtml:18
 msgid "Switch between full screen mode and normal view"
 msgstr "Schakelen tussen volledig scherm en normale weergave"
 
-#: src/Module/ConfigTrait.php:125
+#: src/Module/ConfigTrait.php:121
 #, php-format
 msgid "The preferences for the module “%s” have been updated."
 msgstr "De voorkeuren voor de module \"%s\" zijn bijgewerkt."
 
-#: src/Module.php:240
+#: src/Module.php:235
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Gebruik Ctrl + scroll om in te zoomen op de weergave"
 
@@ -297,15 +305,19 @@ msgstr ""
 msgid "cancel"
 msgstr ""
 
-#: src/Configuration.php:305 src/Configuration.php:313
+#: resources/views/modules/pedigree-chart/page.phtml:108
+msgid "close"
+msgstr ""
+
+#: src/Configuration.php:300 src/Configuration.php:308
 msgid "down"
 msgstr ""
 
-#: src/Configuration.php:302 src/Configuration.php:310
+#: src/Configuration.php:297 src/Configuration.php:305
 msgid "left"
 msgstr ""
 
-#: src/Configuration.php:303 src/Configuration.php:311
+#: src/Configuration.php:298 src/Configuration.php:306
 msgid "right"
 msgstr ""
 
@@ -313,7 +325,7 @@ msgstr ""
 msgid "save"
 msgstr ""
 
-#: src/Configuration.php:304 src/Configuration.php:312
+#: src/Configuration.php:299 src/Configuration.php:307
 msgid "up"
 msgstr ""
 

@@ -20,37 +20,41 @@ msgstr ""
 "X-Poedit-SearchPath-0: src\n"
 "X-Poedit-SearchPath-1: resources/views\n"
 
-#: src/Module.php:132
+#: src/Module.php:130
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "Rodokmeň predkov jednotlivca"
 
-#: src/Configuration.php:541
+#: src/Configuration.php:536
 msgid "Abbreviate given names first"
 msgstr "Najprv skrátiť krstné mená"
 
-#: src/Configuration.php:542
+#: src/Configuration.php:537
 msgid "Abbreviate surnames first"
 msgstr "Najprv skrátiť priezviská"
 
-#: src/Facade/DataFacade.php:226
+#: src/Facade/DataFacade.php:225
 msgid "Add a father"
 msgstr ""
 
-#: src/Facade/DataFacade.php:227
+#: src/Facade/DataFacade.php:226
 msgid "Add a mother"
 msgstr ""
 
-#: src/Configuration.php:540
+#: src/Configuration.php:535
 msgid "Automatic (based on tree's surname tradition)"
 msgstr "Automaticky (podľa tradície priezvisk stromu)"
 
-#: src/Configuration.php:691
+#: src/Configuration.php:662
 msgid "Automatic (from the tree configuration)"
 msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/behavior.phtml:23
 msgid "Behavior"
 msgstr "Správanie"
+
+#: resources/views/modules/pedigree-chart/page.phtml:116
+msgid "Center chart on this person"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:23
 msgid "Colors"
@@ -89,19 +93,6 @@ msgid ""
 "the display."
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/form/details.phtml:59
-msgid ""
-"Displays the birth and death places below the dates in the person boxes. The "
-"level of detail is configured site-wide in the module settings."
-msgstr ""
-
-#: resources/views/modules/pedigree-chart/form/details.phtml:72
-msgid ""
-"Displays the facts that the tree names for the chart boxes in its "
-"preferences (\"Other facts to show in charts\") as rows below the dates. The "
-"boxes grow to make room for them."
-msgstr ""
-
 #: resources/views/modules/components/buttonbar/png-export-button.phtml:18
 msgid "Export as PNG"
 msgstr "Exportovať ako PNG"
@@ -110,7 +101,7 @@ msgstr "Exportovať ako PNG"
 msgid "Export as SVG"
 msgstr "Exportovať ako SVG"
 
-#: src/Configuration.php:692
+#: src/Configuration.php:663
 msgid "Full place name"
 msgstr ""
 
@@ -136,9 +127,9 @@ msgstr "Skryť tlačidlo exportu SVG"
 
 #: resources/views/modules/pedigree-chart/config.phtml:114
 msgid ""
-"How much of each place is shown in the person boxes: the full name, only the "
+"How much of each place the details panel shows: the full name, only the "
 "lowest levels, or the place combined with its country as a name or country "
-"code. Users switch the places on and off in the chart form."
+"code."
 msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:39
@@ -155,15 +146,15 @@ msgstr ""
 "(napr. Martin \"Chalky\" White). Napodobňuje pôvodné správanie webtrees pre "
 "stromy, ktoré ukladajú prezývky v samostatnom poli GEDCOM NICK."
 
-#: src/Configuration.php:693
+#: src/Configuration.php:664
 msgid "Lowest level (e.g. parish)"
 msgstr ""
 
-#: src/Configuration.php:695
+#: src/Configuration.php:666
 msgid "Lowest three levels"
 msgstr ""
 
-#: src/Configuration.php:694
+#: src/Configuration.php:665
 msgid "Lowest two levels"
 msgstr ""
 
@@ -175,7 +166,7 @@ msgstr "Materinská"
 msgid "Modules"
 msgstr ""
 
-#: src/Module.php:241
+#: src/Module.php:236
 msgid "Move the view with two fingers"
 msgstr "Presunúť pohľad dvomi prstami"
 
@@ -183,9 +174,17 @@ msgstr "Presunúť pohľad dvomi prstami"
 msgid "Name abbreviation when space is tight"
 msgstr "Skracovanie mena pri nedostatku miesta"
 
+#: resources/views/modules/pedigree-chart/page.phtml:113
+msgid "No details were loaded for this person."
+msgstr ""
+
 #: resources/views/modules/pedigree-chart/form/behavior.phtml:28
 msgid "Open individual in new browser window/tab"
 msgstr "Otvoriť osobu v novom okne/karte prehliadača"
+
+#: resources/views/modules/pedigree-chart/page.phtml:115
+msgid "Open individual page"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/behavior.phtml:34
 msgid ""
@@ -201,7 +200,7 @@ msgstr "Orentácia"
 msgid "Paternal"
 msgstr "Otcovská"
 
-#: src/Module.php:121 src/Module/ChartTrait.php:63
+#: src/Module.php:119 src/Module/ChartTrait.php:63
 msgid "Pedigree chart"
 msgstr "Rodokmeň"
 
@@ -210,15 +209,15 @@ msgstr "Rodokmeň"
 msgid "Pedigree chart of %s"
 msgstr "Rodokmeň %s"
 
-#: src/Configuration.php:696
+#: src/Configuration.php:667
 msgid "Place and country"
 msgstr ""
 
-#: src/Configuration.php:697
+#: src/Configuration.php:668
 msgid "Place and country code (2 letters)"
 msgstr ""
 
-#: src/Configuration.php:698
+#: src/Configuration.php:669
 msgid "Place and country code (3 letters)"
 msgstr ""
 
@@ -230,17 +229,29 @@ msgstr ""
 msgid "Re center"
 msgstr "Znova vycentrovať"
 
+#: resources/views/modules/pedigree-chart/page.phtml:111
+msgid "Select a person in the chart to see the details here."
+msgstr ""
+
+#: resources/views/modules/pedigree-chart/form/details.phtml:59
+msgid ""
+"Selecting a person shows the birth, the death with places and the facts that "
+"the tree names for the chart box (\"Other facts to show in charts\") in a "
+"panel next to the chart. A click then selects a person instead of opening "
+"the chart for them, and the panel offers both actions."
+msgstr ""
+
 #: resources/views/modules/pedigree-chart/config.phtml:74
 msgid "Show \"add parent\" placeholders for missing ancestors"
 msgstr "Zobrazovať zástupné polia „pridať rodiča\" pre chýbajúcich predkov"
 
-#: resources/views/modules/pedigree-chart/form/details.phtml:66
-msgid "Show additional facts"
-msgstr ""
-
 #: resources/views/modules/pedigree-chart/form/details.phtml:28
 msgid "Show alternative name of individual"
 msgstr "Zobraziť alternatívne meno osoby"
+
+#: resources/views/modules/pedigree-chart/form/details.phtml:53
+msgid "Show details panel"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:28
 msgid "Show family colors"
@@ -258,20 +269,16 @@ msgstr "Zobraziť viac možností"
 msgid "Show nicknames in display names"
 msgstr "Zobraziť prezývky v zobrazovaných menách"
 
-#: resources/views/modules/pedigree-chart/form/details.phtml:53
-msgid "Show places"
-msgstr ""
-
 #: resources/views/modules/components/buttonbar/fullscreen-button.phtml:18
 msgid "Switch between full screen mode and normal view"
 msgstr "Prepnúť medzi celou obrazovkou a normálnym zobrazením"
 
-#: src/Module/ConfigTrait.php:125
+#: src/Module/ConfigTrait.php:121
 #, php-format
 msgid "The preferences for the module “%s” have been updated."
 msgstr ""
 
-#: src/Module.php:240
+#: src/Module.php:235
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Použite Ctrl + scroll na zväčšenie zobrazenia"
 
@@ -291,15 +298,19 @@ msgstr ""
 msgid "cancel"
 msgstr ""
 
-#: src/Configuration.php:305 src/Configuration.php:313
+#: resources/views/modules/pedigree-chart/page.phtml:108
+msgid "close"
+msgstr ""
+
+#: src/Configuration.php:300 src/Configuration.php:308
 msgid "down"
 msgstr "dole"
 
-#: src/Configuration.php:302 src/Configuration.php:310
+#: src/Configuration.php:297 src/Configuration.php:305
 msgid "left"
 msgstr ""
 
-#: src/Configuration.php:303 src/Configuration.php:311
+#: src/Configuration.php:298 src/Configuration.php:306
 msgid "right"
 msgstr ""
 
@@ -307,7 +318,7 @@ msgstr ""
 msgid "save"
 msgstr ""
 
-#: src/Configuration.php:304 src/Configuration.php:312
+#: src/Configuration.php:299 src/Configuration.php:307
 msgid "up"
 msgstr ""
 

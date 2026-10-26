@@ -1,3 +1,4 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Pedigree chart\n"
@@ -18,37 +19,41 @@ msgstr ""
 "X-Poedit-SearchPath-0: src\n"
 "X-Poedit-SearchPath-1: resources/views\n"
 
-#: src/Module.php:132
+#: src/Module.php:130
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "个人祖先的世系图"
 
-#: src/Configuration.php:541
+#: src/Configuration.php:536
 msgid "Abbreviate given names first"
 msgstr "优先缩写名字"
 
-#: src/Configuration.php:542
+#: src/Configuration.php:537
 msgid "Abbreviate surnames first"
 msgstr "优先缩写姓氏"
 
-#: src/Facade/DataFacade.php:226
+#: src/Facade/DataFacade.php:225
 msgid "Add a father"
 msgstr ""
 
-#: src/Facade/DataFacade.php:227
+#: src/Facade/DataFacade.php:226
 msgid "Add a mother"
 msgstr ""
 
-#: src/Configuration.php:540
+#: src/Configuration.php:535
 msgid "Automatic (based on tree's surname tradition)"
 msgstr "自动（根据族谱的姓氏传统）"
 
-#: src/Configuration.php:691
+#: src/Configuration.php:662
 msgid "Automatic (from the tree configuration)"
 msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/behavior.phtml:23
 msgid "Behavior"
 msgstr "行为"
+
+#: resources/views/modules/pedigree-chart/page.phtml:116
+msgid "Center chart on this person"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:23
 msgid "Colors"
@@ -85,19 +90,6 @@ msgid ""
 "the display."
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/form/details.phtml:59
-msgid ""
-"Displays the birth and death places below the dates in the person boxes. The "
-"level of detail is configured site-wide in the module settings."
-msgstr ""
-
-#: resources/views/modules/pedigree-chart/form/details.phtml:72
-msgid ""
-"Displays the facts that the tree names for the chart boxes in its "
-"preferences (\"Other facts to show in charts\") as rows below the dates. The "
-"boxes grow to make room for them."
-msgstr ""
-
 #: resources/views/modules/components/buttonbar/png-export-button.phtml:18
 msgid "Export as PNG"
 msgstr "导出为图片"
@@ -106,7 +98,7 @@ msgstr "导出为图片"
 msgid "Export as SVG"
 msgstr "导出为SVG"
 
-#: src/Configuration.php:692
+#: src/Configuration.php:663
 msgid "Full place name"
 msgstr ""
 
@@ -132,9 +124,9 @@ msgstr "隐藏 SVG 导出按钮"
 
 #: resources/views/modules/pedigree-chart/config.phtml:114
 msgid ""
-"How much of each place is shown in the person boxes: the full name, only the "
+"How much of each place the details panel shows: the full name, only the "
 "lowest levels, or the place combined with its country as a name or country "
-"code. Users switch the places on and off in the chart form."
+"code."
 msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:39
@@ -151,15 +143,15 @@ msgstr ""
 "White）。模拟旧版 webtrees 的行为，适用于在单独的 GEDCOM NICK 字段中保存昵称"
 "的家谱。"
 
-#: src/Configuration.php:693
+#: src/Configuration.php:664
 msgid "Lowest level (e.g. parish)"
 msgstr ""
 
-#: src/Configuration.php:695
+#: src/Configuration.php:666
 msgid "Lowest three levels"
 msgstr ""
 
-#: src/Configuration.php:694
+#: src/Configuration.php:665
 msgid "Lowest two levels"
 msgstr ""
 
@@ -171,7 +163,7 @@ msgstr "母系"
 msgid "Modules"
 msgstr ""
 
-#: src/Module.php:241
+#: src/Module.php:236
 msgid "Move the view with two fingers"
 msgstr "用两根手指拖动视图"
 
@@ -179,9 +171,17 @@ msgstr "用两根手指拖动视图"
 msgid "Name abbreviation when space is tight"
 msgstr "空间不足时的姓名缩写方式"
 
+#: resources/views/modules/pedigree-chart/page.phtml:113
+msgid "No details were loaded for this person."
+msgstr ""
+
 #: resources/views/modules/pedigree-chart/form/behavior.phtml:28
 msgid "Open individual in new browser window/tab"
 msgstr "在新浏览器窗口/标签页中打开个人"
+
+#: resources/views/modules/pedigree-chart/page.phtml:115
+msgid "Open individual page"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/behavior.phtml:34
 msgid ""
@@ -197,7 +197,7 @@ msgstr ""
 msgid "Paternal"
 msgstr "父系"
 
-#: src/Module.php:121 src/Module/ChartTrait.php:63
+#: src/Module.php:119 src/Module/ChartTrait.php:63
 msgid "Pedigree chart"
 msgstr ""
 
@@ -206,15 +206,15 @@ msgstr ""
 msgid "Pedigree chart of %s"
 msgstr "%s的世系图"
 
-#: src/Configuration.php:696
+#: src/Configuration.php:667
 msgid "Place and country"
 msgstr ""
 
-#: src/Configuration.php:697
+#: src/Configuration.php:668
 msgid "Place and country code (2 letters)"
 msgstr ""
 
-#: src/Configuration.php:698
+#: src/Configuration.php:669
 msgid "Place and country code (3 letters)"
 msgstr ""
 
@@ -226,17 +226,29 @@ msgstr ""
 msgid "Re center"
 msgstr "居中"
 
+#: resources/views/modules/pedigree-chart/page.phtml:111
+msgid "Select a person in the chart to see the details here."
+msgstr ""
+
+#: resources/views/modules/pedigree-chart/form/details.phtml:59
+msgid ""
+"Selecting a person shows the birth, the death with places and the facts that "
+"the tree names for the chart box (\"Other facts to show in charts\") in a "
+"panel next to the chart. A click then selects a person instead of opening "
+"the chart for them, and the panel offers both actions."
+msgstr ""
+
 #: resources/views/modules/pedigree-chart/config.phtml:74
 msgid "Show \"add parent\" placeholders for missing ancestors"
 msgstr "为缺失的祖先显示\"添加父母\"占位符"
 
-#: resources/views/modules/pedigree-chart/form/details.phtml:66
-msgid "Show additional facts"
-msgstr ""
-
 #: resources/views/modules/pedigree-chart/form/details.phtml:28
 msgid "Show alternative name of individual"
 msgstr "显示个人的备用名称"
+
+#: resources/views/modules/pedigree-chart/form/details.phtml:53
+msgid "Show details panel"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:28
 msgid "Show family colors"
@@ -254,20 +266,16 @@ msgstr "显示更多选项"
 msgid "Show nicknames in display names"
 msgstr "在显示名中显示昵称"
 
-#: resources/views/modules/pedigree-chart/form/details.phtml:53
-msgid "Show places"
-msgstr ""
-
 #: resources/views/modules/components/buttonbar/fullscreen-button.phtml:18
 msgid "Switch between full screen mode and normal view"
 msgstr "切换全屏与普通视图"
 
-#: src/Module/ConfigTrait.php:125
+#: src/Module/ConfigTrait.php:121
 #, php-format
 msgid "The preferences for the module “%s” have been updated."
 msgstr ""
 
-#: src/Module.php:240
+#: src/Module.php:235
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "按住Ctrl和鼠标滚轮放大查看"
 
@@ -286,15 +294,19 @@ msgstr ""
 msgid "cancel"
 msgstr ""
 
-#: src/Configuration.php:305 src/Configuration.php:313
+#: resources/views/modules/pedigree-chart/page.phtml:108
+msgid "close"
+msgstr ""
+
+#: src/Configuration.php:300 src/Configuration.php:308
 msgid "down"
 msgstr "祖辈在下"
 
-#: src/Configuration.php:302 src/Configuration.php:310
+#: src/Configuration.php:297 src/Configuration.php:305
 msgid "left"
 msgstr "祖辈在左"
 
-#: src/Configuration.php:303 src/Configuration.php:311
+#: src/Configuration.php:298 src/Configuration.php:306
 msgid "right"
 msgstr "祖辈在右"
 
@@ -302,7 +314,7 @@ msgstr "祖辈在右"
 msgid "save"
 msgstr ""
 
-#: src/Configuration.php:304 src/Configuration.php:312
+#: src/Configuration.php:299 src/Configuration.php:307
 msgid "up"
 msgstr "祖辈在上"
 
