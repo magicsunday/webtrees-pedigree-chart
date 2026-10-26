@@ -67,6 +67,34 @@ final class ChartViewTest extends TestCase
     }
 
     /**
+     * Every JSON value of the script that can carry text is written with the tag, ampersand and quote
+     * characters as escapes, the labels, the style sheets, the asset URL and the abbreviation as well as
+     * the chart data. The generated element id is not JSON and stays as it is.
+     */
+    #[Test]
+    public function everyJsonValueOfTheScriptIsEscaped(): void
+    {
+        $hostile = '<!--<script>';
+        $escaped = '\\u003C!--\\u003Cscript\\u003E';
+
+        $output = $this->render(
+            [],
+            [],
+            ['labels' => ['zoom' => $hostile, 'move' => '&'], 'nameAbbreviation' => $hostile],
+            [$hostile]
+        );
+
+        self::assertStringNotContainsString('<!--', $output);
+        self::assertSame(1, substr_count($output, '<script'), 'only the script element of the view opens');
+        self::assertStringContainsString('asset=1\\u0026hash=2', $output);
+        self::assertStringContainsString('"zoom":"' . $escaped . '"', $output);
+        self::assertStringContainsString('"move":"\\u0026"', $output);
+        self::assertStringContainsString('cssFiles: ["' . $escaped . '"]', $output);
+        self::assertStringContainsString('nameAbbreviation: "' . $escaped . '"', $output);
+        self::assertStringContainsString('-container-abc', $output);
+    }
+
+    /**
      * The panel switch reaches the chart as the server value, which the browser storage cannot
      * override because the server reads the facts only while it is on, and the options of the
      * removed box rows are gone.
@@ -92,11 +120,17 @@ final class ChartViewTest extends TestCase
      * Renders the view with the variables of the chart action and returns the page together with
      * the script that the view pushes onto the javascript stack.
      *
-     * @param array<string, list<array<string, string>>> $chartData   The chart data tree
-     * @param array<string, string>                      $preferences The module preferences of the test
+     * @param array<string, list<array<string, string>>> $chartData         The chart data tree
+     * @param array<string, string>                      $preferences       The module preferences of the test
+     * @param array<string, mixed>                       $chartParamsChange Values that replace the chart parameters
+     * @param list<string>                               $stylesheets       The style sheets of the SVG export
      */
-    private function render(array $chartData, array $preferences = []): string
-    {
+    private function render(
+        array $chartData,
+        array $preferences = [],
+        array $chartParamsChange = [],
+        array $stylesheets = [],
+    ): string {
         $javascript    = 'https://example.test/pedigree-chart.js?asset=1&hash=2';
         $configuration = new Configuration(
             new ServerRequest(RequestMethodInterface::METHOD_GET, '/'),
@@ -107,8 +141,9 @@ final class ChartViewTest extends TestCase
             'rtl'              => false,
             'nameAbbreviation' => 'GIVEN',
             'labels'           => ['zoom' => 'Zoom', 'move' => 'Move'],
+            ...$chartParamsChange,
         ];
-        $exportStylesheets = [];
+        $exportStylesheets = $stylesheets;
         $data              = $chartData;
 
         View::stack('javascript');
