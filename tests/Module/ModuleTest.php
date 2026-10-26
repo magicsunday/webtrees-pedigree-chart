@@ -17,6 +17,7 @@ use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Services\ChartService;
 use Fisharebest\Webtrees\Tree;
 use GuzzleHttp\Psr7\ServerRequest;
+use MagicSunday\Webtrees\ModuleBase\Model\PlaceFormatChoice;
 use MagicSunday\Webtrees\PedigreeChart\Configuration;
 use MagicSunday\Webtrees\PedigreeChart\Facade\DataFacade;
 use MagicSunday\Webtrees\PedigreeChart\Module;
@@ -83,6 +84,38 @@ final class ModuleTest extends TestCase
 
         self::assertSame('Pedigree chart of Example Person', $module->pageTitle($visible));
         self::assertSame('Pedigree chart', $module->pageTitle($hidden));
+    }
+
+    /**
+     * Pins that saving the administration form stores the place and fact options
+     * as the defaults of the chart, the place format under its stored value.
+     */
+    #[Test]
+    public function theAdminActionStoresThePlaceAndFactDefaults(): void
+    {
+        RouteFactoryFixture::register();
+        EnglishLocaleFixture::install();
+
+        $module  = $this->createModuleWithPreferences([]);
+        $request = (new ServerRequest(RequestMethodInterface::METHOD_POST, '/'))
+            ->withParsedBody([
+                'showPlaces'          => '1',
+                'showAdditionalFacts' => '0',
+                'placeFormat'         => 'levels-2',
+            ]);
+
+        $module->postAdminAction($request);
+
+        self::assertSame('1', $module->getPreference('default_showPlaces'));
+        self::assertSame('levels-2', $module->getPreference('default_placeFormat'));
+
+        // A switch that is off is stored as an empty string, like every other switch of
+        // the module, so what counts is that the stored defaults read back as submitted.
+        $stored = new Configuration(new ServerRequest(RequestMethodInterface::METHOD_GET, '/'), $module);
+
+        self::assertTrue($stored->getShowPlaces());
+        self::assertFalse($stored->getShowAdditionalFacts());
+        self::assertSame(PlaceFormatChoice::Levels2, $stored->getPlaceFormatChoice());
     }
 
     /**
