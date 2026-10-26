@@ -13,6 +13,8 @@ import Tree from "./tree.js";
 /**
  * @import { Selection } from "d3-selection"
  * @import Configuration from "./configuration.js"
+ * @import { Individual } from "./hierarchy.js"
+ * @import { PanelPerson } from "./detail-panel.js"
  */
 
 const MIN_PADDING = 1; // Minimum padding around view box in "rem"
@@ -41,6 +43,19 @@ export default class Chart {
         this._svg = /** @type {Svg} */ (/** @type {unknown} */ (null));
         /** @type {Overlay} */
         this._overlay = /** @type {Overlay} */ (/** @type {unknown} */ (null));
+        /** @type {import("./detail-panel.js").default|null} */
+        this._detailPanel = null;
+        /** @type {string|null} */
+        this._selectedXref = null;
+    }
+
+    /**
+     * Sets the detail panel that shows the selected person.
+     *
+     * @param {import("./detail-panel.js").default|null} panel The detail panel
+     */
+    set detailPanel(panel) {
+        this._detailPanel = panel;
     }
 
     /**
@@ -182,24 +197,98 @@ export default class Chart {
             .selectAll("g.person")
             .filter((person) => person.data.data.xref !== "" || person.data.data.url !== "")
             .each(function (person) {
-                d3.select(this).on("click", () => that.personClick(person.data));
+                const element = d3.select(this);
+
+                element.on("click", () => that.personClick(person.data));
+
+                if (that._configuration.showDetailPanel) {
+                    that.makeKeyboardOperable(element, person);
+                }
             });
+
+        this.applySelection();
+    }
+
+    /**
+     * Lets a person box be reached with the Tab key and be activated with Enter or Space.
+     * Only a chart with the detail panel gets this, so the other charts stay as they were.
+     *
+     * @param {Selection<any, any, any, any>} element The person element
+     * @param {Individual}                    person  The person
+     *
+     * @private
+     */
+    makeKeyboardOperable(element, person) {
+        element
+            .attr("tabindex", 0)
+            .attr("role", "button")
+            .attr("aria-label", String(person.data.data.name ?? ""))
+            .on("keydown", (event) => {
+                if (event.key !== "Enter" && event.key !== " ") {
+                    return;
+                }
+
+                // Space would scroll the page otherwise
+                event.preventDefault();
+                this.personClick(person.data, true);
+            });
+    }
+
+    /**
+     * Marks the selected person in the chart. The marks are applied again after every
+     * draw, as the person elements are created anew.
+     *
+     * @private
+     */
+    applySelection() {
+        const xref = this._selectedXref;
+
+        this._svg.visual
+            .selectAll("g.person")
+            .classed("selected", (person) => xref !== null && person.data.data.xref === xref)
+            .attr("aria-current", (person) =>
+                xref !== null && person.data.data.xref === xref ? "true" : null,
+            );
+    }
+
+    /**
+     * Gives the focus back to the selected person, if it is still in the chart.
+     */
+    restoreFocus() {
+        const selected = this._svg?.visual.select("g.person.selected").node();
+
+        if (selected instanceof SVGElement) {
+            selected.focus({ preventScroll: true });
+        }
     }
 
     /**
      * Method triggers either the "update" or "individual" method on the click
      * on a person.
      *
-     * @param {NodeDatum} data The D3 data object
+     * @param {NodeDatum} data        The D3 data object
+     * @param {boolean}   byKeyboard  Whether a key triggered the activation
      *
      * @private
      */
-    personClick(data) {
+    personClick(data, byKeyboard = false) {
         // "Add a parent" placeholder: empty xref + url pointing at the
         // webtrees core add-parent route. Always navigate there directly,
         // honouring the same new-tab preference as real individuals.
         if (data.data.xref === "" && data.data.url !== "") {
             this.redirectToIndividual(data.data.url);
+
+            return;
+        }
+
+        // With the detail panel a click selects the person, the panel offers both actions
+        if (this._configuration.showDetailPanel && this._detailPanel !== null) {
+            this._selectedXref = data.data.xref;
+            this.applySelection();
+            this._detailPanel.select(
+                /** @type {PanelPerson} */ (/** @type {unknown} */ (data.data)),
+                byKeyboard,
+            );
 
             return;
         }
@@ -214,8 +303,6 @@ export default class Chart {
      * Redirects to the individual page.
      *
      * @param {string} url The individual URL
-     *
-     * @private
      */
     redirectToIndividual(url) {
         if (this._configuration.openNewTabOnClick) {

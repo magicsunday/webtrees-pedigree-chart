@@ -179,3 +179,53 @@
     min-height: 100dvh;
     max-height: 100dvh;
 }
+
+/* Detail panel */
+.webtrees-pedigree-detail-panel .detail-facts dt {
+    font-weight: 600;
+    margin-top: 0.75rem;
+}
+
+.webtrees-pedigree-detail-panel .detail-facts dd {
+    margin-bottom: 0;
+}
+
+.webtrees-pedigree-detail-panel .detail-place-full {
+    color: var(--bs-secondary-color, rgb(108, 117, 125));
+    font-size: 0.875em;
+}
+
+.webtrees-pedigree-detail-panel .offcanvas-title:focus {
+    outline: none;
+}
+
+/*
+ * From this width the panel stands beside the chart. The value is the one of PANEL_BREAKPOINT in
+ * detail-panel.js, a test keeps both in step. The rules overrule the offcanvas rules of Bootstrap
+ * by their specificity, the panel is the same element in both forms.
+ */
+@media (min-width: 2000px) {
+    .has-detail-panel > #pedigree-chart-url {
+        flex: 1 1 0;
+        min-width: 0;
+    }
+
+    .has-detail-panel > .webtrees-pedigree-detail-panel.offcanvas.offcanvas-end {
+        position: static;
+        transform: none;
+        visibility: visible;
+        flex: 0 0 22rem;
+        width: 22rem;
+        height: auto;
+        border-inline-start: 1px solid var(--bs-border-color, rgb(222, 226, 230));
+        transition: none;
+    }
+
+    .has-detail-panel > .webtrees-pedigree-detail-panel .btn-close {
+        display: none;
+    }
+
+    [fullscreen] .has-detail-panel > .btn-toolbar {
+        inset-inline-end: 22rem;
+    }
+}

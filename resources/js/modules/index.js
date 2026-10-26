@@ -8,6 +8,7 @@
 import * as d3 from "./d3.js";
 import Configuration from "./configuration.js";
 import Chart from "./chart.js";
+import DetailPanel from "./detail-panel.js";
 
 /**
  * @import { Selection } from "d3-selection"
@@ -33,6 +34,7 @@ export class PedigreeChart {
      * @param {boolean}   options.openNewTabOnClick
      * @param {boolean}   options.showAlternativeName
      * @param {boolean}   options.showFamilyColors
+     * @param {boolean}   options.showDetailPanel
      * @param {string}    options.paternalColor
      * @param {string}    options.maternalColor
      * @param {string}    options.nameAbbreviation
@@ -56,12 +58,17 @@ export class PedigreeChart {
             options.maternalColor,
             options.nameAbbreviation,
             options.rtl,
+            options.showDetailPanel,
         );
 
         this._cssFiles = options.cssFiles;
 
         // Set up chart instance
         this._chart = new Chart(this._parent, this._configuration);
+
+        // The panel is set up before the first draw, so the view box is calculated with the
+        // width the chart really has beside the panel.
+        this.initDetailPanel();
 
         this.init();
         this.draw(options.data);
@@ -74,6 +81,30 @@ export class PedigreeChart {
      */
     get configuration() {
         return this._configuration;
+    }
+
+    /**
+     * Connects the detail panel of the page with the chart. A chart without the detail panel
+     * leaves the panel element of the page hidden.
+     *
+     * @private
+     */
+    initDetailPanel() {
+        const element = document.getElementById("webtrees-pedigree-detail-panel");
+
+        if (!this._configuration.showDetailPanel || element === null) {
+            return;
+        }
+
+        const panel = new DetailPanel(element, {
+            onIndividual: (url) => this._chart.redirectToIndividual(url),
+            onCenter: (url) => this._chart.update(url),
+            onClose: () => this._chart.restoreFocus(),
+            onLayoutChange: () => this._chart.updateViewBox(),
+        });
+
+        panel.enable();
+        this._chart.detailPanel = panel;
     }
 
     /**
