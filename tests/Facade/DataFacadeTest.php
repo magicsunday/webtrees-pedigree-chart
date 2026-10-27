@@ -253,6 +253,47 @@ final class DataFacadeTest extends TestCase
     }
 
     /**
+     * A facade that is handed a new configuration reads the facts with the tree setting of the tree of
+     * the next person, so the resolver of an earlier configuration, which holds the setting of its own
+     * tree, is not reused.
+     */
+    #[Test]
+    public function readsTheFactsWithTheTreeSettingOfTheTreeThatIsBuiltAfterANewConfiguration(): void
+    {
+        RouteFactoryFixture::register();
+        EnglishLocaleFixture::install();
+
+        $named = $this->individual(
+            self::STARRED_NAME,
+            'Anna Maria Schmidt',
+            '',
+            factsByTag: ['OCCU' => $this->factStub('Occupation', '', '', 'Smith')],
+            chartBoxTags: 'OCCU',
+        );
+        $unnamed = $this->individual(
+            self::STARRED_NAME,
+            'Anna Maria Schmidt',
+            '',
+            xref: 'X2',
+            factsByTag: [],
+            chartBoxTags: '',
+        );
+
+        $module = $this->createModuleWithPreferences([]);
+        $facade = (new DataFacade())
+            ->setModule($module)
+            ->setRoute('webtrees-pedigree-chart');
+
+        $facade->setConfiguration($this->detailPanelConfiguration($module));
+
+        self::assertCount(3, $this->factsOf($this->createdNode($facade, $named)));
+
+        $facade->setConfiguration($this->detailPanelConfiguration($module));
+
+        self::assertSame([null, null], $this->factsOf($this->createdNode($facade, $unnamed)));
+    }
+
+    /**
      * The number of generations that are built equals the configured number,
      * on the limit and one beyond it.
      *
@@ -608,6 +649,45 @@ final class DataFacadeTest extends TestCase
         $serialised = json_decode(json_encode($node, JSON_THROW_ON_ERROR), true, 512, JSON_THROW_ON_ERROR);
 
         return $serialised['data'];
+    }
+
+    /**
+     * Returns the serialised fact slots of the root node.
+     *
+     * @return list<array<string, string>|null>
+     */
+    private function factsOf(Node $node): array
+    {
+        /** @var array{data: array{facts: list<array<string, string>|null>}} $serialised */
+        $serialised = json_decode(json_encode($node, JSON_THROW_ON_ERROR), true, 512, JSON_THROW_ON_ERROR);
+
+        return $serialised['data']['facts'];
+    }
+
+    /**
+     * Builds a configuration of one generation with the detail panel on.
+     */
+    private function detailPanelConfiguration(Module $module): Configuration
+    {
+        return new Configuration(
+            (new ServerRequest(RequestMethodInterface::METHOD_GET, '/'))->withQueryParams([
+                'generations'     => '1',
+                'showDetailPanel' => '1',
+            ]),
+            $module
+        );
+    }
+
+    /**
+     * Builds the tree of the individual with the given facade and returns its root.
+     */
+    private function createdNode(DataFacade $facade, Individual $individual): Node
+    {
+        $node = $facade->createTreeStructure($individual);
+
+        self::assertInstanceOf(Node::class, $node);
+
+        return $node;
     }
 
     /**
