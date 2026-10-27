@@ -82,7 +82,7 @@ final class Configuration
     /**
      * The memoised route parameters, resolved on first use.
      *
-     * @var array{generations: int, layout: string, openNewTabOnClick: string, showAlternativeName: string, showNicknames: string, showFamilyColors: string, paternalColor: string, maternalColor: string, showAddParentLinks: string}|null
+     * @var array{generations: int, layout: string, openNewTabOnClick: string, showAlternativeName: string, showNicknames: string, showFamilyColors: string, paternalColor: string, maternalColor: string, showAddParentLinks: string, showDetailPanel: string}|null
      */
     private ?array $routeToggleParams = null;
 
@@ -153,6 +153,11 @@ final class Configuration
      * The resolved name-abbreviation strategy, or null until first resolved.
      */
     private ?NameAbbreviation $nameAbbreviation = null;
+
+    /**
+     * Whether the detail panel is shown, or null until first resolved.
+     */
+    private ?bool $showDetailPanel = null;
 
     /**
      * Configuration constructor.
@@ -537,6 +542,30 @@ final class Configuration
     }
 
     /**
+     * Returns whether the detail panel with the facts of the selected person is
+     * shown. It is off unless the request or the module preference turns it on.
+     *
+     * @return bool
+     */
+    public function getShowDetailPanel(): bool
+    {
+        if ($this->showDetailPanel !== null) {
+            return $this->showDetailPanel;
+        }
+
+        $validator = $this->requestValidator();
+
+        return $this->showDetailPanel = $validator
+            ->boolean(
+                'showDetailPanel',
+                (bool) $this->module->getPreference(
+                    'default_showDetailPanel',
+                    '0'
+                )
+            );
+    }
+
+    /**
      * Returns the settings that have to travel with every URL the chart
      * navigates to: the re-centering link of each node, the redirect that turns
      * a form POST into a GET and the URL of the AJAX rebuild. All three read this
@@ -561,7 +590,7 @@ final class Configuration
      * proportion to the tree size. The configuration is constructed per request,
      * so the resolved values cannot go stale within its lifetime.
      *
-     * @return array{generations: int, layout: string, openNewTabOnClick: string, showAlternativeName: string, showNicknames: string, showFamilyColors: string, paternalColor: string, maternalColor: string, showAddParentLinks: string}
+     * @return array{generations: int, layout: string, openNewTabOnClick: string, showAlternativeName: string, showNicknames: string, showFamilyColors: string, paternalColor: string, maternalColor: string, showAddParentLinks: string, showDetailPanel: string}
      */
     public function getRouteToggleParams(): array
     {
@@ -575,6 +604,7 @@ final class Configuration
             'paternalColor'       => $this->getPaternalColor(),
             'maternalColor'       => $this->getMaternalColor(),
             'showAddParentLinks'  => $this->getShowAddParentLinks() ? '1' : '0',
+            'showDetailPanel'     => $this->getShowDetailPanel() ? '1' : '0',
         ];
     }
 }

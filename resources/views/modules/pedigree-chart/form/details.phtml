@@ -46,5 +46,18 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
                 <?php echo I18N::translate('Inserts the GEDCOM NICK value in quotes between the given names and the surname (e.g. Martin "Chalky" White). Mirrors the legacy webtrees behaviour for trees that store nicknames in the separate GEDCOM NICK field.'); ?>
             </small>
         </div>
+
+        <div class="mt-3">
+            <?php echo view($moduleName . '::modules/components/checkbox', [
+                'name'      => 'showDetailPanel',
+                'label'     => I18N::translate('Show details panel'),
+                'checked'   => $configuration->getShowDetailPanel(),
+                'unchecked' => '0',
+            ]);
+?>
+            <small class="ps-4 form-text text-muted form-element-description" style="box-decoration-break: clone;">
+                <?php echo I18N::translate('Selecting a person shows the birth, the death with places and the facts that the tree names for the chart box ("Other facts to show in charts") in a panel that slides in over the chart. A click then selects a person instead of opening the chart for them, and the panel offers both actions.'); ?>
+            </small>
+        </div>
     </div>
 </div>

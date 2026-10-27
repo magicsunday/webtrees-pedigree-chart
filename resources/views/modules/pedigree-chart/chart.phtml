@@ -21,6 +21,10 @@ use MagicSunday\Webtrees\PedigreeChart\Model\Node;
  * @var string[]      $exportStylesheets A list of stylesheets used by SVG export
  * @var Node|null     $data              The chart data tree, JSON-serialized into the chart "data" option
  */
+
+// The script is inline, so the tag and quote characters of the data are written as escapes. Free text
+// such as a fact value or a place name must not open a comment or a script element inside the script.
+$jsonFlags = \JSON_HEX_TAG | \JSON_HEX_AMP | \JSON_HEX_APOS | \JSON_HEX_QUOT;
 ?>
 
 <div class="webtrees-pedigree-chart-container" id="webtrees-pedigree-chart-container-<?php echo $id; ?>"></div>
@@ -28,43 +32,47 @@ use MagicSunday\Webtrees\PedigreeChart\Model\Node;
 <?php View::push('javascript'); ?>
 <script type="module">
 
-import(<?php echo json_encode($javascript); ?>).then(({ PedigreeChart }) => {
+import(<?php echo json_encode($javascript, $jsonFlags); ?>).then(({ PedigreeChart }) => {
     const opts = (typeof WebtreesPedigreeChart !== "undefined" && WebtreesPedigreeChart.chartOptions) || {};
 
     new PedigreeChart(
         "#webtrees-pedigree-chart-container-<?php echo $id; ?>",
         {
-            labels: <?php echo json_encode($chartParams['labels']); ?>,
-            rtl: <?php echo json_encode($chartParams['rtl']); ?>,
-            cssFiles: <?php echo json_encode($exportStylesheets); ?>,
+            labels: <?php echo json_encode($chartParams['labels'], $jsonFlags); ?>,
+            rtl: <?php echo json_encode($chartParams['rtl'], $jsonFlags); ?>,
+            cssFiles: <?php echo json_encode($exportStylesheets, $jsonFlags); ?>,
 
             get treeLayout() {
-                return opts.treeLayout ?? <?php echo json_encode($configuration->getLayout()); ?>;
+                return opts.treeLayout ?? <?php echo json_encode($configuration->getLayout(), $jsonFlags); ?>;
             },
 
             get openNewTabOnClick() {
-                return opts.openNewTabOnClick ?? <?php echo json_encode($configuration->getOpenNewTabOnClick()); ?>;
+                return opts.openNewTabOnClick ?? <?php echo json_encode($configuration->getOpenNewTabOnClick(), $jsonFlags); ?>;
             },
 
             get showAlternativeName() {
-                return opts.showAlternativeName ?? <?php echo json_encode($configuration->getShowAlternativeName()); ?>;
+                return opts.showAlternativeName ?? <?php echo json_encode($configuration->getShowAlternativeName(), $jsonFlags); ?>;
             },
 
             get showFamilyColors() {
-                return opts.showFamilyColors ?? <?php echo json_encode($configuration->getShowFamilyColors()); ?>;
+                return opts.showFamilyColors ?? <?php echo json_encode($configuration->getShowFamilyColors(), $jsonFlags); ?>;
             },
 
             get paternalColor() {
-                return opts.paternalColor ?? <?php echo json_encode($configuration->getPaternalColor()); ?>;
+                return opts.paternalColor ?? <?php echo json_encode($configuration->getPaternalColor(), $jsonFlags); ?>;
             },
 
             get maternalColor() {
-                return opts.maternalColor ?? <?php echo json_encode($configuration->getMaternalColor()); ?>;
+                return opts.maternalColor ?? <?php echo json_encode($configuration->getMaternalColor(), $jsonFlags); ?>;
             },
 
-            nameAbbreviation: <?php echo json_encode($chartParams['nameAbbreviation']); ?>,
+            // The server reads the facts for the panel only while the switch is on, so its value
+            // decides and the browser storage cannot override it.
+            showDetailPanel: <?php echo json_encode($configuration->getShowDetailPanel(), $jsonFlags); ?>,
 
-            data: <?php echo json_encode($data); ?>
+            nameAbbreviation: <?php echo json_encode($chartParams['nameAbbreviation'], $jsonFlags); ?>,
+
+            data: <?php echo json_encode($data, $jsonFlags); ?>
         }
     );
 });

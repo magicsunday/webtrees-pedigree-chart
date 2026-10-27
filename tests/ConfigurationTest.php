@@ -73,6 +73,7 @@ final class ConfigurationTest extends TestCase
                 'paternalColor'       => '#112233',
                 'maternalColor'       => '#445566',
                 'showAddParentLinks'  => '1',
+                'showDetailPanel'     => '1',
             ],
             []
         );
@@ -88,6 +89,7 @@ final class ConfigurationTest extends TestCase
                 'paternalColor'       => '#112233',
                 'maternalColor'       => '#445566',
                 'showAddParentLinks'  => '1',
+                'showDetailPanel'     => '1',
             ],
             $configuration->getRouteToggleParams()
         );
@@ -113,6 +115,7 @@ final class ConfigurationTest extends TestCase
                 'paternalColor'       => '#aabbcc',
                 'maternalColor'       => '#ddeeff',
                 'showAddParentLinks'  => '0',
+                'showDetailPanel'     => '0',
             ],
             []
         );
@@ -128,6 +131,7 @@ final class ConfigurationTest extends TestCase
                 'paternalColor'       => '#aabbcc',
                 'maternalColor'       => '#ddeeff',
                 'showAddParentLinks'  => '0',
+                'showDetailPanel'     => '0',
             ],
             $configuration->getRouteToggleParams()
         );
@@ -153,6 +157,7 @@ final class ConfigurationTest extends TestCase
                 'default_paternalColor'       => '#010203',
                 'default_maternalColor'       => '#040506',
                 'default_showAddParentLinks'  => '1',
+                'default_showDetailPanel'     => '1',
             ]
         );
 
@@ -167,6 +172,7 @@ final class ConfigurationTest extends TestCase
                 'paternalColor'       => '#010203',
                 'maternalColor'       => '#040506',
                 'showAddParentLinks'  => '1',
+                'showDetailPanel'     => '1',
             ],
             $configuration->getRouteToggleParams()
         );
@@ -366,6 +372,36 @@ final class ConfigurationTest extends TestCase
     }
 
     /**
+     * The detail panel is off until the request or the administrator turns it on,
+     * and the request wins over the module preference in both directions.
+     *
+     * @param array<string, string> $queryParams
+     * @param array<string, string> $preferences
+     */
+    #[Test]
+    #[DataProvider('showDetailPanelProvider')]
+    public function showDetailPanelResolvesFromTheRequestThenThePreference(
+        array $queryParams,
+        array $preferences,
+        bool $expected,
+    ): void {
+        self::assertSame($expected, $this->buildConfiguration($queryParams, $preferences)->getShowDetailPanel());
+    }
+
+    /**
+     * @return array<string, array{array<string, string>, array<string, string>, bool}>
+     */
+    public static function showDetailPanelProvider(): array
+    {
+        return [
+            'off without request or preference' => [[], [], false],
+            'on by the administrator'           => [[], ['default_showDetailPanel' => '1'], true],
+            'request switches it on'            => [['showDetailPanel' => '1'], [], true],
+            'request switches it off'           => [['showDetailPanel' => '0'], ['default_showDetailPanel' => '1'], false],
+        ];
+    }
+
+    /**
      * Pins the per-request query cost: however often the getters are called
      * while the tree is built, each preference is read at most once.
      */
@@ -415,6 +451,7 @@ final class ConfigurationTest extends TestCase
                 $configuration->getMaternalColor();
                 $configuration->getShowAddParentLinks();
                 $configuration->getNameAbbreviation();
+                $configuration->getShowDetailPanel();
             }
 
             // Counts only the preference reads the assertion talks about, so an

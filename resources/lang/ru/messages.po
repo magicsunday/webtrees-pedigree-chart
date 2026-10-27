@@ -1,3 +1,4 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Pedigree chart\n"
@@ -23,29 +24,33 @@ msgstr ""
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "Родословная карта предков в виде дерева."
 
-#: src/Configuration.php:505
+#: src/Configuration.php:510
 msgid "Abbreviate given names first"
 msgstr "Сокращать сначала имена"
 
-#: src/Configuration.php:506
+#: src/Configuration.php:511
 msgid "Abbreviate surnames first"
 msgstr "Сокращать сначала фамилии"
 
-#: src/Facade/DataFacade.php:200
+#: src/Facade/DataFacade.php:227
 msgid "Add a father"
 msgstr ""
 
-#: src/Facade/DataFacade.php:201
+#: src/Facade/DataFacade.php:228
 msgid "Add a mother"
 msgstr ""
 
-#: src/Configuration.php:504
+#: src/Configuration.php:509
 msgid "Automatic (based on tree's surname tradition)"
 msgstr "Автоматически (по традиции фамилий дерева)"
 
 #: resources/views/modules/pedigree-chart/form/behavior.phtml:23
 msgid "Behavior"
 msgstr "Поведение"
+
+#: resources/views/modules/pedigree-chart/page.phtml:117
+msgid "Center chart on this person"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:23
 msgid "Colors"
@@ -142,9 +147,17 @@ msgstr "Измените вид двумя пальцами"
 msgid "Name abbreviation when space is tight"
 msgstr "Сокращение имени при недостатке места"
 
+#: resources/views/modules/pedigree-chart/page.phtml:114
+msgid "No details are available for this person."
+msgstr ""
+
 #: resources/views/modules/pedigree-chart/form/behavior.phtml:28
 msgid "Open individual in new browser window/tab"
 msgstr "Открывать персону в новом окне/вкладке браузера"
+
+#: resources/views/modules/pedigree-chart/page.phtml:116
+msgid "Open individual page"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/behavior.phtml:34
 msgid ""
@@ -173,6 +186,18 @@ msgstr "Восходящее дерево %s"
 msgid "Re center"
 msgstr "Центрировать"
 
+#: resources/views/modules/pedigree-chart/page.phtml:112
+msgid "Select a person in the chart to see the details here."
+msgstr ""
+
+#: resources/views/modules/pedigree-chart/form/details.phtml:59
+msgid ""
+"Selecting a person shows the birth, the death with places and the facts that "
+"the tree names for the chart box (\"Other facts to show in charts\") in a "
+"panel that slides in over the chart. A click then selects a person instead "
+"of opening the chart for them, and the panel offers both actions."
+msgstr ""
+
 #: resources/views/modules/pedigree-chart/config.phtml:74
 msgid "Show \"add parent\" placeholders for missing ancestors"
 msgstr "Показывать заполнители «добавить родителя» для отсутствующих предков"
@@ -180,6 +205,10 @@ msgstr "Показывать заполнители «добавить роди�
 #: resources/views/modules/pedigree-chart/form/details.phtml:28
 msgid "Show alternative name of individual"
 msgstr "Показывать альтернативное имя персоны"
+
+#: resources/views/modules/pedigree-chart/form/details.phtml:53
+msgid "Show details panel"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:28
 msgid "Show family colors"
@@ -201,7 +230,7 @@ msgstr "Показывать прозвища в отображаемых име
 msgid "Switch between full screen mode and normal view"
 msgstr "Переключение между полноэкранным и обычным режимом"
 
-#: src/Module/ConfigTrait.php:113
+#: src/Module/ConfigTrait.php:117
 #, php-format
 msgid "The preferences for the module “%s” have been updated."
 msgstr ""
@@ -226,15 +255,19 @@ msgstr ""
 msgid "cancel"
 msgstr ""
 
-#: src/Configuration.php:269 src/Configuration.php:277
+#: resources/views/modules/pedigree-chart/page.phtml:108
+msgid "close"
+msgstr ""
+
+#: src/Configuration.php:274 src/Configuration.php:282
 msgid "down"
 msgstr ""
 
-#: src/Configuration.php:266 src/Configuration.php:274
+#: src/Configuration.php:271 src/Configuration.php:279
 msgid "left"
 msgstr "влево"
 
-#: src/Configuration.php:267 src/Configuration.php:275
+#: src/Configuration.php:272 src/Configuration.php:280
 msgid "right"
 msgstr "вправо"
 
@@ -242,7 +275,7 @@ msgstr "вправо"
 msgid "save"
 msgstr ""
 
-#: src/Configuration.php:268 src/Configuration.php:276
+#: src/Configuration.php:273 src/Configuration.php:281
 msgid "up"
 msgstr ""
 

@@ -107,6 +107,10 @@ trait ConfigTrait
             'default_nameAbbreviation',
             $configuration->getNameAbbreviation()->value
         );
+        $this->setPreference(
+            'default_showDetailPanel',
+            (string) $configuration->getShowDetailPanel()
+        );
 
         FlashMessages::addMessage(
             I18N::translate(

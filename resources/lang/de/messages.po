@@ -1,3 +1,4 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Pedigree chart\n"
@@ -22,29 +23,33 @@ msgstr ""
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "Ein Stammbaum der Vorfahren einer Person."
 
-#: src/Configuration.php:505
+#: src/Configuration.php:510
 msgid "Abbreviate given names first"
 msgstr "Zuerst Vornamen abkürzen"
 
-#: src/Configuration.php:506
+#: src/Configuration.php:511
 msgid "Abbreviate surnames first"
 msgstr "Zuerst Nachnamen abkürzen"
 
-#: src/Facade/DataFacade.php:200
+#: src/Facade/DataFacade.php:227
 msgid "Add a father"
 msgstr ""
 
-#: src/Facade/DataFacade.php:201
+#: src/Facade/DataFacade.php:228
 msgid "Add a mother"
 msgstr ""
 
-#: src/Configuration.php:504
+#: src/Configuration.php:509
 msgid "Automatic (based on tree's surname tradition)"
 msgstr "Automatisch (basierend auf der Nachnamen-Tradition des Stammbaums)"
 
 #: resources/views/modules/pedigree-chart/form/behavior.phtml:23
 msgid "Behavior"
 msgstr "Verhalten"
+
+#: resources/views/modules/pedigree-chart/page.phtml:117
+msgid "Center chart on this person"
+msgstr "Diagramm auf diese Person zentrieren"
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:23
 msgid "Colors"
@@ -145,9 +150,17 @@ msgstr "Verschieben der Ansicht mit zwei Fingern"
 msgid "Name abbreviation when space is tight"
 msgstr "Namensabkürzung bei knappem Platz"
 
+#: resources/views/modules/pedigree-chart/page.phtml:114
+msgid "No details are available for this person."
+msgstr "Für diese Person sind keine Details verfügbar."
+
 #: resources/views/modules/pedigree-chart/form/behavior.phtml:28
 msgid "Open individual in new browser window/tab"
 msgstr "Aktuelle Person in neuem Browserfenster/Tab öffnen"
+
+#: resources/views/modules/pedigree-chart/page.phtml:116
+msgid "Open individual page"
+msgstr "Personenseite öffnen"
 
 #: resources/views/modules/pedigree-chart/form/behavior.phtml:34
 msgid ""
@@ -179,6 +192,23 @@ msgstr "Vorfahrentafel von %s"
 msgid "Re center"
 msgstr "Neu zentrieren"
 
+#: resources/views/modules/pedigree-chart/page.phtml:112
+msgid "Select a person in the chart to see the details here."
+msgstr "Person im Diagramm auswählen, um hier die Details anzuzeigen."
+
+#: resources/views/modules/pedigree-chart/form/details.phtml:59
+msgid ""
+"Selecting a person shows the birth, the death with places and the facts that "
+"the tree names for the chart box (\"Other facts to show in charts\") in a "
+"panel that slides in over the chart. A click then selects a person instead "
+"of opening the chart for them, and the panel offers both actions."
+msgstr ""
+"Wird eine Person ausgewählt, legt sich ein Bereich über das Diagramm und "
+"zeigt ihre Geburt und ihren Tod mit Orten sowie die Ereignisse, die der "
+"Stammbaum für die Diagrammfelder nennt („Andere in Diagrammen zu zeigende "
+"Ereignisse“). Ein Klick wählt dann eine Person aus, statt das Diagramm für "
+"sie zu öffnen, und der Bereich bietet beide Aktionen an."
+
 #: resources/views/modules/pedigree-chart/config.phtml:74
 msgid "Show \"add parent\" placeholders for missing ancestors"
 msgstr "Platzhalter „Elternteil hinzufügen\" für fehlende Vorfahren anzeigen"
@@ -186,6 +216,10 @@ msgstr "Platzhalter „Elternteil hinzufügen\" für fehlende Vorfahren anzeigen
 #: resources/views/modules/pedigree-chart/form/details.phtml:28
 msgid "Show alternative name of individual"
 msgstr "Alternativen Namen der Person anzeigen"
+
+#: resources/views/modules/pedigree-chart/form/details.phtml:53
+msgid "Show details panel"
+msgstr "Detailbereich anzeigen"
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:28
 msgid "Show family colors"
@@ -207,7 +241,7 @@ msgstr "Spitznamen in den angezeigten Namen anzeigen"
 msgid "Switch between full screen mode and normal view"
 msgstr "Zwischen Vollbildmodus und normaler Ansicht umschalten"
 
-#: src/Module/ConfigTrait.php:113
+#: src/Module/ConfigTrait.php:117
 #, php-format
 msgid "The preferences for the module “%s” have been updated."
 msgstr ""
@@ -233,15 +267,19 @@ msgstr ""
 msgid "cancel"
 msgstr ""
 
-#: src/Configuration.php:269 src/Configuration.php:277
+#: resources/views/modules/pedigree-chart/page.phtml:108
+msgid "close"
+msgstr ""
+
+#: src/Configuration.php:274 src/Configuration.php:282
 msgid "down"
 msgstr "Unten"
 
-#: src/Configuration.php:266 src/Configuration.php:274
+#: src/Configuration.php:271 src/Configuration.php:279
 msgid "left"
 msgstr "Links"
 
-#: src/Configuration.php:267 src/Configuration.php:275
+#: src/Configuration.php:272 src/Configuration.php:280
 msgid "right"
 msgstr "Rechts"
 
@@ -249,7 +287,7 @@ msgstr "Rechts"
 msgid "save"
 msgstr ""
 
-#: src/Configuration.php:268 src/Configuration.php:276
+#: src/Configuration.php:273 src/Configuration.php:281
 msgid "up"
 msgstr "Oben"
 
