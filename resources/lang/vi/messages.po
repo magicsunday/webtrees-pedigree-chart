@@ -51,6 +51,18 @@ msgstr "Hành vi"
 msgid "Center chart on this person"
 msgstr ""
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:36
+msgid "Click and drag"
+msgstr "Nhấp và kéo"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:31
+msgid "Click on a person"
+msgstr "Nhấp vào một người"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:33
+msgid "Click or Enter on a person"
+msgstr ""
+
 #: resources/views/modules/pedigree-chart/form/colors.phtml:23
 msgid "Colors"
 msgstr ""
@@ -77,8 +89,16 @@ msgstr ""
 "tên đầy đủ. \"Tự động\" sử dụng truyền thống họ của cây phả hệ (Iceland viết "
 "tắt họ; còn lại viết tắt tên gọi)."
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:35
+msgid "Ctrl + scroll"
+msgstr "Ctrl + cuộn chuột"
+
 #: resources/views/modules/pedigree-chart/form/details.phtml:23
 msgid "Details"
+msgstr ""
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:34
+msgid "Details panel"
 msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:34
@@ -138,6 +158,14 @@ msgstr "Bên ngoại"
 msgid "Modules"
 msgstr ""
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:32
+msgid "Move between the persons"
+msgstr ""
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:36
+msgid "Move the chart"
+msgstr "Di chuyển biểu đồ"
+
 #: src/Module.php:236
 msgid "Move the view with two fingers"
 msgstr "Di chuyển tầm nhìn bằng hai ngón tay"
@@ -164,6 +192,10 @@ msgid ""
 "it's left-clicked, otherwise the current window/tab is used."
 msgstr ""
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:34
+msgid "Open the individual page or center the chart on the person"
+msgstr ""
+
 #: resources/views/modules/pedigree-chart/form/orientation.phtml:22
 msgid "Orientation"
 msgstr ""
@@ -184,6 +216,10 @@ msgstr "Biểu đồ phả hệ của %s"
 #: resources/views/modules/components/buttonbar/center-button.phtml:18
 msgid "Re center"
 msgstr "Chỉnh biểu đồ về giữa màn hình"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:31
+msgid "Reload chart for that person"
+msgstr "Tải lại biểu đồ cho người đó"
 
 #: resources/views/modules/pedigree-chart/page.phtml:112
 msgid "Select a person in the chart to see the details here."
@@ -213,7 +249,8 @@ msgstr ""
 msgid "Show family colors"
 msgstr "Hiển thị màu gia đình"
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:17
+#: resources/views/modules/components/buttonbar/help-button.phtml:18
+#: resources/views/modules/components/buttonbar/help-button.phtml:29
 msgid "Show help"
 msgstr "Hiển thị trợ giúp"
 
@@ -225,9 +262,17 @@ msgstr "Hiển thị thêm tùy chọn"
 msgid "Show nicknames in display names"
 msgstr "Hiển thị biệt danh trong tên hiển thị"
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:33
+msgid "Show the details of the person in the panel"
+msgstr ""
+
 #: resources/views/modules/components/buttonbar/fullscreen-button.phtml:18
 msgid "Switch between full screen mode and normal view"
 msgstr "Chuyển giữa toàn màn hình và xem bình thường"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:32
+msgid "Tab key"
+msgstr ""
 
 #: src/Module/ConfigTrait.php:117
 #, php-format
@@ -249,6 +294,10 @@ msgstr ""
 "người cha hoặc mẹ còn thiếu. Người chỉnh sửa có thể nhấp để đi trực tiếp đến "
 "biểu mẫu webtrees \"thêm cha mẹ\" cho người con tương ứng. Các ô chỗ chỉ "
 "hiển thị cho người dùng có quyền chỉnh sửa cá nhân đó."
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:35
+msgid "Zoom in/out"
+msgstr "Phóng to/Thu nhỏ"
 
 #: resources/views/modules/pedigree-chart/config.phtml:112
 msgid "cancel"

@@ -51,6 +51,18 @@ msgstr "Verhalten"
 msgid "Center chart on this person"
 msgstr "Diagramm auf diese Person zentrieren"
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:36
+msgid "Click and drag"
+msgstr "Klicken und Ziehen"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:31
+msgid "Click on a person"
+msgstr "Auf eine Person klicken"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:33
+msgid "Click or Enter on a person"
+msgstr "Klick oder Eingabetaste auf eine Person"
+
 #: resources/views/modules/pedigree-chart/form/colors.phtml:23
 msgid "Colors"
 msgstr ""
@@ -77,9 +89,17 @@ msgstr ""
 "den vollen Namen ist. „Automatisch“ verwendet die Nachnamen-Tradition des "
 "Stammbaums (Isländisch kürzt Nachnamen; alles andere kürzt Vornamen)."
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:35
+msgid "Ctrl + scroll"
+msgstr "Strg + Scrollen"
+
 #: resources/views/modules/pedigree-chart/form/details.phtml:23
 msgid "Details"
 msgstr ""
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:34
+msgid "Details panel"
+msgstr "Detailbereich"
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:34
 msgid ""
@@ -142,6 +162,14 @@ msgstr "Mütterlich"
 msgid "Modules"
 msgstr ""
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:32
+msgid "Move between the persons"
+msgstr "Zwischen den Personen wechseln"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:36
+msgid "Move the chart"
+msgstr "Diagramm verschieben"
+
 #: src/Module.php:236
 msgid "Move the view with two fingers"
 msgstr "Verschieben der Ansicht mit zwei Fingern"
@@ -171,6 +199,10 @@ msgstr ""
 "Tab, wenn mit der linken Maustaste darauf geklickt wird. Andernfalls wird "
 "das aktuelle Fenster/Tab verwendet."
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:34
+msgid "Open the individual page or center the chart on the person"
+msgstr "Personenseite öffnen oder das Diagramm auf die Person zentrieren"
+
 #: resources/views/modules/pedigree-chart/form/orientation.phtml:22
 msgid "Orientation"
 msgstr ""
@@ -191,6 +223,10 @@ msgstr "Vorfahrentafel von %s"
 #: resources/views/modules/components/buttonbar/center-button.phtml:18
 msgid "Re center"
 msgstr "Neu zentrieren"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:31
+msgid "Reload chart for that person"
+msgstr "Diagramm für diese Person neu laden"
 
 #: resources/views/modules/pedigree-chart/page.phtml:112
 msgid "Select a person in the chart to see the details here."
@@ -225,7 +261,8 @@ msgstr "Detailbereich anzeigen"
 msgid "Show family colors"
 msgstr "Familienfarben anzeigen"
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:17
+#: resources/views/modules/components/buttonbar/help-button.phtml:18
+#: resources/views/modules/components/buttonbar/help-button.phtml:29
 msgid "Show help"
 msgstr "Hilfe anzeigen"
 
@@ -237,9 +274,17 @@ msgstr "Zeige weitere Optionen"
 msgid "Show nicknames in display names"
 msgstr "Spitznamen in den angezeigten Namen anzeigen"
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:33
+msgid "Show the details of the person in the panel"
+msgstr "Die Details der Person im Detailbereich anzeigen"
+
 #: resources/views/modules/components/buttonbar/fullscreen-button.phtml:18
 msgid "Switch between full screen mode and normal view"
 msgstr "Zwischen Vollbildmodus und normaler Ansicht umschalten"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:32
+msgid "Tab key"
+msgstr "Tabulatortaste"
 
 #: src/Module/ConfigTrait.php:117
 #, php-format
@@ -262,6 +307,10 @@ msgstr ""
 "anklicken, um direkt zum webtrees-Formular „Elternteil hinzufügen\" für das "
 "entsprechende Kind zu springen. Die Platzhalter werden nur Benutzern "
 "angezeigt, die Bearbeitungsrechte für die Person haben."
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:35
+msgid "Zoom in/out"
+msgstr "Vergrößern/Verkleinern"
 
 #: resources/views/modules/pedigree-chart/config.phtml:112
 msgid "cancel"

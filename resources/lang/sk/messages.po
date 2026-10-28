@@ -52,6 +52,18 @@ msgstr "Správanie"
 msgid "Center chart on this person"
 msgstr ""
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:36
+msgid "Click and drag"
+msgstr ""
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:31
+msgid "Click on a person"
+msgstr ""
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:33
+msgid "Click or Enter on a person"
+msgstr ""
+
 #: resources/views/modules/pedigree-chart/form/colors.phtml:23
 msgid "Colors"
 msgstr ""
@@ -78,8 +90,16 @@ msgstr ""
 "meno. „Automaticky“ používa tradíciu priezvisk stromu (islandská tradícia "
 "skracuje priezviská; všetky ostatné skracujú krstné mená)."
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:35
+msgid "Ctrl + scroll"
+msgstr ""
+
 #: resources/views/modules/pedigree-chart/form/details.phtml:23
 msgid "Details"
+msgstr ""
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:34
+msgid "Details panel"
 msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:34
@@ -139,6 +159,14 @@ msgstr "Materinská"
 msgid "Modules"
 msgstr ""
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:32
+msgid "Move between the persons"
+msgstr ""
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:36
+msgid "Move the chart"
+msgstr ""
+
 #: src/Module.php:236
 msgid "Move the view with two fingers"
 msgstr "Presunúť pohľad dvomi prstami"
@@ -165,6 +193,10 @@ msgid ""
 "it's left-clicked, otherwise the current window/tab is used."
 msgstr ""
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:34
+msgid "Open the individual page or center the chart on the person"
+msgstr ""
+
 #: resources/views/modules/pedigree-chart/form/orientation.phtml:22
 msgid "Orientation"
 msgstr ""
@@ -185,6 +217,10 @@ msgstr "Rodokmeň %s"
 #: resources/views/modules/components/buttonbar/center-button.phtml:18
 msgid "Re center"
 msgstr "Znova vycentrovať"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:31
+msgid "Reload chart for that person"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:112
 msgid "Select a person in the chart to see the details here."
@@ -214,7 +250,8 @@ msgstr ""
 msgid "Show family colors"
 msgstr "Zobraziť rodinné farby"
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:17
+#: resources/views/modules/components/buttonbar/help-button.phtml:18
+#: resources/views/modules/components/buttonbar/help-button.phtml:29
 msgid "Show help"
 msgstr "Zobraziť pomoc"
 
@@ -226,9 +263,17 @@ msgstr "Zobraziť viac možností"
 msgid "Show nicknames in display names"
 msgstr "Zobraziť prezývky v zobrazovaných menách"
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:33
+msgid "Show the details of the person in the panel"
+msgstr ""
+
 #: resources/views/modules/components/buttonbar/fullscreen-button.phtml:18
 msgid "Switch between full screen mode and normal view"
 msgstr "Prepnúť medzi celou obrazovkou a normálnym zobrazením"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:32
+msgid "Tab key"
+msgstr ""
 
 #: src/Module/ConfigTrait.php:117
 #, php-format
@@ -250,6 +295,10 @@ msgstr ""
 "prázdny rámček s ikonou „+\". Editori naň môžu kliknúť, aby prešli priamo na "
 "formulár webtrees „pridať rodiča\" pre príslušné dieťa. Zástupné polia sa "
 "zobrazujú iba používateľom s právom upravovať danú osobu."
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:35
+msgid "Zoom in/out"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:112
 msgid "cancel"

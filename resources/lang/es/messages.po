@@ -51,6 +51,18 @@ msgstr "Comportamiento"
 msgid "Center chart on this person"
 msgstr ""
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:36
+msgid "Click and drag"
+msgstr "Hacer clic y arrastrar"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:31
+msgid "Click on a person"
+msgstr "Hacer clic en una persona"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:33
+msgid "Click or Enter on a person"
+msgstr ""
+
 #: resources/views/modules/pedigree-chart/form/colors.phtml:23
 msgid "Colors"
 msgstr ""
@@ -78,8 +90,16 @@ msgstr ""
 "tradición de apellidos del árbol (islandés abrevia apellidos; el resto "
 "abrevia nombres de pila)."
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:35
+msgid "Ctrl + scroll"
+msgstr "Ctrl + scroll"
+
 #: resources/views/modules/pedigree-chart/form/details.phtml:23
 msgid "Details"
+msgstr ""
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:34
+msgid "Details panel"
 msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:34
@@ -140,6 +160,14 @@ msgstr "Materno"
 msgid "Modules"
 msgstr ""
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:32
+msgid "Move between the persons"
+msgstr ""
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:36
+msgid "Move the chart"
+msgstr "Mover el diagrama"
+
 #: src/Module.php:236
 msgid "Move the view with two fingers"
 msgstr "Mueve la vista con dos dedos"
@@ -166,6 +194,10 @@ msgid ""
 "it's left-clicked, otherwise the current window/tab is used."
 msgstr ""
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:34
+msgid "Open the individual page or center the chart on the person"
+msgstr ""
+
 #: resources/views/modules/pedigree-chart/form/orientation.phtml:22
 msgid "Orientation"
 msgstr ""
@@ -186,6 +218,10 @@ msgstr "Árbol de antepasados de %s"
 #: resources/views/modules/components/buttonbar/center-button.phtml:18
 msgid "Re center"
 msgstr "Volver a centrar"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:31
+msgid "Reload chart for that person"
+msgstr "Recargar el diagrama para esa persona"
 
 #: resources/views/modules/pedigree-chart/page.phtml:112
 msgid "Select a person in the chart to see the details here."
@@ -215,7 +251,8 @@ msgstr ""
 msgid "Show family colors"
 msgstr "Mostrar colores familiares"
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:17
+#: resources/views/modules/components/buttonbar/help-button.phtml:18
+#: resources/views/modules/components/buttonbar/help-button.phtml:29
 msgid "Show help"
 msgstr "Mostrar ayuda"
 
@@ -227,9 +264,17 @@ msgstr "Mostrar más opciones"
 msgid "Show nicknames in display names"
 msgstr "Mostrar apodos en los nombres mostrados"
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:33
+msgid "Show the details of the person in the panel"
+msgstr ""
+
 #: resources/views/modules/components/buttonbar/fullscreen-button.phtml:18
 msgid "Switch between full screen mode and normal view"
 msgstr "Cambiar entre pantalla completa y vista normal"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:32
+msgid "Tab key"
+msgstr ""
 
 #: src/Module/ConfigTrait.php:117
 #, php-format
@@ -252,6 +297,10 @@ msgstr ""
 "ir directamente al formulario «añadir un progenitor» de webtrees para el "
 "hijo correspondiente. Los marcadores solo se muestran a los usuarios con "
 "derechos de edición sobre la persona."
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:35
+msgid "Zoom in/out"
+msgstr "Acercar/Alejar"
 
 #: resources/views/modules/pedigree-chart/config.phtml:112
 msgid "cancel"

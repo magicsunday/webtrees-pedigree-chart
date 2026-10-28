@@ -52,6 +52,18 @@ msgstr "Поведение"
 msgid "Center chart on this person"
 msgstr ""
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:36
+msgid "Click and drag"
+msgstr "Нажмите и перетащите"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:31
+msgid "Click on a person"
+msgstr "Нажмите на персону"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:33
+msgid "Click or Enter on a person"
+msgstr ""
+
 #: resources/views/modules/pedigree-chart/form/colors.phtml:23
 msgid "Colors"
 msgstr ""
@@ -78,8 +90,16 @@ msgstr ""
 "для полного имени. «Автоматически» использует традицию фамилий дерева "
 "(исландская традиция сокращает фамилии; все остальные сокращают имена)."
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:35
+msgid "Ctrl + scroll"
+msgstr "Ctrl + колёсико мыши"
+
 #: resources/views/modules/pedigree-chart/form/details.phtml:23
 msgid "Details"
+msgstr ""
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:34
+msgid "Details panel"
 msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:34
@@ -139,6 +159,14 @@ msgstr "Материнский"
 msgid "Modules"
 msgstr ""
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:32
+msgid "Move between the persons"
+msgstr ""
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:36
+msgid "Move the chart"
+msgstr "Переместить диаграмму"
+
 #: src/Module.php:236
 msgid "Move the view with two fingers"
 msgstr "Измените вид двумя пальцами"
@@ -165,6 +193,10 @@ msgid ""
 "it's left-clicked, otherwise the current window/tab is used."
 msgstr ""
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:34
+msgid "Open the individual page or center the chart on the person"
+msgstr ""
+
 #: resources/views/modules/pedigree-chart/form/orientation.phtml:22
 msgid "Orientation"
 msgstr ""
@@ -185,6 +217,10 @@ msgstr "Восходящее дерево %s"
 #: resources/views/modules/components/buttonbar/center-button.phtml:18
 msgid "Re center"
 msgstr "Центрировать"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:31
+msgid "Reload chart for that person"
+msgstr "Перезагрузить диаграмму для этой персоны"
 
 #: resources/views/modules/pedigree-chart/page.phtml:112
 msgid "Select a person in the chart to see the details here."
@@ -214,7 +250,8 @@ msgstr ""
 msgid "Show family colors"
 msgstr "Показать цвета семей"
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:17
+#: resources/views/modules/components/buttonbar/help-button.phtml:18
+#: resources/views/modules/components/buttonbar/help-button.phtml:29
 msgid "Show help"
 msgstr "Показать справку"
 
@@ -226,9 +263,17 @@ msgstr "Больше опций"
 msgid "Show nicknames in display names"
 msgstr "Показывать прозвища в отображаемых именах"
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:33
+msgid "Show the details of the person in the panel"
+msgstr ""
+
 #: resources/views/modules/components/buttonbar/fullscreen-button.phtml:18
 msgid "Switch between full screen mode and normal view"
 msgstr "Переключение между полноэкранным и обычным режимом"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:32
+msgid "Tab key"
+msgstr ""
 
 #: src/Module/ConfigTrait.php:117
 #, php-format
@@ -250,6 +295,10 @@ msgstr ""
 "пустое поле со значком «+». Редакторы могут нажать на него, чтобы сразу "
 "перейти к форме webtrees «добавить родителя» для соответствующего ребёнка. "
 "Заполнители видны только пользователям с правом редактирования данного лица."
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:35
+msgid "Zoom in/out"
+msgstr "Увеличить/Уменьшить"
 
 #: resources/views/modules/pedigree-chart/config.phtml:112
 msgid "cancel"
