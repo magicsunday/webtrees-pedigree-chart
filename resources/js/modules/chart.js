@@ -225,18 +225,18 @@ export default class Chart {
 
                 element.on("click", () => that.personClick(person.data));
 
-                if (that._configuration.showDetailPanel) {
-                    that._selection.makeOperable(element, person, (datum, byKeyboard) =>
-                        that.personClick(datum, byKeyboard),
-                    );
+                // A person is reached with the Tab key and activated with Enter or Space like a
+                // click, with the detail panel as well as without it
+                that._selection.makeOperable(element, person, (datum, byKeyboard) =>
+                    that.personClick(datum, byKeyboard),
+                );
 
-                    // The box shows the dates next to the name, so a label with the bare name
-                    // would not contain the visible text (WCAG 2.5.3)
-                    const label = visibleText(this);
+                // The box shows the dates next to the name, so a label with the bare name
+                // would not contain the visible text (WCAG 2.5.3)
+                const label = visibleText(this);
 
-                    if (label !== "") {
-                        element.attr("aria-label", label);
-                    }
+                if (label !== "") {
+                    element.attr("aria-label", label);
                 }
             });
 
