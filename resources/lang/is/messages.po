@@ -125,8 +125,8 @@ msgstr ""
 #: resources/views/modules/pedigree-chart/form/details.phtml:46
 msgid ""
 "Inserts the GEDCOM NICK value in quotes between the given names and the "
-"surname (e.g. Martin \"Chalky\" White). Mirrors the legacy webtrees "
-"behaviour for trees that store nicknames in the separate GEDCOM NICK field."
+"surname (e.g. Martin \"Chalky\" White). Mirrors the legacy webtrees behavior "
+"for trees that store nicknames in the separate GEDCOM NICK field."
 msgstr ""
 "Setur GEDCOM NICK-gildið innan gæsalappa milli skírnarnafna og ættarnafns "
 "(t.d. Martin \"Chalky\" White). Líkir eftir gamla webtrees-hegðuninni fyrir "
@@ -178,7 +178,7 @@ msgstr "Föður"
 
 #: src/Module.php:119 src/Module/ChartTrait.php:63
 msgid "Pedigree chart"
-msgstr "Ættartölugraf"
+msgstr ""
 
 #: src/Module/ChartTrait.php:48
 #, php-format
@@ -236,7 +236,7 @@ msgstr "Skiptu á milli fullsskjás og venjulegs skjás"
 #: src/Module/ConfigTrait.php:117
 #, php-format
 msgid "The preferences for the module “%s” have been updated."
-msgstr "Kjörstillingar fyrir eininguna “%s“ hafa verið uppfærðar."
+msgstr ""
 
 #: src/Module.php:235
 msgid "Use Ctrl + scroll to zoom in the view"
@@ -256,7 +256,7 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:112
 msgid "cancel"
-msgstr "hætta"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:108
 msgid "close"

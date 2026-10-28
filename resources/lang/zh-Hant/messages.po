@@ -100,7 +100,7 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/generations.phtml:22
 msgid "Generations"
-msgstr "幾代"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:77
 msgid "Hide more options"
@@ -116,13 +116,13 @@ msgstr "隱藏 SVG 匯出按鈕"
 
 #: resources/views/modules/pedigree-chart/page.phtml:39
 msgid "Individual"
-msgstr "個人"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:46
 msgid ""
 "Inserts the GEDCOM NICK value in quotes between the given names and the "
-"surname (e.g. Martin \"Chalky\" White). Mirrors the legacy webtrees "
-"behaviour for trees that store nicknames in the separate GEDCOM NICK field."
+"surname (e.g. Martin \"Chalky\" White). Mirrors the legacy webtrees behavior "
+"for trees that store nicknames in the separate GEDCOM NICK field."
 msgstr ""
 "將 GEDCOM NICK 欄位的值以引號插入在名字與姓氏之間（例如 Martin \"Chalky\" "
 "White）。模擬舊版 webtrees 的行為，適用於在獨立的 GEDCOM NICK 欄位中儲存暱稱"
@@ -257,15 +257,15 @@ msgstr ""
 
 #: src/Configuration.php:274 src/Configuration.php:282
 msgid "down"
-msgstr "祖輩在下"
+msgstr ""
 
 #: src/Configuration.php:271 src/Configuration.php:279
 msgid "left"
-msgstr "祖輩在左"
+msgstr ""
 
 #: src/Configuration.php:272 src/Configuration.php:280
 msgid "right"
-msgstr "祖輩在右"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:107
 msgid "save"
@@ -273,7 +273,7 @@ msgstr ""
 
 #: src/Configuration.php:273 src/Configuration.php:281
 msgid "up"
-msgstr "祖輩在上"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:65
 msgid "view"

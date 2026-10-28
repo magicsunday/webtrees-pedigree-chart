@@ -119,13 +119,13 @@ msgstr "Скрыть кнопку экспорта в SVG"
 
 #: resources/views/modules/pedigree-chart/page.phtml:39
 msgid "Individual"
-msgstr "Человек"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:46
 msgid ""
 "Inserts the GEDCOM NICK value in quotes between the given names and the "
-"surname (e.g. Martin \"Chalky\" White). Mirrors the legacy webtrees "
-"behaviour for trees that store nicknames in the separate GEDCOM NICK field."
+"surname (e.g. Martin \"Chalky\" White). Mirrors the legacy webtrees behavior "
+"for trees that store nicknames in the separate GEDCOM NICK field."
 msgstr ""
 "Вставляет значение GEDCOM NICK в кавычках между именами и фамилией "
 "(например, Martin \"Chalky\" White). Повторяет прежнее поведение webtrees "
@@ -175,7 +175,7 @@ msgstr "Отцовский"
 
 #: src/Module.php:119 src/Module/ChartTrait.php:63
 msgid "Pedigree chart"
-msgstr "Восходящее дерево"
+msgstr ""
 
 #: src/Module/ChartTrait.php:48
 #, php-format
@@ -265,11 +265,11 @@ msgstr ""
 
 #: src/Configuration.php:271 src/Configuration.php:279
 msgid "left"
-msgstr "влево"
+msgstr ""
 
 #: src/Configuration.php:272 src/Configuration.php:280
 msgid "right"
-msgstr "вправо"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:107
 msgid "save"
@@ -281,4 +281,4 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:65
 msgid "view"
-msgstr "Обновить"
+msgstr ""

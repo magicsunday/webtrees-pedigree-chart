@@ -124,8 +124,8 @@ msgstr ""
 #: resources/views/modules/pedigree-chart/form/details.phtml:46
 msgid ""
 "Inserts the GEDCOM NICK value in quotes between the given names and the "
-"surname (e.g. Martin \"Chalky\" White). Mirrors the legacy webtrees "
-"behaviour for trees that store nicknames in the separate GEDCOM NICK field."
+"surname (e.g. Martin \"Chalky\" White). Mirrors the legacy webtrees behavior "
+"for trees that store nicknames in the separate GEDCOM NICK field."
 msgstr ""
 "Insère la valeur GEDCOM NICK entre guillemets entre les prénoms et le nom de "
 "famille (par ex. Martin \"Chalky\" White). Reproduit l'ancien comportement "
@@ -176,7 +176,7 @@ msgstr "Paternelle"
 
 #: src/Module.php:119 src/Module/ChartTrait.php:63
 msgid "Pedigree chart"
-msgstr "Arbre d'ascendance"
+msgstr ""
 
 #: src/Module/ChartTrait.php:48
 #, php-format
@@ -264,15 +264,15 @@ msgstr ""
 
 #: src/Configuration.php:274 src/Configuration.php:282
 msgid "down"
-msgstr "bas"
+msgstr ""
 
 #: src/Configuration.php:271 src/Configuration.php:279
 msgid "left"
-msgstr "gauche"
+msgstr ""
 
 #: src/Configuration.php:272 src/Configuration.php:280
 msgid "right"
-msgstr "droite"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:107
 msgid "save"
@@ -280,7 +280,7 @@ msgstr ""
 
 #: src/Configuration.php:273 src/Configuration.php:281
 msgid "up"
-msgstr "haut"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:65
 msgid "view"

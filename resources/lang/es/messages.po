@@ -99,7 +99,7 @@ msgstr "Exportar como SVG"
 
 #: resources/views/modules/pedigree-chart/config.phtml:50
 msgid "General"
-msgstr "Opciones generales"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/generations.phtml:22
 msgid "Generations"
@@ -119,13 +119,13 @@ msgstr "Ocultar el botón de exportar a SVG"
 
 #: resources/views/modules/pedigree-chart/page.phtml:39
 msgid "Individual"
-msgstr "Individuo"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:46
 msgid ""
 "Inserts the GEDCOM NICK value in quotes between the given names and the "
-"surname (e.g. Martin \"Chalky\" White). Mirrors the legacy webtrees "
-"behaviour for trees that store nicknames in the separate GEDCOM NICK field."
+"surname (e.g. Martin \"Chalky\" White). Mirrors the legacy webtrees behavior "
+"for trees that store nicknames in the separate GEDCOM NICK field."
 msgstr ""
 "Inserta el valor GEDCOM NICK entre comillas entre los nombres y el apellido "
 "(p. ej. Martin \"Chalky\" White). Reproduce el comportamiento heredado de "
@@ -176,7 +176,7 @@ msgstr "Paterno"
 
 #: src/Module.php:119 src/Module/ChartTrait.php:63
 msgid "Pedigree chart"
-msgstr "Árbol de antepasados"
+msgstr ""
 
 #: src/Module/ChartTrait.php:48
 #, php-format

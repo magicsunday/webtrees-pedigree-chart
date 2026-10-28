@@ -125,8 +125,8 @@ msgstr ""
 #: resources/views/modules/pedigree-chart/form/details.phtml:46
 msgid ""
 "Inserts the GEDCOM NICK value in quotes between the given names and the "
-"surname (e.g. Martin \"Chalky\" White). Mirrors the legacy webtrees "
-"behaviour for trees that store nicknames in the separate GEDCOM NICK field."
+"surname (e.g. Martin \"Chalky\" White). Mirrors the legacy webtrees behavior "
+"for trees that store nicknames in the separate GEDCOM NICK field."
 msgstr ""
 "Set inn GEDCOM NICK-verdien i hermeteikn mellom førenamn og etternamn (t.d. "
 "Martin \"Chalky\" White). Tek att den gamle webtrees-åtferda for tre som "
@@ -236,7 +236,7 @@ msgstr "Byt mellom fullskjerm og normal visning"
 #: src/Module/ConfigTrait.php:117
 #, php-format
 msgid "The preferences for the module “%s” have been updated."
-msgstr "Innstillingane for modulen “%s” har blitt oppdatert."
+msgstr ""
 
 #: src/Module.php:235
 msgid "Use Ctrl + scroll to zoom in the view"

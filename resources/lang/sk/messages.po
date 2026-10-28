@@ -119,13 +119,13 @@ msgstr "Skryť tlačidlo exportu SVG"
 
 #: resources/views/modules/pedigree-chart/page.phtml:39
 msgid "Individual"
-msgstr "Jednotlivec"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:46
 msgid ""
 "Inserts the GEDCOM NICK value in quotes between the given names and the "
-"surname (e.g. Martin \"Chalky\" White). Mirrors the legacy webtrees "
-"behaviour for trees that store nicknames in the separate GEDCOM NICK field."
+"surname (e.g. Martin \"Chalky\" White). Mirrors the legacy webtrees behavior "
+"for trees that store nicknames in the separate GEDCOM NICK field."
 msgstr ""
 "Vloží hodnotu GEDCOM NICK v úvodzovkách medzi krstné mená a priezvisko "
 "(napr. Martin \"Chalky\" White). Napodobňuje pôvodné správanie webtrees pre "
@@ -167,7 +167,7 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/orientation.phtml:22
 msgid "Orientation"
-msgstr "Orentácia"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:39
 msgid "Paternal"
@@ -175,7 +175,7 @@ msgstr "Otcovská"
 
 #: src/Module.php:119 src/Module/ChartTrait.php:63
 msgid "Pedigree chart"
-msgstr "Rodokmeň"
+msgstr ""
 
 #: src/Module/ChartTrait.php:48
 #, php-format
@@ -261,7 +261,7 @@ msgstr ""
 
 #: src/Configuration.php:274 src/Configuration.php:282
 msgid "down"
-msgstr "dole"
+msgstr ""
 
 #: src/Configuration.php:271 src/Configuration.php:279
 msgid "left"
