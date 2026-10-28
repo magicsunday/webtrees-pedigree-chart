@@ -32,11 +32,11 @@ msgstr "Спершу скорочувати імена"
 msgid "Abbreviate surnames first"
 msgstr "Спершу скорочувати прізвища"
 
-#: src/Facade/DataFacade.php:227
+#: src/Facade/DataFacade.php:231
 msgid "Add a father"
 msgstr ""
 
-#: src/Facade/DataFacade.php:228
+#: src/Facade/DataFacade.php:232
 msgid "Add a mother"
 msgstr ""
 

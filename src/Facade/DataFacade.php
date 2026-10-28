@@ -80,6 +80,10 @@ final class DataFacade
     /**
      * Returns the resolver of the facts of the detail panel. It is shared by
      * every node of the request.
+     *
+     * @param Tree $tree
+     *
+     * @return FactResolver
      */
     private function getFactResolver(Tree $tree): FactResolver
     {
