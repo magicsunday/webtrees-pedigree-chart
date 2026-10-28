@@ -20,6 +20,30 @@ import Tree from "./tree.js";
 const MIN_PADDING = 1; // Minimum padding around view box in "rem"
 
 /**
+ * Returns the text that a person box shows, one line per text element. The tspans carry the
+ * visible text, a title next to them is only the tooltip of the same text.
+ *
+ * @param {unknown} node The person element
+ *
+ * @return {string} The visible lines joined by a space, empty if the box shows no text
+ */
+function visibleText(node) {
+    if (!(node instanceof Element)) {
+        return "";
+    }
+
+    return Array.from(node.querySelectorAll("text"))
+        .map((text) =>
+            Array.from(text.querySelectorAll("tspan"))
+                .map((tspan) => tspan.textContent ?? "")
+                .join(" ")
+                .trim(),
+        )
+        .filter((line) => line !== "")
+        .join(" ");
+}
+
+/**
  * This class handles the overall chart creation.
  *
  * @author  Rico Sonntag <mail@ricosonntag.de>
@@ -205,6 +229,14 @@ export default class Chart {
                     that._selection.makeOperable(element, person, (datum, byKeyboard) =>
                         that.personClick(datum, byKeyboard),
                     );
+
+                    // The box shows the dates next to the name, so a label with the bare name
+                    // would not contain the visible text (WCAG 2.5.3)
+                    const label = visibleText(this);
+
+                    if (label !== "") {
+                        element.attr("aria-label", label);
+                    }
                 }
             });
 

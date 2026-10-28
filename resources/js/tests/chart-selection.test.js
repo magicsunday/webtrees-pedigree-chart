@@ -112,7 +112,7 @@ describe("Chart click binding", () => {
      * @param {boolean} showDetailPanel Whether the panel is on
      * @param {object[]} nodes          The d3 data of the person elements
      */
-    function bind(showDetailPanel, nodes) {
+    function bind(showDetailPanel, nodes, elements = []) {
         const bound = [];
         const element = { on: jest.fn(() => element) };
         const selection = {
@@ -120,7 +120,9 @@ describe("Chart click binding", () => {
                 return { ...selection, nodes: this.nodes.filter(predicate) };
             },
             each(callback) {
-                this.nodes.forEach((node) => callback.call("element", node));
+                this.nodes.forEach((node, index) =>
+                    callback.call(elements[index] ?? "element", node),
+                );
             },
             nodes,
         };
@@ -149,6 +151,82 @@ describe("Chart click binding", () => {
 
         expect(context._selection.makeOperable).toHaveBeenCalledTimes(1);
         expect(bound[0][1]).toBe(first);
+    });
+
+    /**
+     * Builds a person element like the chart draws it: a title with the name, then one text per
+     * line of the box, each with a tspan and a title of its own.
+     *
+     * @param {(string|string[])[]} lines The visible lines of the box, a line with several tspans is an array
+     *
+     * @return {SVGGElement}
+     */
+    function personElement(lines) {
+        const ns = "http://www.w3.org/2000/svg";
+        const element = document.createElementNS(ns, "g");
+
+        lines.forEach((line) => {
+            const text = document.createElementNS(ns, "text");
+            const title = document.createElementNS(ns, "title");
+
+            // A line is one tspan, or several like the horizontal layouts draw the name parts
+            [line].flat().forEach((part) => {
+                const tspan = document.createElementNS(ns, "tspan");
+
+                tspan.textContent = part;
+                text.append(tspan);
+            });
+
+            title.textContent = [line].flat().join(" ");
+            text.append(title);
+            element.append(text);
+        });
+
+        return element;
+    }
+
+    test("labels an operable person with the text that the box shows", () => {
+        // The chart library labels the element with the bare name, while the box shows the
+        // dates as well, so the accessible name would not contain the visible text (WCAG 2.5.3).
+        const element = personElement(["Jane", "Doe", "Born: 1850"]);
+        const { context } = bind(true, [node("I1", "/i/1")], [element]);
+
+        context._selection.makeOperable.mockImplementation((target) =>
+            target.attr("tabindex", 0).attr("role", "button").attr("aria-label", "Jane Doe"),
+        );
+
+        Chart.prototype.bindClickEventListener.call(context);
+
+        expect(element.getAttribute("role")).toBe("button");
+        expect(element.getAttribute("tabindex")).toBe("0");
+        expect(element.getAttribute("aria-label")).toBe("Jane Doe Born: 1850");
+    });
+
+    test("separates the tspans of one line in the label", () => {
+        // The horizontal layouts draw the parts of a name as tspans of one text
+        const element = personElement([["Jane", "Doe"], "Born: 1850"]);
+        const { context } = bind(true, [node("I1", "/i/1")], [element]);
+
+        context._selection.makeOperable.mockImplementation((target) =>
+            target.attr("aria-label", "Jane Doe"),
+        );
+
+        Chart.prototype.bindClickEventListener.call(context);
+
+        expect(element.getAttribute("aria-label")).toBe("Jane Doe Born: 1850");
+    });
+
+    test("keeps the label of the chart library for a box without visible text", () => {
+        const element = personElement([]);
+        const { context } = bind(true, [node("I1", "/i/1")], [element]);
+
+        context._selection.makeOperable.mockImplementation((target) =>
+            target.attr("aria-label", "Jane Doe"),
+        );
+
+        Chart.prototype.bindClickEventListener.call(context);
+
+        expect(element.getAttribute("aria-label")).toBe("Jane Doe");
     });
 
     test("hands the key activation of a person to the click routing", () => {
