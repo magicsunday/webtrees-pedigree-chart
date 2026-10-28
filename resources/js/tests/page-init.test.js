@@ -96,4 +96,51 @@ describe("initPage", () => {
 
         expect(globalThis.WebtreesPedigreeChart.chartOptions).not.toHaveProperty("showPlaces");
     });
+
+    /**
+     * Renders the form together with the help button, the help popover and the panel checkbox.
+     *
+     * @param {boolean} panel Whether the checkbox of the detail panel is ticked
+     */
+    function renderHelp(panel) {
+        document.body.innerHTML =
+            '<form id="webtrees-pedigree-chart-form">' +
+            `<input type="checkbox" name="showDetailPanel" value="1"${panel ? " checked" : ""}>` +
+            "</form>" +
+            '<button class="btn-help" aria-expanded="false" aria-controls="pedigree-chart-help-popover">Help</button>' +
+            '<div id="pedigree-chart-help-popover" class="help-popover d-none" role="region">' +
+            '<div data-help-mode="default" id="help-default"></div>' +
+            '<div data-help-mode="panel" id="help-panel" class="d-none"></div>' +
+            "</div>";
+    }
+
+    test("wires the help button to its popover", () => {
+        renderHelp(false);
+
+        initPage({ ajaxUrl: "/ajax" });
+        document.querySelector(".btn-help").click();
+
+        expect(
+            document.getElementById("pedigree-chart-help-popover").classList.contains("d-none"),
+        ).toBe(false);
+        expect(document.querySelector(".btn-help").getAttribute("aria-expanded")).toBe("true");
+    });
+
+    test("shows the help entries of the detail panel mode that the chart loads with", () => {
+        renderHelp(true);
+
+        initPage({ ajaxUrl: "/ajax" });
+
+        expect(document.getElementById("help-panel").classList.contains("d-none")).toBe(false);
+        expect(document.getElementById("help-default").classList.contains("d-none")).toBe(true);
+    });
+
+    test("shows the default help entries while the detail panel is off", () => {
+        renderHelp(false);
+
+        initPage({ ajaxUrl: "/ajax" });
+
+        expect(document.getElementById("help-default").classList.contains("d-none")).toBe(false);
+        expect(document.getElementById("help-panel").classList.contains("d-none")).toBe(true);
+    });
 });

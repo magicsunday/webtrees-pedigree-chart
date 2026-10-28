@@ -154,6 +154,9 @@ installed pedigree chart module) and save your settings.
 At the charts' menu, you will find a new link called `Pedigree chart`. Use the provided configuration options
 to adjust the layout of the charts according to your needs.
 
+The question mark in the toolbar opens a list of the interactions of the chart, such as clicking a person, moving between the
+persons with the Tab key, zooming and moving. It shows the entries for the mode that ``Show details panel`` selects.
+
 With ``Show details panel`` switched on, a click on a person selects the person and a panel slides in over the chart
 from the right (from the left in right-to-left languages). It shows the birth and the death with their places and further facts such as the occupation, and it has
 buttons to open the individual page and to center the chart on the person. The chart stays usable while the panel is

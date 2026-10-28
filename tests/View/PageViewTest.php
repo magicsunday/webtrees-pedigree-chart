@@ -98,6 +98,25 @@ final class PageViewTest extends TestCase
     }
 
     /**
+     * The toolbar carries the help button with its popover, so the page script that wires the button
+     * finds both and a user can reach the list of interactions.
+     */
+    #[Test]
+    public function showsTheHelpButtonWithItsPopoverInTheToolbar(): void
+    {
+        $xpath = ViewFixture::xpathOf($this->render());
+
+        $button = ViewFixture::first(
+            $xpath,
+            '//div[contains(concat(" ", @class, " "), " btn-toolbar ")]//button[contains(concat(" ", @class, " "), " btn-help ")]'
+        );
+
+        ViewFixture::first($xpath, '//div[@id="' . $button->getAttribute('aria-controls') . '"]');
+
+        self::assertNotSame('', $button->getAttribute('aria-controls'));
+    }
+
+    /**
      * The URL is written into an inline script. Like every value of the chart view, it is encoded
      * with the tag, ampersand, apostrophe and quote flags, so text that opens or closes an element
      * or a string cannot leave the script, whatever a route builder hands over.
