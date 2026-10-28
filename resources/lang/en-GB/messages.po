@@ -21,15 +21,15 @@ msgstr ""
 
 #: src/Module.php:130
 msgid "A pedigree chart of an individual’s ancestors."
-msgstr "A pedigree chart of an individual’s ancestors."
+msgstr ""
 
 #: src/Configuration.php:510
 msgid "Abbreviate given names first"
-msgstr "Abbreviate given names first"
+msgstr ""
 
 #: src/Configuration.php:511
 msgid "Abbreviate surnames first"
-msgstr "Abbreviate surnames first"
+msgstr ""
 
 #: src/Facade/DataFacade.php:227
 msgid "Add a father"
@@ -41,7 +41,7 @@ msgstr ""
 
 #: src/Configuration.php:509
 msgid "Automatic (based on tree's surname tradition)"
-msgstr "Automatic (based on tree's surname tradition)"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/behavior.phtml:23
 msgid "Behavior"
@@ -73,9 +73,6 @@ msgid ""
 "name. \"Automatic\" uses the tree's surname tradition (Icelandic abbreviates "
 "surnames; everything else abbreviates given names)."
 msgstr ""
-"Controls which name part shrinks first when a box is too narrow for the full "
-"name. \"Automatic\" uses the tree's surname tradition (Icelandic abbreviates "
-"surnames; everything else abbreviates given names)."
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:23
 msgid "Details"
@@ -90,11 +87,11 @@ msgstr ""
 
 #: resources/views/modules/components/buttonbar/png-export-button.phtml:18
 msgid "Export as PNG"
-msgstr "Export as PNG"
+msgstr ""
 
 #: resources/views/modules/components/buttonbar/svg-export-button.phtml:18
 msgid "Export as SVG"
-msgstr "Export as SVG"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:50
 msgid "General"
@@ -106,15 +103,15 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:77
 msgid "Hide more options"
-msgstr "Hide more options"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:64
 msgid "Hide the PNG export button"
-msgstr "Hide the PNG export button"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:55
 msgid "Hide the SVG export button"
-msgstr "Hide the SVG export button"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:39
 msgid "Individual"
@@ -123,8 +120,8 @@ msgstr ""
 #: resources/views/modules/pedigree-chart/form/details.phtml:46
 msgid ""
 "Inserts the GEDCOM NICK value in quotes between the given names and the "
-"surname (e.g. Martin \"Chalky\" White). Mirrors the legacy webtrees "
-"behaviour for trees that store nicknames in the separate GEDCOM NICK field."
+"surname (e.g. Martin \"Chalky\" White). Mirrors the legacy webtrees behavior "
+"for trees that store nicknames in the separate GEDCOM NICK field."
 msgstr ""
 "Inserts the GEDCOM NICK value in quotes between the given names and the "
 "surname (e.g. Martin \"Chalky\" White). Mirrors the legacy webtrees "
@@ -132,7 +129,7 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:43
 msgid "Maternal"
-msgstr "Maternal"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:25
 msgid "Modules"
@@ -140,23 +137,23 @@ msgstr ""
 
 #: src/Module.php:236
 msgid "Move the view with two fingers"
-msgstr "Move the view with two fingers"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:86
 msgid "Name abbreviation when space is tight"
-msgstr "Name abbreviation when space is tight"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:114
 msgid "No details are available for this person."
-msgstr "No details are available for this person."
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/behavior.phtml:28
 msgid "Open individual in new browser window/tab"
-msgstr "Open individual in new browser window/tab"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:116
 msgid "Open individual page"
-msgstr "Open individual page"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/behavior.phtml:34
 msgid ""
@@ -170,7 +167,7 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:39
 msgid "Paternal"
-msgstr "Paternal"
+msgstr ""
 
 #: src/Module.php:119 src/Module/ChartTrait.php:63
 msgid "Pedigree chart"
@@ -179,7 +176,7 @@ msgstr ""
 #: src/Module/ChartTrait.php:48
 #, php-format
 msgid "Pedigree chart of %s"
-msgstr "Pedigree chart of %s"
+msgstr ""
 
 #: resources/views/modules/components/buttonbar/center-button.phtml:18
 msgid "Re center"
@@ -187,7 +184,7 @@ msgstr "Re-centre"
 
 #: resources/views/modules/pedigree-chart/page.phtml:112
 msgid "Select a person in the chart to see the details here."
-msgstr "Select a person in the chart to see the details here."
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:59
 msgid ""
@@ -196,47 +193,43 @@ msgid ""
 "panel that slides in over the chart. A click then selects a person instead "
 "of opening the chart for them, and the panel offers both actions."
 msgstr ""
-"Selecting a person shows the birth, the death with places and the facts that "
-"the tree names for the chart box (\"Other facts to show in charts\") in a "
-"panel that slides in over the chart. A click then selects a person instead "
-"of opening the chart for them, and the panel offers both actions."
 
 #: resources/views/modules/pedigree-chart/config.phtml:74
 msgid "Show \"add parent\" placeholders for missing ancestors"
-msgstr "Show \"add parent\" placeholders for missing ancestors"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:28
 msgid "Show alternative name of individual"
-msgstr "Show alternative name of individual"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:53
 msgid "Show details panel"
-msgstr "Show details panel"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:28
 msgid "Show family colors"
-msgstr "Show family colors"
+msgstr ""
 
 #: resources/views/modules/components/buttonbar/help-button.phtml:17
 msgid "Show help"
-msgstr "Show help"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:76
 msgid "Show more options"
-msgstr "Show more options"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:40
 msgid "Show nicknames in display names"
-msgstr "Show nicknames in display names"
+msgstr ""
 
 #: resources/views/modules/components/buttonbar/fullscreen-button.phtml:18
 msgid "Switch between full screen mode and normal view"
-msgstr "Switch between full screen mode and normal view"
+msgstr ""
 
 #: src/Module/ConfigTrait.php:117
 #, php-format
 msgid "The preferences for the module “%s” have been updated."
-msgstr "The preferences for the module “%s” have been updated."
+msgstr ""
 
 #: src/Module.php:235
 msgid "Use Ctrl + scroll to zoom in the view"
@@ -249,10 +242,6 @@ msgid ""
 "webtrees \"add a parent\" form for the corresponding child. The placeholders "
 "are only shown to users who have edit rights on the individual."
 msgstr ""
-"When enabled, an empty box with a \"+\" icon is rendered in place of each "
-"missing father or mother. Editors can click it to jump straight to the "
-"webtrees \"add a parent\" form for the corresponding child. The placeholders "
-"are only shown to users who have edit rights on the individual."
 
 #: resources/views/modules/pedigree-chart/config.phtml:112
 msgid "cancel"
