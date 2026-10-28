@@ -236,7 +236,7 @@ msgstr "Byt mellom fullskjerm og normal visning"
 #: src/Module/ConfigTrait.php:117
 #, php-format
 msgid "The preferences for the module “%s” have been updated."
-msgstr "Innstillingane for modulen “%s” har blitt oppdatert."
+msgstr ""
 
 #: src/Module.php:235
 msgid "Use Ctrl + scroll to zoom in the view"

@@ -170,7 +170,7 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/orientation.phtml:22
 msgid "Orientation"
-msgstr "Orientering"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:39
 msgid "Paternal"
@@ -236,7 +236,7 @@ msgstr "Bytt mellom fullskjerm og normal visning"
 #: src/Module/ConfigTrait.php:117
 #, php-format
 msgid "The preferences for the module “%s” have been updated."
-msgstr "Innstillingene for modulen “%s” har blitt oppdatert."
+msgstr ""
 
 #: src/Module.php:235
 msgid "Use Ctrl + scroll to zoom in the view"
@@ -256,7 +256,7 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:112
 msgid "cancel"
-msgstr "avbryt"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:108
 msgid "close"

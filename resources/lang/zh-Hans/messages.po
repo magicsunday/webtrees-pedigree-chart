@@ -100,7 +100,7 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/generations.phtml:22
 msgid "Generations"
-msgstr "几代"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:77
 msgid "Hide more options"
@@ -116,7 +116,7 @@ msgstr "隐藏 SVG 导出按钮"
 
 #: resources/views/modules/pedigree-chart/page.phtml:39
 msgid "Individual"
-msgstr "个人"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:46
 msgid ""
@@ -257,15 +257,15 @@ msgstr ""
 
 #: src/Configuration.php:274 src/Configuration.php:282
 msgid "down"
-msgstr "祖辈在下"
+msgstr ""
 
 #: src/Configuration.php:271 src/Configuration.php:279
 msgid "left"
-msgstr "祖辈在左"
+msgstr ""
 
 #: src/Configuration.php:272 src/Configuration.php:280
 msgid "right"
-msgstr "祖辈在右"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/config.phtml:107
 msgid "save"
@@ -273,7 +273,7 @@ msgstr ""
 
 #: src/Configuration.php:273 src/Configuration.php:281
 msgid "up"
-msgstr "祖辈在上"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:65
 msgid "view"

@@ -239,7 +239,7 @@ msgstr "Schakelen tussen volledig scherm en normale weergave"
 #: src/Module/ConfigTrait.php:117
 #, php-format
 msgid "The preferences for the module “%s” have been updated."
-msgstr "De voorkeuren voor de module \"%s\" zijn bijgewerkt."
+msgstr ""
 
 #: src/Module.php:235
 msgid "Use Ctrl + scroll to zoom in the view"
@@ -288,4 +288,4 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/page.phtml:65
 msgid "view"
-msgstr "weergeven"
+msgstr ""

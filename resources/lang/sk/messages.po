@@ -119,7 +119,7 @@ msgstr "Skryť tlačidlo exportu SVG"
 
 #: resources/views/modules/pedigree-chart/page.phtml:39
 msgid "Individual"
-msgstr "Jednotlivec"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:46
 msgid ""
@@ -167,7 +167,7 @@ msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/orientation.phtml:22
 msgid "Orientation"
-msgstr "Orentácia"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:39
 msgid "Paternal"
@@ -175,7 +175,7 @@ msgstr "Otcovská"
 
 #: src/Module.php:119 src/Module/ChartTrait.php:63
 msgid "Pedigree chart"
-msgstr "Rodokmeň"
+msgstr ""
 
 #: src/Module/ChartTrait.php:48
 #, php-format
@@ -261,7 +261,7 @@ msgstr ""
 
 #: src/Configuration.php:274 src/Configuration.php:282
 msgid "down"
-msgstr "dole"
+msgstr ""
 
 #: src/Configuration.php:271 src/Configuration.php:279
 msgid "left"

@@ -174,7 +174,7 @@ msgstr "Otcovská"
 
 #: src/Module.php:119 src/Module/ChartTrait.php:63
 msgid "Pedigree chart"
-msgstr "Diagram předků"
+msgstr ""
 
 #: src/Module/ChartTrait.php:48
 #, php-format

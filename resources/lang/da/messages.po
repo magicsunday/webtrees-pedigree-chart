@@ -118,7 +118,7 @@ msgstr "Skjul SVG-eksportknappen"
 
 #: resources/views/modules/pedigree-chart/page.phtml:39
 msgid "Individual"
-msgstr "Person"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:46
 msgid ""
@@ -174,7 +174,7 @@ msgstr "Fædrene"
 
 #: src/Module.php:119 src/Module/ChartTrait.php:63
 msgid "Pedigree chart"
-msgstr "Stamtavle"
+msgstr ""
 
 #: src/Module/ChartTrait.php:48
 #, php-format
