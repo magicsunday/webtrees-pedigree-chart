@@ -10,11 +10,21 @@ import { jest } from "@jest/globals";
 const registered = [];
 const ajaxOptions = [];
 const stored = {};
+const restoredChecked = {};
 
 await jest.unstable_mockModule("@magicsunday/webtrees-chart-lib/chart-core", () => ({
     Storage: class {
         register(name) {
             registered.push(name);
+
+            // The real storage puts a stored state back into the checkbox of the form
+            if (name in restoredChecked) {
+                const input = document.querySelector(`input[type="checkbox"][name="${name}"]`);
+
+                if (input) {
+                    input.checked = restoredChecked[name];
+                }
+            }
         }
 
         readBool(name) {
@@ -46,6 +56,10 @@ describe("initPage", () => {
 
         for (const name of Object.keys(stored)) {
             delete stored[name];
+        }
+
+        for (const name of Object.keys(restoredChecked)) {
+            delete restoredChecked[name];
         }
 
         document.body.innerHTML = '<form id="webtrees-pedigree-chart-form"></form>';
@@ -128,6 +142,18 @@ describe("initPage", () => {
 
     test("shows the help entries of the detail panel mode that the chart loads with", () => {
         renderHelp(true);
+
+        initPage({ ajaxUrl: "/ajax" });
+
+        expect(document.getElementById("help-panel").classList.contains("d-none")).toBe(false);
+        expect(document.getElementById("help-default").classList.contains("d-none")).toBe(true);
+    });
+
+    test("shows the help entries of the mode that the stored state restores into the checkbox", () => {
+        // The markup renders the checkbox unticked and the storage ticks it, so the help has to follow
+        // the restored state and not the state of the markup.
+        renderHelp(false);
+        restoredChecked.showDetailPanel = true;
 
         initPage({ ajaxUrl: "/ajax" });
 

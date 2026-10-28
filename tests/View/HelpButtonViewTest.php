@@ -19,6 +19,7 @@ use PHPUnit\Framework\TestCase;
 
 use function ob_get_clean;
 use function ob_start;
+use function trim;
 
 /**
  * Renders the help button of the toolbar with its popover.
@@ -43,6 +44,7 @@ final class HelpButtonViewTest extends TestCase
         $button  = ViewFixture::first($xpath, '//button[contains(concat(" ", @class, " "), " btn-help ")]');
         $popover = ViewFixture::first($xpath, '//div[contains(concat(" ", @class, " "), " help-popover ")]');
 
+        self::assertNotSame('', $button->getAttribute('title'), 'the icon is the only content, so the title names the button');
         self::assertSame('false', $button->getAttribute('aria-expanded'));
         self::assertNotSame('', $popover->getAttribute('id'));
         self::assertSame($popover->getAttribute('id'), $button->getAttribute('aria-controls'));
@@ -80,6 +82,33 @@ final class HelpButtonViewTest extends TestCase
 
         foreach ($both as $row) {
             self::assertStringNotContainsString('d-none', $row->getAttribute('class'));
+        }
+    }
+
+    /**
+     * Each interaction that the issue asks for has its own row in the mode it belongs to. The page
+     * without the detail panel has the click on a person, the mode with the panel has the selection
+     * of a person and the panel that opens the individual page or centers the chart.
+     */
+    #[Test]
+    public function listsTheInteractionsOfEachMode(): void
+    {
+        $xpath = ViewFixture::xpathOf($this->render());
+
+        $expected = [
+            'default' => ['Click on a person'],
+            'panel'   => ['Click or Enter on a person', 'Details panel'],
+        ];
+
+        foreach ($expected as $mode => $labels) {
+            foreach ($labels as $label) {
+                $row = ViewFixture::first(
+                    $xpath,
+                    '//tr[@data-help-mode="' . $mode . '"][td/strong[normalize-space() = "' . $label . '"]]'
+                );
+
+                self::assertNotSame('', trim($row->textContent));
+            }
         }
     }
 

@@ -75,6 +75,29 @@ describe("initHelpPopover", () => {
         expect(button().getAttribute("aria-expanded")).toBe("false");
     });
 
+    it("does nothing when the button points to a popover that the page does not have", () => {
+        document.body.innerHTML =
+            '<button class="btn-help" aria-expanded="false" aria-controls="missing">Help</button>';
+        const errors = [];
+        const onError = (event) => errors.push(event);
+
+        window.addEventListener("error", onError);
+        initHelpPopover();
+        button().click();
+        window.removeEventListener("error", onError);
+
+        expect(errors).toEqual([]);
+        expect(button().getAttribute("aria-expanded")).toBe("false");
+    });
+
+    it("does nothing when the popover has no button", () => {
+        document.body.innerHTML =
+            '<div id="pedigree-chart-help-popover" class="help-popover d-none"></div>';
+
+        expect(() => initHelpPopover()).not.toThrow();
+        expect(() => pressKey("Escape")).not.toThrow();
+    });
+
     it("does nothing on a page without a help button", () => {
         document.body.innerHTML = "";
 
@@ -130,6 +153,17 @@ describe("syncHelpMode", () => {
 
         expect(rowHidden("default")).toBe(false);
         expect(rowHidden("panel")).toBe(true);
+    });
+
+    it("leaves an element outside the popover alone", () => {
+        setupDom({ panel: true });
+        document.body.insertAdjacentHTML(
+            "beforeend",
+            '<div data-help-mode="default" id="outside"></div>',
+        );
+        syncHelpMode();
+
+        expect(document.getElementById("outside").classList.contains("d-none")).toBe(false);
     });
 
     it("leaves the entries that apply to both modes alone", () => {
