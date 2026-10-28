@@ -113,6 +113,32 @@ final class HelpButtonViewTest extends TestCase
     }
 
     /**
+     * Every row names the interaction and describes what it does, and the rows for zooming and moving
+     * are there for both modes. A row with an empty description would show a bare key.
+     */
+    #[Test]
+    public function describesEveryInteractionAndNamesTheZoomAndMoveRows(): void
+    {
+        $xpath = ViewFixture::xpathOf($this->render());
+
+        $rows = ViewFixture::elements($xpath, '//div[contains(concat(" ", @class, " "), " help-popover ")]//tr');
+
+        self::assertNotSame([], $rows);
+
+        foreach ($rows as $row) {
+            self::assertGreaterThan(0, $xpath->evaluate('string-length(normalize-space(td[1]))', $row));
+            self::assertGreaterThan(0, $xpath->evaluate('string-length(normalize-space(td[2]))', $row));
+        }
+
+        foreach (['Ctrl + scroll', 'Click and drag'] as $label) {
+            $row = ViewFixture::first($xpath, '//tr[td/strong[normalize-space() = "' . $label . '"]]');
+
+            self::assertFalse($row->hasAttribute('data-help-mode'));
+            self::assertStringNotContainsString('d-none', $row->getAttribute('class'));
+        }
+    }
+
+    /**
      * The row for the Tab key applies to both modes, because the persons are reached with the keyboard
      * with the detail panel as well as without it.
      */

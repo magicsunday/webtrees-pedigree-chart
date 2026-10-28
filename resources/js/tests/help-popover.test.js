@@ -90,6 +90,34 @@ describe("initHelpPopover", () => {
         expect(button().getAttribute("aria-expanded")).toBe("false");
     });
 
+    it("binds the popover to its own button and not to another button of the page", () => {
+        setupDom();
+        document.body.insertAdjacentHTML("afterbegin", '<button id="other">Other</button>');
+        initHelpPopover();
+
+        document.getElementById("other").click();
+
+        expect(popover().classList.contains("d-none")).toBe(true);
+
+        button().click();
+
+        expect(popover().classList.contains("d-none")).toBe(false);
+        expect(button().getAttribute("aria-expanded")).toBe("true");
+    });
+
+    it("toggles the popover that the button names and no other popover", () => {
+        document.body.innerHTML =
+            '<div id="pedigree-chart-help-popover" class="help-popover d-none"></div>' +
+            '<button class="btn-help" aria-expanded="false" aria-controls="named">Help</button>' +
+            '<div id="named" class="help-popover d-none"></div>';
+        initHelpPopover();
+
+        button().click();
+
+        expect(document.getElementById("named").classList.contains("d-none")).toBe(false);
+        expect(popover().classList.contains("d-none")).toBe(true);
+    });
+
     it("does nothing when the popover has no button", () => {
         document.body.innerHTML =
             '<div id="pedigree-chart-help-popover" class="help-popover d-none"></div>';
@@ -153,6 +181,29 @@ describe("syncHelpMode", () => {
 
         expect(rowHidden("default")).toBe(false);
         expect(rowHidden("panel")).toBe(true);
+    });
+
+    it("reads the checkbox of the detail panel and not another checkbox of the page", () => {
+        setupDom();
+        document.body.insertAdjacentHTML(
+            "afterbegin",
+            '<input type="checkbox" name="openNewTabOnClick" value="1" checked>',
+        );
+        syncHelpMode();
+
+        expect(rowHidden("default")).toBe(false);
+        expect(rowHidden("panel")).toBe(true);
+    });
+
+    it("leaves the rows as rendered without a checkbox even when they show the other mode", () => {
+        setupDom();
+        checkbox().remove();
+        document.querySelector('[data-help-mode="default"]').classList.add("d-none");
+        document.querySelector('[data-help-mode="panel"]').classList.remove("d-none");
+        syncHelpMode();
+
+        expect(rowHidden("default")).toBe(true);
+        expect(rowHidden("panel")).toBe(false);
     });
 
     it("leaves an element outside the popover alone", () => {
