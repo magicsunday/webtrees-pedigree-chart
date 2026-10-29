@@ -5,7 +5,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/magicsunday/webtrees-pedigree-chart/"
 "issues\n"
 "POT-Creation-Date: 1970-01-01 00:00+0000\n"
-"PO-Revision-Date: 2026-05-03 08:27+0200\n"
+"PO-Revision-Date: 2026-10-29 06:22+0100\n"
 "Last-Translator: TheDutchJewel <thedutchjewel@gmail.com>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.9\n"
+"X-Generator: Poedit 3.10\n"
 "X-Poedit-Basepath: ../../..\n"
 "X-Poedit-KeywordsList: translate\n"
 "X-Poedit-SearchPath-0: src\n"
@@ -31,11 +31,11 @@ msgstr "Voornamen eerst afkorten"
 msgid "Abbreviate surnames first"
 msgstr "Achternamen eerst afkorten"
 
-#: src/Facade/DataFacade.php:231
+#: src/Facade/DataFacade.php:227
 msgid "Add a father"
 msgstr ""
 
-#: src/Facade/DataFacade.php:232
+#: src/Facade/DataFacade.php:228
 msgid "Add a mother"
 msgstr ""
 
@@ -49,7 +49,7 @@ msgstr "Gedrag"
 
 #: resources/views/modules/pedigree-chart/page.phtml:117
 msgid "Center chart on this person"
-msgstr ""
+msgstr "Diagram centreren op deze persoon"
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:23
 msgid "Colors"
@@ -152,7 +152,7 @@ msgstr "Afkorting van naam bij beperkte ruimte"
 
 #: resources/views/modules/pedigree-chart/page.phtml:114
 msgid "No details are available for this person."
-msgstr ""
+msgstr "Er zijn geen gegevens beschikbaar voor deze persoon."
 
 #: resources/views/modules/pedigree-chart/form/behavior.phtml:28
 msgid "Open individual in new browser window/tab"
@@ -160,7 +160,7 @@ msgstr "Open persoon in nieuw browservenster/tabblad"
 
 #: resources/views/modules/pedigree-chart/page.phtml:116
 msgid "Open individual page"
-msgstr ""
+msgstr "Persoonspagina openen"
 
 #: resources/views/modules/pedigree-chart/form/behavior.phtml:34
 msgid ""
@@ -186,7 +186,7 @@ msgstr ""
 #: src/Module/ChartTrait.php:48
 #, php-format
 msgid "Pedigree chart of %s"
-msgstr "Kwartierstaat van %s"
+msgstr ""
 
 #: resources/views/modules/components/buttonbar/center-button.phtml:18
 msgid "Re center"
@@ -194,7 +194,7 @@ msgstr "Opnieuw centreren"
 
 #: resources/views/modules/pedigree-chart/page.phtml:112
 msgid "Select a person in the chart to see the details here."
-msgstr ""
+msgstr "Selecteer een persoon in de grafiek om hier de gegevens te bekijken."
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:59
 msgid ""
@@ -203,6 +203,11 @@ msgid ""
 "panel that slides in over the chart. A click then selects a person instead "
 "of opening the chart for them, and the panel offers both actions."
 msgstr ""
+"Bij het selecteren van een persoon worden de geboorte, het overlijden met "
+"plaatsen en de feiten die de stamboom noemt voor de diagramvakken (\"Andere "
+"feiten weergeven in diagrammen\") getoond in een paneel dat over het diagram "
+"schuift. Een klik selecteert vervolgens een persoon in plaats van diens "
+"diagram te openen, en het paneel biedt beide mogelijkheden."
 
 #: resources/views/modules/pedigree-chart/config.phtml:74
 msgid "Show \"add parent\" placeholders for missing ancestors"
@@ -214,7 +219,7 @@ msgstr "Toon alternatieve naam van persoon"
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:53
 msgid "Show details panel"
-msgstr ""
+msgstr "Toon detailspaneel"
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:28
 msgid "Show family colors"
