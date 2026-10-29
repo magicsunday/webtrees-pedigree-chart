@@ -215,10 +215,6 @@ msgstr "%s的世系圖"
 msgid "Re center"
 msgstr "居中"
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:20
-msgid "Reload chart for that person"
-msgstr "為該人重新載入圖表"
-
 #: resources/views/modules/pedigree-chart/page.phtml:106
 msgid "Select a person in the chart to see the details here."
 msgstr ""
@@ -238,6 +234,12 @@ msgstr "為缺失的祖先顯示「新增父母」佔位符"
 #: resources/views/modules/pedigree-chart/form/details.phtml:28
 msgid "Show alternative name of individual"
 msgstr "顯示個人的別名"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:20
+msgid ""
+"Show chart for that person, or open the page of a person of the first "
+"generation"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:53
 msgid "Show details panel"
