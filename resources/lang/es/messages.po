@@ -92,7 +92,7 @@ msgstr ""
 
 #: resources/views/modules/components/buttonbar/help-button.phtml:35
 msgid "Ctrl + scroll"
-msgstr "Ctrl + scroll"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:23
 msgid "Details"
