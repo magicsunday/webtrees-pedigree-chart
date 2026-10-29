@@ -12,7 +12,7 @@ import {
     Storage,
     syncCollapseToggle,
 } from "@magicsunday/webtrees-chart-lib/chart-core";
-import { initHelpPopover, syncHelpMode } from "./help-popover.js";
+import { initHelpPopover, syncHelpMode } from "@magicsunday/webtrees-chart-lib/infra";
 
 /**
  * Initialises the pedigree chart page: restores form values from localStorage,
@@ -91,5 +91,5 @@ export function initPage(config) {
 
     // The chart takes its mode from the stored state that the request above carries, so the help
     // shows the entries of that mode.
-    syncHelpMode();
+    syncHelpMode("default");
 }
