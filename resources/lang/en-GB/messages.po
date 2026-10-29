@@ -214,10 +214,6 @@ msgstr ""
 msgid "Re center"
 msgstr "Re-centre"
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:20
-msgid "Reload chart for that person"
-msgstr ""
-
 #: resources/views/modules/pedigree-chart/page.phtml:106
 msgid "Select a person in the chart to see the details here."
 msgstr ""
@@ -237,6 +233,14 @@ msgstr ""
 #: resources/views/modules/pedigree-chart/form/details.phtml:28
 msgid "Show alternative name of individual"
 msgstr ""
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:20
+msgid ""
+"Show chart for that person, or open the page of a person of the first "
+"generation"
+msgstr ""
+"Show chart for that person, or open the page of a person of the first "
+"generation"
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:53
 msgid "Show details panel"

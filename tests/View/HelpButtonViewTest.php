@@ -176,7 +176,7 @@ final class HelpButtonViewTest extends TestCase
     {
         $xpath    = ViewFixture::xpathOf($this->render());
         $expected = [
-            ['default', 'Click on a person', 'Reload chart for that person'],
+            ['default', 'Click on a person', 'Show chart for that person, or open the page of a person of the first generation'],
             ['', 'Tab key', 'Move between the persons'],
             ['panel', 'Click or Enter on a person', 'Show the details of the person in the panel'],
             ['panel', 'Details panel', 'Open the individual page or center the chart on the person'],

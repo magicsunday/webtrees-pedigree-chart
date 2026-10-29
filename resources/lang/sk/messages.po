@@ -218,10 +218,6 @@ msgstr "Rodokmeň %s"
 msgid "Re center"
 msgstr "Znova vycentrovať"
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:20
-msgid "Reload chart for that person"
-msgstr ""
-
 #: resources/views/modules/pedigree-chart/page.phtml:106
 msgid "Select a person in the chart to see the details here."
 msgstr ""
@@ -241,6 +237,12 @@ msgstr "Zobrazovať zástupné polia „pridať rodiča\" pre chýbajúcich pred
 #: resources/views/modules/pedigree-chart/form/details.phtml:28
 msgid "Show alternative name of individual"
 msgstr "Zobraziť alternatívne meno osoby"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:20
+msgid ""
+"Show chart for that person, or open the page of a person of the first "
+"generation"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:53
 msgid "Show details panel"

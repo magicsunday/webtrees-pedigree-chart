@@ -221,10 +221,6 @@ msgstr "Anediagram for %s"
 msgid "Re center"
 msgstr "Tibakestill"
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:20
-msgid "Reload chart for that person"
-msgstr "Last diagrammet på nytt for den personen"
-
 #: resources/views/modules/pedigree-chart/page.phtml:106
 msgid "Select a person in the chart to see the details here."
 msgstr ""
@@ -244,6 +240,12 @@ msgstr "Vis \"legg til forelder\"-plassholdere for manglende aner"
 #: resources/views/modules/pedigree-chart/form/details.phtml:28
 msgid "Show alternative name of individual"
 msgstr "Vis alternativt navn på person"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:20
+msgid ""
+"Show chart for that person, or open the page of a person of the first "
+"generation"
+msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:53
 msgid "Show details panel"
