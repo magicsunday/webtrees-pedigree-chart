@@ -19,7 +19,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: src\n"
 "X-Poedit-SearchPath-1: resources/views\n"
 
-#: src/Module.php:132
+#: src/Module.php:133
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "Et diagram over en persons aner."
 
@@ -168,7 +168,7 @@ msgstr ""
 msgid "Move the chart"
 msgstr "Flytt diagrammet"
 
-#: src/Module.php:238
+#: src/Module.php:239
 msgid "Move the view with two fingers"
 msgstr "Bruk to fingre for å endre synsfelt"
 
@@ -208,7 +208,7 @@ msgstr ""
 msgid "Paternal"
 msgstr "Fars"
 
-#: src/Module.php:121 src/Module/ChartTrait.php:63
+#: src/Module.php:122 src/Module/ChartTrait.php:63
 msgid "Pedigree chart"
 msgstr ""
 
@@ -282,7 +282,7 @@ msgstr ""
 msgid "The preferences for the module “%s” have been updated."
 msgstr ""
 
-#: src/Module.php:237
+#: src/Module.php:238
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Bruk Ctrl + scroll for zoom"
 

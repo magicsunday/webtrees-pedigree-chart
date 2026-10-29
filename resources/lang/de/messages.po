@@ -19,7 +19,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: src\n"
 "X-Poedit-SearchPath-1: resources/views\n"
 
-#: src/Module.php:132
+#: src/Module.php:133
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "Ein Stammbaum der Vorfahren einer Person."
 
@@ -170,7 +170,7 @@ msgstr "Zwischen den Personen wechseln"
 msgid "Move the chart"
 msgstr "Diagramm verschieben"
 
-#: src/Module.php:238
+#: src/Module.php:239
 msgid "Move the view with two fingers"
 msgstr "Verschieben der Ansicht mit zwei Fingern"
 
@@ -211,7 +211,7 @@ msgstr ""
 msgid "Paternal"
 msgstr "Väterlich"
 
-#: src/Module.php:121 src/Module/ChartTrait.php:63
+#: src/Module.php:122 src/Module/ChartTrait.php:63
 msgid "Pedigree chart"
 msgstr ""
 
@@ -290,7 +290,7 @@ msgstr "Tabulatortaste"
 msgid "The preferences for the module “%s” have been updated."
 msgstr ""
 
-#: src/Module.php:237
+#: src/Module.php:238
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Verwende Strg+Scrollen zum Zoomen der Ansicht"
 

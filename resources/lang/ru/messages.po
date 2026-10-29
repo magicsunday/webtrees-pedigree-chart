@@ -20,7 +20,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: src\n"
 "X-Poedit-SearchPath-1: resources/views\n"
 
-#: src/Module.php:132
+#: src/Module.php:133
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "Родословная карта предков в виде дерева."
 
@@ -167,7 +167,7 @@ msgstr ""
 msgid "Move the chart"
 msgstr "Переместить диаграмму"
 
-#: src/Module.php:238
+#: src/Module.php:239
 msgid "Move the view with two fingers"
 msgstr "Измените вид двумя пальцами"
 
@@ -205,7 +205,7 @@ msgstr ""
 msgid "Paternal"
 msgstr "Отцовский"
 
-#: src/Module.php:121 src/Module/ChartTrait.php:63
+#: src/Module.php:122 src/Module/ChartTrait.php:63
 msgid "Pedigree chart"
 msgstr ""
 
@@ -279,7 +279,7 @@ msgstr ""
 msgid "The preferences for the module “%s” have been updated."
 msgstr ""
 
-#: src/Module.php:237
+#: src/Module.php:238
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Используйте \"Ctrl + колесико мышки\" для увеличения"
 
