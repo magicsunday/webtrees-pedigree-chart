@@ -19,7 +19,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: src\n"
 "X-Poedit-SearchPath-1: resources/views\n"
 
-#: src/Module.php:130
+#: src/Module.php:132
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "Un árbol de pedigrí de los antepasados de un individuo."
 
@@ -47,19 +47,19 @@ msgstr "Automático (según la tradición de apellidos del árbol)"
 msgid "Behavior"
 msgstr "Comportamiento"
 
-#: resources/views/modules/pedigree-chart/page.phtml:117
+#: resources/views/modules/pedigree-chart/page.phtml:109
 msgid "Center chart on this person"
 msgstr ""
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:36
+#: resources/views/modules/components/buttonbar/help-button.phtml:25
 msgid "Click and drag"
 msgstr "Hacer clic y arrastrar"
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:31
+#: resources/views/modules/components/buttonbar/help-button.phtml:20
 msgid "Click on a person"
 msgstr "Hacer clic en una persona"
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:33
+#: resources/views/modules/components/buttonbar/help-button.phtml:22
 msgid "Click or Enter on a person"
 msgstr ""
 
@@ -90,7 +90,7 @@ msgstr ""
 "tradición de apellidos del árbol (islandés abrevia apellidos; el resto "
 "abrevia nombres de pila)."
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:35
+#: resources/views/modules/components/buttonbar/help-button.phtml:24
 msgid "Ctrl + scroll"
 msgstr ""
 
@@ -98,7 +98,7 @@ msgstr ""
 msgid "Details"
 msgstr ""
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:34
+#: resources/views/modules/components/buttonbar/help-button.phtml:23
 msgid "Details panel"
 msgstr ""
 
@@ -125,7 +125,7 @@ msgstr ""
 msgid "Generations"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/page.phtml:77
+#: resources/views/modules/pedigree-chart/page.phtml:78
 msgid "Hide more options"
 msgstr "Ocultar más opciones"
 
@@ -137,7 +137,7 @@ msgstr "Ocultar el botón de exportar a PNG"
 msgid "Hide the SVG export button"
 msgstr "Ocultar el botón de exportar a SVG"
 
-#: resources/views/modules/pedigree-chart/page.phtml:39
+#: resources/views/modules/pedigree-chart/page.phtml:40
 msgid "Individual"
 msgstr ""
 
@@ -160,15 +160,15 @@ msgstr "Materno"
 msgid "Modules"
 msgstr ""
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:32
+#: resources/views/modules/components/buttonbar/help-button.phtml:21
 msgid "Move between the persons"
 msgstr ""
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:36
+#: resources/views/modules/components/buttonbar/help-button.phtml:25
 msgid "Move the chart"
 msgstr "Mover el diagrama"
 
-#: src/Module.php:236
+#: src/Module.php:238
 msgid "Move the view with two fingers"
 msgstr "Mueve la vista con dos dedos"
 
@@ -176,7 +176,7 @@ msgstr "Mueve la vista con dos dedos"
 msgid "Name abbreviation when space is tight"
 msgstr "Abreviatura del nombre cuando el espacio es limitado"
 
-#: resources/views/modules/pedigree-chart/page.phtml:114
+#: resources/views/modules/pedigree-chart/page.phtml:107
 msgid "No details are available for this person."
 msgstr ""
 
@@ -184,7 +184,7 @@ msgstr ""
 msgid "Open individual in new browser window/tab"
 msgstr "Abrir persona en una nueva ventana/pestaña del navegador"
 
-#: resources/views/modules/pedigree-chart/page.phtml:116
+#: resources/views/modules/pedigree-chart/page.phtml:108
 msgid "Open individual page"
 msgstr ""
 
@@ -194,7 +194,7 @@ msgid ""
 "it's left-clicked, otherwise the current window/tab is used."
 msgstr ""
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:34
+#: resources/views/modules/components/buttonbar/help-button.phtml:23
 msgid "Open the individual page or center the chart on the person"
 msgstr ""
 
@@ -206,7 +206,7 @@ msgstr ""
 msgid "Paternal"
 msgstr "Paterno"
 
-#: src/Module.php:119 src/Module/ChartTrait.php:63
+#: src/Module.php:121 src/Module/ChartTrait.php:63
 msgid "Pedigree chart"
 msgstr ""
 
@@ -219,11 +219,11 @@ msgstr "Árbol de antepasados de %s"
 msgid "Re center"
 msgstr "Volver a centrar"
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:31
+#: resources/views/modules/components/buttonbar/help-button.phtml:20
 msgid "Reload chart for that person"
 msgstr "Recargar el diagrama para esa persona"
 
-#: resources/views/modules/pedigree-chart/page.phtml:112
+#: resources/views/modules/pedigree-chart/page.phtml:106
 msgid "Select a person in the chart to see the details here."
 msgstr ""
 
@@ -251,12 +251,11 @@ msgstr ""
 msgid "Show family colors"
 msgstr "Mostrar colores familiares"
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:18
-#: resources/views/modules/components/buttonbar/help-button.phtml:29
+#: resources/views/modules/components/buttonbar/help-button.phtml:17
 msgid "Show help"
 msgstr "Mostrar ayuda"
 
-#: resources/views/modules/pedigree-chart/page.phtml:76
+#: resources/views/modules/pedigree-chart/page.phtml:77
 msgid "Show more options"
 msgstr "Mostrar más opciones"
 
@@ -264,7 +263,7 @@ msgstr "Mostrar más opciones"
 msgid "Show nicknames in display names"
 msgstr "Mostrar apodos en los nombres mostrados"
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:33
+#: resources/views/modules/components/buttonbar/help-button.phtml:22
 msgid "Show the details of the person in the panel"
 msgstr ""
 
@@ -272,7 +271,7 @@ msgstr ""
 msgid "Switch between full screen mode and normal view"
 msgstr "Cambiar entre pantalla completa y vista normal"
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:32
+#: resources/views/modules/components/buttonbar/help-button.phtml:21
 msgid "Tab key"
 msgstr ""
 
@@ -281,7 +280,7 @@ msgstr ""
 msgid "The preferences for the module “%s” have been updated."
 msgstr ""
 
-#: src/Module.php:235
+#: src/Module.php:237
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Use Ctrl + scroll para acercar la vista"
 
@@ -298,7 +297,7 @@ msgstr ""
 "hijo correspondiente. Los marcadores solo se muestran a los usuarios con "
 "derechos de edición sobre la persona."
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:35
+#: resources/views/modules/components/buttonbar/help-button.phtml:24
 msgid "Zoom in/out"
 msgstr "Acercar/Alejar"
 
@@ -306,7 +305,7 @@ msgstr "Acercar/Alejar"
 msgid "cancel"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/page.phtml:108
+#: resources/views/modules/pedigree-chart/page.phtml:105
 msgid "close"
 msgstr ""
 
@@ -330,6 +329,6 @@ msgstr ""
 msgid "up"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/page.phtml:65
+#: resources/views/modules/pedigree-chart/page.phtml:66
 msgid "view"
 msgstr ""
