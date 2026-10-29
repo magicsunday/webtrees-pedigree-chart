@@ -51,6 +51,18 @@ msgstr "Åtferd"
 msgid "Center chart on this person"
 msgstr ""
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:36
+msgid "Click and drag"
+msgstr "Klikk og dra"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:31
+msgid "Click on a person"
+msgstr "Klikk på ein person"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:33
+msgid "Click or Enter on a person"
+msgstr ""
+
 #: resources/views/modules/pedigree-chart/form/colors.phtml:23
 msgid "Colors"
 msgstr ""
@@ -77,8 +89,16 @@ msgstr ""
 "for heile namnet. «Automatisk» brukar etternamnstradisjonen til treet "
 "(islandsk forkortar etternamn; alt anna forkortar førenamn)."
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:35
+msgid "Ctrl + scroll"
+msgstr "Ctrl + rull"
+
 #: resources/views/modules/pedigree-chart/form/details.phtml:23
 msgid "Details"
+msgstr ""
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:34
+msgid "Details panel"
 msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:34
@@ -140,6 +160,14 @@ msgstr "Mors"
 msgid "Modules"
 msgstr ""
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:32
+msgid "Move between the persons"
+msgstr ""
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:36
+msgid "Move the chart"
+msgstr "Flytt diagrammet"
+
 #: src/Module.php:236
 msgid "Move the view with two fingers"
 msgstr "Bruk to fingrar for å endre synsfelt"
@@ -168,6 +196,10 @@ msgstr ""
 "Opnar gjeldande person si faktaside i nytt vindage/fane. Om ikkje, opnast "
 "sida i same vindauge/fane."
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:34
+msgid "Open the individual page or center the chart on the person"
+msgstr ""
+
 #: resources/views/modules/pedigree-chart/form/orientation.phtml:22
 msgid "Orientation"
 msgstr ""
@@ -188,6 +220,10 @@ msgstr "Anediagram for %s"
 #: resources/views/modules/components/buttonbar/center-button.phtml:18
 msgid "Re center"
 msgstr "Tibakestill"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:31
+msgid "Reload chart for that person"
+msgstr "Last diagrammet på nytt for den personen"
 
 #: resources/views/modules/pedigree-chart/page.phtml:112
 msgid "Select a person in the chart to see the details here."
@@ -217,7 +253,8 @@ msgstr ""
 msgid "Show family colors"
 msgstr "Syn familiefargar"
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:17
+#: resources/views/modules/components/buttonbar/help-button.phtml:18
+#: resources/views/modules/components/buttonbar/help-button.phtml:29
 msgid "Show help"
 msgstr "Vis hjelp"
 
@@ -229,9 +266,17 @@ msgstr "Syn fleire val"
 msgid "Show nicknames in display names"
 msgstr "Vis kallenamn i visningsnamn"
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:33
+msgid "Show the details of the person in the panel"
+msgstr ""
+
 #: resources/views/modules/components/buttonbar/fullscreen-button.phtml:18
 msgid "Switch between full screen mode and normal view"
 msgstr "Byt mellom fullskjerm og normal visning"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:32
+msgid "Tab key"
+msgstr ""
 
 #: src/Module/ConfigTrait.php:117
 #, php-format
@@ -254,6 +299,10 @@ msgstr ""
 "webtrees-skjemaet \"legg til forelder\" for det tilsvarande barnet. "
 "Plasshaldarane blir berre vist til brukarar med redigeringsrettar på "
 "personen."
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:35
+msgid "Zoom in/out"
+msgstr "Zoom inn/ut"
 
 #: resources/views/modules/pedigree-chart/config.phtml:112
 msgid "cancel"

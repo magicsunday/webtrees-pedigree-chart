@@ -98,6 +98,43 @@ final class PageViewTest extends TestCase
     }
 
     /**
+     * The toolbar carries the help button with its popover, so the page script that wires the button
+     * finds both and a user can reach the list of interactions.
+     */
+    #[Test]
+    public function showsTheHelpButtonWithItsPopoverInTheToolbar(): void
+    {
+        $xpath = ViewFixture::xpathOf($this->render());
+
+        $button = ViewFixture::first(
+            $xpath,
+            '//div[contains(concat(" ", @class, " "), " btn-toolbar ")]//button[contains(concat(" ", @class, " "), " btn-help ")]'
+        );
+
+        ViewFixture::first($xpath, '//div[@id="' . $button->getAttribute('aria-controls') . '"]');
+
+        self::assertNotSame('', $button->getAttribute('aria-controls'));
+    }
+
+    /**
+     * The help is not an export button, so a tree that hides both exports still shows it.
+     */
+    #[Test]
+    public function showsTheHelpButtonWhenBothExportsAreHidden(): void
+    {
+        $xpath = ViewFixture::xpathOf(
+            $this->render('https://example.test/ajax', ['default_hidePngExport' => '1', 'default_hideSvgExport' => '1'])
+        );
+
+        self::assertCount(0, ViewFixture::elements($xpath, '//button[@id="exportPNG" or @id="exportSVG"]'), 'both exports are hidden');
+
+        ViewFixture::first(
+            $xpath,
+            '//div[contains(concat(" ", @class, " "), " btn-toolbar ")]/div[contains(concat(" ", @class, " "), " btn-group ")]//button[contains(concat(" ", @class, " "), " btn-help ")]'
+        );
+    }
+
+    /**
      * The URL is written into an inline script. Like every value of the chart view, it is encoded
      * with the tag, ampersand, apostrophe and quote flags, so text that opens or closes an element
      * or a string cannot leave the script, whatever a route builder hands over.
@@ -117,15 +154,17 @@ final class PageViewTest extends TestCase
     /**
      * Renders the page view with the variables of the page action, followed by the scripts that the
      * view pushed onto the javascript stack.
+     *
+     * @param array<string, string> $preferences The module preferences that the configuration reads
      */
-    private function render(string $url = 'https://example.test/ajax'): string
+    private function render(string $url = 'https://example.test/ajax', array $preferences = []): string
     {
         ViewFixture::register();
         EnglishLocaleFixture::install();
 
         $configuration = new Configuration(
             new ServerRequest(RequestMethodInterface::METHOD_GET, '/'),
-            $this->createModuleWithPreferences([])
+            $this->createModuleWithPreferences($preferences)
         );
         $title       = 'Pedigree chart';
         $moduleName  = ViewFixture::MODULE_NAME;

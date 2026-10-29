@@ -51,6 +51,18 @@ msgstr "Beteende"
 msgid "Center chart on this person"
 msgstr ""
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:36
+msgid "Click and drag"
+msgstr "Klicka och dra"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:31
+msgid "Click on a person"
+msgstr "Klicka på en person"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:33
+msgid "Click or Enter on a person"
+msgstr ""
+
 #: resources/views/modules/pedigree-chart/form/colors.phtml:23
 msgid "Colors"
 msgstr ""
@@ -77,8 +89,16 @@ msgstr ""
 "fullständiga namnet. \"Automatiskt\" använder trädets efternamnstradition "
 "(isländska förkortar efternamn; allt annat förkortar förnamn)."
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:35
+msgid "Ctrl + scroll"
+msgstr "Ctrl + scrolla"
+
 #: resources/views/modules/pedigree-chart/form/details.phtml:23
 msgid "Details"
+msgstr ""
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:34
+msgid "Details panel"
 msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:34
@@ -138,6 +158,14 @@ msgstr "Moderns"
 msgid "Modules"
 msgstr ""
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:32
+msgid "Move between the persons"
+msgstr ""
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:36
+msgid "Move the chart"
+msgstr "Flytta diagrammet"
+
 #: src/Module.php:236
 msgid "Move the view with two fingers"
 msgstr "Flytta vyn med två fingrar"
@@ -164,6 +192,10 @@ msgid ""
 "it's left-clicked, otherwise the current window/tab is used."
 msgstr ""
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:34
+msgid "Open the individual page or center the chart on the person"
+msgstr ""
+
 #: resources/views/modules/pedigree-chart/form/orientation.phtml:22
 msgid "Orientation"
 msgstr ""
@@ -184,6 +216,10 @@ msgstr "Antavla för %s"
 #: resources/views/modules/components/buttonbar/center-button.phtml:18
 msgid "Re center"
 msgstr "Centrera"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:31
+msgid "Reload chart for that person"
+msgstr "Ladda om diagrammet för den personen"
 
 #: resources/views/modules/pedigree-chart/page.phtml:112
 msgid "Select a person in the chart to see the details here."
@@ -213,7 +249,8 @@ msgstr ""
 msgid "Show family colors"
 msgstr "Visa familjefärger"
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:17
+#: resources/views/modules/components/buttonbar/help-button.phtml:18
+#: resources/views/modules/components/buttonbar/help-button.phtml:29
 msgid "Show help"
 msgstr "Visa hjälp"
 
@@ -225,9 +262,17 @@ msgstr "Visa fler alternativ"
 msgid "Show nicknames in display names"
 msgstr "Visa smeknamn i visningsnamn"
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:33
+msgid "Show the details of the person in the panel"
+msgstr ""
+
 #: resources/views/modules/components/buttonbar/fullscreen-button.phtml:18
 msgid "Switch between full screen mode and normal view"
 msgstr "Växla mellan helskärm och normal vy"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:32
+msgid "Tab key"
+msgstr ""
 
 #: src/Module/ConfigTrait.php:117
 #, php-format
@@ -249,6 +294,10 @@ msgstr ""
 "eller mor. Redaktörer kan klicka på den för att gå direkt till webtrees-"
 "formuläret \"lägg till förälder\" för motsvarande barn. Platshållarna visas "
 "endast för användare med redigeringsrättigheter på personen."
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:35
+msgid "Zoom in/out"
+msgstr "Zooma in/ut"
 
 #: resources/views/modules/pedigree-chart/config.phtml:112
 msgid "cancel"

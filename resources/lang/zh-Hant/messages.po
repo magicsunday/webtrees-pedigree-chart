@@ -51,6 +51,18 @@ msgstr "行為"
 msgid "Center chart on this person"
 msgstr ""
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:36
+msgid "Click and drag"
+msgstr "點擊並拖曳"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:31
+msgid "Click on a person"
+msgstr "點擊某人"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:33
+msgid "Click or Enter on a person"
+msgstr ""
+
 #: resources/views/modules/pedigree-chart/form/colors.phtml:23
 msgid "Colors"
 msgstr ""
@@ -75,8 +87,16 @@ msgstr ""
 "控制當方框對完整姓名而言過窄時，先縮寫哪個名字部分。「自動」使用族譜的姓氏傳"
 "統（冰島語縮寫姓氏；其他所有傳統縮寫名字）。"
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:35
+msgid "Ctrl + scroll"
+msgstr "Ctrl + 捲動"
+
 #: resources/views/modules/pedigree-chart/form/details.phtml:23
 msgid "Details"
+msgstr ""
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:34
+msgid "Details panel"
 msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:34
@@ -136,6 +156,14 @@ msgstr "母系"
 msgid "Modules"
 msgstr ""
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:32
+msgid "Move between the persons"
+msgstr ""
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:36
+msgid "Move the chart"
+msgstr "移動圖表"
+
 #: src/Module.php:236
 msgid "Move the view with two fingers"
 msgstr "用兩根手指拖動視圖"
@@ -162,6 +190,10 @@ msgid ""
 "it's left-clicked, otherwise the current window/tab is used."
 msgstr ""
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:34
+msgid "Open the individual page or center the chart on the person"
+msgstr ""
+
 #: resources/views/modules/pedigree-chart/form/orientation.phtml:22
 msgid "Orientation"
 msgstr ""
@@ -182,6 +214,10 @@ msgstr "%s的世系圖"
 #: resources/views/modules/components/buttonbar/center-button.phtml:18
 msgid "Re center"
 msgstr "居中"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:31
+msgid "Reload chart for that person"
+msgstr "為該人重新載入圖表"
 
 #: resources/views/modules/pedigree-chart/page.phtml:112
 msgid "Select a person in the chart to see the details here."
@@ -211,7 +247,8 @@ msgstr ""
 msgid "Show family colors"
 msgstr "顯示家族顏色"
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:17
+#: resources/views/modules/components/buttonbar/help-button.phtml:18
+#: resources/views/modules/components/buttonbar/help-button.phtml:29
 msgid "Show help"
 msgstr "顯示說明"
 
@@ -223,9 +260,17 @@ msgstr "顯示更多選項"
 msgid "Show nicknames in display names"
 msgstr "在顯示名中顯示暱稱"
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:33
+msgid "Show the details of the person in the panel"
+msgstr ""
+
 #: resources/views/modules/components/buttonbar/fullscreen-button.phtml:18
 msgid "Switch between full screen mode and normal view"
 msgstr "切換全螢幕與一般檢視"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:32
+msgid "Tab key"
+msgstr ""
 
 #: src/Module/ConfigTrait.php:117
 #, php-format
@@ -246,6 +291,10 @@ msgstr ""
 "啟用後，將在每個缺失的父親或母親位置顯示帶「+」圖示的空框。編輯者可點擊直接跳"
 "轉到對應子女的 webtrees「新增父母」表單。僅向對相關人員有編輯權限的使用者顯示"
 "這些佔位符。"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:35
+msgid "Zoom in/out"
+msgstr "放大/縮小"
 
 #: resources/views/modules/pedigree-chart/config.phtml:112
 msgid "cancel"

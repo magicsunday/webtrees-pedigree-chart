@@ -12,6 +12,7 @@ import {
     Storage,
     syncCollapseToggle,
 } from "@magicsunday/webtrees-chart-lib/chart-core";
+import { initHelpPopover, syncHelpMode } from "./help-popover.js";
 
 /**
  * Initialises the pedigree chart page: restores form values from localStorage,
@@ -36,6 +37,7 @@ export function initPage(config) {
     storage.register("maternalColor");
 
     syncCollapseToggle(storage);
+    initHelpPopover();
 
     const form = /** @type {HTMLFormElement} */ (
         document.getElementById("webtrees-pedigree-chart-form")
@@ -86,4 +88,8 @@ export function initPage(config) {
         ],
     });
     setChartAjaxUrl("pedigree-chart-url", ajaxUrl);
+
+    // The chart takes its mode from the stored state that the request above carries, so the help
+    // shows the entries of that mode.
+    syncHelpMode();
 }

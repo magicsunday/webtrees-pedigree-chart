@@ -54,6 +54,18 @@ msgstr "Vedenje"
 msgid "Center chart on this person"
 msgstr ""
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:36
+msgid "Click and drag"
+msgstr "Kliknite in povlecite"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:31
+msgid "Click on a person"
+msgstr "Kliknite na osebo"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:33
+msgid "Click or Enter on a person"
+msgstr ""
+
 #: resources/views/modules/pedigree-chart/form/colors.phtml:23
 msgid "Colors"
 msgstr ""
@@ -80,8 +92,16 @@ msgstr ""
 "ime. »Samodejno« uporablja drevesno tradicijo priimkov (islandska tradicija "
 "krajša priimke; vse ostale krajšajo osebna imena)."
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:35
+msgid "Ctrl + scroll"
+msgstr "Ctrl + drsenje"
+
 #: resources/views/modules/pedigree-chart/form/details.phtml:23
 msgid "Details"
+msgstr ""
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:34
+msgid "Details panel"
 msgstr ""
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:34
@@ -143,6 +163,14 @@ msgstr "Materina"
 msgid "Modules"
 msgstr ""
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:32
+msgid "Move between the persons"
+msgstr ""
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:36
+msgid "Move the chart"
+msgstr "Premakni diagram"
+
 #: src/Module.php:236
 msgid "Move the view with two fingers"
 msgstr "Premakni pogled z dvema prstoma"
@@ -171,6 +199,10 @@ msgstr ""
 "Odpri stran s podrobnostmi trenutne osebe v novem oknu/zavihku brskalnika ob "
 "kliku z levo tipko miške, sicer uporabi trenutno okno/zavihek."
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:34
+msgid "Open the individual page or center the chart on the person"
+msgstr ""
+
 #: resources/views/modules/pedigree-chart/form/orientation.phtml:22
 msgid "Orientation"
 msgstr ""
@@ -191,6 +223,10 @@ msgstr "Rodovnik osebe %s"
 #: resources/views/modules/components/buttonbar/center-button.phtml:18
 msgid "Re center"
 msgstr "Znova na sredino"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:31
+msgid "Reload chart for that person"
+msgstr "Ponovno naloži diagram za to osebo"
 
 #: resources/views/modules/pedigree-chart/page.phtml:112
 msgid "Select a person in the chart to see the details here."
@@ -220,7 +256,8 @@ msgstr ""
 msgid "Show family colors"
 msgstr "Prikaži družinske barve"
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:17
+#: resources/views/modules/components/buttonbar/help-button.phtml:18
+#: resources/views/modules/components/buttonbar/help-button.phtml:29
 msgid "Show help"
 msgstr "Prikaži pomoč"
 
@@ -232,9 +269,17 @@ msgstr "Prikaži več možnosti"
 msgid "Show nicknames in display names"
 msgstr "Prikaži vzdevke v prikaznih imenih"
 
+#: resources/views/modules/components/buttonbar/help-button.phtml:33
+msgid "Show the details of the person in the panel"
+msgstr ""
+
 #: resources/views/modules/components/buttonbar/fullscreen-button.phtml:18
 msgid "Switch between full screen mode and normal view"
 msgstr "Preklopi med celozaslonskim in običajnim načinom"
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:32
+msgid "Tab key"
+msgstr ""
 
 #: src/Module/ConfigTrait.php:117
 #, php-format
@@ -256,6 +301,10 @@ msgstr ""
 "prazno polje z ikono »+«. Urejevalci lahko nanj kliknejo, da skočijo "
 "neposredno na obrazec webtrees »dodaj starša« za ustreznega otroka. "
 "Označevalci so vidni samo uporabnikom s pravicami urejanja osebe."
+
+#: resources/views/modules/components/buttonbar/help-button.phtml:35
+msgid "Zoom in/out"
+msgstr "Povečaj/pomanjšaj"
 
 #: resources/views/modules/pedigree-chart/config.phtml:112
 msgid "cancel"
