@@ -17,6 +17,7 @@ use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
+use function count;
 use function ob_get_clean;
 use function ob_start;
 use function trim;
@@ -45,6 +46,7 @@ final class HelpButtonViewTest extends TestCase
         $popover = ViewFixture::first($xpath, '//div[contains(concat(" ", @class, " "), " help-popover ")]');
 
         self::assertNotSame('', $button->getAttribute('title'), 'the icon is the only content, so the title names the button');
+        self::assertSame('button', $button->getAttribute('type'), 'the button does not submit a form around it');
         self::assertSame('false', $button->getAttribute('aria-expanded'));
         self::assertNotSame('', $popover->getAttribute('id'));
         self::assertSame($popover->getAttribute('id'), $button->getAttribute('aria-controls'));
@@ -166,10 +168,43 @@ final class HelpButtonViewTest extends TestCase
     }
 
     /**
+     * The rows follow each other in a fixed order, each with its own mode and its own text, so a row
+     * that moves to the other mode or to another place changes what the help shows in each mode.
+     */
+    #[Test]
+    public function listsTheRowsInTheirOrderWithTheirModes(): void
+    {
+        $xpath    = ViewFixture::xpathOf($this->render());
+        $expected = [
+            ['default', 'Click on a person', 'Reload chart for that person'],
+            ['', 'Tab key', 'Move between the persons'],
+            ['panel', 'Click or Enter on a person', 'Show the details of the person in the panel'],
+            ['panel', 'Details panel', 'Open the individual page or center the chart on the person'],
+            ['', 'Ctrl + scroll', 'Zoom in/out'],
+            ['', 'Click and drag', 'Move the chart'],
+        ];
+
+        self::assertCount(count($expected), ViewFixture::elements($xpath, '//tr'));
+
+        foreach ($expected as $index => [$mode, $key, $text]) {
+            $row = '(//tr)[' . ($index + 1) . ']';
+
+            self::assertSame(
+                $mode,
+                ViewFixture::first($xpath, $row)->getAttribute('data-help-mode'),
+                'the row ' . $key . ' belongs to the mode ' . ($mode === '' ? 'of both' : $mode)
+            );
+            self::assertSame($key, trim(ViewFixture::first($xpath, $row . '/td[1]')->textContent));
+            self::assertSame($text, trim(ViewFixture::first($xpath, $row . '/td[2]')->textContent));
+        }
+    }
+
+    /**
      * Renders the help button.
      */
     private function render(): string
     {
+        ViewFixture::register();
         EnglishLocaleFixture::install();
 
         ob_start();

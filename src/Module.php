@@ -29,6 +29,7 @@ use Fisharebest\Webtrees\Validator;
 use Fisharebest\Webtrees\View;
 use MagicSunday\Webtrees\ModuleBase\Contract\ModuleAssetUrlInterface;
 use MagicSunday\Webtrees\ModuleBase\Traits\ModuleCustomTrait;
+use MagicSunday\Webtrees\ModuleBase\View\SharedViews;
 use MagicSunday\Webtrees\PedigreeChart\Facade\DataFacade;
 use MagicSunday\Webtrees\PedigreeChart\Module\ChartTrait;
 use MagicSunday\Webtrees\PedigreeChart\Module\ConfigTrait;
@@ -90,7 +91,8 @@ final class Module extends PedigreeChartModule implements ModuleAssetUrlInterfac
     }
 
     /**
-     * Initialization.
+     * Initialization. Registers the route and the views of this module and the shared views of
+     * module-base.
      *
      * @return void
      *
@@ -106,6 +108,7 @@ final class Module extends PedigreeChartModule implements ModuleAssetUrlInterfac
             ->allows(RequestMethodInterface::METHOD_POST);
 
         View::registerNamespace($this->name(), $this->resourcesFolder() . 'views/');
+        SharedViews::register();
     }
 
     /**

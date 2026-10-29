@@ -19,7 +19,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: src\n"
 "X-Poedit-SearchPath-1: resources/views\n"
 
-#: src/Module.php:130
+#: src/Module.php:133
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "个人祖先的世系图"
 
@@ -47,19 +47,19 @@ msgstr "自动（根据族谱的姓氏传统）"
 msgid "Behavior"
 msgstr "行为"
 
-#: resources/views/modules/pedigree-chart/page.phtml:117
+#: resources/views/modules/pedigree-chart/page.phtml:109
 msgid "Center chart on this person"
 msgstr ""
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:36
+#: resources/views/modules/components/buttonbar/help-button.phtml:25
 msgid "Click and drag"
 msgstr "点击并拖动"
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:31
+#: resources/views/modules/components/buttonbar/help-button.phtml:20
 msgid "Click on a person"
 msgstr "点击某人"
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:33
+#: resources/views/modules/components/buttonbar/help-button.phtml:22
 msgid "Click or Enter on a person"
 msgstr ""
 
@@ -87,7 +87,7 @@ msgstr ""
 "控制当方框对完整姓名而言过窄时，先缩写哪个名字部分。“自动”使用族谱的姓氏传统"
 "（冰岛语缩写姓氏；其他所有传统缩写名字）。"
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:35
+#: resources/views/modules/components/buttonbar/help-button.phtml:24
 msgid "Ctrl + scroll"
 msgstr "Ctrl + 滚动"
 
@@ -95,7 +95,7 @@ msgstr "Ctrl + 滚动"
 msgid "Details"
 msgstr ""
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:34
+#: resources/views/modules/components/buttonbar/help-button.phtml:23
 msgid "Details panel"
 msgstr ""
 
@@ -122,7 +122,7 @@ msgstr ""
 msgid "Generations"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/page.phtml:77
+#: resources/views/modules/pedigree-chart/page.phtml:78
 msgid "Hide more options"
 msgstr "隐藏更多选项"
 
@@ -134,7 +134,7 @@ msgstr "隐藏 PNG 导出按钮"
 msgid "Hide the SVG export button"
 msgstr "隐藏 SVG 导出按钮"
 
-#: resources/views/modules/pedigree-chart/page.phtml:39
+#: resources/views/modules/pedigree-chart/page.phtml:40
 msgid "Individual"
 msgstr ""
 
@@ -156,15 +156,15 @@ msgstr "母系"
 msgid "Modules"
 msgstr ""
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:32
+#: resources/views/modules/components/buttonbar/help-button.phtml:21
 msgid "Move between the persons"
 msgstr ""
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:36
+#: resources/views/modules/components/buttonbar/help-button.phtml:25
 msgid "Move the chart"
 msgstr "移动图表"
 
-#: src/Module.php:236
+#: src/Module.php:239
 msgid "Move the view with two fingers"
 msgstr "用两根手指拖动视图"
 
@@ -172,7 +172,7 @@ msgstr "用两根手指拖动视图"
 msgid "Name abbreviation when space is tight"
 msgstr "空间不足时的姓名缩写方式"
 
-#: resources/views/modules/pedigree-chart/page.phtml:114
+#: resources/views/modules/pedigree-chart/page.phtml:107
 msgid "No details are available for this person."
 msgstr ""
 
@@ -180,7 +180,7 @@ msgstr ""
 msgid "Open individual in new browser window/tab"
 msgstr "在新浏览器窗口/标签页中打开个人"
 
-#: resources/views/modules/pedigree-chart/page.phtml:116
+#: resources/views/modules/pedigree-chart/page.phtml:108
 msgid "Open individual page"
 msgstr ""
 
@@ -190,7 +190,7 @@ msgid ""
 "it's left-clicked, otherwise the current window/tab is used."
 msgstr ""
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:34
+#: resources/views/modules/components/buttonbar/help-button.phtml:23
 msgid "Open the individual page or center the chart on the person"
 msgstr ""
 
@@ -202,7 +202,7 @@ msgstr ""
 msgid "Paternal"
 msgstr "父系"
 
-#: src/Module.php:119 src/Module/ChartTrait.php:63
+#: src/Module.php:122 src/Module/ChartTrait.php:63
 msgid "Pedigree chart"
 msgstr ""
 
@@ -215,11 +215,11 @@ msgstr "%s的世系图"
 msgid "Re center"
 msgstr "居中"
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:31
+#: resources/views/modules/components/buttonbar/help-button.phtml:20
 msgid "Reload chart for that person"
 msgstr "为该人重新加载图表"
 
-#: resources/views/modules/pedigree-chart/page.phtml:112
+#: resources/views/modules/pedigree-chart/page.phtml:106
 msgid "Select a person in the chart to see the details here."
 msgstr ""
 
@@ -247,12 +247,11 @@ msgstr ""
 msgid "Show family colors"
 msgstr "显示家族颜色"
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:18
-#: resources/views/modules/components/buttonbar/help-button.phtml:29
+#: resources/views/modules/components/buttonbar/help-button.phtml:17
 msgid "Show help"
 msgstr "显示帮助"
 
-#: resources/views/modules/pedigree-chart/page.phtml:76
+#: resources/views/modules/pedigree-chart/page.phtml:77
 msgid "Show more options"
 msgstr "显示更多选项"
 
@@ -260,7 +259,7 @@ msgstr "显示更多选项"
 msgid "Show nicknames in display names"
 msgstr "在显示名中显示昵称"
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:33
+#: resources/views/modules/components/buttonbar/help-button.phtml:22
 msgid "Show the details of the person in the panel"
 msgstr ""
 
@@ -268,7 +267,7 @@ msgstr ""
 msgid "Switch between full screen mode and normal view"
 msgstr "切换全屏与普通视图"
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:32
+#: resources/views/modules/components/buttonbar/help-button.phtml:21
 msgid "Tab key"
 msgstr ""
 
@@ -277,7 +276,7 @@ msgstr ""
 msgid "The preferences for the module “%s” have been updated."
 msgstr ""
 
-#: src/Module.php:235
+#: src/Module.php:238
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "按住Ctrl和鼠标滚轮放大查看"
 
@@ -292,7 +291,7 @@ msgstr ""
 "转到对应子女的 webtrees\"添加父母\"表单。仅向对相关人员有编辑权限的用户显示这"
 "些占位符。"
 
-#: resources/views/modules/components/buttonbar/help-button.phtml:35
+#: resources/views/modules/components/buttonbar/help-button.phtml:24
 msgid "Zoom in/out"
 msgstr "放大/缩小"
 
@@ -300,7 +299,7 @@ msgstr "放大/缩小"
 msgid "cancel"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/page.phtml:108
+#: resources/views/modules/pedigree-chart/page.phtml:105
 msgid "close"
 msgstr ""
 
@@ -324,6 +323,6 @@ msgstr ""
 msgid "up"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/page.phtml:65
+#: resources/views/modules/pedigree-chart/page.phtml:66
 msgid "view"
 msgstr ""
