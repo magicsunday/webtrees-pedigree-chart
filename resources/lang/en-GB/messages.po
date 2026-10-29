@@ -239,8 +239,6 @@ msgid ""
 "Show chart for that person, or open the page of a person of the first "
 "generation"
 msgstr ""
-"Show chart for that person, or open the page of a person of the first "
-"generation"
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:53
 msgid "Show details panel"
