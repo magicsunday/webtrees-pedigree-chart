@@ -57,6 +57,10 @@ final class PageViewTest extends TestCase
         self::assertTrue($panel->hasAttribute('hidden'), 'the panel stays hidden until the script enables it');
         self::assertSame('webtrees-pedigree-detail-panel-title', $panel->getAttribute('aria-labelledby'));
 
+        foreach (['webtrees-detail-panel', 'webtrees-pedigree-detail-panel'] as $class) {
+            self::assertStringContainsString($class, $panel->getAttribute('class'), 'the panel carries the shared and the module class');
+        }
+
         foreach (['title', 'image', 'hint', 'facts', 'empty', 'actions', 'individual', 'center'] as $part) {
             self::assertCount(
                 1,

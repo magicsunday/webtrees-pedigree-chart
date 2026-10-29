@@ -15,6 +15,7 @@ use DOMDocument;
 use DOMElement;
 use DOMXPath;
 use Fisharebest\Webtrees\View;
+use MagicSunday\Webtrees\ModuleBase\View\SharedViews;
 use PHPUnit\Framework\AssertionFailedError;
 
 use function libxml_clear_errors;
@@ -49,6 +50,7 @@ final class ViewFixture
     {
         View::registerNamespace(self::MODULE_NAME, __DIR__ . '/../../resources/views/');
         View::registerNamespace(self::STUB_NAMESPACE, __DIR__ . '/views/');
+        SharedViews::register();
 
         View::registerCustomView('::components/checkbox', self::STUB_NAMESPACE . '::checkbox');
         View::registerCustomView('::components/select-individual', self::STUB_NAMESPACE . '::select-individual');
