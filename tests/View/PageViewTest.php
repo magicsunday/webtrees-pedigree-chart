@@ -135,6 +135,19 @@ final class PageViewTest extends TestCase
     }
 
     /**
+     * A translation can contain a quote, an ampersand or a tag. The label of the submit button is an
+     * attribute value, so it is escaped and keeps the translated text as one value.
+     */
+    #[Test]
+    public function keepsATranslatedLabelOfTheSubmitButtonInsideItsAttribute(): void
+    {
+        $text  = 'Say "more" &amp; <b>less</b>';
+        $xpath = ViewFixture::xpathOf($this->render('https://example.test/ajax', [], ['view' => $text]));
+
+        self::assertSame($text, ViewFixture::first($xpath, '//input[@type="submit"]')->getAttribute('value'));
+    }
+
+    /**
      * The URL is written into an inline script. Like every value of the chart view, it is encoded
      * with the tag, ampersand, apostrophe and quote flags, so text that opens or closes an element
      * or a string cannot leave the script, whatever a route builder hands over.
@@ -156,11 +169,12 @@ final class PageViewTest extends TestCase
      * view pushed onto the javascript stack.
      *
      * @param array<string, string> $preferences The module preferences that the configuration reads
+     * @param array<string, string> $messages    The translations by source text
      */
-    private function render(string $url = 'https://example.test/ajax', array $preferences = []): string
+    private function render(string $url = 'https://example.test/ajax', array $preferences = [], array $messages = []): string
     {
         ViewFixture::register();
-        EnglishLocaleFixture::install();
+        EnglishLocaleFixture::install($messages);
 
         $configuration = new Configuration(
             new ServerRequest(RequestMethodInterface::METHOD_GET, '/'),
