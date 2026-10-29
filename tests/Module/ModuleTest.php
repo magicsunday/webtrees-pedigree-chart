@@ -24,9 +24,13 @@ use MagicSunday\Webtrees\PedigreeChart\Test\Support\EnglishLocaleFixture;
 use MagicSunday\Webtrees\PedigreeChart\Test\Support\ModuleSettingsFixtureTrait;
 use MagicSunday\Webtrees\PedigreeChart\Test\Support\RouteFactoryFixture;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
+
+use function view;
 
 /**
  * Validates module metadata exposure and chart helpers.
@@ -243,5 +247,32 @@ final class ModuleTest extends TestCase
         self::assertArrayHasKey('tree', $query);
         self::assertSame('I1', $query['xref']);
         self::assertSame('main', $query['tree']);
+    }
+
+    /**
+     * Booting the module makes the shared views of module-base renderable. The registration is
+     * static state that other tests set up as well, so the test runs in a process of its own and
+     * boot() is the only thing that can have registered the namespace.
+     */
+    #[Test]
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
+    public function bootRegistersTheSharedViewsOfModuleBase(): void
+    {
+        RouteFactoryFixture::register();
+
+        $module = new Module(self::createStub(ChartService::class), new DataFacade());
+        $module->setName('webtrees-pedigree-chart');
+
+        $module->boot();
+
+        $markup = view('webtrees-module-base::help-popover', [
+            'id'         => 'boot-test-popover',
+            'label'      => 'Help',
+            'rows'       => [['key' => 'Key', 'text' => 'Text']],
+            'activeMode' => null,
+        ]);
+
+        self::assertStringContainsString('id="boot-test-popover"', $markup);
     }
 }

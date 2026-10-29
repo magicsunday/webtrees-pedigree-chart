@@ -91,7 +91,8 @@ final class Module extends PedigreeChartModule implements ModuleAssetUrlInterfac
     }
 
     /**
-     * Initialization.
+     * Initialization. Registers the route and the views of this module and the shared views of
+     * module-base.
      *
      * @return void
      *
