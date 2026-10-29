@@ -9,11 +9,9 @@ import { afterEach, describe, expect, test } from "@jest/globals";
 
 import {
     LAYOUT_BOTTOMTOP,
-    LAYOUT_HORIZONTAL_NODE_WIDTH,
     LAYOUT_LEFTRIGHT,
     LAYOUT_RIGHTLEFT,
     LAYOUT_TOPBOTTOM,
-    LAYOUT_VERTICAL_NODE_HEIGHT,
     OrientationCollection,
 } from "@magicsunday/webtrees-chart-lib/linked-tree";
 import Hierarchy from "../modules/hierarchy.js";
@@ -23,16 +21,21 @@ import Hierarchy from "../modules/hierarchy.js";
 // direction, so the parents end up on the side of the root that the layout runs towards.
 const DATUM = { parents: [{ parents: [] }, { parents: [] }] };
 
-// The depth distance between two generations is the node height of the vertical layouts (box
-// height plus the vertical offset) and the node height of the horizontal ones (box width plus the
-// horizontal offset).
-const VERTICAL_DEPTH = LAYOUT_VERTICAL_NODE_HEIGHT + 40;
-const HORIZONTAL_DEPTH = LAYOUT_HORIZONTAL_NODE_WIDTH + 40;
+const orientationOf = (layout) => new OrientationCollection().get()[layout];
+
+// The depth distance between two generations is the node extent of the layout along its depth
+// axis, so the test reads it from the orientation it builds. The vertical layouts step by the
+// box height plus the vertical offset, the horizontal ones by the box width plus the horizontal
+// offset.
+const VERTICAL_DEPTH =
+    orientationOf(LAYOUT_TOPBOTTOM).boxHeight + orientationOf(LAYOUT_TOPBOTTOM).yOffset;
+const HORIZONTAL_DEPTH =
+    orientationOf(LAYOUT_LEFTRIGHT).boxWidth + orientationOf(LAYOUT_LEFTRIGHT).xOffset;
 
 const parentsOf = (layout) => {
     const configuration = {
         showAlternativeName: false,
-        orientation: new OrientationCollection().get()[layout],
+        orientation: orientationOf(layout),
     };
     const hierarchy = new Hierarchy(configuration);
     hierarchy.init(DATUM);
