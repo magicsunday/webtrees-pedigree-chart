@@ -47,7 +47,7 @@ msgstr "Automatisch (op basis van de achternaamtraditie van de stamboom)"
 msgid "Behavior"
 msgstr "Gedrag"
 
-#: resources/views/modules/pedigree-chart/page.phtml:109
+#: resources/views/modules/pedigree-chart/page.phtml:111
 msgid "Center chart on this person"
 msgstr "Diagram centreren op deze persoon"
 
@@ -178,7 +178,7 @@ msgstr "Verplaats de weergave met twee vingers"
 msgid "Name abbreviation when space is tight"
 msgstr "Afkorting van naam bij beperkte ruimte"
 
-#: resources/views/modules/pedigree-chart/page.phtml:107
+#: resources/views/modules/pedigree-chart/page.phtml:109
 msgid "No details are available for this person."
 msgstr "Er zijn geen gegevens beschikbaar voor deze persoon."
 
@@ -186,7 +186,7 @@ msgstr "Er zijn geen gegevens beschikbaar voor deze persoon."
 msgid "Open individual in new browser window/tab"
 msgstr "Open persoon in nieuw browservenster/tabblad"
 
-#: resources/views/modules/pedigree-chart/page.phtml:108
+#: resources/views/modules/pedigree-chart/page.phtml:110
 msgid "Open individual page"
 msgstr "Persoonspagina openen"
 
@@ -224,7 +224,7 @@ msgstr "Kwartierstaat van %s"
 msgid "Re center"
 msgstr "Opnieuw centreren"
 
-#: resources/views/modules/pedigree-chart/page.phtml:106
+#: resources/views/modules/pedigree-chart/page.phtml:108
 msgid "Select a person in the chart to see the details here."
 msgstr "Selecteer een persoon in de grafiek om hier de gegevens te bekijken."
 
@@ -317,7 +317,7 @@ msgstr "In-/uitzoomen"
 msgid "cancel"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/page.phtml:105
+#: resources/views/modules/pedigree-chart/page.phtml:107
 msgid "close"
 msgstr ""
 
