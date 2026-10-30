@@ -135,6 +135,27 @@ final class PageViewTest extends TestCase
     }
 
     /**
+     * The rules of the toolbar buttons come from the toolbar style view of the module base, written once
+     * as a style element that is scoped to the fullscreen container of the chart, so the toolbar is
+     * styled from the first paint without a copy of the rules in the stylesheet of the module.
+     */
+    #[Test]
+    public function rendersTheToolbarStyleOnceForTheFullscreenContainer(): void
+    {
+        $xpath  = ViewFixture::xpathOf($this->render());
+        $styles = ViewFixture::elements($xpath, '//style[contains(., ".btn-chart")]');
+
+        self::assertCount(1, $styles, 'the page carries exactly one style element with the toolbar rules');
+        self::assertStringContainsString('.webtrees-pedigree-fullscreen-container .btn-chart {', $styles[0]->textContent);
+        self::assertStringContainsString('.webtrees-pedigree-fullscreen-container .btn-chart:focus-visible {', $styles[0]->textContent);
+        self::assertCount(
+            1,
+            ViewFixture::elements($xpath, '//*[contains(concat(" ", @class, " "), " webtrees-pedigree-fullscreen-container ")]'),
+            'the container that the rules are scoped to exists once'
+        );
+    }
+
+    /**
      * A translation can contain a quote, an ampersand or a tag. The label of the submit button is an
      * attribute value, so it is escaped and keeps the translated text as one value.
      */

@@ -83,6 +83,8 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
         </div>
     </form>
 
+    <?php echo view(SharedViews::NAMESPACE . '::toolbar-style', ['container' => 'webtrees-pedigree-fullscreen-container']); ?>
+
     <div class="row webtrees-pedigree-fullscreen-container">
         <?php echo view($moduleName . '::modules/components/buttonbar', ['configuration' => $configuration, 'moduleName' => $moduleName]); ?>
 
