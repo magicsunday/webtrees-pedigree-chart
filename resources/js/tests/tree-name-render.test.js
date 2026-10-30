@@ -146,7 +146,7 @@ describe("Name rendering in the top/bottom layout", () => {
 
         expect(texts).toHaveLength(2);
         expect(texts.map(labels)).toEqual([["Anna"], ["Schmidt"]]);
-        expect(texts.map((text) => text.y)).toEqual(["15", "35"]);
+        expect(texts.map((text) => text.y)).toEqual(["10", "30"]);
 
         for (const text of texts) {
             expect(text.class).toBe("wt-chart-box-name");
@@ -290,7 +290,7 @@ describe("Name rendering in the top/bottom layout", () => {
         expect(texts[2].class).toBe("wt-chart-box-name");
         expect(texts[2].anchor).toBe("middle");
         expect(texts[2].direction).toBe("ltr");
-        expect(texts[2].y).toBe("60");
+        expect(texts[2].y).toBe("55");
         expect(texts[2].x).toBeNull();
         expect(texts[2].tspans.map((tspan) => tspan.dx)).toEqual([null, "0.25em", "0.25em"]);
         expect(texts[2].tspans.some((tspan) => tspan.lastName || tspan.underline)).toBe(false);
@@ -312,7 +312,7 @@ describe("Name rendering in the top/bottom layout", () => {
 
         expect(texts).toHaveLength(1);
         expect(labels(texts[0])).toEqual(["Schmidt"]);
-        expect(texts[0].y).toBe("15");
+        expect(texts[0].y).toBe("10");
         expect(texts[0].tspans[0].lastName).toBe(true);
     });
 
@@ -321,7 +321,7 @@ describe("Name rendering in the top/bottom layout", () => {
 
         expect(texts).toHaveLength(1);
         expect(labels(texts[0])).toEqual(["Anna", "Maria"]);
-        expect(texts[0].y).toBe("15");
+        expect(texts[0].y).toBe("10");
         expect(texts[0].tspans.some((tspan) => tspan.lastName)).toBe(false);
     });
 

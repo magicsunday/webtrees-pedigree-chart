@@ -63,7 +63,7 @@ export default class Name extends TextRenderer {
             this.appendNameLine(enter);
         }
 
-        this.appendAlternativeName(enter, this._text.y + (isVertical ? 40 : 8));
+        this.appendAlternativeName(enter, this._text.y + (isVertical ? 35 : 8));
     }
 
     /**
@@ -82,7 +82,7 @@ export default class Name extends TextRenderer {
             const availableWidth = that.getAvailableWidth(datum);
 
             nameGroups.forEach((nameGroup, index) => {
-                const text = that.createNameText(element, "isRtl", that._text.y - 5 + index * 20);
+                const text = that.createNameText(element, "isRtl", that._text.y - 10 + index * 20);
 
                 that.addNameElements(text, that.truncateNamesData(text, nameGroup, availableWidth));
             });
