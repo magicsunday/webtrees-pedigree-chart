@@ -265,7 +265,7 @@ dist-smoke:
 		find "$$tmp/vendor/magicsunday/webtrees-module-base/src/$$d" -name '*.php' -print 2>/dev/null | grep -q . \
 			|| { echo "Error: bundled module-base src/$$d has no PHP files in extracted zip"; exit 1; }; \
 	done; \
-	for v in detail-panel help-popover; do \
+	for v in detail-panel help-popover toolbar-style; do \
 		[ -s "$$tmp/vendor/magicsunday/webtrees-module-base/resources/views/$$v.phtml" ] \
 			|| { echo "Error: bundled module-base view $$v is missing or empty in extracted zip"; exit 1; }; \
 	done

@@ -48,7 +48,7 @@ msgstr "Automaticky (podľa tradície priezvisk stromu)"
 msgid "Behavior"
 msgstr "Správanie"
 
-#: resources/views/modules/pedigree-chart/page.phtml:109
+#: resources/views/modules/pedigree-chart/page.phtml:111
 msgid "Center chart on this person"
 msgstr ""
 
@@ -175,7 +175,7 @@ msgstr "Presunúť pohľad dvomi prstami"
 msgid "Name abbreviation when space is tight"
 msgstr "Skracovanie mena pri nedostatku miesta"
 
-#: resources/views/modules/pedigree-chart/page.phtml:107
+#: resources/views/modules/pedigree-chart/page.phtml:109
 msgid "No details are available for this person."
 msgstr ""
 
@@ -183,7 +183,7 @@ msgstr ""
 msgid "Open individual in new browser window/tab"
 msgstr "Otvoriť osobu v novom okne/karte prehliadača"
 
-#: resources/views/modules/pedigree-chart/page.phtml:108
+#: resources/views/modules/pedigree-chart/page.phtml:110
 msgid "Open individual page"
 msgstr ""
 
@@ -218,7 +218,7 @@ msgstr "Rodokmeň %s"
 msgid "Re center"
 msgstr "Znova vycentrovať"
 
-#: resources/views/modules/pedigree-chart/page.phtml:106
+#: resources/views/modules/pedigree-chart/page.phtml:108
 msgid "Select a person in the chart to see the details here."
 msgstr ""
 
@@ -305,7 +305,7 @@ msgstr ""
 msgid "cancel"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/page.phtml:105
+#: resources/views/modules/pedigree-chart/page.phtml:107
 msgid "close"
 msgstr ""
 
