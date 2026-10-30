@@ -82,13 +82,11 @@ Flat layout. Every file is pedigree-specific glue. Reusable base classes (Storag
 - **`pedigree-chart/page.phtml`** — Form + AJAX container. Loads `pedigree-chart-page.min.js` and calls `WebtreesPedigreeChart.initPage({ ajaxUrl })`.
 - **`pedigree-chart/chart.phtml`** — AJAX response: `<script type="module">` with `import()` to load ES module bundle. Reads user overrides from `WebtreesPedigreeChart.chartOptions ?? PHP defaults`.
 - **`pedigree-chart/form/{generations,layout,orientation}.phtml`** — Form partials.
-- **`charts/chart.phtml`** — Block template override (home page widget), uses `data-wt-ajax-url` pattern.
 
 ## Key patterns
 - **ES module loading**: `import().then(({ PedigreeChart }) => ...)` in `<script type="module">`, avoiding the `webtrees.load()` race condition.
 - **Storage flow**: `page-init.js` reads localStorage → publishes resolved options under `WebtreesPedigreeChart.chartOptions` → `chart.phtml` getter reads `opts.x ?? PHP default`.
 - **Orientation strategy**: chart layout is configurable in 4 directions (top-bottom, bottom-top, left-right, right-left). The `OrientationCollection` of the chart-lib linked-tree layer picks the matching `Orientation*` class which provides node coordinate transforms and elbow connector geometry.
-- **Block template**: Overrides core `modules/charts/chart.phtml` — must stay in sync with webtrees core changes (e.g. VanillaJS conversion).
 
 ## Release process
 Runs inside the buildbox (requires git, node, npm, composer, jq, zip, gh, sed):
