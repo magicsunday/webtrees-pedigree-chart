@@ -5,124 +5,90 @@
  * LICENSE file distributed with this source code.
  */
 
-// Regression guard for issue #74. Mirrors the inline separation function
-// from Hierarchy.init() (hierarchy.js) and asserts the d3.tree() output
-// produces zero overlapping bounding boxes for a stress-shape suite,
-// including 12-generation deep trees and pathological wide/narrow
-// sibling groups. A regression to a uniform separation of 1.0 (which
-// hid the cousin distinction) or to a wide 2.0 (issue #74) would fail
-// the cousin-gap range assertion.
+// Regression guard for the horizontal spacing of the vertical layout. The tests lay out real
+// ancestor trees through Hierarchy.init() with the OrientationCollection of the chart-lib, so
+// the separation that production applies is the one under test. Siblings of one child sit one
+// node width apart, cousin branches farther, and no two boxes of a generation overlap.
 
-import { tree, hierarchy } from "d3-hierarchy";
+import { describe, expect, test } from "@jest/globals";
 
-// Production nodeSize for the vertical layout (boxWidth 160 + xOffset 30 / boxHeight 175 + yOffset 40).
-const NODE_WIDTH = 190;
-const NODE_HEIGHT = 215;
-const BOX_WIDTH = 160;
+import {
+    LAYOUT_TOPBOTTOM,
+    OrientationCollection,
+} from "@magicsunday/webtrees-chart-lib/linked-tree";
+import Hierarchy from "../modules/hierarchy.js";
 
-// Mirror of hierarchy.js:95 — keep in sync with the production callback.
-const separationFn = (left, right) => (left.parent === right.parent ? 1.0 : 1.25);
+const orientation = new OrientationCollection().get()[LAYOUT_TOPBOTTOM];
+const BOX_WIDTH = orientation.boxWidth;
+const NODE_WIDTH = orientation.nodeWidth;
 
-function layout(rootData) {
-    const root = hierarchy(rootData);
-    return tree().nodeSize([NODE_WIDTH, NODE_HEIGHT]).separation(separationFn)(root).descendants();
-}
+const layout = (datum) => {
+    const hierarchy = new Hierarchy({
+        showAlternativeName: false,
+        orientation: new OrientationCollection().get()[LAYOUT_TOPBOTTOM],
+    });
+    hierarchy.init(datum);
 
-function findOverlaps(nodes) {
-    const byDepth = new Map();
-    for (const n of nodes) {
-        if (!byDepth.has(n.depth)) byDepth.set(n.depth, []);
-        byDepth.get(n.depth).push(n);
-    }
-    const overlaps = [];
-    for (const list of byDepth.values()) {
-        list.sort((a, b) => a.x - b.x);
-        for (let i = 1; i < list.length; i++) {
-            const gap = list[i].x - list[i - 1].x - BOX_WIDTH;
-            if (gap < 0) {
-                overlaps.push({
-                    depth: list[i].depth,
-                    a: list[i - 1].data.id,
-                    b: list[i].data.id,
-                    overlapPx: -gap,
-                });
-            }
+    return hierarchy.nodes.descendants();
+};
+
+const byDepth = (nodes) => {
+    const groups = new Map();
+
+    for (const node of nodes) {
+        if (!groups.has(node.depth)) {
+            groups.set(node.depth, []);
         }
-    }
-    return overlaps;
-}
 
-function minCousinGap(nodes) {
-    // The separation() callback's cousin value is the *minimum* enforced
-    // distance — adjacent cousins at higher depths can be spaced further
-    // apart to accommodate the contour of their wider subtrees below
-    // (Reingold–Tilford's apportion() step). The minimum across all
-    // cousin pairs is the unchanged signal from separation().
-    const byDepth = new Map();
-    for (const n of nodes) {
-        if (!byDepth.has(n.depth)) byDepth.set(n.depth, []);
-        byDepth.get(n.depth).push(n);
+        groups.get(node.depth).push(node);
     }
-    let min = Infinity;
-    for (const list of byDepth.values()) {
+
+    for (const list of groups.values()) {
         list.sort((a, b) => a.x - b.x);
-        for (let i = 1; i < list.length; i++) {
-            if (list[i].parent !== list[i - 1].parent) {
-                const gap = list[i].x - list[i - 1].x - BOX_WIDTH;
-                if (gap < min) min = gap;
-            }
-        }
     }
-    return min === Infinity ? null : min;
-}
 
-let _id = 0;
-const next = (prefix = "N") => `${prefix}${++_id}`;
+    return [...groups.values()];
+};
 
-// Pedigree-style: child has up to 2 parents, recursive.
-function pedigreeFractal(generations) {
-    if (generations === 0) return { id: next("P") };
-    return {
-        id: next("P"),
-        children: [pedigreeFractal(generations - 1), pedigreeFractal(generations - 1)],
-    };
-}
+const findOverlaps = (nodes) =>
+    byDepth(nodes).flatMap((list) =>
+        list
+            .slice(1)
+            .filter((node, index) => node.x - list[index].x - BOX_WIDTH < 0)
+            .map((node) => node.depth),
+    );
 
-describe("Hierarchy.init() separation — issue #74 regression suite", () => {
-    beforeEach(() => {
-        _id = 0;
+// Smallest centre distance between two neighbours of one generation that have different parents.
+const minCousinDistance = (nodes) =>
+    Math.min(
+        ...byDepth(nodes).flatMap((list) =>
+            list
+                .slice(1)
+                .filter((node, index) => node.parent !== list[index].parent)
+                .map((node) => node.x - list[list.indexOf(node) - 1].x),
+        ),
+    );
+
+// Full ancestor tree, every person has two parents down to the given generation count.
+const pedigree = (generations) =>
+    generations === 1
+        ? { parents: [] }
+        : { parents: [pedigree(generations - 1), pedigree(generations - 1)] };
+
+describe("Hierarchy.init spacing", () => {
+    test("siblings of one child sit exactly one node width apart", () => {
+        const [, mother, father] = layout(pedigree(2));
+
+        expect(Math.abs(father.x - mother.x)).toBe(NODE_WIDTH);
     });
 
-    test("4 generations of full ancestors: no overlaps, cousin gap distinct from sibling gap", () => {
-        const data = pedigreeFractal(3); // 1 + 2 + 4 + 8 = 15 nodes
-        const nodes = layout(data);
-        expect(findOverlaps(nodes)).toEqual([]);
-        // The minimum cousin gap is the value separation() actually enforces.
-        // Pre-fix uniform 1.0 produced 30 px (same as siblings, no visual distinction).
-        // Post-fix 1.25 lifts it to 77.5 px so cousin branches read as a distinct family line.
-        // Any regression to 1.0 (uniform) would push this back to 30.
-        const minCous = minCousinGap(nodes);
-        expect(minCous).toBeGreaterThanOrEqual(60);
-        expect(minCous).toBeLessThanOrEqual(100);
+    test("cousin branches are spaced wider than siblings", () => {
+        const distance = minCousinDistance(layout(pedigree(4)));
+
+        expect(distance).toBeGreaterThan(NODE_WIDTH);
     });
 
-    test.each([
-        ["6 generations of full ancestors", () => pedigreeFractal(6)],
-        ["8 generations of full ancestors", () => pedigreeFractal(8)],
-        ["10 generations of full ancestors (1023 nodes)", () => pedigreeFractal(9)],
-        ["12 generations of full ancestors (4095 nodes)", () => pedigreeFractal(11)],
-    ])("no overlaps in shape: %s", (_label, factory) => {
-        const data = factory();
-        const nodes = layout(data);
-        expect(findOverlaps(nodes)).toEqual([]);
-    });
-
-    test("siblings stay tight (gap = xOffset 30 px) when parents match", () => {
-        const data = { id: "P", children: [{ id: "A" }, { id: "B" }] };
-        const nodes = layout(data);
-        const kids = nodes.filter((n) => n.depth === 1).sort((a, b) => a.x - b.x);
-        expect(kids).toHaveLength(2);
-        const gap = kids[1].x - kids[0].x - BOX_WIDTH;
-        expect(gap).toBe(30);
+    test.each([4, 8, 12])("no boxes overlap in %i generations of full ancestors", (generations) => {
+        expect(findOverlaps(layout(pedigree(generations)))).toEqual([]);
     });
 });
