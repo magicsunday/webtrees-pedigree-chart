@@ -8,7 +8,8 @@
 // Regression guard for the horizontal spacing of the vertical layout. The tests lay out real
 // ancestor trees through Hierarchy.init() with the OrientationCollection of the chart-lib, so
 // the separation that production applies is the one under test. Siblings of one child sit one
-// node width apart, cousin branches farther, and no two boxes of a generation overlap.
+// node width apart, cousin branches farther but not by much, and no two boxes of a generation
+// overlap.
 
 import { describe, expect, test } from "@jest/globals";
 
@@ -82,10 +83,11 @@ describe("Hierarchy.init spacing", () => {
         expect(Math.abs(father.x - mother.x)).toBe(NODE_WIDTH);
     });
 
-    test("cousin branches are spaced wider than siblings", () => {
+    test("cousin branches are spaced wider than siblings but not much wider", () => {
         const distance = minCousinDistance(layout(pedigree(4)));
 
         expect(distance).toBeGreaterThan(NODE_WIDTH);
+        expect(distance).toBeLessThanOrEqual(NODE_WIDTH * 1.5);
     });
 
     test.each([4, 8, 12])("no boxes overlap in %i generations of full ancestors", (generations) => {
