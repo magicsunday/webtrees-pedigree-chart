@@ -18,6 +18,7 @@ use Fisharebest\Webtrees\Family;
 use Fisharebest\Webtrees\Http\RequestHandlers\AddParentToIndividualPage;
 use Fisharebest\Webtrees\Http\RequestHandlers\AddSpouseToFamilyPage;
 use Fisharebest\Webtrees\Individual;
+use Fisharebest\Webtrees\MediaFile;
 use Fisharebest\Webtrees\Place;
 use Fisharebest\Webtrees\Tree;
 use GuzzleHttp\Psr7\ServerRequest;
@@ -291,6 +292,45 @@ final class DataFacadeTest extends TestCase
         $facade->setConfiguration($this->detailPanelConfiguration($module));
 
         self::assertSame([null, null], $this->factsOf($this->createdNode($facade, $unnamed)));
+    }
+
+    /**
+     * A person who may be shown carries the image and the alternative name, a
+     * private person in the same position carries neither. The name of the
+     * person stays the one that webtrees hands out for the viewer.
+     */
+    #[Test]
+    public function hidesImageAndAlternativeNameOfAPrivatePersonOnly(): void
+    {
+        $alternative = 'Anna Meier';
+
+        foreach ([true, false] as $visible) {
+            $payload = $this->serialisedRoot(
+                $this->builtTree(
+                    $this->individual(
+                        self::STARRED_NAME,
+                        'Anna Maria Schmidt',
+                        '',
+                        visible: $visible,
+                        alternativeName: $alternative,
+                    ),
+                    1,
+                    false
+                )
+            );
+
+            self::assertSame($visible ? $alternative : '', $payload['alternativeName']);
+
+            if ($visible) {
+                self::assertSame('/media/X1.jpg', $payload['thumbnail']);
+                self::assertStringContainsString('silhouette-F.svg', $payload['silhouette']);
+            } else {
+                self::assertSame('', $payload['thumbnail']);
+                self::assertSame('', $payload['silhouette']);
+            }
+
+            self::assertSame('Anna Maria Schmidt', $payload['name']);
+        }
     }
 
     /**
@@ -641,11 +681,11 @@ final class DataFacadeTest extends TestCase
     /**
      * Returns the serialised data of the root node.
      *
-     * @return array<string, mixed>
+     * @return array{name: string, alternativeName: string, thumbnail: string, silhouette: string}
      */
     private function serialisedRoot(Node $node): array
     {
-        /** @var array{data: array<string, mixed>} $serialised */
+        /** @var array{data: array{name: string, alternativeName: string, thumbnail: string, silhouette: string}} $serialised */
         $serialised = json_decode(json_encode($node, JSON_THROW_ON_ERROR), true, 512, JSON_THROW_ON_ERROR);
 
         return $serialised['data'];
@@ -740,11 +780,18 @@ final class DataFacadeTest extends TestCase
         bool $canEdit = false,
         ?array $factsByTag = null,
         string $chartBoxTags = '',
+        bool $visible = false,
+        ?string $alternativeName = null,
     ): Individual {
         $tree = self::createStub(Tree::class);
         $tree->method('name')->willReturn('main');
         $tree->method('getPreference')->willReturnCallback(
-            static fn (string $name): string => $name === 'CHART_BOX_TAGS' ? $chartBoxTags : ''
+            static fn (string $name): string => match ($name) {
+                'CHART_BOX_TAGS'        => $chartBoxTags,
+                'USE_SILHOUETTE'        => '1',
+                'SHOW_HIGHLIGHT_IMAGES' => '1',
+                default                 => '',
+            }
         );
 
         $nameFact = self::createStub(Fact::class);
@@ -753,13 +800,18 @@ final class DataFacadeTest extends TestCase
             ['NICK', $nickname],
         ]);
 
+        $mediaFile = self::createStub(MediaFile::class);
+        $mediaFile->method('isExternal')->willReturn(true);
+        $mediaFile->method('imageUrl')->willReturn('/media/' . $xref . '.jpg');
+
         $individual = self::createStub(Individual::class);
         $individual->method('tree')->willReturn($tree);
+        $individual->method('findHighlightedMediaFile')->willReturn($mediaFile);
         $individual->method('xref')->willReturn($xref);
         $individual->method('url')->willReturn('/individual/' . $xref);
         $individual->method('sex')->willReturn('F');
-        $individual->method('canShow')->willReturn(false);
-        $individual->method('canShowName')->willReturn(false);
+        $individual->method('canShow')->willReturn($visible);
+        $individual->method('canShowName')->willReturn($visible);
         $individual->method('canEdit')->willReturn($canEdit);
         $individual->method('isDead')->willReturn(false);
         $individual->method('getBirthDate')->willReturn($this->unknownDate());
@@ -778,7 +830,7 @@ final class DataFacadeTest extends TestCase
             }
         );
         $individual->method('getPrimaryName')->willReturn(0);
-        $individual->method('getSecondaryName')->willReturn(0);
+        $individual->method('getSecondaryName')->willReturn($alternativeName === null ? 0 : 1);
         $individual->method('getAllNames')->willReturn([
             [
                 'full'   => $nameHtml,
@@ -788,6 +840,14 @@ final class DataFacadeTest extends TestCase
                 'givn'   => '',
                 'sort'   => '',
             ],
+            ...($alternativeName === null ? [] : [[
+                'full'   => $alternativeName,
+                'fullNN' => $alternativeName,
+                'type'   => '_MARNM',
+                'surn'   => '',
+                'givn'   => '',
+                'sort'   => '',
+            ]]),
         ]);
 
         return $individual;
