@@ -126,6 +126,7 @@ final class DataFacadeTest extends TestCase
             'Anna Schmidt',
             'Anna Schmidt',
             '',
+            visible: true,
             birthDate: $birth === null ? null : new Date($birth),
             deathDate: $death === null ? null : new Date($death),
             isDead: $isDead,
@@ -146,6 +147,33 @@ final class DataFacadeTest extends TestCase
         );
 
         self::assertSame($expected, $this->serialisedRoot($node)['timespan']);
+    }
+
+    /**
+     * A dead person that the viewer may not see is drawn as private, so the label
+     * stays empty instead of telling that the person is deceased.
+     */
+    #[Test]
+    public function keepsTheLifetimeLabelEmptyForADeceasedPersonThatIsHidden(): void
+    {
+        $individual = $this->individual(
+            'Anna Schmidt',
+            'Anna Schmidt',
+            '',
+            visible: false,
+            isDead: true,
+        );
+
+        $node = $this->builtTree(
+            $individual,
+            1,
+            false,
+            messages: [
+                "lifetime label\x04Deceased" => 'Verstorben',
+            ],
+        );
+
+        self::assertSame('', $this->serialisedRoot($node)['timespan']);
     }
 
     /**
