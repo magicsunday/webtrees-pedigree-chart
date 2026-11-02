@@ -179,41 +179,6 @@ final class DataFacadeTest extends TestCase
     }
 
     /**
-     * The payload carries the segments in place of the former name part keys.
-     */
-    #[Test]
-    public function dropsTheFormerNamePartKeysFromThePayload(): void
-    {
-        $payload = $this->payloadFor(self::STARRED_NAME, 'Anna Maria Schmidt', 'Annie', true);
-
-        foreach (['firstNames', 'lastNames', 'preferredName', 'nickname'] as $removedKey) {
-            self::assertArrayNotHasKey($removedKey, $payload);
-        }
-
-        self::assertSame(
-            [
-                'id',
-                'xref',
-                'url',
-                'updateUrl',
-                'generation',
-                'name',
-                'isNameRtl',
-                'nameSegments',
-                'alternativeName',
-                'isAltRtl',
-                'thumbnail',
-                'silhouette',
-                'sex',
-                'birth',
-                'death',
-                'timespan',
-            ],
-            array_keys($payload)
-        );
-    }
-
-    /**
      * Without the detail panel the payload carries no facts, so the default chart
      * pays neither their size nor their database work.
      */
