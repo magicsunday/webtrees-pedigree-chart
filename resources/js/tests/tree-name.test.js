@@ -26,8 +26,10 @@ function makeName(nameAbbreviation = "GIVEN") {
     return name;
 }
 
-// The font size and the font weight differ, so a value read for the wrong property is seen
-const parent = { style: (property) => (property === "font-size" ? "12px" : "700") };
+// The font size and the font weight differ and any other property answers a third value, so a
+// value read for the wrong property is seen
+const FONT_VALUES = { "font-size": "12px", "font-weight": "700" };
+const parent = { style: (property) => FONT_VALUES[property] ?? "not-a-font-property" };
 
 /**
  * Builds the label entry that createNamesData hands to the truncation.
@@ -43,8 +45,8 @@ function entry(label, isLastName = false) {
 
 describe("Name.truncateNamesData", () => {
     // Representative cases: the strategy decides which block shrinks first (given names
-    // for GIVEN, surnames for SURNAME), and the bracketed married surname is dropped
-    // instead of being shortened to a bare bracket.
+    // for GIVEN, surnames for SURNAME), the bracketed married surname is dropped instead of
+    // being shortened to a bare bracket, and names that fit the handed width stay whole.
     it.each([
         {
             scenario: "shortens the given names first for the GIVEN strategy",
@@ -66,6 +68,13 @@ describe("Name.truncateNamesData", () => {
             names: [entry("Anna"), entry("Schmidt", true), entry("(Müller)", true)],
             width: 120,
             expected: ["A.", "Schmidt"],
+        },
+        {
+            scenario: "keeps the names whole when they fit the handed width",
+            strategy: "GIVEN",
+            names: [entry("Anna"), entry("Schmidt", true)],
+            width: 200,
+            expected: ["Anna", "Schmidt"],
         },
     ])("$scenario", ({ strategy, names, width, expected }) => {
         const result = makeName(strategy).truncateNamesData(parent, names, width);
