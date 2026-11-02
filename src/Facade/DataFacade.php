@@ -18,6 +18,7 @@ use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Tree;
 use MagicSunday\Webtrees\ModuleBase\Facade\RouteAwareDataFacadeTrait;
+use MagicSunday\Webtrees\ModuleBase\Model\LifetimeLabels;
 use MagicSunday\Webtrees\ModuleBase\Model\NodeData;
 use MagicSunday\Webtrees\ModuleBase\Model\PlaceFormatSpec;
 use MagicSunday\Webtrees\ModuleBase\Model\PlaceStyle;
@@ -278,7 +279,7 @@ final class DataFacade
             ->setSex($individual->sex())
             ->setBirth($dateProcessor->getBirthDate())
             ->setDeath($dateProcessor->getDeathDate())
-            ->setTimespan($dateProcessor->getLifetimeDescription());
+            ->setTimespan($dateProcessor->getLifetimeDescription($this->lifetimeLabels()));
 
         // The facts are only read for the detail panel, so a chart without the panel
         // pays neither their payload nor their database work.
@@ -287,6 +288,23 @@ final class DataFacade
         }
 
         return $treeData;
+    }
+
+    /**
+     * Builds the texts of the lifetime label for a person without a complete life
+     * range. They are translated here, at the call site, so that the catalogue of
+     * this module holds them and the language of the user decides the text.
+     *
+     * @return LifetimeLabels
+     */
+    private function lifetimeLabels(): LifetimeLabels
+    {
+        // The two formats keep their placeholder, the year is filled in afterwards.
+        return new LifetimeLabels(
+            bornFormat: I18N::translate('Born: %s', '%s'),
+            diedFormat: I18N::translate('Died: %s', '%s'),
+            deceased: I18N::translate('Deceased'),
+        );
     }
 
     /**

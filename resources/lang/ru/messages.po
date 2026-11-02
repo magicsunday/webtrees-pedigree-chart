@@ -32,11 +32,11 @@ msgstr "Сокращать сначала имена"
 msgid "Abbreviate surnames first"
 msgstr "Сокращать сначала фамилии"
 
-#: src/Facade/DataFacade.php:231
+#: src/Facade/DataFacade.php:232
 msgid "Add a father"
 msgstr ""
 
-#: src/Facade/DataFacade.php:232
+#: src/Facade/DataFacade.php:233
 msgid "Add a mother"
 msgstr ""
 
@@ -47,6 +47,11 @@ msgstr "Автоматически (по традиции фамилий дер�
 #: resources/views/modules/pedigree-chart/form/behavior.phtml:23
 msgid "Behavior"
 msgstr "Поведение"
+
+#: src/Facade/DataFacade.php:304
+#, php-format
+msgid "Born: %s"
+msgstr "Рождение: %s"
 
 #: resources/views/modules/pedigree-chart/page.phtml:111
 msgid "Center chart on this person"
@@ -94,6 +99,10 @@ msgstr ""
 msgid "Ctrl + scroll"
 msgstr "Ctrl + колёсико мыши"
 
+#: src/Facade/DataFacade.php:306
+msgid "Deceased"
+msgstr "Умерший"
+
 #: resources/views/modules/pedigree-chart/form/details.phtml:23
 msgid "Details"
 msgstr ""
@@ -101,6 +110,11 @@ msgstr ""
 #: resources/views/modules/components/buttonbar/help-button.phtml:23
 msgid "Details panel"
 msgstr ""
+
+#: src/Facade/DataFacade.php:305
+#, php-format
+msgid "Died: %s"
+msgstr "Смерть: %s"
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:34
 msgid ""
