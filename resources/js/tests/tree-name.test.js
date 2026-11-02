@@ -26,7 +26,8 @@ function makeName(nameAbbreviation = "GIVEN") {
     return name;
 }
 
-const parent = { style: () => "12px" };
+// The font size and the font weight differ, so a value read for the wrong property is seen
+const parent = { style: (property) => (property === "font-size" ? "12px" : "700") };
 
 /**
  * Builds the label entry that createNamesData hands to the truncation.
@@ -70,6 +71,22 @@ describe("Name.truncateNamesData", () => {
         const result = makeName(strategy).truncateNamesData(parent, names, width);
 
         expect(result.map((label) => label.label)).toEqual(expected);
+    });
+
+    it("measures the text with the font size and the font weight of the line", () => {
+        const name = makeName();
+        const measured = [];
+
+        name.measureText = (text, size, weight) => {
+            measured.push([size, weight]);
+
+            return text.length * 10;
+        };
+
+        name.truncateNamesData(parent, [entry("Anna"), entry("Schmidt", true)], 100);
+
+        expect(measured.length).toBeGreaterThan(0);
+        expect(measured).toEqual(measured.map(() => ["12px", "700"]));
     });
 });
 
