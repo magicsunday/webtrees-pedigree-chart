@@ -307,6 +307,108 @@ final class ConfigurationTest extends TestCase
     }
 
     /**
+     * The generations from the request, with the limits on both sides and the values
+     * that are no number, each paired with the number that the configuration resolves.
+     * The module preference of five generations tells a fallback from a clamp.
+     *
+     * @return array<string, array{string, int}>
+     */
+    public static function generationsProvider(): array
+    {
+        return [
+            'lower limit'           => ['2', 2],
+            'upper limit'           => ['25', 25],
+            'below the lower limit' => ['1', 5],
+            'above the upper limit' => ['26', 5],
+            'zero'                  => ['0', 5],
+            'negative'              => ['-3', 5],
+            'no number'             => ['many', 5],
+            'empty'                 => ['', 5],
+            'decimal number'        => ['3.5', 5],
+        ];
+    }
+
+    /**
+     * A number of generations outside the supported range, or one that is no number,
+     * resolves to the preference of the module, and never to the raw request value.
+     */
+    #[Test]
+    #[DataProvider('generationsProvider')]
+    public function generationsStayWithinTheSupportedRange(string $requested, int $expected): void
+    {
+        $configuration = $this->buildConfiguration(
+            ['generations' => $requested],
+            ['default_generations' => '5']
+        );
+
+        self::assertSame($expected, $configuration->getGenerations());
+    }
+
+    /**
+     * Without a request value the number of generations is the preference of the
+     * module, and the built-in default without a preference.
+     */
+    #[Test]
+    public function generationsFallBackToThePreferenceAndThenToTheBuiltInDefault(): void
+    {
+        self::assertSame(
+            7,
+            $this->buildConfiguration([], ['default_generations' => '7'])->getGenerations()
+        );
+        self::assertSame(
+            Configuration::DEFAULT_GENERATIONS,
+            $this->buildConfiguration([], [])->getGenerations()
+        );
+    }
+
+    /**
+     * The layouts that the chart supports are taken over from the request. Anything
+     * else resolves to the preference of the module, and the built-in default without
+     * a preference.
+     *
+     * @return array<string, array{string, string}>
+     */
+    public static function layoutProvider(): array
+    {
+        return [
+            'top to bottom'  => [Configuration::LAYOUT_TOPBOTTOM, Configuration::LAYOUT_TOPBOTTOM],
+            'bottom to top'  => [Configuration::LAYOUT_BOTTOMTOP, Configuration::LAYOUT_BOTTOMTOP],
+            'left to right'  => [Configuration::LAYOUT_LEFTRIGHT, Configuration::LAYOUT_LEFTRIGHT],
+            'right to left'  => [Configuration::LAYOUT_RIGHTLEFT, Configuration::LAYOUT_RIGHTLEFT],
+            'unknown layout' => ['diagonal', Configuration::LAYOUT_BOTTOMTOP],
+            'empty'          => ['', Configuration::LAYOUT_BOTTOMTOP],
+        ];
+    }
+
+    /**
+     * An unknown layout never reaches the chart. The preference of the module is
+     * bottom to top here, which differs from the built-in default.
+     */
+    #[Test]
+    #[DataProvider('layoutProvider')]
+    public function layoutIsOneOfTheSupportedLayouts(string $requested, string $expected): void
+    {
+        $configuration = $this->buildConfiguration(
+            ['layout' => $requested],
+            ['default_layout' => Configuration::LAYOUT_BOTTOMTOP]
+        );
+
+        self::assertSame($expected, $configuration->getLayout());
+    }
+
+    /**
+     * Without a request value and without a preference the layout is the built-in default.
+     */
+    #[Test]
+    public function layoutFallsBackToTheBuiltInDefault(): void
+    {
+        self::assertSame(
+            Configuration::DEFAULT_TREE_LAYOUT,
+            $this->buildConfiguration(['layout' => 'diagonal'], [])->getLayout()
+        );
+    }
+
+    /**
      * The persisting path is POST:
      * {@see Module\ConfigTrait::postAdminAction()}
      * reads the value from the request body, so the POST branch of
