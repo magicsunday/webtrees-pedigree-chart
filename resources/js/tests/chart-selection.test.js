@@ -143,15 +143,25 @@ describe("Chart click binding", () => {
 
     const node = (xref, url) => ({ data: { data: { xref, url } } });
 
-    test("makes the selectable persons keyboard operable with the panel on", () => {
-        const first = node("I1", "/i/1");
-        const { context, bound } = bind(true, [first, node("", "")]);
+    // The binding never reads the panel switch, because a person is operable in both modes. One
+    // case per mode keeps the sentence of AGENTS.md pinned: a guard around the binding fails for off.
+    const panelModes = [
+        { panel: "on", showDetailPanel: true },
+        { panel: "off", showDetailPanel: false },
+    ];
 
-        Chart.prototype.bindClickEventListener.call(context);
+    test.each(panelModes)(
+        "makes the selectable persons keyboard operable with the panel $panel",
+        ({ showDetailPanel }) => {
+            const first = node("I1", "/i/1");
+            const { context, bound } = bind(showDetailPanel, [first, node("", "")]);
 
-        expect(context._selection.makeOperable).toHaveBeenCalledTimes(1);
-        expect(bound[0][1]).toBe(first);
-    });
+            Chart.prototype.bindClickEventListener.call(context);
+
+            expect(context._selection.makeOperable).toHaveBeenCalledTimes(1);
+            expect(bound[0][1]).toBe(first);
+        },
+    );
 
     /**
      * Builds a person element like the chart draws it: a title with the name, then one text per
@@ -185,22 +195,25 @@ describe("Chart click binding", () => {
         return element;
     }
 
-    test("labels an operable person with the text that the box shows", () => {
-        // The chart library labels the element with the bare name, while the box shows the
-        // dates as well, so the accessible name would not contain the visible text (WCAG 2.5.3).
-        const element = personElement(["Jane", "Doe", "Born: 1850"]);
-        const { context } = bind(true, [node("I1", "/i/1")], [element]);
+    test.each(panelModes)(
+        "labels an operable person with the text that the box shows with the panel $panel",
+        ({ showDetailPanel }) => {
+            // The chart library labels the element with the bare name, while the box shows the
+            // dates as well, so the accessible name would not contain the visible text (WCAG 2.5.3).
+            const element = personElement(["Jane", "Doe", "Born: 1850"]);
+            const { context } = bind(showDetailPanel, [node("I1", "/i/1")], [element]);
 
-        context._selection.makeOperable.mockImplementation((target) =>
-            target.attr("tabindex", 0).attr("role", "button").attr("aria-label", "Jane Doe"),
-        );
+            context._selection.makeOperable.mockImplementation((target) =>
+                target.attr("tabindex", 0).attr("role", "button").attr("aria-label", "Jane Doe"),
+            );
 
-        Chart.prototype.bindClickEventListener.call(context);
+            Chart.prototype.bindClickEventListener.call(context);
 
-        expect(element.getAttribute("role")).toBe("button");
-        expect(element.getAttribute("tabindex")).toBe("0");
-        expect(element.getAttribute("aria-label")).toBe("Jane Doe Born: 1850");
-    });
+            expect(element.getAttribute("role")).toBe("button");
+            expect(element.getAttribute("tabindex")).toBe("0");
+            expect(element.getAttribute("aria-label")).toBe("Jane Doe Born: 1850");
+        },
+    );
 
     test("separates the tspans of one line in the label", () => {
         // The horizontal layouts draw the parts of a name as tspans of one text
@@ -229,48 +242,18 @@ describe("Chart click binding", () => {
         expect(element.getAttribute("aria-label")).toBe("Jane Doe");
     });
 
-    test("hands the key activation of a person to the click routing", () => {
-        const first = node("I1", "/i/1");
-        const { context, bound } = bind(true, [first]);
+    test.each(panelModes)(
+        "hands the key activation of a person to the click routing with the panel $panel",
+        ({ showDetailPanel }) => {
+            const first = node("I1", "/i/1");
+            const { context, bound } = bind(showDetailPanel, [first]);
 
-        Chart.prototype.bindClickEventListener.call(context);
-        bound[0][2](first.data, true);
+            Chart.prototype.bindClickEventListener.call(context);
+            bound[0][2](first.data, true);
 
-        expect(context.personClick).toHaveBeenCalledWith(first.data, true);
-    });
-
-    test("makes the selectable persons keyboard operable with the panel off too", () => {
-        const first = node("I1", "/i/1");
-        const { context, bound } = bind(false, [first, node("", "")]);
-
-        Chart.prototype.bindClickEventListener.call(context);
-
-        expect(context._selection.makeOperable).toHaveBeenCalledTimes(1);
-        expect(bound[0][1]).toBe(first);
-    });
-
-    test("hands the key activation of a person to the click routing with the panel off too", () => {
-        const first = node("I1", "/i/1");
-        const { context, bound } = bind(false, [first]);
-
-        Chart.prototype.bindClickEventListener.call(context);
-        bound[0][2](first.data, true);
-
-        expect(context.personClick).toHaveBeenCalledWith(first.data, true);
-    });
-
-    test("labels an operable person with the text that the box shows with the panel off too", () => {
-        const element = personElement(["Jane", "Doe", "Born: 1850"]);
-        const { context } = bind(false, [node("I1", "/i/1")], [element]);
-
-        context._selection.makeOperable.mockImplementation((target) =>
-            target.attr("aria-label", "Jane Doe"),
-        );
-
-        Chart.prototype.bindClickEventListener.call(context);
-
-        expect(element.getAttribute("aria-label")).toBe("Jane Doe Born: 1850");
-    });
+            expect(context.personClick).toHaveBeenCalledWith(first.data, true);
+        },
+    );
 
     test("applies the selection again after the persons are bound", () => {
         const { context } = bind(true, [node("I1", "/i/1")]);
@@ -313,25 +296,22 @@ describe("Chart click binding with real elements", () => {
     // The d3 datum is the hierarchy node, its data is the datum of the chart, and that holds the person
     const node = (xref, url) => ({ data: { data: { xref, url } } });
 
-    test("hands the data of a clicked person to the click routing", () => {
-        const first = node("I1", "/i/1");
-        const { context, elements } = bindReal([first]);
+    // The click binding is the same with the panel on and off, so a guard around it fails for one mode
+    test.each([
+        { panel: "on", showDetailPanel: true },
+        { panel: "off", showDetailPanel: false },
+    ])(
+        "hands the data of a clicked person to the click routing with the panel $panel",
+        ({ showDetailPanel }) => {
+            const first = node("I1", "/i/1");
+            const { context, elements } = bindReal([first], showDetailPanel);
 
-        elements[0].dispatchEvent(new MouseEvent("click"));
+            elements[0].dispatchEvent(new MouseEvent("click"));
 
-        expect(context.personClick).toHaveBeenCalledTimes(1);
-        expect(context.personClick).toHaveBeenCalledWith(first.data);
-    });
-
-    test("hands the data of a clicked person to the click routing with the panel on", () => {
-        const first = node("I1", "/i/1");
-        const { context, elements } = bindReal([first], true);
-
-        elements[0].dispatchEvent(new MouseEvent("click"));
-
-        expect(context.personClick).toHaveBeenCalledTimes(1);
-        expect(context.personClick).toHaveBeenCalledWith(first.data);
-    });
+            expect(context.personClick).toHaveBeenCalledTimes(1);
+            expect(context.personClick).toHaveBeenCalledWith(first.data);
+        },
+    );
 
     test("binds no click to a box that has neither an xref nor a url", () => {
         const { context, elements } = bindReal([node("", "")]);
