@@ -7,6 +7,13 @@
 
 import { jest } from "@jest/globals";
 
+// The click binding never reads the panel switch, because a person is operable in both modes. One
+// case per mode keeps the sentence of AGENTS.md pinned: a guard around the binding fails for off.
+const panelModes = [
+    { panel: "on", showDetailPanel: true },
+    { panel: "off", showDetailPanel: false },
+];
+
 const { default: Chart } = await import("resources/js/modules/chart.js");
 const d3 = await import("resources/js/modules/d3.js");
 
@@ -114,7 +121,6 @@ describe("Chart click binding", () => {
      */
     function bind(showDetailPanel, nodes) {
         const bound = [];
-        const element = { on: jest.fn(() => element) };
         const selection = {
             filter(predicate) {
                 return { ...selection, nodes: this.nodes.filter(predicate) };
@@ -136,17 +142,10 @@ describe("Chart click binding", () => {
             personClick: jest.fn(),
         };
 
-        return { context, bound, element };
+        return { context, bound };
     }
 
     const node = (xref, url) => ({ data: { data: { xref, url } } });
-
-    // The binding never reads the panel switch, because a person is operable in both modes. One
-    // case per mode keeps the sentence of AGENTS.md pinned: a guard around the binding fails for off.
-    const panelModes = [
-        { panel: "on", showDetailPanel: true },
-        { panel: "off", showDetailPanel: false },
-    ];
 
     test.each(panelModes)(
         "makes the selectable persons keyboard operable with the panel $panel",
@@ -216,10 +215,7 @@ describe("Chart click binding with real elements", () => {
     const node = (xref, url) => ({ data: { data: { xref, url } } });
 
     // The click binding is the same with the panel on and off, so a guard around it fails for one mode
-    test.each([
-        { panel: "on", showDetailPanel: true },
-        { panel: "off", showDetailPanel: false },
-    ])(
+    test.each(panelModes)(
         "hands the data of a clicked person to the click routing with the panel $panel",
         ({ showDetailPanel }) => {
             const first = node("I1", "/i/1");
@@ -244,10 +240,6 @@ describe("Chart click binding with real elements", () => {
 describe("A person box with the real selection", () => {
     // The chart draws the text of a box before it binds the persons. The accessible name of an
     // operable person is the text the box shows, with the panel on and off alike.
-    const panelModes = [
-        { panel: "on", showDetailPanel: true },
-        { panel: "off", showDetailPanel: false },
-    ];
 
     /**
      * Builds a person element like the chart draws it: one text per line of the box, each with
@@ -255,7 +247,7 @@ describe("A person box with the real selection", () => {
      *
      * @param {(string|string[])[]} lines The visible lines of the box, a line with several tspans is an array
      *
-     * @return {object} The datum of the person and the person group element
+     * @return {SVGGElement} The person group element
      */
     function drawPerson(lines) {
         const ns = "http://www.w3.org/2000/svg";
