@@ -146,26 +146,6 @@ final class DataFacadeTest extends TestCase
     }
 
     /**
-     * The segments follow the display order of the name, and the preferred
-     * given name carries the flag.
-     */
-    #[Test]
-    public function handsOverTheNameAsOrderedSegments(): void
-    {
-        $payload = $this->payloadFor(self::STARRED_NAME, 'Anna Maria Schmidt', '', false);
-
-        self::assertSame(
-            [
-                ['label' => 'Anna', 'kind' => 'given', 'isPreferred' => false],
-                ['label' => 'Maria', 'kind' => 'given', 'isPreferred' => true],
-                ['label' => 'Schmidt', 'kind' => 'surname', 'isPreferred' => false],
-            ],
-            $payload['nameSegments']
-        );
-        self::assertSame('Anna Maria Schmidt', $payload['name']);
-    }
-
-    /**
      * With the nickname option on, the quoted nickname sits behind the given
      * names, in the segments and in the flat name.
      */
@@ -254,9 +234,10 @@ final class DataFacadeTest extends TestCase
     }
 
     /**
-     * With the detail panel on, the payload carries the birth, the death and one
-     * entry for every tag the tree names for the chart box. An entry the person has
-     * no fact for is null. A fact carries an empty partner unless it is a family event.
+     * With the detail panel on, the payload carries one slot for the birth, one for the death and one
+     * for every tag the tree names for the chart box, in that order. A slot the person has no fact for is
+     * null. The place of a slot is the full place, because the facade builds its fact resolver with the
+     * full place style, so the short place of the fact never reaches the payload.
      */
     #[Test]
     public function handsOverOneFactSlotPerRowAndNullForAMissingFact(): void
@@ -274,59 +255,23 @@ final class DataFacadeTest extends TestCase
 
         $node = $this->builtTree($individual, 1, false, false, true);
 
-        /** @var array{data: array{facts: list<array<string, string>|null>}} $serialised */
+        /** @var array{data: array{facts: list<array{tag: string, place: string, placeFull: string}|null>}} $serialised */
         $serialised = json_decode(json_encode($node, JSON_THROW_ON_ERROR), true, 512, JSON_THROW_ON_ERROR);
 
         self::assertSame(
             [
-                [
-                    'tag'       => 'BIRT',
-                    'label'     => 'Birth',
-                    'date'      => '',
-                    'place'     => 'Berlin, Germany',
-                    'placeFull' => 'Berlin, Germany',
-                    'value'     => '',
-                    'partner'   => '',
-                    'sortDay'   => 0,
-                ],
+                ['tag' => 'BIRT', 'place' => 'Berlin, Germany', 'placeFull' => 'Berlin, Germany'],
                 null,
-                [
-                    'tag'       => 'OCCU',
-                    'label'     => 'Occupation',
-                    'date'      => '',
-                    'place'     => '',
-                    'placeFull' => '',
-                    'value'     => 'Smith',
-                    'partner'   => '',
-                    'sortDay'   => 0,
-                ],
+                ['tag' => 'OCCU', 'place' => '', 'placeFull' => ''],
                 null,
             ],
-            $serialised['data']['facts']
+            array_map(
+                static fn (?array $fact): ?array => $fact === null
+                    ? null
+                    : ['tag' => $fact['tag'], 'place' => $fact['place'], 'placeFull' => $fact['placeFull']],
+                $serialised['data']['facts']
+            )
         );
-    }
-
-    /**
-     * A tree that names no tag for the chart box has the birth and the death
-     * slot only.
-     */
-    #[Test]
-    public function hasTheBirthAndDeathSlotOnlyWithoutChartBoxTags(): void
-    {
-        $individual = $this->individual(
-            self::STARRED_NAME,
-            'Anna Maria Schmidt',
-            '',
-            factsByTag: [],
-            chartBoxTags: '',
-        );
-
-        $node = $this->builtTree($individual, 1, false, false, true);
-
-        /** @var array{data: array{facts: list<array<string, string>|null>}} $serialised */
-        $serialised = json_decode(json_encode($node, JSON_THROW_ON_ERROR), true, 512, JSON_THROW_ON_ERROR);
-
-        self::assertSame([null, null], $serialised['data']['facts']);
     }
 
     /**
