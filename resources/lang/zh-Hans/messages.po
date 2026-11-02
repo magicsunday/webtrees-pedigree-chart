@@ -97,6 +97,7 @@ msgid "Ctrl + scroll"
 msgstr "Ctrl + 滚动"
 
 #: src/Facade/DataFacade.php:306
+msgctxt "lifetime label"
 msgid "Deceased"
 msgstr "已故"
 
