@@ -5,27 +5,19 @@
  * LICENSE file distributed with this source code.
  */
 
-import { jest } from "@jest/globals";
-
-// chart-lib's truncateNames is mocked here so the pedigree-chart unit tests
-// can verify the wiring (right call signature, right strategy) without
-// double-testing the algorithm — chart-lib has its own jest suite for that.
-const truncateNamesMock = jest.fn((names, _availableWidth, measureFn) => {
-    measureFn(names.map((n) => n.label).join(" "));
-    return names.map((n) => ({ ...n, label: `${n.label.slice(0, 1)}.` }));
-});
-
-await jest.unstable_mockModule("@magicsunday/webtrees-chart-lib/infra", () => ({
-    measureText: jest.fn(() => 0),
-    truncateNames: truncateNamesMock,
-}));
-
+// The shared truncation is deliberately not mocked here, because the strategy and the
+// bracket option of the renderer only have an effect inside it. The grouping and the
+// rendering of the name lines are asserted in tree-name-render.test.js.
 const { default: Name } = await import("resources/js/modules/tree/name.js");
 
 /**
- * Builds a Name instance with the minimal collaborator stubs needed to
- * exercise truncateNamesData. measureText is replaced with a deterministic
- * stub (each character costs 10 pixels) so the assertions stay stable.
+ * Builds a Name instance with the minimal collaborator stubs needed to exercise
+ * truncateNamesData. measureText is replaced with a deterministic stub (each
+ * character costs 10 pixels) so the assertions stay stable.
+ *
+ * @param {string} nameAbbreviation The configured abbreviation strategy
+ *
+ * @return {Name}
  */
 function makeName(nameAbbreviation = "GIVEN") {
     const name = Object.create(Name.prototype);
@@ -34,62 +26,76 @@ function makeName(nameAbbreviation = "GIVEN") {
     return name;
 }
 
-const buildParent = () => ({
-    style: jest.fn((property) => (property === "font-size" ? "12px" : "400")),
-});
+// The font size and the font weight differ and any other property answers a third value, so a
+// value read for the wrong property is seen
+const FONT_VALUES = { "font-size": "12px", "font-weight": "700" };
+const parent = { style: (property) => FONT_VALUES[property] ?? "not-a-font-property" };
+
+/**
+ * Builds the label entry that createNamesData hands to the truncation.
+ *
+ * @param {string}  label      The text of the entry
+ * @param {boolean} isLastName Whether the entry belongs to the surname block
+ *
+ * @return {object}
+ */
+function entry(label, isLastName = false) {
+    return { label, isPreferred: false, isLastName, isNickname: false, isNameRtl: false };
+}
 
 describe("Name.truncateNamesData", () => {
-    beforeEach(() => {
-        truncateNamesMock.mockClear();
+    // Representative cases: the strategy decides which block shrinks first (given names
+    // for GIVEN, surnames for SURNAME), the bracketed married surname is dropped instead of
+    // being shortened to a bare bracket, and names that fit the handed width stay whole.
+    it.each([
+        {
+            scenario: "shortens the given names first for the GIVEN strategy",
+            strategy: "GIVEN",
+            names: [entry("Anna"), entry("Schmidt", true)],
+            width: 100,
+            expected: ["A.", "Schmidt"],
+        },
+        {
+            scenario: "shortens the surnames first for the SURNAME strategy",
+            strategy: "SURNAME",
+            names: [entry("Anna"), entry("Schmidt", true)],
+            width: 100,
+            expected: ["Anna", "S."],
+        },
+        {
+            scenario: "drops a bracketed married surname instead of shortening it",
+            strategy: "GIVEN",
+            names: [entry("Anna"), entry("Schmidt", true), entry("(Müller)", true)],
+            width: 120,
+            expected: ["A.", "Schmidt"],
+        },
+        {
+            scenario: "keeps the names whole when they fit the handed width",
+            strategy: "GIVEN",
+            names: [entry("Anna"), entry("Schmidt", true)],
+            width: 200,
+            expected: ["Anna", "Schmidt"],
+        },
+    ])("$scenario", ({ strategy, names, width, expected }) => {
+        const result = makeName(strategy).truncateNamesData(parent, names, width);
+
+        expect(result.map((label) => label.label)).toEqual(expected);
     });
 
-    it("delegates to chart-lib truncateNames with the GIVEN strategy by default", () => {
-        const name = makeName("GIVEN");
-        const names = [
-            { label: "Anna", isPreferred: false, isLastName: false, isNameRtl: false },
-            { label: "Schmidt", isPreferred: false, isLastName: true, isNameRtl: false },
-        ];
-        const parent = buildParent();
-
-        name.truncateNamesData(parent, names, 100);
-
-        expect(truncateNamesMock).toHaveBeenCalledWith(
-            names,
-            100,
-            expect.any(Function),
-            expect.objectContaining({ strategy: "GIVEN", dropEmptyBracketed: true }),
-        );
-        expect(parent.style).toHaveBeenCalledWith("font-size");
-        expect(parent.style).toHaveBeenCalledWith("font-weight");
-    });
-
-    it("passes the SURNAME strategy when configured", () => {
-        const name = makeName("SURNAME");
-        const names = [
-            { label: "Jón", isPreferred: true, isLastName: false, isNameRtl: false },
-            { label: "Sigurðsson", isPreferred: false, isLastName: true, isNameRtl: false },
-        ];
-
-        name.truncateNamesData(buildParent(), names, 60);
-
-        expect(truncateNamesMock).toHaveBeenCalledWith(
-            expect.any(Array),
-            expect.any(Number),
-            expect.any(Function),
-            expect.objectContaining({ strategy: "SURNAME" }),
-        );
-    });
-
-    it("returns the (mocked) chart-lib result", () => {
+    it("measures the text with the font size and the font weight of the line", () => {
         const name = makeName();
-        const names = [
-            { label: "Anna", isPreferred: true, isLastName: false, isNameRtl: false },
-            { label: "Schmidt", isPreferred: false, isLastName: true, isNameRtl: false },
-        ];
+        const measured = [];
 
-        const result = name.truncateNamesData(buildParent(), names, 60);
+        name.measureText = (text, size, weight) => {
+            measured.push([size, weight]);
 
-        expect(result.map((n) => n.label)).toEqual(["A.", "S."]);
+            return text.length * 10;
+        };
+
+        name.truncateNamesData(parent, [entry("Anna"), entry("Schmidt", true)], 100);
+
+        expect(measured.length).toBeGreaterThan(0);
+        expect(measured).toEqual(measured.map(() => ["12px", "700"]));
     });
 });
 
@@ -116,93 +122,8 @@ function makeDatum(segments, isNameRtl = false) {
     };
 }
 
-/**
- * Reduces the blocks of createNamesData() to their labels.
- *
- * @param {object[][]} blocks
- *
- * @return {string[][]}
- */
-function labelsOf(blocks) {
-    return blocks.map((block) => block.map((entry) => entry.label));
-}
-
 describe("Name.createNamesData", () => {
     const name = Object.create(Name.prototype);
-
-    it("groups the given names and the surnames into two blocks", () => {
-        const blocks = name.createNamesData(
-            makeDatum([
-                ["Anna", "given"],
-                ["Maria", "given"],
-                ["Schmidt", "surname"],
-            ]),
-        );
-
-        expect(labelsOf(blocks)).toEqual([["Anna", "Maria"], ["Schmidt"]]);
-    });
-
-    it("keeps the nickname with the given names and the married surname with the surnames", () => {
-        const blocks = name.createNamesData(
-            makeDatum([
-                ["Anna", "given"],
-                ['"Annie"', "nickname"],
-                ["Schmidt", "surname"],
-                ["(Müller)", "married"],
-            ]),
-        );
-
-        expect(labelsOf(blocks)).toEqual([
-            ["Anna", '"Annie"'],
-            ["Schmidt", "(Müller)"],
-        ]);
-    });
-
-    it("follows the order of the segments instead of putting the given names first", () => {
-        const blocks = name.createNamesData(
-            makeDatum([
-                ["Sigurðsson", "surname"],
-                ["Jón", "given"],
-            ]),
-        );
-
-        expect(labelsOf(blocks)).toEqual([["Sigurðsson"], ["Jón"]]);
-    });
-
-    it("starts a block of its own for a nickname that follows the surnames", () => {
-        const blocks = name.createNamesData(
-            makeDatum([
-                ["White", "surname"],
-                ['"Chalky"', "nickname"],
-            ]),
-        );
-
-        expect(labelsOf(blocks)).toEqual([["White"], ['"Chalky"']]);
-    });
-
-    it("keeps repeated labels apart and in order", () => {
-        const blocks = name.createNamesData(
-            makeDatum([
-                ["Anna", "given"],
-                ["Anna", "given"],
-                ["Anna", "surname"],
-                ["Anna", "surname"],
-            ]),
-        );
-
-        expect(labelsOf(blocks)).toEqual([
-            ["Anna", "Anna"],
-            ["Anna", "Anna"],
-        ]);
-        expect(blocks.map((block) => block.map((entry) => entry.isLastName))).toEqual([
-            [false, false],
-            [true, true],
-        ]);
-    });
-
-    it("returns no block for a name without segments", () => {
-        expect(name.createNamesData(makeDatum([]))).toEqual([]);
-    });
 
     it("flags every entry for the renderer", () => {
         const [given, surname] = name.createNamesData(

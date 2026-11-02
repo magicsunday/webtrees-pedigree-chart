@@ -7,6 +7,13 @@
 
 import { jest } from "@jest/globals";
 
+// The click binding never reads the panel switch, because a person is operable in both modes. One
+// case per mode keeps the sentence of AGENTS.md pinned: a guard around the binding fails for off.
+const panelModes = [
+    { panel: "on", showDetailPanel: true },
+    { panel: "off", showDetailPanel: false },
+];
+
 const { default: Chart } = await import("resources/js/modules/chart.js");
 const d3 = await import("resources/js/modules/d3.js");
 
@@ -112,17 +119,14 @@ describe("Chart click binding", () => {
      * @param {boolean} showDetailPanel Whether the panel is on
      * @param {object[]} nodes          The d3 data of the person elements
      */
-    function bind(showDetailPanel, nodes, elements = []) {
+    function bind(showDetailPanel, nodes) {
         const bound = [];
-        const element = { on: jest.fn(() => element) };
         const selection = {
             filter(predicate) {
                 return { ...selection, nodes: this.nodes.filter(predicate) };
             },
             each(callback) {
-                this.nodes.forEach((node, index) =>
-                    callback.call(elements[index] ?? "element", node),
-                );
+                this.nodes.forEach((node) => callback.call("element", node));
             },
             nodes,
         };
@@ -138,139 +142,36 @@ describe("Chart click binding", () => {
             personClick: jest.fn(),
         };
 
-        return { context, bound, element };
+        return { context, bound };
     }
 
     const node = (xref, url) => ({ data: { data: { xref, url } } });
 
-    test("makes the selectable persons keyboard operable with the panel on", () => {
-        const first = node("I1", "/i/1");
-        const { context, bound } = bind(true, [first, node("", "")]);
+    test.each(panelModes)(
+        "makes the selectable persons keyboard operable with the panel $panel",
+        ({ showDetailPanel }) => {
+            const first = node("I1", "/i/1");
+            const { context, bound } = bind(showDetailPanel, [first, node("", "")]);
 
-        Chart.prototype.bindClickEventListener.call(context);
+            Chart.prototype.bindClickEventListener.call(context);
 
-        expect(context._selection.makeOperable).toHaveBeenCalledTimes(1);
-        expect(bound[0][1]).toBe(first);
-    });
+            expect(context._selection.makeOperable).toHaveBeenCalledTimes(1);
+            expect(bound[0][1]).toBe(first);
+        },
+    );
 
-    /**
-     * Builds a person element like the chart draws it: a title with the name, then one text per
-     * line of the box, each with a tspan and a title of its own.
-     *
-     * @param {(string|string[])[]} lines The visible lines of the box, a line with several tspans is an array
-     *
-     * @return {SVGGElement}
-     */
-    function personElement(lines) {
-        const ns = "http://www.w3.org/2000/svg";
-        const element = document.createElementNS(ns, "g");
+    test.each(panelModes)(
+        "hands the key activation of a person to the click routing with the panel $panel",
+        ({ showDetailPanel }) => {
+            const first = node("I1", "/i/1");
+            const { context, bound } = bind(showDetailPanel, [first]);
 
-        lines.forEach((line) => {
-            const text = document.createElementNS(ns, "text");
-            const title = document.createElementNS(ns, "title");
+            Chart.prototype.bindClickEventListener.call(context);
+            bound[0][2](first.data, true);
 
-            // A line is one tspan, or several like the horizontal layouts draw the name parts
-            [line].flat().forEach((part) => {
-                const tspan = document.createElementNS(ns, "tspan");
-
-                tspan.textContent = part;
-                text.append(tspan);
-            });
-
-            title.textContent = [line].flat().join(" ");
-            text.append(title);
-            element.append(text);
-        });
-
-        return element;
-    }
-
-    test("labels an operable person with the text that the box shows", () => {
-        // The chart library labels the element with the bare name, while the box shows the
-        // dates as well, so the accessible name would not contain the visible text (WCAG 2.5.3).
-        const element = personElement(["Jane", "Doe", "Born: 1850"]);
-        const { context } = bind(true, [node("I1", "/i/1")], [element]);
-
-        context._selection.makeOperable.mockImplementation((target) =>
-            target.attr("tabindex", 0).attr("role", "button").attr("aria-label", "Jane Doe"),
-        );
-
-        Chart.prototype.bindClickEventListener.call(context);
-
-        expect(element.getAttribute("role")).toBe("button");
-        expect(element.getAttribute("tabindex")).toBe("0");
-        expect(element.getAttribute("aria-label")).toBe("Jane Doe Born: 1850");
-    });
-
-    test("separates the tspans of one line in the label", () => {
-        // The horizontal layouts draw the parts of a name as tspans of one text
-        const element = personElement([["Jane", "Doe"], "Born: 1850"]);
-        const { context } = bind(true, [node("I1", "/i/1")], [element]);
-
-        context._selection.makeOperable.mockImplementation((target) =>
-            target.attr("aria-label", "Jane Doe"),
-        );
-
-        Chart.prototype.bindClickEventListener.call(context);
-
-        expect(element.getAttribute("aria-label")).toBe("Jane Doe Born: 1850");
-    });
-
-    test("keeps the label of the chart library for a box without visible text", () => {
-        const element = personElement([]);
-        const { context } = bind(true, [node("I1", "/i/1")], [element]);
-
-        context._selection.makeOperable.mockImplementation((target) =>
-            target.attr("aria-label", "Jane Doe"),
-        );
-
-        Chart.prototype.bindClickEventListener.call(context);
-
-        expect(element.getAttribute("aria-label")).toBe("Jane Doe");
-    });
-
-    test("hands the key activation of a person to the click routing", () => {
-        const first = node("I1", "/i/1");
-        const { context, bound } = bind(true, [first]);
-
-        Chart.prototype.bindClickEventListener.call(context);
-        bound[0][2](first.data, true);
-
-        expect(context.personClick).toHaveBeenCalledWith(first.data, true);
-    });
-
-    test("makes the selectable persons keyboard operable with the panel off too", () => {
-        const first = node("I1", "/i/1");
-        const { context, bound } = bind(false, [first, node("", "")]);
-
-        Chart.prototype.bindClickEventListener.call(context);
-
-        expect(context._selection.makeOperable).toHaveBeenCalledTimes(1);
-        expect(bound[0][1]).toBe(first);
-    });
-
-    test("hands the key activation of a person to the click routing with the panel off too", () => {
-        const first = node("I1", "/i/1");
-        const { context, bound } = bind(false, [first]);
-
-        Chart.prototype.bindClickEventListener.call(context);
-        bound[0][2](first.data, true);
-
-        expect(context.personClick).toHaveBeenCalledWith(first.data, true);
-    });
-
-    test("labels an operable person with the text that the box shows with the panel off too", () => {
-        const element = personElement(["Jane", "Doe", "Born: 1850"]);
-        const { context } = bind(false, [node("I1", "/i/1")], [element]);
-
-        context._selection.makeOperable.mockImplementation((target) =>
-            target.attr("aria-label", "Jane Doe"),
-        );
-
-        Chart.prototype.bindClickEventListener.call(context);
-
-        expect(element.getAttribute("aria-label")).toBe("Jane Doe Born: 1850");
-    });
+            expect(context.personClick).toHaveBeenCalledWith(first.data, true);
+        },
+    );
 
     test("applies the selection again after the persons are bound", () => {
         const { context } = bind(true, [node("I1", "/i/1")]);
@@ -313,25 +214,19 @@ describe("Chart click binding with real elements", () => {
     // The d3 datum is the hierarchy node, its data is the datum of the chart, and that holds the person
     const node = (xref, url) => ({ data: { data: { xref, url } } });
 
-    test("hands the data of a clicked person to the click routing", () => {
-        const first = node("I1", "/i/1");
-        const { context, elements } = bindReal([first]);
+    // The click binding is the same with the panel on and off, so a guard around it fails for one mode
+    test.each(panelModes)(
+        "hands the data of a clicked person to the click routing with the panel $panel",
+        ({ showDetailPanel }) => {
+            const first = node("I1", "/i/1");
+            const { context, elements } = bindReal([first], showDetailPanel);
 
-        elements[0].dispatchEvent(new MouseEvent("click"));
+            elements[0].dispatchEvent(new MouseEvent("click"));
 
-        expect(context.personClick).toHaveBeenCalledTimes(1);
-        expect(context.personClick).toHaveBeenCalledWith(first.data);
-    });
-
-    test("hands the data of a clicked person to the click routing with the panel on", () => {
-        const first = node("I1", "/i/1");
-        const { context, elements } = bindReal([first], true);
-
-        elements[0].dispatchEvent(new MouseEvent("click"));
-
-        expect(context.personClick).toHaveBeenCalledTimes(1);
-        expect(context.personClick).toHaveBeenCalledWith(first.data);
-    });
+            expect(context.personClick).toHaveBeenCalledTimes(1);
+            expect(context.personClick).toHaveBeenCalledWith(first.data);
+        },
+    );
 
     test("binds no click to a box that has neither an xref nor a url", () => {
         const { context, elements } = bindReal([node("", "")]);
@@ -340,6 +235,109 @@ describe("Chart click binding with real elements", () => {
 
         expect(context.personClick).not.toHaveBeenCalled();
     });
+});
+
+describe("A person box with the real selection", () => {
+    // The chart draws the text of a box before it binds the persons. The accessible name of an
+    // operable person is the text the box shows, with the panel on and off alike.
+
+    /**
+     * Builds a person element like the chart draws it: one text per line of the box, each with
+     * a tspan per part and a title of its own.
+     *
+     * @param {(string|string[])[]} lines The visible lines of the box, a line with several tspans is an array
+     *
+     * @return {SVGGElement} The person group element
+     */
+    function drawPerson(lines) {
+        const ns = "http://www.w3.org/2000/svg";
+        const element = document.createElementNS(ns, "g");
+
+        element.setAttribute("class", "person");
+
+        lines.forEach((line) => {
+            const text = document.createElementNS(ns, "text");
+            const title = document.createElementNS(ns, "title");
+
+            [line].flat().forEach((part) => {
+                const tspan = document.createElementNS(ns, "tspan");
+
+                tspan.textContent = part;
+                text.append(tspan);
+            });
+
+            title.textContent = [line].flat().join(" ");
+            text.append(title);
+            element.append(text);
+        });
+
+        return element;
+    }
+
+    /**
+     * Binds a real chart with its real selection to one person group.
+     *
+     * @param {Element} element        The person group
+     * @param {boolean} showDetailPanel Whether the panel is on
+     */
+    function bindPerson(element, showDetailPanel) {
+        document.body.innerHTML = '<div id="parent"></div><svg><g class="visual"></g></svg>';
+
+        const visual = d3.select(document.querySelector("g.visual"));
+
+        visual.node().append(element);
+        d3.select(element).datum({ data: { data: { xref: "I1", url: "/i/1", name: "Jane Doe" } } });
+
+        const chart = new Chart(d3.select("#parent"), {
+            showDetailPanel,
+            openNewTabOnClick: false,
+        });
+
+        chart._svg = { visual };
+        chart.bindClickEventListener();
+
+        return chart;
+    }
+
+    test.each(panelModes)(
+        "names an operable person with the text that the box shows with the panel $panel",
+        ({ showDetailPanel }) => {
+            // The bare name is Jane Doe, while the box shows the dates as well, so the name would
+            // not contain the visible text (WCAG 2.5.3). A line with several tspans is joined by a space.
+            const element = drawPerson([["Jane", "Doe"], "Born: 1850"]);
+
+            bindPerson(element, showDetailPanel);
+
+            expect(element.getAttribute("role")).toBe("button");
+            expect(element.getAttribute("tabindex")).toBe("0");
+            expect(element.getAttribute("aria-label")).toBe("Jane Doe Born: 1850");
+        },
+    );
+
+    test.each(panelModes)(
+        "names a person whose box shows no text with the bare name with the panel $panel",
+        ({ showDetailPanel }) => {
+            const element = drawPerson([]);
+
+            bindPerson(element, showDetailPanel);
+
+            expect(element.getAttribute("aria-label")).toBe("Jane Doe");
+        },
+    );
+
+    test.each(panelModes)(
+        "hands the key activation of a real person to the click routing with the panel $panel",
+        ({ showDetailPanel }) => {
+            const element = drawPerson(["Jane"]);
+            const chart = bindPerson(element, showDetailPanel);
+
+            chart.personClick = jest.fn();
+            element.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter" }));
+
+            expect(chart.personClick).toHaveBeenCalledTimes(1);
+            expect(chart.personClick.mock.calls[0][1]).toBe(true);
+        },
+    );
 });
 
 describe("Chart selection hand-over", () => {

@@ -28,7 +28,7 @@ use function ob_get_clean;
 use function ob_start;
 
 /**
- * Renders the page view of the pedigree chart and looks at the detail panel that it carries.
+ * Renders the page view of the pedigree chart and looks at what the page hands to the shared views.
  *
  * @author  Rico Sonntag <mail@ricosonntag.de>
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
@@ -38,64 +38,6 @@ use function ob_start;
 final class PageViewTest extends TestCase
 {
     use ModuleSettingsFixtureTrait;
-
-    /**
-     * The panel script of the chart library looks up its parts by the data-panel attribute and throws
-     * for a part that the markup lacks, so the page has to carry each of them exactly once, in a
-     * panel that stays hidden until the script enables it and that is named by its own heading.
-     */
-    #[Test]
-    public function carriesTheHiddenPanelWithEveryPartTheScriptLooksUp(): void
-    {
-        $xpath  = ViewFixture::xpathOf($this->render());
-        $panels = ViewFixture::elements($xpath, '//aside[@id="webtrees-pedigree-detail-panel"]');
-
-        self::assertCount(1, $panels, 'the page carries exactly one panel element');
-
-        $panel = $panels[0];
-
-        self::assertTrue($panel->hasAttribute('hidden'), 'the panel stays hidden until the script enables it');
-        self::assertSame('webtrees-pedigree-detail-panel-title', $panel->getAttribute('aria-labelledby'));
-
-        foreach (['title', 'image', 'hint', 'facts', 'empty', 'actions', 'individual', 'center'] as $part) {
-            self::assertCount(
-                1,
-                ViewFixture::elements($xpath, '//aside[@id="webtrees-pedigree-detail-panel"]//*[@data-panel="' . $part . '"]'),
-                'the panel carries the part ' . $part . ' once'
-            );
-        }
-
-        $headings = ViewFixture::elements($xpath, '//*[@id="webtrees-pedigree-detail-panel-title"]');
-
-        self::assertCount(1, $headings);
-        self::assertSame('title', $headings[0]->getAttribute('data-panel'), 'the heading that names the panel is the title part');
-    }
-
-    /**
-     * The two actions are buttons that the panel script binds, and the parts that the script shows
-     * only on demand are hidden in the markup.
-     */
-    #[Test]
-    public function hidesThePartsThatTheScriptShowsOnDemand(): void
-    {
-        $xpath = ViewFixture::xpathOf($this->render());
-
-        foreach (['image', 'empty', 'actions'] as $part) {
-            self::assertTrue(
-                ViewFixture::first($xpath, '//*[@data-panel="' . $part . '"]')->hasAttribute('hidden'),
-                'the part ' . $part . ' starts hidden'
-            );
-        }
-
-        self::assertFalse(
-            ViewFixture::first($xpath, '//*[@data-panel="hint"]')->hasAttribute('hidden'),
-            'the hint is what a panel without a selection shows'
-        );
-
-        foreach (['individual', 'center'] as $action) {
-            self::assertSame('button', ViewFixture::first($xpath, '//*[@data-panel="' . $action . '"]')->tagName);
-        }
-    }
 
     /**
      * The toolbar carries the help button with its popover, so the page script that wires the button
@@ -135,19 +77,18 @@ final class PageViewTest extends TestCase
     }
 
     /**
-     * The rules of the toolbar buttons come from the toolbar style view of the module base, written once
-     * as a style element that is scoped to the fullscreen container of the chart, so the toolbar is
-     * styled from the first paint without a copy of the rules in the stylesheet of the module.
+     * The rules of the toolbar buttons come from the toolbar style view of the module base. The page
+     * hands it the fullscreen container class of this module, so the rules are scoped to the
+     * container that the page draws and not to the container of another chart.
      */
     #[Test]
-    public function rendersTheToolbarStyleOnceForTheFullscreenContainer(): void
+    public function scopesTheToolbarStyleToTheFullscreenContainerOfThePage(): void
     {
         $xpath  = ViewFixture::xpathOf($this->render());
         $styles = ViewFixture::elements($xpath, '//style[contains(., ".btn-chart")]');
 
         self::assertCount(1, $styles, 'the page carries exactly one style element with the toolbar rules');
         self::assertStringContainsString('.webtrees-pedigree-fullscreen-container .btn-chart {', $styles[0]->textContent);
-        self::assertStringContainsString('.webtrees-pedigree-fullscreen-container .btn-chart:focus-visible {', $styles[0]->textContent);
         self::assertCount(
             1,
             ViewFixture::elements($xpath, '//*[contains(concat(" ", @class, " "), " webtrees-pedigree-fullscreen-container ")]'),

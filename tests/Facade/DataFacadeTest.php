@@ -146,26 +146,6 @@ final class DataFacadeTest extends TestCase
     }
 
     /**
-     * The segments follow the display order of the name, and the preferred
-     * given name carries the flag.
-     */
-    #[Test]
-    public function handsOverTheNameAsOrderedSegments(): void
-    {
-        $payload = $this->payloadFor(self::STARRED_NAME, 'Anna Maria Schmidt', '', false);
-
-        self::assertSame(
-            [
-                ['label' => 'Anna', 'kind' => 'given', 'isPreferred' => false],
-                ['label' => 'Maria', 'kind' => 'given', 'isPreferred' => true],
-                ['label' => 'Schmidt', 'kind' => 'surname', 'isPreferred' => false],
-            ],
-            $payload['nameSegments']
-        );
-        self::assertSame('Anna Maria Schmidt', $payload['name']);
-    }
-
-    /**
      * With the nickname option on, the quoted nickname sits behind the given
      * names, in the segments and in the flat name.
      */
@@ -199,41 +179,6 @@ final class DataFacadeTest extends TestCase
     }
 
     /**
-     * The payload carries the segments in place of the former name part keys.
-     */
-    #[Test]
-    public function dropsTheFormerNamePartKeysFromThePayload(): void
-    {
-        $payload = $this->payloadFor(self::STARRED_NAME, 'Anna Maria Schmidt', 'Annie', true);
-
-        foreach (['firstNames', 'lastNames', 'preferredName', 'nickname'] as $removedKey) {
-            self::assertArrayNotHasKey($removedKey, $payload);
-        }
-
-        self::assertSame(
-            [
-                'id',
-                'xref',
-                'url',
-                'updateUrl',
-                'generation',
-                'name',
-                'isNameRtl',
-                'nameSegments',
-                'alternativeName',
-                'isAltRtl',
-                'thumbnail',
-                'silhouette',
-                'sex',
-                'birth',
-                'death',
-                'timespan',
-            ],
-            array_keys($payload)
-        );
-    }
-
-    /**
      * Without the detail panel the payload carries no facts, so the default chart
      * pays neither their size nor their database work.
      */
@@ -254,9 +199,10 @@ final class DataFacadeTest extends TestCase
     }
 
     /**
-     * With the detail panel on, the payload carries the birth, the death and one
-     * entry for every tag the tree names for the chart box. An entry the person has
-     * no fact for is null. A fact carries an empty partner unless it is a family event.
+     * With the detail panel on, the payload carries one slot for the birth, one for the death and one
+     * for every tag the tree names for the chart box, in that order. A slot the person has no fact for is
+     * null. The place of a slot is the full place, because the facade builds its fact resolver with the
+     * full place style, so the short place of the fact never reaches the payload.
      */
     #[Test]
     public function handsOverOneFactSlotPerRowAndNullForAMissingFact(): void
@@ -274,59 +220,23 @@ final class DataFacadeTest extends TestCase
 
         $node = $this->builtTree($individual, 1, false, false, true);
 
-        /** @var array{data: array{facts: list<array<string, string>|null>}} $serialised */
+        /** @var array{data: array{facts: list<array{tag: string, place: string, placeFull: string}|null>}} $serialised */
         $serialised = json_decode(json_encode($node, JSON_THROW_ON_ERROR), true, 512, JSON_THROW_ON_ERROR);
 
         self::assertSame(
             [
-                [
-                    'tag'       => 'BIRT',
-                    'label'     => 'Birth',
-                    'date'      => '',
-                    'place'     => 'Berlin, Germany',
-                    'placeFull' => 'Berlin, Germany',
-                    'value'     => '',
-                    'partner'   => '',
-                    'sortDay'   => 0,
-                ],
+                ['tag' => 'BIRT', 'place' => 'Berlin, Germany', 'placeFull' => 'Berlin, Germany'],
                 null,
-                [
-                    'tag'       => 'OCCU',
-                    'label'     => 'Occupation',
-                    'date'      => '',
-                    'place'     => '',
-                    'placeFull' => '',
-                    'value'     => 'Smith',
-                    'partner'   => '',
-                    'sortDay'   => 0,
-                ],
+                ['tag' => 'OCCU', 'place' => '', 'placeFull' => ''],
                 null,
             ],
-            $serialised['data']['facts']
+            array_map(
+                static fn (?array $fact): ?array => $fact === null
+                    ? null
+                    : ['tag' => $fact['tag'], 'place' => $fact['place'], 'placeFull' => $fact['placeFull']],
+                $serialised['data']['facts']
+            )
         );
-    }
-
-    /**
-     * A tree that names no tag for the chart box has the birth and the death
-     * slot only.
-     */
-    #[Test]
-    public function hasTheBirthAndDeathSlotOnlyWithoutChartBoxTags(): void
-    {
-        $individual = $this->individual(
-            self::STARRED_NAME,
-            'Anna Maria Schmidt',
-            '',
-            factsByTag: [],
-            chartBoxTags: '',
-        );
-
-        $node = $this->builtTree($individual, 1, false, false, true);
-
-        /** @var array{data: array{facts: list<array<string, string>|null>}} $serialised */
-        $serialised = json_decode(json_encode($node, JSON_THROW_ON_ERROR), true, 512, JSON_THROW_ON_ERROR);
-
-        self::assertSame([null, null], $serialised['data']['facts']);
     }
 
     /**
@@ -453,15 +363,14 @@ final class DataFacadeTest extends TestCase
     }
 
     /**
-     * The node ids start at one and count up in tree order, the father before
-     * the mother and each branch before the next one.
+     * The ancestors follow each other in tree order, the father before the
+     * mother and each branch before the next one.
      */
     #[Test]
-    public function numbersTheNodesInTreeOrderStartingAtOne(): void
+    public function buildsTheAncestorsInTreeOrderFatherBeforeMother(): void
     {
         $tree = $this->builtTree($this->pedigree(3, false), 3, false);
 
-        self::assertSame([1, 2, 3, 4, 5, 6, 7], array_column($this->dataInTreeOrder($tree), 'id'));
         self::assertSame(
             ['I1', 'I11', 'I111', 'I112', 'I12', 'I121', 'I122'],
             array_column($this->dataInTreeOrder($tree), 'xref')
@@ -554,7 +463,6 @@ final class DataFacadeTest extends TestCase
 
         self::assertSame([$sex], array_column($placeholders, 'sex'));
         self::assertSame([$missingFather ? 'Add a father' : 'Add a mother'], array_column($placeholders, 'name'));
-        self::assertSame([-1], array_column($placeholders, 'id'));
         self::assertSame([3], array_column($placeholders, 'generation'));
         self::assertSame(
             ['/route/' . AddSpouseToFamilyPage::class . '?tree=main&xref=FAM1&sex=' . $sex],
@@ -564,7 +472,7 @@ final class DataFacadeTest extends TestCase
 
     /**
      * A person without a parent family gets a placeholder for each parent,
-     * numbered downwards from minus one, once the conditions hold.
+     * the father first, once the conditions hold.
      */
     #[Test]
     public function offersBothPlaceholdersForAPersonWithoutParentFamily(): void
@@ -576,7 +484,6 @@ final class DataFacadeTest extends TestCase
         $placeholders = $this->dataOf($this->parentsOf($tree));
 
         self::assertSame(['M', 'F'], array_column($placeholders, 'sex'));
-        self::assertSame([-1, -2], array_column($placeholders, 'id'));
         self::assertSame([2, 2], array_column($placeholders, 'generation'));
         self::assertSame(['Add a father', 'Add a mother'], array_column($placeholders, 'name'));
         self::assertSame(

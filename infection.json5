@@ -18,6 +18,18 @@
     // default or a call order. No `maxTimeouts` limit either, because the timeout count
     // varies with machine load.
     "mutators": {
-        "@default": true
+        "@default": true,
+        // The payload id of a node and of a placeholder is read by no consumer, so a test that
+        // pinned its value would only pin a counter. The tests assert the tree order instead.
+        "Increment": {
+            "ignore": [
+                "MagicSunday\\Webtrees\\PedigreeChart\\Facade\\DataFacade::getNodeData"
+            ]
+        },
+        "Decrement": {
+            "ignore": [
+                "MagicSunday\\Webtrees\\PedigreeChart\\Facade\\DataFacade::createAddParentPlaceholder"
+            ]
+        }
     }
 }

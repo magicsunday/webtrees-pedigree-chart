@@ -96,11 +96,10 @@ final class ChartViewTest extends TestCase
 
     /**
      * The panel switch reaches the chart as the server value, which the browser storage cannot
-     * override because the server reads the facts only while it is on, and the options of the
-     * removed box rows are gone.
+     * override because the server reads the facts only while it is on.
      */
     #[Test]
-    public function handsTheDetailPanelSwitchToTheChartAndNoBoxRowOptions(): void
+    public function handsTheDetailPanelSwitchToTheChart(): void
     {
         $output = $this->render([]);
 
@@ -111,9 +110,6 @@ final class ChartViewTest extends TestCase
         $enabled = $this->render([], ['default_showDetailPanel' => '1']);
 
         self::assertStringContainsString('showDetailPanel: true,', $enabled);
-        self::assertStringNotContainsString('showPlaces', $output);
-        self::assertStringNotContainsString('showAdditionalFacts', $output);
-        self::assertStringNotContainsString('optionalRows', $output);
     }
 
     /**

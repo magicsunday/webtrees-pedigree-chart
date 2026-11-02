@@ -65,12 +65,10 @@ describe("initPage", () => {
         document.body.innerHTML = '<form id="webtrees-pedigree-chart-form"></form>';
     });
 
-    test("registers the detail panel switch and none of the former fact switches", () => {
+    test("registers the detail panel switch", () => {
         initPage({ ajaxUrl: "/ajax" });
 
         expect(registered).toContain("showDetailPanel");
-        expect(registered).not.toContain("showPlaces");
-        expect(registered).not.toContain("showAdditionalFacts");
     });
 
     test("does not publish the switch, because the server reads the facts and its value decides", () => {
@@ -101,14 +99,6 @@ describe("initPage", () => {
         initPage({ ajaxUrl: "/ajax" });
 
         expect(ajaxOptions[0].query).toContainEqual({ key: "showDetailPanel", value: null });
-    });
-
-    test("ignores a stale storage key of a removed switch", () => {
-        stored.showPlaces = true;
-
-        initPage({ ajaxUrl: "/ajax" });
-
-        expect(globalThis.WebtreesPedigreeChart.chartOptions).not.toHaveProperty("showPlaces");
     });
 
     /**
