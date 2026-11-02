@@ -99,6 +99,7 @@ msgid "Ctrl + scroll"
 msgstr "Ctrl + kolečko myši"
 
 #: src/Facade/DataFacade.php:306
+msgctxt "lifetime label"
 msgid "Deceased"
 msgstr "Zesnulý/á"
 

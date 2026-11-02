@@ -138,7 +138,10 @@ final class DataFacadeTest extends TestCase
             messages: [
                 'Born: %s' => 'Geboren: %s',
                 'Died: %s' => 'Gestorben: %s',
-                'Deceased' => 'Verstorben',
+                // A context key is the context, the separator and the source text.
+                "lifetime label\x04Deceased" => 'Verstorben',
+                // The plain source text belongs to another module with another meaning.
+                'Deceased' => 'Verstorbene',
             ],
         );
 
