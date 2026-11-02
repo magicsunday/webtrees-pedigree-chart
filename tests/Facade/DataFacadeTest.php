@@ -14,12 +14,14 @@ namespace MagicSunday\Webtrees\PedigreeChart\Test\Facade;
 use Fig\Http\Message\RequestMethodInterface;
 use Fisharebest\Webtrees\Date;
 use Fisharebest\Webtrees\Fact;
+use Fisharebest\Webtrees\Factories\CalendarDateFactory;
 use Fisharebest\Webtrees\Family;
 use Fisharebest\Webtrees\Http\RequestHandlers\AddParentToIndividualPage;
 use Fisharebest\Webtrees\Http\RequestHandlers\AddSpouseToFamilyPage;
 use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\MediaFile;
 use Fisharebest\Webtrees\Place;
+use Fisharebest\Webtrees\Registry;
 use Fisharebest\Webtrees\Tree;
 use GuzzleHttp\Psr7\ServerRequest;
 use Illuminate\Support\Collection;
@@ -68,6 +70,80 @@ final class DataFacadeTest extends TestCase
     private const string STARRED_NAME
         = '<span class="NAME" dir="auto" translate="no">Anna <span class="starredname">Maria</span>'
         . ' <span class="SURN">Schmidt</span></span>';
+
+    /**
+     * Registers the calendar factory that a real date needs to read its year.
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Registry::calendarDateFactory(new CalendarDateFactory());
+    }
+
+    /**
+     * Puts the English translator back, so that a test that installed texts of
+     * another language leaves nothing behind for the tests that follow.
+     */
+    protected function tearDown(): void
+    {
+        EnglishLocaleFixture::install();
+
+        parent::tearDown();
+    }
+
+    /**
+     * The facade builds the lifetime label from texts of the module catalogue, so
+     * a translator that knows the three texts decides what the box shows. Each
+     * text differs, which pins the text of every case and its placement.
+     *
+     * @return array<string, array{0: string|null, 1: string|null, 2: bool, 3: string}>
+     */
+    public static function lifetimeLabelCases(): array
+    {
+        return [
+            'a birth year only'                => ['1977', null, false, 'Geboren: 1977'],
+            'a death year only'                => [null, '2006', true, 'Gestorben: 2006'],
+            'a deceased person without years'  => [null, null, true, 'Verstorben'],
+            'both years'                       => ['1923', '2006', true, '1923-2006'],
+            'a living person without any date' => [null, null, false, ''],
+        ];
+    }
+
+    /**
+     * The label of a person with an incomplete life range is built from the texts
+     * of the module catalogue, so it follows the language of the user.
+     */
+    #[Test]
+    #[DataProvider('lifetimeLabelCases')]
+    public function handsOverTheLifetimeLabelInTheLanguageOfTheUser(
+        ?string $birth,
+        ?string $death,
+        bool $isDead,
+        string $expected,
+    ): void {
+        $individual = $this->individual(
+            'Anna Schmidt',
+            'Anna Schmidt',
+            '',
+            birthDate: $birth === null ? null : new Date($birth),
+            deathDate: $death === null ? null : new Date($death),
+            isDead: $isDead,
+        );
+
+        $node = $this->builtTree(
+            $individual,
+            1,
+            false,
+            messages: [
+                'Born: %s' => 'Geboren: %s',
+                'Died: %s' => 'Gestorben: %s',
+                'Deceased' => 'Verstorben',
+            ],
+        );
+
+        self::assertSame($expected, $this->serialisedRoot($node)['timespan']);
+    }
 
     /**
      * The segments follow the display order of the name, and the preferred
@@ -681,11 +757,11 @@ final class DataFacadeTest extends TestCase
     /**
      * Returns the serialised data of the root node.
      *
-     * @return array{name: string, alternativeName: string, thumbnail: string, silhouette: string}
+     * @return array{name: string, alternativeName: string, thumbnail: string, silhouette: string, timespan: string}
      */
     private function serialisedRoot(Node $node): array
     {
-        /** @var array{data: array{name: string, alternativeName: string, thumbnail: string, silhouette: string}} $serialised */
+        /** @var array{data: array{name: string, alternativeName: string, thumbnail: string, silhouette: string, timespan: string}} $serialised */
         $serialised = json_decode(json_encode($node, JSON_THROW_ON_ERROR), true, 512, JSON_THROW_ON_ERROR);
 
         return $serialised['data'];
@@ -731,7 +807,10 @@ final class DataFacadeTest extends TestCase
     }
 
     /**
-     * Builds the tree of the individual with a fresh facade.
+     * Builds the tree of the individual with a fresh facade. The messages are the
+     * translations by source text that the translator knows while the tree is built.
+     *
+     * @param array<string, string> $messages
      */
     private function builtTree(
         Individual $individual,
@@ -739,9 +818,10 @@ final class DataFacadeTest extends TestCase
         bool $showAddParentLinks,
         bool $showNicknames = false,
         bool $showDetailPanel = false,
+        array $messages = [],
     ): Node {
         RouteFactoryFixture::register();
-        EnglishLocaleFixture::install();
+        EnglishLocaleFixture::install($messages);
 
         $module        = $this->createModuleWithPreferences([]);
         $configuration = new Configuration(
@@ -782,6 +862,9 @@ final class DataFacadeTest extends TestCase
         string $chartBoxTags = '',
         bool $visible = false,
         ?string $alternativeName = null,
+        ?Date $birthDate = null,
+        ?Date $deathDate = null,
+        bool $isDead = false,
     ): Individual {
         $tree = self::createStub(Tree::class);
         $tree->method('name')->willReturn('main');
@@ -813,9 +896,9 @@ final class DataFacadeTest extends TestCase
         $individual->method('canShow')->willReturn($visible);
         $individual->method('canShowName')->willReturn($visible);
         $individual->method('canEdit')->willReturn($canEdit);
-        $individual->method('isDead')->willReturn(false);
-        $individual->method('getBirthDate')->willReturn($this->unknownDate());
-        $individual->method('getDeathDate')->willReturn($this->unknownDate());
+        $individual->method('isDead')->willReturn($isDead);
+        $individual->method('getBirthDate')->willReturn($birthDate ?? $this->unknownDate());
+        $individual->method('getDeathDate')->willReturn($deathDate ?? $this->unknownDate());
         $individual->method('childFamilies')->willReturn(new Collection($family instanceof Family ? [$family] : []));
         $individual->method('facts')->willReturnCallback(
             static function (array $filter = []) use ($nameFact, $factsByTag): Collection {
