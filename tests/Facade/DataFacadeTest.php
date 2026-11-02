@@ -363,15 +363,14 @@ final class DataFacadeTest extends TestCase
     }
 
     /**
-     * The node ids start at one and count up in tree order, the father before
-     * the mother and each branch before the next one.
+     * The ancestors follow each other in tree order, the father before the
+     * mother and each branch before the next one.
      */
     #[Test]
-    public function numbersTheNodesInTreeOrderStartingAtOne(): void
+    public function buildsTheAncestorsInTreeOrderFatherBeforeMother(): void
     {
         $tree = $this->builtTree($this->pedigree(3, false), 3, false);
 
-        self::assertSame([1, 2, 3, 4, 5, 6, 7], array_column($this->dataInTreeOrder($tree), 'id'));
         self::assertSame(
             ['I1', 'I11', 'I111', 'I112', 'I12', 'I121', 'I122'],
             array_column($this->dataInTreeOrder($tree), 'xref')
@@ -464,7 +463,6 @@ final class DataFacadeTest extends TestCase
 
         self::assertSame([$sex], array_column($placeholders, 'sex'));
         self::assertSame([$missingFather ? 'Add a father' : 'Add a mother'], array_column($placeholders, 'name'));
-        self::assertSame([-1], array_column($placeholders, 'id'));
         self::assertSame([3], array_column($placeholders, 'generation'));
         self::assertSame(
             ['/route/' . AddSpouseToFamilyPage::class . '?tree=main&xref=FAM1&sex=' . $sex],
@@ -474,7 +472,7 @@ final class DataFacadeTest extends TestCase
 
     /**
      * A person without a parent family gets a placeholder for each parent,
-     * numbered downwards from minus one, once the conditions hold.
+     * the father first, once the conditions hold.
      */
     #[Test]
     public function offersBothPlaceholdersForAPersonWithoutParentFamily(): void
@@ -486,7 +484,6 @@ final class DataFacadeTest extends TestCase
         $placeholders = $this->dataOf($this->parentsOf($tree));
 
         self::assertSame(['M', 'F'], array_column($placeholders, 'sex'));
-        self::assertSame([-1, -2], array_column($placeholders, 'id'));
         self::assertSame([2, 2], array_column($placeholders, 'generation'));
         self::assertSame(['Add a father', 'Add a mother'], array_column($placeholders, 'name'));
         self::assertSame(
