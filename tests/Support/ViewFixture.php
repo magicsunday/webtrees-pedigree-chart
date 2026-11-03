@@ -15,7 +15,7 @@ use Fisharebest\Webtrees\View;
 use MagicSunday\Webtrees\ModuleBase\View\SharedViews;
 
 /**
- * Registers the views of the module and replaces the two components of the webtrees core that the
+ * Registers the views of the module and replaces the components of the webtrees core that the
  * views of the module render, so a view of the module can be rendered without a webtrees installation.
  *
  * @author  Rico Sonntag <mail@ricosonntag.de>
@@ -37,7 +37,7 @@ final class ViewFixture
     /**
      * Registers the views of the module and redirects the core components that they use to stand-ins.
      * The stand-ins keep the parts that the tests look at: the name, the value and the checked state of
-     * a checkbox.
+     * a checkbox or a radio button, and the text of a label.
      */
     public static function register(): void
     {
@@ -47,5 +47,16 @@ final class ViewFixture
 
         View::registerCustomView('::components/checkbox', self::STUB_NAMESPACE . '::checkbox');
         View::registerCustomView('::components/select-individual', self::STUB_NAMESPACE . '::select-individual');
+        View::registerCustomView('::components/radios-inline', self::STUB_NAMESPACE . '::radios-inline');
+
+        foreach (['breadcrumbs', 'select'] as $component) {
+            View::registerCustomView('::components/' . $component, self::STUB_NAMESPACE . '::blank');
+        }
+
+        View::registerCustomView('::icons/cancel', self::STUB_NAMESPACE . '::icon');
+
+        foreach (['left', 'right', 'up', 'down'] as $direction) {
+            View::registerCustomView('::icons/pedigree-' . $direction, self::STUB_NAMESPACE . '::icon');
+        }
     }
 }

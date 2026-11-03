@@ -23,11 +23,11 @@ msgstr ""
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "Biểu đồ phả hệ của tổ tiên của một cá nhân."
 
-#: src/Configuration.php:510
+#: src/Configuration.php:516
 msgid "Abbreviate given names first"
 msgstr "Viết tắt tên gọi trước"
 
-#: src/Configuration.php:511
+#: src/Configuration.php:517
 msgid "Abbreviate surnames first"
 msgstr "Viết tắt họ trước"
 
@@ -39,7 +39,7 @@ msgstr ""
 msgid "Add a mother"
 msgstr ""
 
-#: src/Configuration.php:509
+#: src/Configuration.php:515
 msgid "Automatic (based on tree's surname tradition)"
 msgstr "Tự động (dựa trên truyền thống họ của cây phả hệ)"
 
@@ -52,7 +52,7 @@ msgstr "Hành vi"
 msgid "Born: %s"
 msgstr "Sinh: %s"
 
-#: resources/views/modules/pedigree-chart/page.phtml:111
+#: resources/views/modules/pedigree-chart/page.phtml:112
 msgid "Center chart on this person"
 msgstr ""
 
@@ -80,11 +80,11 @@ msgstr ""
 "Tô màu các hộp người theo nhánh gia đình. Mỗi cặp đôi dùng chung một màu, "
 "được lấy từ các màu cơ bản đã chọn."
 
-#: resources/views/modules/pedigree-chart/config.phtml:25
+#: resources/views/modules/pedigree-chart/config.phtml:26
 msgid "Control panel"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/config.phtml:97
+#: resources/views/modules/pedigree-chart/config.phtml:98
 msgid ""
 "Controls which name part shrinks first when a box is too narrow for the full "
 "name. \"Automatic\" uses the tree's surname tradition (Icelandic abbreviates "
@@ -99,7 +99,7 @@ msgid "Ctrl + scroll"
 msgstr "Ctrl + cuộn chuột"
 
 #: src/Facade/DataFacade.php:292
-msgctxt "lifetime label"
+msgctxt "webtrees-pedigree-chart"
 msgid "Deceased"
 msgstr "Người mất"
 
@@ -131,7 +131,8 @@ msgstr "Xuất định dạng PNG"
 msgid "Export as SVG"
 msgstr "Xuất định dạng SVG"
 
-#: resources/views/modules/pedigree-chart/config.phtml:50
+#: resources/views/modules/pedigree-chart/config.phtml:51
+msgctxt "webtrees-pedigree-chart"
 msgid "General"
 msgstr ""
 
@@ -139,19 +140,19 @@ msgstr ""
 msgid "Generations"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/page.phtml:78
+#: resources/views/modules/pedigree-chart/page.phtml:79
 msgid "Hide more options"
 msgstr "Ẩn thêm tùy chọn"
 
-#: resources/views/modules/pedigree-chart/config.phtml:64
+#: resources/views/modules/pedigree-chart/config.phtml:65
 msgid "Hide the PNG export button"
 msgstr "Ẩn nút xuất PNG"
 
-#: resources/views/modules/pedigree-chart/config.phtml:55
+#: resources/views/modules/pedigree-chart/config.phtml:56
 msgid "Hide the SVG export button"
 msgstr "Ẩn nút xuất SVG"
 
-#: resources/views/modules/pedigree-chart/page.phtml:40
+#: resources/views/modules/pedigree-chart/page.phtml:41
 msgid "Individual"
 msgstr ""
 
@@ -169,7 +170,7 @@ msgstr ""
 msgid "Maternal"
 msgstr "Bên ngoại"
 
-#: resources/views/modules/pedigree-chart/config.phtml:25
+#: resources/views/modules/pedigree-chart/config.phtml:26
 msgid "Modules"
 msgstr ""
 
@@ -185,11 +186,11 @@ msgstr "Di chuyển biểu đồ"
 msgid "Move the view with two fingers"
 msgstr "Di chuyển tầm nhìn bằng hai ngón tay"
 
-#: resources/views/modules/pedigree-chart/config.phtml:86
+#: resources/views/modules/pedigree-chart/config.phtml:87
 msgid "Name abbreviation when space is tight"
 msgstr "Viết tắt tên khi không đủ chỗ"
 
-#: resources/views/modules/pedigree-chart/page.phtml:109
+#: resources/views/modules/pedigree-chart/page.phtml:110
 msgid "No details are available for this person."
 msgstr ""
 
@@ -197,7 +198,7 @@ msgstr ""
 msgid "Open individual in new browser window/tab"
 msgstr "Mở cá nhân trong cửa sổ/tab trình duyệt mới"
 
-#: resources/views/modules/pedigree-chart/page.phtml:110
+#: resources/views/modules/pedigree-chart/page.phtml:111
 msgid "Open individual page"
 msgstr ""
 
@@ -211,7 +212,8 @@ msgstr ""
 msgid "Open the individual page or center the chart on the person"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/form/orientation.phtml:22
+#: resources/views/modules/pedigree-chart/form/orientation.phtml:23
+msgctxt "webtrees-pedigree-chart"
 msgid "Orientation"
 msgstr ""
 
@@ -232,7 +234,7 @@ msgstr "Biểu đồ phả hệ của %s"
 msgid "Re center"
 msgstr "Chỉnh biểu đồ về giữa màn hình"
 
-#: resources/views/modules/pedigree-chart/page.phtml:108
+#: resources/views/modules/pedigree-chart/page.phtml:109
 msgid "Select a person in the chart to see the details here."
 msgstr ""
 
@@ -244,7 +246,7 @@ msgid ""
 "of opening the chart for them, and the panel offers both actions."
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/config.phtml:74
+#: resources/views/modules/pedigree-chart/config.phtml:75
 msgid "Show \"add parent\" placeholders for missing ancestors"
 msgstr "Hiển thị ô chỗ \"thêm cha mẹ\" cho tổ tiên còn thiếu"
 
@@ -270,7 +272,7 @@ msgstr "Hiển thị màu gia đình"
 msgid "Show help"
 msgstr "Hiển thị trợ giúp"
 
-#: resources/views/modules/pedigree-chart/page.phtml:77
+#: resources/views/modules/pedigree-chart/page.phtml:78
 msgid "Show more options"
 msgstr "Hiển thị thêm tùy chọn"
 
@@ -299,7 +301,7 @@ msgstr ""
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Sử dụng Ctrl + cuộn để phóng to chế độ xem"
 
-#: resources/views/modules/pedigree-chart/config.phtml:80
+#: resources/views/modules/pedigree-chart/config.phtml:81
 msgid ""
 "When enabled, an empty box with a \"+\" icon is rendered in place of each "
 "missing father or mother. Editors can click it to jump straight to the "
@@ -315,34 +317,39 @@ msgstr ""
 msgid "Zoom in/out"
 msgstr "Phóng to/Thu nhỏ"
 
-#: resources/views/modules/pedigree-chart/config.phtml:112
+#: resources/views/modules/pedigree-chart/config.phtml:113
 msgid "cancel"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/page.phtml:107
+#: resources/views/modules/pedigree-chart/page.phtml:108
 msgid "close"
 msgstr ""
 
-#: src/Configuration.php:274 src/Configuration.php:282
+#: src/Configuration.php:273
+msgctxt "webtrees-pedigree-chart"
 msgid "down"
 msgstr "Từ trên xuống"
 
-#: src/Configuration.php:271 src/Configuration.php:279
+#: src/Configuration.php:270
+msgctxt "webtrees-pedigree-chart"
 msgid "left"
 msgstr "Từ trái sang phải"
 
-#: src/Configuration.php:272 src/Configuration.php:280
+#: src/Configuration.php:271
+msgctxt "webtrees-pedigree-chart"
 msgid "right"
 msgstr "Từ phải sang trái"
 
-#: resources/views/modules/pedigree-chart/config.phtml:107
+#: resources/views/modules/pedigree-chart/config.phtml:108
 msgid "save"
 msgstr ""
 
-#: src/Configuration.php:273 src/Configuration.php:281
+#: src/Configuration.php:272
+msgctxt "webtrees-pedigree-chart"
 msgid "up"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/page.phtml:66
+#: resources/views/modules/pedigree-chart/page.phtml:67
+msgctxt "webtrees-pedigree-chart"
 msgid "view"
 msgstr ""

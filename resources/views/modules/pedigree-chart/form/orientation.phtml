@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 use Fisharebest\Webtrees\I18N;
 use MagicSunday\Webtrees\PedigreeChart\Configuration;
+use MagicSunday\Webtrees\PedigreeChart\Support\ContextText;
 
 /**
  * @var Configuration $configuration
@@ -19,7 +20,7 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
 
 <div class="row">
     <div class="col-form-label col-sm-3 wt-page-options-label">
-        <?php echo I18N::translate('Orientation'); ?>
+        <?php echo ContextText::resolve(I18N::translateContext('webtrees-pedigree-chart', 'Orientation'), 'Orientation'); ?>
     </div>
     <div class="col-sm-9 wt-page-options-value" id="layout">
         <?php echo view('components/radios-inline', [
