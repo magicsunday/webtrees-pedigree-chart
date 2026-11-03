@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace MagicSunday\Webtrees\PedigreeChart\Test\View;
 
 use MagicSunday\Webtrees\ModuleBase\Testing\EnglishLocaleFixture;
-use MagicSunday\Webtrees\PedigreeChart\Test\Support\ViewFixture;
+use MagicSunday\Webtrees\ModuleBase\Testing\MarkupFixture;
 use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -55,9 +55,9 @@ final class ToolbarButtonsViewTest extends TestCase
     public function keepsATranslatedTitleInsideItsAttribute(string $view, string $source): void
     {
         $text  = 'Say "more" &amp; <b>less</b>';
-        $xpath = ViewFixture::xpathOf($this->render($view, [$source => $text]));
+        $xpath = MarkupFixture::xpathOf($this->render($view, [$source => $text]));
 
-        self::assertSame($text, ViewFixture::first($xpath, '//button')->getAttribute('title'));
+        self::assertSame($text, MarkupFixture::first($xpath, '//button')->getAttribute('title'));
     }
 
     /**
