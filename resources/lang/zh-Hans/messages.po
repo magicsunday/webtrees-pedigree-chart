@@ -23,11 +23,11 @@ msgstr ""
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "个人祖先的世系图"
 
-#: src/Configuration.php:510
+#: src/Configuration.php:516
 msgid "Abbreviate given names first"
 msgstr "优先缩写名字"
 
-#: src/Configuration.php:511
+#: src/Configuration.php:517
 msgid "Abbreviate surnames first"
 msgstr "优先缩写姓氏"
 
@@ -39,7 +39,7 @@ msgstr ""
 msgid "Add a mother"
 msgstr ""
 
-#: src/Configuration.php:509
+#: src/Configuration.php:515
 msgid "Automatic (based on tree's surname tradition)"
 msgstr "自动（根据族谱的姓氏传统）"
 
@@ -52,7 +52,7 @@ msgstr "行为"
 msgid "Born: %s"
 msgstr "生于: %s"
 
-#: resources/views/modules/pedigree-chart/page.phtml:111
+#: resources/views/modules/pedigree-chart/page.phtml:112
 msgid "Center chart on this person"
 msgstr ""
 
@@ -79,11 +79,11 @@ msgid ""
 msgstr ""
 "按家族分支为人物方框着色。每对夫妇共享同一种颜色，颜色由所选基础颜色派生。"
 
-#: resources/views/modules/pedigree-chart/config.phtml:25
+#: resources/views/modules/pedigree-chart/config.phtml:26
 msgid "Control panel"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/config.phtml:97
+#: resources/views/modules/pedigree-chart/config.phtml:98
 msgid ""
 "Controls which name part shrinks first when a box is too narrow for the full "
 "name. \"Automatic\" uses the tree's surname tradition (Icelandic abbreviates "
@@ -129,7 +129,8 @@ msgstr "导出为图片"
 msgid "Export as SVG"
 msgstr "导出为SVG"
 
-#: resources/views/modules/pedigree-chart/config.phtml:50
+#: resources/views/modules/pedigree-chart/config.phtml:51
+msgctxt "webtrees-pedigree-chart"
 msgid "General"
 msgstr ""
 
@@ -137,19 +138,19 @@ msgstr ""
 msgid "Generations"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/page.phtml:78
+#: resources/views/modules/pedigree-chart/page.phtml:79
 msgid "Hide more options"
 msgstr "隐藏更多选项"
 
-#: resources/views/modules/pedigree-chart/config.phtml:64
+#: resources/views/modules/pedigree-chart/config.phtml:65
 msgid "Hide the PNG export button"
 msgstr "隐藏 PNG 导出按钮"
 
-#: resources/views/modules/pedigree-chart/config.phtml:55
+#: resources/views/modules/pedigree-chart/config.phtml:56
 msgid "Hide the SVG export button"
 msgstr "隐藏 SVG 导出按钮"
 
-#: resources/views/modules/pedigree-chart/page.phtml:40
+#: resources/views/modules/pedigree-chart/page.phtml:41
 msgid "Individual"
 msgstr ""
 
@@ -167,7 +168,7 @@ msgstr ""
 msgid "Maternal"
 msgstr "母系"
 
-#: resources/views/modules/pedigree-chart/config.phtml:25
+#: resources/views/modules/pedigree-chart/config.phtml:26
 msgid "Modules"
 msgstr ""
 
@@ -183,11 +184,11 @@ msgstr "移动图表"
 msgid "Move the view with two fingers"
 msgstr "用两根手指拖动视图"
 
-#: resources/views/modules/pedigree-chart/config.phtml:86
+#: resources/views/modules/pedigree-chart/config.phtml:87
 msgid "Name abbreviation when space is tight"
 msgstr "空间不足时的姓名缩写方式"
 
-#: resources/views/modules/pedigree-chart/page.phtml:109
+#: resources/views/modules/pedigree-chart/page.phtml:110
 msgid "No details are available for this person."
 msgstr ""
 
@@ -195,7 +196,7 @@ msgstr ""
 msgid "Open individual in new browser window/tab"
 msgstr "在新浏览器窗口/标签页中打开个人"
 
-#: resources/views/modules/pedigree-chart/page.phtml:110
+#: resources/views/modules/pedigree-chart/page.phtml:111
 msgid "Open individual page"
 msgstr ""
 
@@ -209,7 +210,8 @@ msgstr ""
 msgid "Open the individual page or center the chart on the person"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/form/orientation.phtml:22
+#: resources/views/modules/pedigree-chart/form/orientation.phtml:23
+msgctxt "webtrees-pedigree-chart"
 msgid "Orientation"
 msgstr ""
 
@@ -230,7 +232,7 @@ msgstr "%s的世系图"
 msgid "Re center"
 msgstr "居中"
 
-#: resources/views/modules/pedigree-chart/page.phtml:108
+#: resources/views/modules/pedigree-chart/page.phtml:109
 msgid "Select a person in the chart to see the details here."
 msgstr ""
 
@@ -242,7 +244,7 @@ msgid ""
 "of opening the chart for them, and the panel offers both actions."
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/config.phtml:74
+#: resources/views/modules/pedigree-chart/config.phtml:75
 msgid "Show \"add parent\" placeholders for missing ancestors"
 msgstr "为缺失的祖先显示\"添加父母\"占位符"
 
@@ -268,7 +270,7 @@ msgstr "显示家族颜色"
 msgid "Show help"
 msgstr "显示帮助"
 
-#: resources/views/modules/pedigree-chart/page.phtml:77
+#: resources/views/modules/pedigree-chart/page.phtml:78
 msgid "Show more options"
 msgstr "显示更多选项"
 
@@ -297,7 +299,7 @@ msgstr ""
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "按住Ctrl和鼠标滚轮放大查看"
 
-#: resources/views/modules/pedigree-chart/config.phtml:80
+#: resources/views/modules/pedigree-chart/config.phtml:81
 msgid ""
 "When enabled, an empty box with a \"+\" icon is rendered in place of each "
 "missing father or mother. Editors can click it to jump straight to the "
@@ -312,34 +314,39 @@ msgstr ""
 msgid "Zoom in/out"
 msgstr "放大/缩小"
 
-#: resources/views/modules/pedigree-chart/config.phtml:112
+#: resources/views/modules/pedigree-chart/config.phtml:113
 msgid "cancel"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/page.phtml:107
+#: resources/views/modules/pedigree-chart/page.phtml:108
 msgid "close"
 msgstr ""
 
-#: src/Configuration.php:274 src/Configuration.php:282
+#: src/Configuration.php:273
+msgctxt "webtrees-pedigree-chart"
 msgid "down"
 msgstr ""
 
-#: src/Configuration.php:271 src/Configuration.php:279
+#: src/Configuration.php:270
+msgctxt "webtrees-pedigree-chart"
 msgid "left"
 msgstr ""
 
-#: src/Configuration.php:272 src/Configuration.php:280
+#: src/Configuration.php:271
+msgctxt "webtrees-pedigree-chart"
 msgid "right"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/config.phtml:107
+#: resources/views/modules/pedigree-chart/config.phtml:108
 msgid "save"
 msgstr ""
 
-#: src/Configuration.php:273 src/Configuration.php:281
+#: src/Configuration.php:272
+msgctxt "webtrees-pedigree-chart"
 msgid "up"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/page.phtml:66
+#: resources/views/modules/pedigree-chart/page.phtml:67
+msgctxt "webtrees-pedigree-chart"
 msgid "view"
 msgstr ""

@@ -17,6 +17,7 @@ use Fisharebest\Webtrees\Module\AbstractModule;
 use Fisharebest\Webtrees\Module\PedigreeChartModule;
 use Fisharebest\Webtrees\Validator;
 use MagicSunday\Webtrees\ModuleBase\Model\NameAbbreviation;
+use MagicSunday\Webtrees\PedigreeChart\Support\ContextText;
 use Psr\Http\Message\ServerRequestInterface;
 
 use function preg_match;
@@ -266,20 +267,25 @@ final class Configuration
      */
     public function getLayouts(): array
     {
+        $left   = view('icons/pedigree-left') . ContextText::resolve(I18N::translateContext('webtrees-pedigree-chart', 'left'), 'left');
+        $right  = view('icons/pedigree-right') . ContextText::resolve(I18N::translateContext('webtrees-pedigree-chart', 'right'), 'right');
+        $top    = view('icons/pedigree-up') . ContextText::resolve(I18N::translateContext('webtrees-pedigree-chart', 'up'), 'up');
+        $bottom = view('icons/pedigree-down') . ContextText::resolve(I18N::translateContext('webtrees-pedigree-chart', 'down'), 'down');
+
         if (I18N::direction() === 'rtl') {
             return [
-                self::LAYOUT_LEFTRIGHT => view('icons/pedigree-left') . I18N::translate('left'),
-                self::LAYOUT_RIGHTLEFT => view('icons/pedigree-right') . I18N::translate('right'),
-                self::LAYOUT_BOTTOMTOP => view('icons/pedigree-up') . I18N::translate('up'),
-                self::LAYOUT_TOPBOTTOM => view('icons/pedigree-down') . I18N::translate('down'),
+                self::LAYOUT_LEFTRIGHT => $left,
+                self::LAYOUT_RIGHTLEFT => $right,
+                self::LAYOUT_BOTTOMTOP => $top,
+                self::LAYOUT_TOPBOTTOM => $bottom,
             ];
         }
 
         return [
-            self::LAYOUT_RIGHTLEFT => view('icons/pedigree-left') . I18N::translate('left'),
-            self::LAYOUT_LEFTRIGHT => view('icons/pedigree-right') . I18N::translate('right'),
-            self::LAYOUT_BOTTOMTOP => view('icons/pedigree-up') . I18N::translate('up'),
-            self::LAYOUT_TOPBOTTOM => view('icons/pedigree-down') . I18N::translate('down'),
+            self::LAYOUT_RIGHTLEFT => $left,
+            self::LAYOUT_LEFTRIGHT => $right,
+            self::LAYOUT_BOTTOMTOP => $top,
+            self::LAYOUT_TOPBOTTOM => $bottom,
         ];
     }
 

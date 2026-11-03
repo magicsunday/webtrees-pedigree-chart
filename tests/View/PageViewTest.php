@@ -111,6 +111,23 @@ final class PageViewTest extends TestCase
     }
 
     /**
+     * The module words the submit button differently from the webtrees core. The wording of the
+     * module comes with the name of the module as its context, and a language without an entry for
+     * that context keeps the wording of the core.
+     */
+    #[Test]
+    public function showsTheWordingOfTheModuleOrOtherwiseOfTheCoreOnTheSubmitButton(): void
+    {
+        $context = "webtrees-pedigree-chart\x04view";
+
+        $withContext = MarkupFixture::xpathOf($this->render('https://example.test/ajax', [], [$context => 'Anzeigen', 'view' => 'zeige']));
+        $withoutIt   = MarkupFixture::xpathOf($this->render('https://example.test/ajax', [], ['view' => 'zeige']));
+
+        self::assertSame('Anzeigen', MarkupFixture::first($withContext, '//input[@type="submit"]')->getAttribute('value'));
+        self::assertSame('zeige', MarkupFixture::first($withoutIt, '//input[@type="submit"]')->getAttribute('value'));
+    }
+
+    /**
      * The URL is written into an inline script. Like every value of the chart view, it is encoded
      * with the tag, ampersand, apostrophe and quote flags, so text that opens or closes an element
      * or a string cannot leave the script, whatever a route builder hands over.
