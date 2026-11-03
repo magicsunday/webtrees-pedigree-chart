@@ -31,11 +31,11 @@ msgstr "Förkorta förnamn först"
 msgid "Abbreviate surnames first"
 msgstr "Förkorta efternamn först"
 
-#: src/Facade/DataFacade.php:232
+#: src/Facade/DataFacade.php:220
 msgid "Add a father"
 msgstr ""
 
-#: src/Facade/DataFacade.php:233
+#: src/Facade/DataFacade.php:221
 msgid "Add a mother"
 msgstr ""
 
@@ -47,7 +47,7 @@ msgstr "Automatiskt (baserat på trädets efternamnstradition)"
 msgid "Behavior"
 msgstr "Beteende"
 
-#: src/Facade/DataFacade.php:304
+#: src/Facade/DataFacade.php:290
 #, php-format
 msgid "Born: %s"
 msgstr "Född: %s"
@@ -98,7 +98,7 @@ msgstr ""
 msgid "Ctrl + scroll"
 msgstr "Ctrl + scrolla"
 
-#: src/Facade/DataFacade.php:306
+#: src/Facade/DataFacade.php:292
 msgctxt "lifetime label"
 msgid "Deceased"
 msgstr "Avliden"
@@ -111,7 +111,7 @@ msgstr ""
 msgid "Details panel"
 msgstr ""
 
-#: src/Facade/DataFacade.php:305
+#: src/Facade/DataFacade.php:291
 #, php-format
 msgid "Died: %s"
 msgstr "Död: %s"
