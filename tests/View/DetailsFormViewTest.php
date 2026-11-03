@@ -13,8 +13,8 @@ namespace MagicSunday\Webtrees\PedigreeChart\Test\View;
 
 use Fig\Http\Message\RequestMethodInterface;
 use GuzzleHttp\Psr7\ServerRequest;
+use MagicSunday\Webtrees\ModuleBase\Testing\EnglishLocaleFixture;
 use MagicSunday\Webtrees\PedigreeChart\Configuration;
-use MagicSunday\Webtrees\PedigreeChart\Test\Support\EnglishLocaleFixture;
 use MagicSunday\Webtrees\PedigreeChart\Test\Support\ModuleSettingsFixtureTrait;
 use MagicSunday\Webtrees\PedigreeChart\Test\Support\ViewFixture;
 use PHPUnit\Framework\Attributes\CoversNothing;

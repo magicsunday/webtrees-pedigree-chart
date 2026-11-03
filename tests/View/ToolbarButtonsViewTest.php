@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace MagicSunday\Webtrees\PedigreeChart\Test\View;
 
-use MagicSunday\Webtrees\PedigreeChart\Test\Support\EnglishLocaleFixture;
+use MagicSunday\Webtrees\ModuleBase\Testing\EnglishLocaleFixture;
 use MagicSunday\Webtrees\PedigreeChart\Test\Support\ViewFixture;
 use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\Attributes\DataProvider;
