@@ -31,11 +31,11 @@ msgstr "Abreviar primero los nombres de pila"
 msgid "Abbreviate surnames first"
 msgstr "Abreviar primero los apellidos"
 
-#: src/Facade/DataFacade.php:232
+#: src/Facade/DataFacade.php:220
 msgid "Add a father"
 msgstr ""
 
-#: src/Facade/DataFacade.php:233
+#: src/Facade/DataFacade.php:221
 msgid "Add a mother"
 msgstr ""
 
@@ -47,7 +47,7 @@ msgstr "Automático (según la tradición de apellidos del árbol)"
 msgid "Behavior"
 msgstr "Comportamiento"
 
-#: src/Facade/DataFacade.php:304
+#: src/Facade/DataFacade.php:290
 #, php-format
 msgid "Born: %s"
 msgstr "Nació: %s"
@@ -99,7 +99,7 @@ msgstr ""
 msgid "Ctrl + scroll"
 msgstr ""
 
-#: src/Facade/DataFacade.php:306
+#: src/Facade/DataFacade.php:292
 msgctxt "lifetime label"
 msgid "Deceased"
 msgstr "Fallecido"
@@ -112,7 +112,7 @@ msgstr ""
 msgid "Details panel"
 msgstr ""
 
-#: src/Facade/DataFacade.php:305
+#: src/Facade/DataFacade.php:291
 #, php-format
 msgid "Died: %s"
 msgstr "Murió: %s"

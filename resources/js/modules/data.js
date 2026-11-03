@@ -19,7 +19,6 @@
  * added here for the strict typecheck pass to keep surfacing typos.
  *
  * @typedef {object} Data
- * @property {number}   id              The unique ID of the person
  * @property {string}   xref            The unique identifier of the person
  * @property {string}   url             Link to the individual's webtrees page
  * @property {string}   updateUrl       AJAX endpoint used to re-center the chart on this person
