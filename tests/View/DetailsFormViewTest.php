@@ -13,8 +13,9 @@ namespace MagicSunday\Webtrees\PedigreeChart\Test\View;
 
 use Fig\Http\Message\RequestMethodInterface;
 use GuzzleHttp\Psr7\ServerRequest;
+use MagicSunday\Webtrees\ModuleBase\Testing\EnglishLocaleFixture;
+use MagicSunday\Webtrees\ModuleBase\Testing\MarkupFixture;
 use MagicSunday\Webtrees\PedigreeChart\Configuration;
-use MagicSunday\Webtrees\PedigreeChart\Test\Support\EnglishLocaleFixture;
 use MagicSunday\Webtrees\PedigreeChart\Test\Support\ModuleSettingsFixtureTrait;
 use MagicSunday\Webtrees\PedigreeChart\Test\Support\ViewFixture;
 use PHPUnit\Framework\Attributes\CoversNothing;
@@ -64,15 +65,15 @@ final class DetailsFormViewTest extends TestCase
     #[DataProvider('checkedStateProvider')]
     public function offersTheDetailPanelCheckboxInTheConfiguredState(array $preferences, bool $checked): void
     {
-        $xpath = ViewFixture::xpathOf($this->render($preferences));
+        $xpath = MarkupFixture::xpathOf($this->render($preferences));
 
-        $boxes = ViewFixture::elements($xpath, '//input[@type="checkbox"][@name="showDetailPanel"]');
+        $boxes = MarkupFixture::elements($xpath, '//input[@type="checkbox"][@name="showDetailPanel"]');
 
         self::assertCount(1, $boxes, 'the form offers one checkbox for the panel');
         self::assertSame($checked, $boxes[0]->hasAttribute('checked'));
         self::assertSame('1', $boxes[0]->getAttribute('value'));
 
-        $hidden = ViewFixture::elements($xpath, '//input[@type="hidden"][@name="showDetailPanel"]');
+        $hidden = MarkupFixture::elements($xpath, '//input[@type="hidden"][@name="showDetailPanel"]');
 
         self::assertCount(1, $hidden, 'the form submits the unchecked value');
         self::assertSame('0', $hidden[0]->getAttribute('value'));

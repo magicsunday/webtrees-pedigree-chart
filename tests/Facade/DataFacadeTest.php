@@ -28,13 +28,13 @@ use Illuminate\Support\Collection;
 use MagicSunday\Webtrees\ModuleBase\Model\FactView;
 use MagicSunday\Webtrees\ModuleBase\Model\NameSegment;
 use MagicSunday\Webtrees\ModuleBase\Model\NodeData;
+use MagicSunday\Webtrees\ModuleBase\Testing\EnglishLocaleFixture;
+use MagicSunday\Webtrees\ModuleBase\Testing\RoutingFixture;
 use MagicSunday\Webtrees\PedigreeChart\Configuration;
 use MagicSunday\Webtrees\PedigreeChart\Facade\DataFacade;
 use MagicSunday\Webtrees\PedigreeChart\Model\Node;
 use MagicSunday\Webtrees\PedigreeChart\Module;
-use MagicSunday\Webtrees\PedigreeChart\Test\Support\EnglishLocaleFixture;
 use MagicSunday\Webtrees\PedigreeChart\Test\Support\ModuleSettingsFixtureTrait;
-use MagicSunday\Webtrees\PedigreeChart\Test\Support\RouteFactoryFixture;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -278,7 +278,7 @@ final class DataFacadeTest extends TestCase
     #[Test]
     public function readsTheFactsWithTheTreeSettingOfTheTreeThatIsBuiltAfterANewConfiguration(): void
     {
-        RouteFactoryFixture::register();
+        RoutingFixture::register();
         EnglishLocaleFixture::install();
 
         $named = $this->individual(
@@ -758,7 +758,7 @@ final class DataFacadeTest extends TestCase
         bool $showDetailPanel = false,
         array $messages = [],
     ): Node {
-        RouteFactoryFixture::register();
+        RoutingFixture::register();
         EnglishLocaleFixture::install($messages);
 
         $module        = $this->createModuleWithPreferences([]);

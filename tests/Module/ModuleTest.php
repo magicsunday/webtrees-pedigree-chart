@@ -16,19 +16,21 @@ use Fisharebest\Webtrees\Contracts\UserInterface;
 use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Services\ChartService;
 use Fisharebest\Webtrees\Tree;
+use GuzzleHttp\Psr7\HttpFactory;
 use GuzzleHttp\Psr7\ServerRequest;
+use MagicSunday\Webtrees\ModuleBase\Testing\EnglishLocaleFixture;
+use MagicSunday\Webtrees\ModuleBase\Testing\RoutingFixture;
 use MagicSunday\Webtrees\PedigreeChart\Configuration;
 use MagicSunday\Webtrees\PedigreeChart\Facade\DataFacade;
 use MagicSunday\Webtrees\PedigreeChart\Module;
-use MagicSunday\Webtrees\PedigreeChart\Test\Support\EnglishLocaleFixture;
 use MagicSunday\Webtrees\PedigreeChart\Test\Support\ModuleSettingsFixtureTrait;
-use MagicSunday\Webtrees\PedigreeChart\Test\Support\RouteFactoryFixture;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\PreserveGlobalState;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseFactoryInterface;
 
 use function view;
 
@@ -47,7 +49,7 @@ final class ModuleTest extends TestCase
     #[Test]
     public function traitHelpersExposeExpectedValues(): void
     {
-        RouteFactoryFixture::register();
+        RoutingFixture::register();
 
         $chartService = self::createStub(ChartService::class);
         $module       = new Module($chartService, new DataFacade());
@@ -96,7 +98,7 @@ final class ModuleTest extends TestCase
     #[Test]
     public function theAdminActionStoresThePanelDefault(): void
     {
-        RouteFactoryFixture::register();
+        RoutingFixture::register([ResponseFactoryInterface::class => new HttpFactory()]);
         EnglishLocaleFixture::install();
 
         $module  = $this->createModuleWithPreferences([]);
@@ -123,7 +125,7 @@ final class ModuleTest extends TestCase
     #[Test]
     public function theAdminActionTakesThePanelDefaultBackWhenTheSwitchIsOff(): void
     {
-        RouteFactoryFixture::register();
+        RoutingFixture::register([ResponseFactoryInterface::class => new HttpFactory()]);
         EnglishLocaleFixture::install();
 
         $module = $this->createModuleWithPreferences(['default_showDetailPanel' => '1']);
@@ -146,7 +148,7 @@ final class ModuleTest extends TestCase
     #[Test]
     public function theAdminActionStoresEveryDefaultOfTheForm(): void
     {
-        RouteFactoryFixture::register();
+        RoutingFixture::register([ResponseFactoryInterface::class => new HttpFactory()]);
         EnglishLocaleFixture::install();
 
         $module  = $this->createModuleWithPreferences([]);
@@ -192,7 +194,7 @@ final class ModuleTest extends TestCase
     #[Test]
     public function postRedirectCarriesEveryRouteToggleParameter(): void
     {
-        RouteFactoryFixture::register();
+        RoutingFixture::register([ResponseFactoryInterface::class => new HttpFactory()]);
 
         $module  = $this->createModuleWithPreferences([]);
         $tree    = self::createStub(Tree::class);
@@ -259,7 +261,7 @@ final class ModuleTest extends TestCase
     #[PreserveGlobalState(false)]
     public function bootRegistersTheSharedViewsOfModuleBase(): void
     {
-        RouteFactoryFixture::register();
+        RoutingFixture::register();
 
         $module = new Module(self::createStub(ChartService::class), new DataFacade());
         $module->setName('webtrees-pedigree-chart');

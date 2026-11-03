@@ -16,8 +16,9 @@ use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Tree;
 use Fisharebest\Webtrees\View;
 use GuzzleHttp\Psr7\ServerRequest;
+use MagicSunday\Webtrees\ModuleBase\Testing\EnglishLocaleFixture;
+use MagicSunday\Webtrees\ModuleBase\Testing\MarkupFixture;
 use MagicSunday\Webtrees\PedigreeChart\Configuration;
-use MagicSunday\Webtrees\PedigreeChart\Test\Support\EnglishLocaleFixture;
 use MagicSunday\Webtrees\PedigreeChart\Test\Support\ModuleSettingsFixtureTrait;
 use MagicSunday\Webtrees\PedigreeChart\Test\Support\ViewFixture;
 use PHPUnit\Framework\Attributes\CoversNothing;
@@ -46,14 +47,14 @@ final class PageViewTest extends TestCase
     #[Test]
     public function showsTheHelpButtonWithItsPopoverInTheToolbar(): void
     {
-        $xpath = ViewFixture::xpathOf($this->render());
+        $xpath = MarkupFixture::xpathOf($this->render());
 
-        $button = ViewFixture::first(
+        $button = MarkupFixture::first(
             $xpath,
             '//div[contains(concat(" ", @class, " "), " btn-toolbar ")]//button[contains(concat(" ", @class, " "), " btn-help ")]'
         );
 
-        ViewFixture::first($xpath, '//div[@id="' . $button->getAttribute('aria-controls') . '"]');
+        MarkupFixture::first($xpath, '//div[@id="' . $button->getAttribute('aria-controls') . '"]');
 
         self::assertNotSame('', $button->getAttribute('aria-controls'));
     }
@@ -64,13 +65,13 @@ final class PageViewTest extends TestCase
     #[Test]
     public function showsTheHelpButtonWhenBothExportsAreHidden(): void
     {
-        $xpath = ViewFixture::xpathOf(
+        $xpath = MarkupFixture::xpathOf(
             $this->render('https://example.test/ajax', ['default_hidePngExport' => '1', 'default_hideSvgExport' => '1'])
         );
 
-        self::assertCount(0, ViewFixture::elements($xpath, '//button[@id="exportPNG" or @id="exportSVG"]'), 'both exports are hidden');
+        self::assertCount(0, MarkupFixture::elements($xpath, '//button[@id="exportPNG" or @id="exportSVG"]'), 'both exports are hidden');
 
-        ViewFixture::first(
+        MarkupFixture::first(
             $xpath,
             '//div[contains(concat(" ", @class, " "), " btn-toolbar ")]/div[contains(concat(" ", @class, " "), " btn-group ")]//button[contains(concat(" ", @class, " "), " btn-help ")]'
         );
@@ -84,14 +85,14 @@ final class PageViewTest extends TestCase
     #[Test]
     public function scopesTheToolbarStyleToTheFullscreenContainerOfThePage(): void
     {
-        $xpath  = ViewFixture::xpathOf($this->render());
-        $styles = ViewFixture::elements($xpath, '//style[contains(., ".btn-chart")]');
+        $xpath  = MarkupFixture::xpathOf($this->render());
+        $styles = MarkupFixture::elements($xpath, '//style[contains(., ".btn-chart")]');
 
         self::assertCount(1, $styles, 'the page carries exactly one style element with the toolbar rules');
         self::assertStringContainsString('.webtrees-pedigree-fullscreen-container .btn-chart {', $styles[0]->textContent);
         self::assertCount(
             1,
-            ViewFixture::elements($xpath, '//*[contains(concat(" ", @class, " "), " webtrees-pedigree-fullscreen-container ")]'),
+            MarkupFixture::elements($xpath, '//*[contains(concat(" ", @class, " "), " webtrees-pedigree-fullscreen-container ")]'),
             'the container that the rules are scoped to exists once'
         );
     }
@@ -104,9 +105,9 @@ final class PageViewTest extends TestCase
     public function keepsATranslatedLabelOfTheSubmitButtonInsideItsAttribute(): void
     {
         $text  = 'Say "more" &amp; <b>less</b>';
-        $xpath = ViewFixture::xpathOf($this->render('https://example.test/ajax', [], ['view' => $text]));
+        $xpath = MarkupFixture::xpathOf($this->render('https://example.test/ajax', [], ['view' => $text]));
 
-        self::assertSame($text, ViewFixture::first($xpath, '//input[@type="submit"]')->getAttribute('value'));
+        self::assertSame($text, MarkupFixture::first($xpath, '//input[@type="submit"]')->getAttribute('value'));
     }
 
     /**
@@ -141,8 +142,8 @@ final class PageViewTest extends TestCase
             'Center chart on this person'                           => 'Center <i>four</i> &amp; "w"',
         ];
 
-        $xpath = ViewFixture::xpathOf($this->render('https://example.test/ajax', [], $messages));
-        $panel = ViewFixture::first($xpath, '//aside[@id="webtrees-pedigree-detail-panel"]');
+        $xpath = MarkupFixture::xpathOf($this->render('https://example.test/ajax', [], $messages));
+        $panel = MarkupFixture::first($xpath, '//aside[@id="webtrees-pedigree-detail-panel"]');
 
         foreach (['webtrees-detail-panel', 'webtrees-pedigree-detail-panel'] as $class) {
             self::assertContains($class, explode(' ', $panel->getAttribute('class')), 'the panel carries the class ' . $class);
@@ -158,12 +159,12 @@ final class PageViewTest extends TestCase
         foreach ($parts as $part => $source) {
             self::assertSame(
                 $messages[$source],
-                trim(ViewFixture::first($xpath, '//aside[@id="webtrees-pedigree-detail-panel"]//*[@data-panel="' . $part . '"]')->textContent),
+                trim(MarkupFixture::first($xpath, '//aside[@id="webtrees-pedigree-detail-panel"]//*[@data-panel="' . $part . '"]')->textContent),
                 'the part ' . $part . ' shows its translated text as text'
             );
         }
 
-        self::assertCount(0, ViewFixture::elements($xpath, '//aside[@id="webtrees-pedigree-detail-panel"]//i'), 'no translated text is read as markup');
+        self::assertCount(0, MarkupFixture::elements($xpath, '//aside[@id="webtrees-pedigree-detail-panel"]//i'), 'no translated text is read as markup');
     }
 
     /**
