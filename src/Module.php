@@ -58,7 +58,7 @@ final class Module extends PedigreeChartModule implements ModuleAssetUrlInterfac
 
     public const string CUSTOM_AUTHOR = 'Rico Sonntag';
 
-    public const string CUSTOM_VERSION = '2.7.5-dev';
+    public const string CUSTOM_VERSION = '2.8.0';
 
     /**
      * Webtrees renders this URL as the "For more information, see …" link
