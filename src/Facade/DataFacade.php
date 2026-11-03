@@ -50,18 +50,6 @@ final class DataFacade
     private Configuration $configuration;
 
     /**
-     * Monotonic counter assigning positive request-scope IDs to real-individual
-     * nodes.
-     */
-    private int $nodeIdCounter = 0;
-
-    /**
-     * Monotonic counter assigning negative request-scope IDs to add-parent
-     * placeholder nodes.
-     */
-    private int $placeholderIdCounter = 0;
-
-    /**
      * The resolver of the fact rows, built on first use and shared by every node
      * of the request.
      */
@@ -234,7 +222,6 @@ final class DataFacade
 
         $treeData = new NodeData();
         $treeData
-            ->setId(--$this->placeholderIdCounter)
             ->setGeneration($generation)
             ->setXref('')
             ->setUrl($url)
@@ -264,7 +251,6 @@ final class DataFacade
 
         $treeData = new NodeData();
         $treeData
-            ->setId(++$this->nodeIdCounter)
             ->setGeneration($generation)
             ->setXref($individual->xref())
             ->setUrl($individual->url())

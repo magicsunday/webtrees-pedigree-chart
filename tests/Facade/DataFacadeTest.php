@@ -409,6 +409,27 @@ final class DataFacadeTest extends TestCase
     }
 
     /**
+     * The chart assigns the identity of a node itself while it builds the
+     * hierarchy, so neither a person nor a placeholder sets an id in its data. The
+     * shared library either leaves the id out or sends its default of zero.
+     */
+    #[Test]
+    public function handsOverNoIdForPersonsAndPlaceholders(): void
+    {
+        $person = $this->individual('Anna <span class="SURN">Schmidt</span>', 'Anna Schmidt', '', 'C1', null, true);
+
+        $tree = $this->builtTree($person, 2, true);
+
+        $nodes = [$tree, ...$this->parentsOf($tree)];
+
+        self::assertCount(3, $nodes);
+
+        foreach ($this->dataOf($nodes) as $data) {
+            self::assertSame(0, $data['id'] ?? 0);
+        }
+    }
+
+    /**
      * The conditions under which the add-parent placeholders are offered for a
      * person on the second generation, with each operand flipped on its own and
      * for a missing father as well as a missing mother.
