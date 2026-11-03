@@ -102,7 +102,7 @@ msgid "Ctrl + scroll"
 msgstr "Ctrl + drsenje"
 
 #: src/Facade/DataFacade.php:292
-msgctxt "lifetime label"
+msgctxt "webtrees-pedigree-chart"
 msgid "Deceased"
 msgstr "Pokojni/a"
 
