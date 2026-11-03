@@ -11,13 +11,9 @@ declare(strict_types=1);
 
 namespace MagicSunday\Webtrees\PedigreeChart\Test\Module;
 
-use Aura\Router\Map;
-use Aura\Router\Route;
 use Fig\Http\Message\RequestMethodInterface;
 use Fisharebest\Webtrees\Auth;
-use Fisharebest\Webtrees\Contracts\ContainerInterface;
 use Fisharebest\Webtrees\Contracts\IndividualFactoryInterface;
-use Fisharebest\Webtrees\Contracts\RouteFactoryInterface;
 use Fisharebest\Webtrees\Contracts\UserInterface;
 use Fisharebest\Webtrees\Date;
 use Fisharebest\Webtrees\DB;
@@ -37,8 +33,8 @@ use GuzzleHttp\Psr7\HttpFactory;
 use GuzzleHttp\Psr7\ServerRequest;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Collection;
-use LogicException;
 use MagicSunday\Webtrees\ModuleBase\Testing\EnglishLocaleFixture;
+use MagicSunday\Webtrees\ModuleBase\Testing\RoutingFixture;
 use MagicSunday\Webtrees\PedigreeChart\Configuration;
 use MagicSunday\Webtrees\PedigreeChart\Facade\DataFacade;
 use MagicSunday\Webtrees\PedigreeChart\Model\Node;
@@ -54,7 +50,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 use function array_intersect_key;
-use function http_build_query;
 use function json_decode;
 use function ksort;
 use function parse_str;
@@ -402,53 +397,13 @@ final class ModuleRequestTest extends TestCase
      */
     private function registerContainer(): void
     {
-        $routeFactory = new class implements RouteFactoryInterface {
-            public function route(string $route_name, array $parameters = []): string
-            {
-                return '/route/' . $route_name . '?' . http_build_query($parameters);
-            }
-
-            public function routeMap(): Map
-            {
-                return new Map(new Route());
-            }
-        };
-
         $theme = self::createStub(ModuleThemeInterface::class);
         $theme->method('stylesheets')->willReturn(['/theme.css']);
 
-        $services = [
-            RouteFactoryInterface::class  => $routeFactory,
+        RoutingFixture::register([
             ModuleThemeInterface::class   => $theme,
             ServerRequestInterface::class => new ServerRequest(RequestMethodInterface::METHOD_GET, '/'),
-        ];
-
-        $container = new readonly class($services) implements ContainerInterface {
-            /**
-             * @param array<string, object> $services The services by id
-             */
-            public function __construct(private array $services)
-            {
-            }
-
-            public function get(string $id): object
-            {
-                return $this->services[$id] ?? throw new LogicException('No service ' . $id);
-            }
-
-            public function has(string $id): bool
-            {
-                return isset($this->services[$id]);
-            }
-
-            public function set(string $id, object $object): static
-            {
-                return $this;
-            }
-        };
-
-        Registry::routeFactory($routeFactory);
-        Registry::container($container);
+        ]);
     }
 
     /**
