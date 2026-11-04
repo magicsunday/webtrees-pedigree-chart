@@ -357,9 +357,10 @@ release-publish:
 		exit 1; \
 	fi
 	@echo -e "${FYELLOW}[publish]${FRESET} Pushing to GitHub..."
-	# Name the release tag explicitly. --tags would also publish every other local
-	# tag, and the immutable-tags ruleset makes a published tag impossible to remove.
-	@git push origin main refs/tags/$(VERSION)
+	# Name the release tag explicitly and switch off implicit tag following. --tags
+	# and push.followTags would also publish other local tags, and the immutable-tags
+	# ruleset makes a published tag impossible to remove.
+	@git push --no-follow-tags origin main refs/tags/$(VERSION)
 	@notes_tmp=$$(mktemp); \
 	{ \
 		echo "> [!IMPORTANT]"; \
