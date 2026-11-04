@@ -250,6 +250,9 @@ dist-smoke:
 			echo "Error: $$prefix/ found in zip"; exit 1; \
 		fi; \
 	done; \
+	if echo "$$paths" | grep -qE '^deptrac\.ya?ml$$'; then \
+		echo "Error: deptrac.yaml found in zip"; exit 1; \
+	fi; \
 	if echo "$$paths" | grep -qxF jsconfig.json; then \
 		echo "Error: jsconfig.json found in zip"; exit 1; \
 	fi
