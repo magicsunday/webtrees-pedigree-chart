@@ -239,6 +239,9 @@ dist-smoke:
 		vendor/magicsunday/webtrees-module-base/src/Model/ \
 		vendor/magicsunday/webtrees-module-base/src/Module/ \
 		vendor/magicsunday/webtrees-module-base/src/Processor/ \
+		vendor/magicsunday/webtrees-module-base/resources/views/detail-panel.phtml \
+		vendor/magicsunday/webtrees-module-base/resources/views/help-popover.phtml \
+		vendor/magicsunday/webtrees-module-base/resources/views/toolbar-style.phtml \
 	; do \
 		echo "$$paths" | grep -qE "^$$prefix" || { echo "Error: required prefix has no entries in zip: $$prefix"; exit 1; }; \
 	done; \
@@ -253,8 +256,8 @@ dist-smoke:
 	if echo "$$paths" | grep -qE '^deptrac\.ya?ml$$'; then \
 		echo "Error: deptrac.yaml found in zip"; exit 1; \
 	fi; \
-	if echo "$$paths" | grep -qxF jsconfig.json; then \
-		echo "Error: jsconfig.json found in zip"; exit 1; \
+	if echo "$$paths" | grep -qE '(^|/)tsconfig\.json$$'; then \
+		echo "Error: tsconfig.json found in zip"; exit 1; \
 	fi
 	@unzip -p $(MODULE_NAME).zip module.php | grep -qF 'MagicSunday\\$(SCOPE_NS)\\Webtrees\\ModuleBase' \
 		|| { echo "Error: module.php in zip is missing prefixed namespace ($(SCOPE_NS))"; exit 1; }

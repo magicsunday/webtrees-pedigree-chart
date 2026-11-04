@@ -15,7 +15,6 @@
 /deptrac.yaml          export-ignore
 /infection.json5       export-ignore
 /jest.config.mjs       export-ignore
-/jsconfig.json         export-ignore
 /Make/                 export-ignore
 /Makefile              export-ignore
 /package.json          export-ignore
