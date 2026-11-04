@@ -423,7 +423,7 @@ release-bump:
 	@$(MAKE) build-js-fresh
 	@git add src/Module.php package.json composer.json package-lock.json resources/js/
 	@git commit -m "Bump version to $(NEXT)-dev"
-	@git push origin main
+	@git push --no-follow-tags origin main
 	@echo -e "${FGREEN} ✔${FRESET} Version bumped to $(NEXT)-dev"
 
 ## Remove leftover release artifacts
