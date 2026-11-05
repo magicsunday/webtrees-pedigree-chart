@@ -182,6 +182,42 @@ final class DistSmokeTest extends TestCase
     }
 
     /**
+     * A module.php without the scoped module-base namespace fails the smoke test.
+     */
+    #[Test]
+    public function rejectsAnArchiveWithoutTheScopedNamespace(): void
+    {
+        $this->buildArchive(['module.php' => "<?php\n"]);
+
+        [$status, $output] = $this->smoke();
+
+        self::assertNotSame(0, $status);
+        self::assertStringContainsString('Error: module.php in zip is missing prefixed namespace', $output);
+        self::assertStringNotContainsString('dist-smoke passed', $output);
+    }
+
+    /**
+     * A bundled module-base source directory without a PHP file fails the smoke test after the extraction.
+     */
+    #[Test]
+    #[DataProvider('sourceDirectories')]
+    public function rejectsAnArchiveWithASourceDirectoryWithoutPhpFiles(string $directory): void
+    {
+        $sources = 'vendor/magicsunday/webtrees-module-base/src/' . $directory . '/';
+
+        $this->buildArchive([$sources . 'README.md' => "text\n"], [$sources . 'Entry.php']);
+
+        [$status, $output] = $this->smoke();
+
+        self::assertNotSame(0, $status);
+        self::assertStringContainsString(
+            'Error: bundled module-base src/' . $directory . ' has no PHP files in extracted zip',
+            $output
+        );
+        self::assertStringNotContainsString('dist-smoke passed', $output);
+    }
+
+    /**
      * @return array<string, array{string}>
      */
     public static function typeScriptConfigurations(): array
@@ -233,6 +269,19 @@ final class DistSmokeTest extends TestCase
             'character in composer file' => ['composerxjson'],
             'nested deptrac file'        => ['resources/deptrac.yaml'],
             'text after deptrac file'    => ['deptrac.yaml.dist'],
+        ];
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function sourceDirectories(): array
+    {
+        return [
+            'contracts'  => ['Contract'],
+            'models'     => ['Model'],
+            'modules'    => ['Module'],
+            'processors' => ['Processor'],
         ];
     }
 
