@@ -6,11 +6,11 @@
 
 .PHONY: lint lint-fix
 
-lint: .logo ## Run Biome on JavaScript sources.
+lint: .logo ## Run Biome lint on JavaScript sources.
 	@$(COMPOSE_RUN) npm run lint
-	@echo -e "${FGREEN} ✔${FRESET} Biome passed"
+	@echo -e "${FGREEN} ✔${FRESET} Biome lint passed"
 
-lint-fix: .logo ## Run Biome with auto-fix on JavaScript sources.
+lint-fix: .logo ## Run Biome lint with auto-fix on JavaScript sources.
 	@$(COMPOSE_RUN) npm run lint:fix
 	@echo -e "${FGREEN} ✔${FRESET} Biome auto-fix applied"
 
@@ -18,5 +18,6 @@ lint-fix: .logo ## Run Biome with auto-fix on JavaScript sources.
 
 .PHONY: test
 
-test: .logo ## Run the JavaScript unit tests.
+test: .logo ## Run JavaScript unit tests.
 	@$(COMPOSE_RUN) npm test
+	@echo -e "${FGREEN} ✔${FRESET} Tests passed"
