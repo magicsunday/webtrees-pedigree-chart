@@ -20,11 +20,10 @@ use function array_filter;
 use function array_values;
 use function dirname;
 use function explode;
-use function proc_close;
-use function proc_open;
+use function preg_match_all;
+use function preg_quote;
 use function shell_exec;
 use function str_contains;
-use function stream_get_contents;
 use function substr_count;
 use function sys_get_temp_dir;
 use function trim;
@@ -39,6 +38,19 @@ use function trim;
 #[CoversNothing]
 final class NodeUserTest extends TestCase
 {
+    /**
+     * Runs make in the checkout of the module.
+     */
+    private ProcessRunner $processRunner;
+
+    /**
+     * Creates the runner of the make dry runs.
+     */
+    protected function setUp(): void
+    {
+        $this->processRunner = new ProcessRunner();
+    }
+
     /**
      * A target that writes into the checkout runs npm as the numeric user and group of the caller,
      * so no root-owned file lands in the bind mount. The user, the environment and the service name
@@ -110,27 +122,40 @@ final class NodeUserTest extends TestCase
 
     /**
      * The lang stages form a dependency line, so extract runs before merge, merge before the fuzzy resolver and
-     * the resolver before compile, also under a parallel make. Sibling prerequisites would let the stages overlap.
+     * the resolver before compile, also under a parallel make. Sibling prerequisites would let the stages overlap,
+     * and a dry run cannot show that, because it prints the recipes in the order the prerequisites are listed. So
+     * the test reads the prerequisites from the make database, where each stage has exactly its predecessor.
      */
     #[Test]
-    public function runsTheLangStagesInOrderUnderAParallelMake(): void
+    public function chainsTheLangStagesAsADependencyLine(): void
     {
-        [$status, $output] = $this->dryRun('lang-compile', ['--always-make', '--jobs=4']);
+        [$status, $output] = $this->dryRun('lang-compile', ['--print-data-base']);
 
         self::assertSame(0, $status);
 
-        $extract = strpos($output, 'xgettext');
-        $merge   = strpos($output, 'msgmerge');
-        $resolve = strpos($output, '.build/bin/resolve-fuzzy');
-        $compile = strpos($output, 'msgfmt');
+        $prerequisites = [];
 
-        self::assertIsInt($extract);
-        self::assertIsInt($merge);
-        self::assertIsInt($resolve);
-        self::assertIsInt($compile);
-        self::assertLessThan($merge, $extract);
-        self::assertLessThan($resolve, $merge);
-        self::assertLessThan($compile, $resolve);
+        foreach (['lang-compile', 'lang-resolve-fuzzy', 'lang-merge', 'lang-extract'] as $stage) {
+            self::assertSame(
+                1,
+                preg_match_all('/^' . preg_quote($stage, '/') . ': ([^=\n]*)$/m', $output, $matches),
+                $stage
+            );
+
+            self::assertArrayHasKey(0, $matches[1]);
+
+            $prerequisites[$stage] = $matches[1][0];
+        }
+
+        self::assertSame(
+            [
+                'lang-compile'       => 'lang-resolve-fuzzy',
+                'lang-resolve-fuzzy' => 'lang-merge',
+                'lang-merge'         => 'lang-extract',
+                'lang-extract'       => 'resources/lang/messages.pot',
+            ],
+            $prerequisites
+        );
     }
 
     /**
@@ -205,24 +230,10 @@ final class NodeUserTest extends TestCase
      */
     private function dryRun(string $target, array $options = []): array
     {
-        $process = proc_open(
+        return $this->processRunner->execute(
             ['make', '--dry-run', ...$options, $target],
-            [1 => ['pipe', 'w'], 2 => ['pipe', 'w']],
-            $pipes,
             dirname(__DIR__, 2),
             ['PATH' => '/usr/local/bin:/usr/bin:/bin', 'HOME' => sys_get_temp_dir()]
         );
-
-        self::assertIsResource($process);
-
-        $standardOutput = $pipes[1] ?? null;
-        $standardError  = $pipes[2] ?? null;
-
-        self::assertIsResource($standardOutput);
-        self::assertIsResource($standardError);
-
-        $output = stream_get_contents($standardOutput) . stream_get_contents($standardError);
-
-        return [proc_close($process), $output];
     }
 }
