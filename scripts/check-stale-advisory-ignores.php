@@ -18,9 +18,9 @@ namespace MagicSunday\Webtrees\PedigreeChart\Scripts;
  * Usage: php check-stale-advisory-ignores.php <composer.json> <audit.json>
  *
  * The audit file is the output of `composer audit --format=json`. Composer lists the advisories that an ignore
- * entry suppresses under "ignored-advisories", grouped by package. The keys of ignore-id are compared with the
- * "advisoryId" values of that list, so an entry has to be an advisory id (PKSA-...). An entry keyed by a CVE or a
- * remote id never matches and is reported as stale.
+ * entry suppresses under "ignored-advisories", grouped by package. The ignored ids, which are the keys of ignore-id
+ * or the values of a plain list, are compared with the "advisoryId" values of that list, so an entry has to be an
+ * advisory id (PKSA-...). An entry keyed by a CVE or a remote id never matches and is reported as stale.
  *
  * Exit status: 0 when every ignored id still applies, 1 when at least one is stale, 2 when an input cannot be read.
  */
