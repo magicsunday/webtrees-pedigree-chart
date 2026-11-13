@@ -22,16 +22,14 @@ parameters:
     ignoreErrors:
         # symplify forbiddenTrait bans traits wholesale. ChartTrait and
         # ConfigTrait are the module's own composition of the module-base
-        # sharing traits, and ModuleSettingsFixtureTrait and
-        # RealTreeFixtureTrait are the fixtures that several test classes
-        # share, they build a module or a real tree through the test case.
-        # All of them are a deliberate house idiom.
+        # sharing traits, and ModuleSettingsFixtureTrait is the fixture that
+        # several test classes share, it builds a module through the test
+        # case. All of them are a deliberate house idiom.
         -
             identifier: symplify.forbiddenTrait
             paths:
                 - src/Module/ChartTrait.php
                 - src/Module/ConfigTrait.php
-                - tests/Support/RealTreeFixtureTrait.php
                 - tests/Support/ModuleSettingsFixtureTrait.php
 
         # The module chains DataFacade::setConfiguration() when it wires the

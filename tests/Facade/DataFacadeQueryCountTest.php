@@ -23,12 +23,12 @@ use Fisharebest\Webtrees\Site;
 use Fisharebest\Webtrees\Tree;
 use GuzzleHttp\Psr7\ServerRequest;
 use MagicSunday\Webtrees\ModuleBase\Processor\ImageProcessor;
+use MagicSunday\Webtrees\ModuleBase\Support\MediaPreloader;
+use MagicSunday\Webtrees\ModuleBase\Testing\RealTreeFixture;
 use MagicSunday\Webtrees\PedigreeChart\Configuration;
 use MagicSunday\Webtrees\PedigreeChart\Facade\DataFacade;
 use MagicSunday\Webtrees\PedigreeChart\Model\Node;
 use MagicSunday\Webtrees\PedigreeChart\Module;
-use MagicSunday\Webtrees\PedigreeChart\Support\MediaPreloader;
-use MagicSunday\Webtrees\PedigreeChart\Test\Support\RealTreeFixtureTrait;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -72,13 +72,10 @@ use const JSON_THROW_ON_ERROR;
  */
 #[CoversClass(DataFacade::class)]
 #[UsesClass(Configuration::class)]
-#[UsesClass(MediaPreloader::class)]
 #[UsesClass(Module::class)]
 #[UsesClass(Node::class)]
 final class DataFacadeQueryCountTest extends TestCase
 {
-    use RealTreeFixtureTrait;
-
     /**
      * The number of ancestor generations of the pedigree, which is the most that the chart shows.
      */
@@ -108,7 +105,7 @@ final class DataFacadeQueryCountTest extends TestCase
     {
         parent::setUp();
 
-        $this->bootRealWebtrees();
+        RealTreeFixture::boot();
 
         DB::table('module')->insert(['module_name' => 'webtrees-pedigree-chart']);
 
@@ -128,7 +125,7 @@ final class DataFacadeQueryCountTest extends TestCase
         Registry::cache(new CacheFactory());
 
         $this->removeMediaFiles();
-        $this->restoreMinimalDatabase();
+        RealTreeFixture::restoreMinimalDatabase();
 
         parent::tearDown();
     }
@@ -245,7 +242,7 @@ final class DataFacadeQueryCountTest extends TestCase
 
         $lines[] = '0 TRLR';
 
-        $tree = $this->importGedcom(implode("\n", $lines), 'gap');
+        $tree = RealTreeFixture::importGedcom(implode("\n", $lines), 'gap');
 
         $tree->setPreference('SHOW_HIGHLIGHT_IMAGES', '1');
         $tree->setPreference('HIDE_LIVE_PEOPLE', '0');
@@ -268,7 +265,7 @@ final class DataFacadeQueryCountTest extends TestCase
     #[Test]
     public function noMediaBeyondTheLastGenerationIsLoaded(): void
     {
-        $tree = $this->importGedcom(
+        $tree = RealTreeFixture::importGedcom(
             implode("\n", [
                 '0 HEAD',
                 '0 @1@ INDI',
@@ -443,7 +440,7 @@ final class DataFacadeQueryCountTest extends TestCase
 
         $lines[] = '0 TRLR';
 
-        $tree = $this->importGedcom(implode("\n", $lines), 'pedigree');
+        $tree = RealTreeFixture::importGedcom(implode("\n", $lines), 'pedigree');
 
         $tree->setPreference('HIDE_LIVE_PEOPLE', '1');
         $tree->setPreference('SHOW_LIVING_NAMES', (string) Auth::PRIV_PRIVATE);
