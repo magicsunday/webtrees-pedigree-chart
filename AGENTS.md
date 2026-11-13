@@ -10,6 +10,7 @@ This repository hosts the webtrees pedigree chart module — an interactive SVG 
   cd app/vendor/magicsunday/webtrees-pedigree-chart
   ```
 - JS bundles are built via the node Docker container from the module directory: `make install`, `make build`.
+- `compose.yaml` bind-mounts the sibling clone `../webtrees-chart-lib` into the `node` service for every `docker compose run`, because the chart-lib dev symlink of `make link-chart-lib` has to resolve inside the container. Compose has no way to skip a bind mount whose source is missing, so Docker creates the missing `../webtrees-chart-lib` as a root-owned empty directory next to the checkout. It is harmless and unused as long as the dev symlink is not active. Remove it with `rmdir`, which the owner of the checkout may do because the parent directory is theirs, before cloning the real chart-lib there, because `make link-chart-lib` refuses a directory without `package.json`.
 - After PHP or JS changes visible in the browser: `docker restart webtrees-phpfpm-1`.
 - After JS changes, always verify in the browser via Playwright before claiming success.
 
