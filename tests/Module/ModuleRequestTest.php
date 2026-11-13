@@ -40,6 +40,7 @@ use MagicSunday\Webtrees\PedigreeChart\Facade\DataFacade;
 use MagicSunday\Webtrees\PedigreeChart\Model\Node;
 use MagicSunday\Webtrees\PedigreeChart\Module;
 use MagicSunday\Webtrees\PedigreeChart\Support\ContextText;
+use MagicSunday\Webtrees\PedigreeChart\Support\MediaPreloader;
 use MagicSunday\Webtrees\PedigreeChart\Test\Support\ModuleSettingsFixtureTrait;
 use MagicSunday\Webtrees\PedigreeChart\Test\Support\ViewFixture;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -71,6 +72,7 @@ use const PHP_URL_QUERY;
 #[CoversClass(Module::class)]
 #[UsesClass(Configuration::class)]
 #[UsesClass(DataFacade::class)]
+#[UsesClass(MediaPreloader::class)]
 #[UsesClass(Node::class)]
 #[UsesClass(ContextText::class)]
 final class ModuleRequestTest extends TestCase

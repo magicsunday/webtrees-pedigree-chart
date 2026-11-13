@@ -31,11 +31,11 @@ msgstr "优先缩写名字"
 msgid "Abbreviate surnames first"
 msgstr "优先缩写姓氏"
 
-#: src/Facade/DataFacade.php:220
+#: src/Facade/DataFacade.php:258
 msgid "Add a father"
 msgstr ""
 
-#: src/Facade/DataFacade.php:221
+#: src/Facade/DataFacade.php:259
 msgid "Add a mother"
 msgstr ""
 
@@ -47,7 +47,7 @@ msgstr "自动（根据族谱的姓氏传统）"
 msgid "Behavior"
 msgstr "行为"
 
-#: src/Facade/DataFacade.php:290
+#: src/Facade/DataFacade.php:328
 #, php-format
 msgid "Born: %s"
 msgstr "生于: %s"
@@ -96,7 +96,7 @@ msgstr ""
 msgid "Ctrl + scroll"
 msgstr "Ctrl + 滚动"
 
-#: src/Facade/DataFacade.php:292
+#: src/Facade/DataFacade.php:330
 msgctxt "webtrees-pedigree-chart"
 msgid "Deceased"
 msgstr "已故"
@@ -109,7 +109,7 @@ msgstr ""
 msgid "Details panel"
 msgstr ""
 
-#: src/Facade/DataFacade.php:291
+#: src/Facade/DataFacade.php:329
 #, php-format
 msgid "Died: %s"
 msgstr "逝于: %s"
