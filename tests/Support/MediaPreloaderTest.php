@@ -618,6 +618,28 @@ final class MediaPreloaderTest extends TestCase
     }
 
     /**
+     * Only an editor sees pending changes, so the lookup of the pending changes of the media objects is
+     * left out for everybody else.
+     */
+    #[Test]
+    public function aViewerWhoIsNoEditorSendsNoPendingLookup(): void
+    {
+        $tree = $this->importPrivacyTree();
+
+        Auth::logout();
+        Registry::cache(new CacheFactory());
+
+        $people     = $this->people($tree, ['1']);
+        $statements = $this->statementsOf(fn () => (new MediaPreloader())->preload($tree, $people));
+
+        self::assertNotSame([], $statements);
+
+        foreach ($statements as $statement) {
+            self::assertStringNotContainsString('"xref" in', $statement['query']);
+        }
+    }
+
+    /**
      * A tree without highlight images has no lookup of media objects.
      */
     #[Test]

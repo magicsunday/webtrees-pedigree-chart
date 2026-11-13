@@ -204,6 +204,122 @@ final class DataFacadeQueryCountTest extends TestCase
     }
 
     /**
+     * A person without a parent family does not end the search for the people of the next generation, so
+     * the media objects of the ancestors that come after it are loaded by the preload as well. Here the
+     * father has no parents and the parents of the mother come after him.
+     */
+    #[Test]
+    public function aPersonWithoutParentsDoesNotHideThePeopleThatFollowIt(): void
+    {
+        $lines = ['0 HEAD', '0 @1@ INDI', '1 NAME Child /Test/', '1 FAMC @101@', '1 OBJE @201@'];
+
+        foreach ([2 => ['', '202'], 3 => ['@102@', '203'], 4 => ['', '204'], 5 => ['', '205']] as $person => [$parents, $media]) {
+            $lines[] = '0 @' . $person . '@ INDI';
+            $lines[] = '1 NAME Person' . $person . ' /Test/';
+            $lines[] = '1 SEX ' . (($person % 2 === 0) ? 'M' : 'F');
+
+            if ($parents !== '') {
+                $lines[] = '1 FAMC ' . $parents;
+            }
+
+            $lines[] = '1 OBJE @' . $media . '@';
+        }
+
+        $lines = [
+            ...$lines,
+            '0 @101@ FAM',
+            '1 HUSB @2@',
+            '1 WIFE @3@',
+            '1 CHIL @1@',
+            '0 @102@ FAM',
+            '1 HUSB @4@',
+            '1 WIFE @5@',
+            '1 CHIL @3@',
+        ];
+
+        foreach ([201, 202, 203, 204, 205] as $media) {
+            $lines[] = '0 @' . $media . '@ OBJE';
+            $lines[] = '1 FILE m' . $media . '.jpg';
+            $lines[] = '2 FORM jpg';
+        }
+
+        $lines[] = '0 TRLR';
+
+        $tree = $this->importGedcom(implode("\n", $lines), 'gap');
+
+        $tree->setPreference('SHOW_HIGHLIGHT_IMAGES', '1');
+        $tree->setPreference('HIDE_LIVE_PEOPLE', '0');
+
+        $statements = $this->statements($tree, 3);
+
+        $mediaStatements = array_filter($statements, static fn (array $statement): bool => str_contains($statement['query'], 'from "wt_media"'));
+
+        self::assertNotSame([], $mediaStatements);
+
+        foreach ($mediaStatements as $statement) {
+            self::assertStringContainsString('"m_id" in', $statement['query'], 'No media object is looked up on its own.');
+        }
+    }
+
+    /**
+     * Nothing beyond the last configured generation is read. The media objects of the people of the
+     * generation after it are not looked up.
+     */
+    #[Test]
+    public function noMediaBeyondTheLastGenerationIsLoaded(): void
+    {
+        $tree = $this->importGedcom(
+            implode("\n", [
+                '0 HEAD',
+                '0 @1@ INDI',
+                '1 NAME Child /Test/',
+                '1 FAMC @101@',
+                '1 OBJE @201@',
+                '0 @2@ INDI',
+                '1 NAME Father /Test/',
+                '1 SEX M',
+                '1 FAMC @102@',
+                '1 OBJE @202@',
+                '0 @3@ INDI',
+                '1 NAME Grandfather /Test/',
+                '1 SEX M',
+                '1 OBJE @203@',
+                '0 @101@ FAM',
+                '1 HUSB @2@',
+                '1 CHIL @1@',
+                '0 @102@ FAM',
+                '1 HUSB @3@',
+                '1 CHIL @2@',
+                '0 @201@ OBJE',
+                '1 FILE m201.jpg',
+                '2 FORM jpg',
+                '0 @202@ OBJE',
+                '1 FILE m202.jpg',
+                '2 FORM jpg',
+                '0 @203@ OBJE',
+                '1 FILE m203.jpg',
+                '2 FORM jpg',
+                '0 TRLR',
+            ]),
+            'beyond',
+        );
+
+        $tree->setPreference('SHOW_HIGHLIGHT_IMAGES', '1');
+        $tree->setPreference('HIDE_LIVE_PEOPLE', '0');
+
+        $bindings = [];
+
+        foreach ($this->statements($tree, 2) as $statement) {
+            if (str_contains($statement['query'], 'from "wt_media"')) {
+                $bindings = [...$bindings, ...$statement['bindings']];
+            }
+        }
+
+        self::assertContains('202', $bindings);
+        self::assertNotContains('203', $bindings);
+    }
+
+    /**
      * The images of the chart are those that the highlight image of the person yields without any
      * preload, for the administrator and for a visitor. Half of the people have the file of their image
      * on disk, so the chart shows a thumbnail for them and the silhouette for the others.
