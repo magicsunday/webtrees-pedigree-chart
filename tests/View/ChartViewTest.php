@@ -68,7 +68,7 @@ final class ChartViewTest extends TestCase
 
     /**
      * Every JSON value of the script that can carry text is written with the tag, ampersand and quote
-     * characters as escapes, the labels, the style sheets, the asset URL and the abbreviation as well as
+     * characters as escapes, the labels, the asset URL and the abbreviation as well as
      * the chart data. The generated element id is not JSON and stays as it is.
      */
     #[Test]
@@ -80,8 +80,7 @@ final class ChartViewTest extends TestCase
         $output = $this->render(
             [],
             [],
-            ['labels' => ['zoom' => $hostile, 'move' => '&'], 'nameAbbreviation' => $hostile],
-            [$hostile]
+            ['labels' => ['zoom' => $hostile, 'move' => '&'], 'nameAbbreviation' => $hostile]
         );
 
         self::assertStringNotContainsString('<!--', $output);
@@ -89,7 +88,6 @@ final class ChartViewTest extends TestCase
         self::assertStringContainsString('asset=1\\u0026hash=2', $output);
         self::assertStringContainsString('"zoom":"' . $escaped . '"', $output);
         self::assertStringContainsString('"move":"\\u0026"', $output);
-        self::assertStringContainsString('cssFiles: ["' . $escaped . '"]', $output);
         self::assertStringContainsString('nameAbbreviation: "' . $escaped . '"', $output);
         self::assertStringContainsString('-container-abc', $output);
     }
@@ -119,13 +117,11 @@ final class ChartViewTest extends TestCase
      * @param array<string, list<array<string, string>>> $chartData         The chart data tree
      * @param array<string, string>                      $preferences       The module preferences of the test
      * @param array<string, mixed>                       $chartParamsChange Values that replace the chart parameters
-     * @param list<string>                               $stylesheets       The style sheets of the SVG export
      */
     private function render(
         array $chartData,
         array $preferences = [],
         array $chartParamsChange = [],
-        array $stylesheets = [],
     ): string {
         $javascript    = 'https://example.test/pedigree-chart.js?asset=1&hash=2';
         $configuration = new Configuration(
@@ -139,8 +135,7 @@ final class ChartViewTest extends TestCase
             'labels'           => ['zoom' => 'Zoom', 'move' => 'Move'],
             ...$chartParamsChange,
         ];
-        $exportStylesheets = $stylesheets;
-        $data              = $chartData;
+        $data = $chartData;
 
         View::stack('javascript');
 

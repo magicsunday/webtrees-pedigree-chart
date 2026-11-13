@@ -18,7 +18,6 @@ use MagicSunday\Webtrees\PedigreeChart\Model\Node;
  * @var Configuration $configuration
  * @var string        $id                The unique chart ID
  * @var array         $chartParams
- * @var string[]      $exportStylesheets A list of stylesheets used by SVG export
  * @var Node|null     $data              The chart data tree, JSON-serialized into the chart "data" option
  */
 
@@ -40,7 +39,6 @@ import(<?php echo json_encode($javascript, $jsonFlags); ?>).then(({ PedigreeChar
         {
             labels: <?php echo json_encode($chartParams['labels'], $jsonFlags); ?>,
             rtl: <?php echo json_encode($chartParams['rtl'], $jsonFlags); ?>,
-            cssFiles: <?php echo json_encode($exportStylesheets, $jsonFlags); ?>,
 
             get treeLayout() {
                 return opts.treeLayout ?? <?php echo json_encode($configuration->getLayout(), $jsonFlags); ?>;
