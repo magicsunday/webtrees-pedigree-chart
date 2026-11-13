@@ -20,7 +20,6 @@ use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Module\ModuleChartInterface;
 use Fisharebest\Webtrees\Module\ModuleConfigInterface;
 use Fisharebest\Webtrees\Module\ModuleCustomInterface;
-use Fisharebest\Webtrees\Module\ModuleThemeInterface;
 use Fisharebest\Webtrees\Module\PedigreeChartModule;
 use Fisharebest\Webtrees\Registry;
 use Fisharebest\Webtrees\Services\ChartService;
@@ -193,13 +192,12 @@ final class Module extends PedigreeChartModule implements ModuleAssetUrlInterfac
             return $this->viewResponse(
                 $this->name() . '::modules/pedigree-chart/chart',
                 [
-                    'id'                => uniqid(),
-                    'data'              => $this->dataFacade->createTreeStructure($individual),
-                    'configuration'     => $this->configuration,
-                    'chartParams'       => $this->getChartParameters($tree),
-                    'exportStylesheets' => $this->getExportStylesheets(),
-                    'stylesheets'       => $this->getStylesheets(),
-                    'javascript'        => $this->assetUrl('js/pedigree-chart-' . self::CUSTOM_VERSION . '.min.js'),
+                    'id'            => uniqid(),
+                    'data'          => $this->dataFacade->createTreeStructure($individual),
+                    'configuration' => $this->configuration,
+                    'chartParams'   => $this->getChartParameters($tree),
+                    'stylesheets'   => $this->getStylesheets(),
+                    'javascript'    => $this->assetUrl('js/pedigree-chart-' . self::CUSTOM_VERSION . '.min.js'),
                 ]
             );
         }
@@ -272,20 +270,5 @@ final class Module extends PedigreeChartModule implements ModuleAssetUrlInterfac
             $this->assetUrl('css/pedigree-chart.css'),
             $this->assetUrl('css/svg.css'),
         ];
-    }
-
-    /**
-     * Returns a list required stylesheets for the SVG export.
-     *
-     * @return array<string>
-     */
-    private function getExportStylesheets(): array
-    {
-        /** @var ModuleThemeInterface $moduleTheme */
-        $moduleTheme   = Registry::container()->get(ModuleThemeInterface::class);
-        $stylesheets   = $moduleTheme->stylesheets();
-        $stylesheets[] = $this->assetUrl('css/svg.css');
-
-        return $stylesheets;
     }
 }
