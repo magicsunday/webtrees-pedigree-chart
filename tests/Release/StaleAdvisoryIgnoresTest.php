@@ -30,10 +30,10 @@ use const JSON_THROW_ON_ERROR;
 use const PHP_BINARY;
 
 /**
- * Tests scripts/check-stale-advisory-ignores.php against the output of a real `composer audit --format=json`.
+ * Tests scripts/check-stale-advisory-ignores.php against an excerpt of a `composer audit --format=json` report.
  *
  * The fixture holds one advisory of each package that the module ignores, in the shape that Composer prints for
- * the advisories that match the installed packages.
+ * the advisories that match the installed packages. The script reads only that part of the report.
  *
  * @author  Rico Sonntag <mail@ricosonntag.de>
  * @license https://opensource.org/licenses/GPL-3.0 GNU General Public License v3.0
@@ -150,6 +150,23 @@ final class StaleAdvisoryIgnoresTest extends TestCase
         self::assertSame(1, $status);
         self::assertStringContainsString('PKSA-stale-0000-0000', $output);
         self::assertStringNotContainsString('PKSA-gcrk-3vtt-1r14', $output);
+    }
+
+    /**
+     * Too few and too many arguments are a usage error with status 2 and a usage line.
+     */
+    #[Test]
+    public function failsWithAUsageLineWhenTheNumberOfArgumentsIsWrong(): void
+    {
+        $composerJson = $this->temporaryFile($this->composerJson());
+        $audit        = $this->fixture('composer-audit-ignored.json');
+
+        foreach ([[], [$composerJson], [$composerJson, $audit, $audit]] as $arguments) {
+            [$status, $output] = $this->executeScript($arguments);
+
+            self::assertSame(2, $status);
+            self::assertStringContainsString('Usage: php check-stale-advisory-ignores.php <composer.json> <audit.json>', $output);
+        }
     }
 
     /**
@@ -316,16 +333,28 @@ final class StaleAdvisoryIgnoresTest extends TestCase
     }
 
     /**
-     * Runs the script and returns its exit status and its combined output.
+     * Runs the script with the two input files and returns its exit status and its combined output.
      *
      * @return array{int, string}
      */
     private function check(string $composerJson, string $audit): array
     {
+        return $this->executeScript([$composerJson, $audit]);
+    }
+
+    /**
+     * Runs the script with exactly the given arguments and returns its exit status and its combined output.
+     *
+     * @param list<string> $arguments
+     *
+     * @return array{int, string}
+     */
+    private function executeScript(array $arguments): array
+    {
         $root = dirname(__DIR__, 2);
 
         return $this->processRunner->execute(
-            [PHP_BINARY, '-d', 'display_errors=stderr', '-d', 'error_reporting=-1', $root . '/scripts/check-stale-advisory-ignores.php', $composerJson, $audit],
+            [PHP_BINARY, '-d', 'display_errors=stderr', '-d', 'error_reporting=-1', $root . '/scripts/check-stale-advisory-ignores.php', ...$arguments],
             $root,
         );
     }
