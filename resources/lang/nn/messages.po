@@ -31,11 +31,11 @@ msgstr "Forkort førenamn først"
 msgid "Abbreviate surnames first"
 msgstr "Forkort etternamn først"
 
-#: src/Facade/DataFacade.php:263
+#: src/Facade/DataFacade.php:258
 msgid "Add a father"
 msgstr ""
 
-#: src/Facade/DataFacade.php:264
+#: src/Facade/DataFacade.php:259
 msgid "Add a mother"
 msgstr ""
 
@@ -47,7 +47,7 @@ msgstr "Automatisk (basert på etternamnstradisjonen til treet)"
 msgid "Behavior"
 msgstr "Åtferd"
 
-#: src/Facade/DataFacade.php:333
+#: src/Facade/DataFacade.php:328
 #, php-format
 msgid "Born: %s"
 msgstr "Fødd: %s"
@@ -98,7 +98,7 @@ msgstr ""
 msgid "Ctrl + scroll"
 msgstr "Ctrl + rull"
 
-#: src/Facade/DataFacade.php:335
+#: src/Facade/DataFacade.php:330
 msgctxt "webtrees-pedigree-chart"
 msgid "Deceased"
 msgstr "Død"
@@ -111,7 +111,7 @@ msgstr ""
 msgid "Details panel"
 msgstr ""
 
-#: src/Facade/DataFacade.php:334
+#: src/Facade/DataFacade.php:329
 #, php-format
 msgid "Died: %s"
 msgstr "Død: %s"

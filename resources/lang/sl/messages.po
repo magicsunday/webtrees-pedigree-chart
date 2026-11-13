@@ -34,11 +34,11 @@ msgstr "Najprej skrajšaj osebna imena"
 msgid "Abbreviate surnames first"
 msgstr "Najprej skrajšaj priimke"
 
-#: src/Facade/DataFacade.php:263
+#: src/Facade/DataFacade.php:258
 msgid "Add a father"
 msgstr ""
 
-#: src/Facade/DataFacade.php:264
+#: src/Facade/DataFacade.php:259
 msgid "Add a mother"
 msgstr ""
 
@@ -50,7 +50,7 @@ msgstr "Samodejno (glede na drevesno tradicijo priimkov)"
 msgid "Behavior"
 msgstr "Vedenje"
 
-#: src/Facade/DataFacade.php:333
+#: src/Facade/DataFacade.php:328
 #, php-format
 msgid "Born: %s"
 msgstr "Rojstvo: %s"
@@ -101,7 +101,7 @@ msgstr ""
 msgid "Ctrl + scroll"
 msgstr "Ctrl + drsenje"
 
-#: src/Facade/DataFacade.php:335
+#: src/Facade/DataFacade.php:330
 msgctxt "webtrees-pedigree-chart"
 msgid "Deceased"
 msgstr "Pokojni/a"
@@ -114,7 +114,7 @@ msgstr ""
 msgid "Details panel"
 msgstr ""
 
-#: src/Facade/DataFacade.php:334
+#: src/Facade/DataFacade.php:329
 #, php-format
 msgid "Died: %s"
 msgstr "Smrt: %s"
