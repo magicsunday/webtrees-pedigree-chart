@@ -56,6 +56,7 @@ use function ksort;
 use function parse_str;
 use function parse_url;
 use function preg_match;
+use function rawurlencode;
 
 use const JSON_THROW_ON_ERROR;
 use const PHP_URL_QUERY;
@@ -243,6 +244,25 @@ final class ModuleRequestTest extends TestCase
 
         self::assertStringContainsString('"xref":"I1"', $body);
         self::assertStringNotContainsString('pedigree-chart-url', $body, 'the partial has no page shell around it');
+    }
+
+    /**
+     * The chart partial names its container with a unique id, loads the script of the module in its
+     * current version and links the stylesheets of the chart.
+     */
+    #[Test]
+    public function theChartPartialCarriesTheContainerIdTheScriptAndTheStylesheets(): void
+    {
+        $response = $this->createModule()->handle($this->chartRequest($this->createIndividual(true), true));
+        $body     = (string) $response->getBody();
+
+        self::assertMatchesRegularExpression('/id="webtrees-pedigree-chart-container-[0-9a-f]{13}"/', $body);
+        self::assertStringContainsString(
+            'asset=' . rawurlencode('js/pedigree-chart-' . Module::CUSTOM_VERSION . '.min.js'),
+            $body
+        );
+        self::assertStringContainsString('asset=' . rawurlencode('css/pedigree-chart.css'), $body);
+        self::assertStringContainsString('asset=' . rawurlencode('css/svg.css'), $body);
     }
 
     /**
