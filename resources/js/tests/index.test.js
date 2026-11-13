@@ -74,7 +74,6 @@ function build(overrides = {}, withPanel = true) {
         paternalColor: "#70a9cf",
         maternalColor: "#d06f94",
         nameAbbreviation: "GIVEN",
-        cssFiles: [],
         data: { parents: [] },
         ...overrides,
     });

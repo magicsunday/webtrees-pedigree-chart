@@ -38,7 +38,6 @@ export class PedigreeChart {
      * @param {string}    options.paternalColor
      * @param {string}    options.maternalColor
      * @param {string}    options.nameAbbreviation
-     * @param {string[]}  options.cssFiles
      * @param {NodeDatum} options.data
      */
     constructor(selector, options) {
@@ -60,8 +59,6 @@ export class PedigreeChart {
             options.rtl,
             options.showDetailPanel,
         );
-
-        this._cssFiles = options.cssFiles;
 
         // Set up chart instance
         this._chart = new Chart(this._parent, this._configuration);
