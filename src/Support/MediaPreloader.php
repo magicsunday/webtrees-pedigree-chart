@@ -107,8 +107,8 @@ final class MediaPreloader
         foreach ($people as $person) {
             preg_match_all('/\n1 OBJE @(' . Gedcom::REGEX_XREF . ')@/', $person->gedcom(), $match);
 
-            // A person without a media object needs no visibility check, which can read the families
-            // of the parents before the preload of the families has loaded them.
+            // A person without a media object needs no visibility check, and that check can read the
+            // families of the parents.
             if ($match[1] === []) {
                 continue;
             }

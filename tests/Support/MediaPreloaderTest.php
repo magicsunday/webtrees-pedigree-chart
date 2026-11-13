@@ -356,7 +356,7 @@ final class MediaPreloaderTest extends TestCase
     /**
      * A person without a date and without a media object has nothing to look up. Whether the viewer may see
      * such a person depends on the families of its parents, so asking before the media objects are looked
-     * for would read those families, ahead of the preload of the families and for nothing.
+     * for would read those families for nothing.
      */
     #[Test]
     public function aPersonWithoutMediaIsNotCheckedForVisibility(): void
@@ -656,8 +656,8 @@ final class MediaPreloaderTest extends TestCase
     }
 
     /**
-     * A media object that several people share is loaded once, also when the people come in different
-     * generations.
+     * A second preload of the same people through one preloader sends no statement, because a media
+     * object that the request has loaded is not loaded again.
      */
     #[Test]
     public function aMediaObjectIsLoadedOnce(): void
