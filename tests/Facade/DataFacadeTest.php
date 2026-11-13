@@ -34,7 +34,6 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
 use MagicSunday\Webtrees\PedigreeChart\Facade\DataFacade;
 use MagicSunday\Webtrees\PedigreeChart\Model\Node;
 use MagicSunday\Webtrees\PedigreeChart\Module;
-use MagicSunday\Webtrees\PedigreeChart\Support\MediaPreloader;
 use MagicSunday\Webtrees\PedigreeChart\Test\Support\ModuleSettingsFixtureTrait;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -63,7 +62,6 @@ use const JSON_THROW_ON_ERROR;
 #[CoversClass(DataFacade::class)]
 #[UsesClass(Configuration::class)]
 #[UsesClass(Module::class)]
-#[UsesClass(MediaPreloader::class)]
 #[UsesClass(Node::class)]
 final class DataFacadeTest extends TestCase
 {
