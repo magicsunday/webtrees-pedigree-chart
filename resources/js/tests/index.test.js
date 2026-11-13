@@ -131,3 +131,36 @@ describe("PedigreeChart detail panel", () => {
         expect(charts[0].clearSelection).toHaveBeenCalledTimes(1);
     });
 });
+
+describe("PedigreeChart page listeners", () => {
+    const descriptor = Object.getOwnPropertyDescriptor(window.screen, "orientation");
+
+    afterEach(() => {
+        Object.defineProperty(window.screen, "orientation", descriptor);
+    });
+
+    test("draws the chart in a browser without screen.orientation", () => {
+        Object.defineProperty(window.screen, "orientation", {
+            value: undefined,
+            configurable: true,
+        });
+
+        build({ showDetailPanel: false });
+
+        // The stand-in chart sets this flag in draw(), so a boolean means the chart was drawn.
+        expect(charts[0].drawnWithPanel).toBe(false);
+    });
+
+    test("listens for orientation changes where screen.orientation exists", () => {
+        const addEventListener = jest.fn();
+
+        Object.defineProperty(window.screen, "orientation", {
+            value: { addEventListener },
+            configurable: true,
+        });
+
+        build({ showDetailPanel: false });
+
+        expect(addEventListener).toHaveBeenCalledWith("change", expect.any(Function));
+    });
+});
