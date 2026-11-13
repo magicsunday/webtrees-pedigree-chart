@@ -257,7 +257,8 @@ final class StaleAdvisoryIgnoresTest extends TestCase
 
     /**
      * A package entry or an advisory entry of the audit report that does not have the expected shape is skipped
-     * without a PHP warning, and the entries of the proper shape still count.
+     * without a PHP warning, and the entries of the proper shape still count. An advisory id that is not a string
+     * never makes an ignore entry look applied, even when the entry spells the same digits.
      */
     #[Test]
     public function skipsAuditEntriesThatLackTheExpectedShape(): void
@@ -278,15 +279,16 @@ final class StaleAdvisoryIgnoresTest extends TestCase
 
         $manifest = $this->temporaryFile(
             json_encode(
-                ['config' => ['policy' => ['advisories' => ['ignore-id' => ['PKSA-gcrk-3vtt-1r14' => 'reason']]]]],
+                ['config' => ['policy' => ['advisories' => ['ignore-id' => ['PKSA-gcrk-3vtt-1r14', '5']]]]],
                 JSON_THROW_ON_ERROR,
             ),
         );
 
         [$status, $output] = $this->check($manifest, $audit);
 
-        self::assertSame(0, $status);
-        self::assertSame('', $output);
+        self::assertSame(1, $status);
+        self::assertStringContainsString('5', $output);
+        self::assertStringNotContainsString('PKSA-gcrk-3vtt-1r14', $output);
     }
 
     /**
