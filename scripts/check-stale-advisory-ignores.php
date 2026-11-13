@@ -87,7 +87,10 @@ function valueAt(array $data, array $keys): ?array
     $current = $data;
 
     foreach ($keys as $key) {
-        if (!isset($current[$key]) || !is_array($current[$key])) {
+        if (
+            !isset($current[$key])
+            || !is_array($current[$key])
+        ) {
             return null;
         }
 
@@ -128,7 +131,10 @@ foreach (valueAt($audit, ['ignored-advisories']) ?? [] as $advisories) {
     }
 
     foreach ($advisories as $advisory) {
-        if (is_array($advisory) && is_string($advisory['advisoryId'] ?? null)) {
+        if (
+            is_array($advisory)
+            && is_string($advisory['advisoryId'] ?? null)
+        ) {
             $appliedIds[] = $advisory['advisoryId'];
         }
     }

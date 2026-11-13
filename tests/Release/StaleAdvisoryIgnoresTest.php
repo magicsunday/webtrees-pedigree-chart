@@ -246,6 +246,7 @@ final class StaleAdvisoryIgnoresTest extends TestCase
                 JSON_THROW_ON_ERROR,
             ),
         );
+
         $audit = $this->temporaryFile(json_encode(['ignored-advisories' => 'text'], JSON_THROW_ON_ERROR));
 
         [$statusManifest] = $this->check($manifest, $this->fixture('composer-audit-ignored.json'));
@@ -356,7 +357,15 @@ final class StaleAdvisoryIgnoresTest extends TestCase
         $root = dirname(__DIR__, 2);
 
         return $this->processRunner->execute(
-            [PHP_BINARY, '-d', 'display_errors=stderr', '-d', 'error_reporting=-1', $root . '/scripts/check-stale-advisory-ignores.php', ...$arguments],
+            [
+                PHP_BINARY,
+                '-d',
+                'display_errors=stderr',
+                '-d',
+                'error_reporting=-1',
+                $root . '/scripts/check-stale-advisory-ignores.php',
+                ...$arguments,
+            ],
             $root,
         );
     }
