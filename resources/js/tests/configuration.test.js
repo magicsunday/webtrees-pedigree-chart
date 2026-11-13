@@ -9,30 +9,57 @@ import Configuration from "resources/js/modules/configuration.js";
 
 const labels = { zoom: "Zoom", move: "Move" };
 
+// The switches of the constructor in the order of its parameters, after the labels and the layout.
+const switches = [
+    "openNewTabOnClick",
+    "showAlternativeName",
+    "showFamilyColors",
+    "rtl",
+    "showDetailPanel",
+];
+
+/**
+ * Builds a configuration in which exactly one switch is on, so that every switch has a pattern of its own.
+ *
+ * @param {string} enabled The switch that is on
+ *
+ * @return {Configuration}
+ */
+function buildWithOnly(enabled) {
+    const on = (name) => name === enabled;
+
+    return new Configuration(
+        labels,
+        "down",
+        on("openNewTabOnClick"),
+        on("showAlternativeName"),
+        on("showFamilyColors"),
+        "#111111",
+        "#222222",
+        "SURNAME",
+        on("rtl"),
+        on("showDetailPanel"),
+    );
+}
+
 describe("Configuration", () => {
-    test("hands every passed option to its getter", () => {
-        const configuration = new Configuration(
-            labels,
-            "down",
-            false,
-            true,
-            true,
-            "#111111",
-            "#222222",
-            "SURNAME",
-            true,
-            true,
-        );
+    test("hands the labels, the layout, the colors and the name abbreviation to their getters", () => {
+        const configuration = buildWithOnly("rtl");
 
         expect(configuration.labels).toBe(labels);
-        expect(configuration.openNewTabOnClick).toBe(false);
-        expect(configuration.showAlternativeName).toBe(true);
-        expect(configuration.showFamilyColors).toBe(true);
+        expect(configuration.treeLayout).toBe("down");
+        expect(configuration.orientation).toBeDefined();
         expect(configuration.paternalColor).toBe("#111111");
         expect(configuration.maternalColor).toBe("#222222");
         expect(configuration.nameAbbreviation).toBe("SURNAME");
-        expect(configuration.rtl).toBe(true);
-        expect(configuration.showDetailPanel).toBe(true);
+    });
+
+    test.each(switches)("hands the switch %s to its own getter and to no other", (enabled) => {
+        const configuration = buildWithOnly(enabled);
+
+        for (const name of switches) {
+            expect(configuration[name]).toBe(name === enabled);
+        }
     });
 
     test("owns no default for an omitted option, PHP is the only source", () => {
