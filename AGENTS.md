@@ -2,7 +2,7 @@
 This repository hosts the webtrees pedigree chart module — an interactive SVG pedigree (rectangular tree) chart of an individual's ancestors using D3.js, installed as a Composer package inside webtrees.
 
 ## Setup/env
-- PHP 8.3+ with extensions dom and json is required; composer installs dependencies into .build/vendor and binaries into .build/bin.
+- PHP 8.3 up to but not including 9 with extensions dom and json is required. The constraint is `>=8.3 <9` and the CI matrix states what is tested. Composer installs dependencies into .build/vendor and binaries into .build/bin.
 - Node.js tooling is used for asset builds (rollup). Install dev dependencies via `npm install` when touching frontend resources.
 - All PHP/Node tooling runs inside the webtrees Docker buildbox — never directly on the NAS or in phpfpm:
   ```
