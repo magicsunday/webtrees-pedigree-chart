@@ -31,11 +31,11 @@ msgstr "Abréger d'abord les prénoms"
 msgid "Abbreviate surnames first"
 msgstr "Abréger d'abord les noms de famille"
 
-#: src/Facade/DataFacade.php:220
+#: src/Facade/DataFacade.php:263
 msgid "Add a father"
 msgstr ""
 
-#: src/Facade/DataFacade.php:221
+#: src/Facade/DataFacade.php:264
 msgid "Add a mother"
 msgstr ""
 
@@ -47,7 +47,7 @@ msgstr "Automatique (selon la tradition des noms de famille de l'arbre)"
 msgid "Behavior"
 msgstr "Comportement"
 
-#: src/Facade/DataFacade.php:290
+#: src/Facade/DataFacade.php:333
 #, php-format
 msgid "Born: %s"
 msgstr "Naissance: %s"
@@ -99,7 +99,7 @@ msgstr ""
 msgid "Ctrl + scroll"
 msgstr "Ctrl + molette"
 
-#: src/Facade/DataFacade.php:292
+#: src/Facade/DataFacade.php:335
 msgctxt "webtrees-pedigree-chart"
 msgid "Deceased"
 msgstr "Décédé"
@@ -112,7 +112,7 @@ msgstr ""
 msgid "Details panel"
 msgstr ""
 
-#: src/Facade/DataFacade.php:291
+#: src/Facade/DataFacade.php:334
 #, php-format
 msgid "Died: %s"
 msgstr "Décès: %s"
