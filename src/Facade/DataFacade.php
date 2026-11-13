@@ -99,8 +99,7 @@ final class DataFacade
     /**
      * Loads the media objects of the people of each generation before the walk
      * reads the highlight image of every person. The generations are found the
-     * way the walk finds them, through the first parent family of each person,
-     * and nothing beyond the last configured generation is read.
+     * way the walk finds them, through the first parent family of each person.
      *
      * @param Individual     $individual     The start person (generation 1)
      * @param MediaPreloader $mediaPreloader The preload of the media objects of this request
@@ -111,10 +110,6 @@ final class DataFacade
 
         for ($generation = 1; $generation <= $this->configuration->getGenerations(); ++$generation) {
             $mediaPreloader->preload($individual->tree(), $people);
-
-            if ($generation === $this->configuration->getGenerations()) {
-                break;
-            }
 
             $parents = [];
 

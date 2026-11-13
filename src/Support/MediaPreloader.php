@@ -219,8 +219,7 @@ final class MediaPreloader
         $accessLevel = Auth::accessLevel($tree);
 
         if (
-            ($accessLevel <= Auth::PRIV_NONE)
-            || in_array($tree->getPreference('HIDE_LIVE_PEOPLE'), ['', '0'], true)
+            in_array($tree->getPreference('HIDE_LIVE_PEOPLE'), ['', '0'], true)
             || Auth::isEditor($tree)
         ) {
             return;
