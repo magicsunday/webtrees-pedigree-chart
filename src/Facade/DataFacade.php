@@ -31,6 +31,7 @@ use MagicSunday\Webtrees\ModuleBase\Support\Locale\IsoCountryMap;
 use MagicSunday\Webtrees\ModuleBase\Support\TextDirection;
 use MagicSunday\Webtrees\PedigreeChart\Configuration;
 use MagicSunday\Webtrees\PedigreeChart\Model\Node;
+use MagicSunday\Webtrees\PedigreeChart\Support\MediaPreloader;
 
 /**
  * Facade class to hide complex logic to generate the structure required to
@@ -90,7 +91,49 @@ final class DataFacade
      */
     public function createTreeStructure(Individual $individual): ?Node
     {
+        $this->preloadMedia($individual, new MediaPreloader());
+
         return $this->buildTreeStructure($individual);
+    }
+
+    /**
+     * Loads the media objects of the people of each generation before the walk
+     * reads the highlight image of every person. The generations are found the
+     * way the walk finds them, through the first parent family of each person,
+     * and nothing beyond the last configured generation is read.
+     *
+     * @param Individual     $individual     The start person (generation 1)
+     * @param MediaPreloader $mediaPreloader The preload of the media objects of this request
+     */
+    private function preloadMedia(Individual $individual, MediaPreloader $mediaPreloader): void
+    {
+        $people = [$individual];
+
+        for ($generation = 1; $generation <= $this->configuration->getGenerations(); ++$generation) {
+            $mediaPreloader->preload($individual->tree(), $people);
+
+            if ($generation === $this->configuration->getGenerations()) {
+                break;
+            }
+
+            $parents = [];
+
+            foreach ($people as $person) {
+                $family = $person->childFamilies()->first();
+
+                if (!$family instanceof Family) {
+                    continue;
+                }
+
+                foreach ([$family->husband(), $family->wife()] as $parent) {
+                    if ($parent instanceof Individual) {
+                        $parents[] = $parent;
+                    }
+                }
+            }
+
+            $people = $parents;
+        }
     }
 
     /**
