@@ -74,8 +74,9 @@ use const JSON_UNESCAPED_UNICODE;
  * result of the lower viewers from passing on an empty chart.
  *
  * A private person stays in the chart as a stub, as it does in the core charts. The stub holds
- * the existence of the person, its xref, its sex and its position in the tree, and nothing else.
- * The name of the stub is the "Private" placeholder, and the dates, image and facts are empty.
+ * the xref, the sex, the generation, the "Private" placeholder as name and the URLs derived from
+ * the xref. Its dates, image and alternative name are empty, and with the detail panel on its
+ * facts are empty slots.
  * A guessed xref of a private person therefore yields the same stub, which is what the chart box
  * of the core charts shows for such a person.
  *
@@ -302,8 +303,9 @@ final class DataFacadePrivacyTest extends TestCase
     }
 
     /**
-     * A chart centred on a guessed private xref shows the stub of the core charts, which is the
-     * existence of the person, its xref, its sex and its position, and nothing more.
+     * A chart centred on a guessed private xref shows the stub of the core charts, which holds
+     * the xref, the sex, the generation and the placeholder name, and no date, image, alternative
+     * name or fact of the person.
      */
     #[Test]
     public function guessedPrivateXrefYieldsTheCoreCompatibleStub(): void
