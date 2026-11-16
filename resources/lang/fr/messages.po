@@ -43,7 +43,7 @@ msgstr ""
 msgid "Automatic (based on tree's surname tradition)"
 msgstr "Automatique (selon la tradition des noms de famille de l'arbre)"
 
-#: resources/views/modules/pedigree-chart/form/behavior.phtml:23
+#: resources/views/modules/pedigree-chart/form/behavior.phtml:24
 msgid "Behavior"
 msgstr "Comportement"
 
@@ -68,11 +68,11 @@ msgstr "Cliquer sur une personne"
 msgid "Click or Enter on a person"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/form/colors.phtml:23
+#: resources/views/modules/pedigree-chart/form/colors.phtml:24
 msgid "Colors"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/form/colors.phtml:34
+#: resources/views/modules/pedigree-chart/form/colors.phtml:35
 msgid ""
 "Colors the person boxes by family branch. Each couple shares the same color, "
 "derived from the chosen base colors."
@@ -80,11 +80,11 @@ msgstr ""
 "Colore les cadres des personnes selon la branche familiale. Chaque couple "
 "partage la même couleur, dérivée des couleurs de base choisies."
 
-#: resources/views/modules/pedigree-chart/config.phtml:26
+#: resources/views/modules/pedigree-chart/config.phtml:27
 msgid "Control panel"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/config.phtml:98
+#: resources/views/modules/pedigree-chart/config.phtml:99
 msgid ""
 "Controls which name part shrinks first when a box is too narrow for the full "
 "name. \"Automatic\" uses the tree's surname tradition (Icelandic abbreviates "
@@ -104,7 +104,7 @@ msgctxt "webtrees-pedigree-chart"
 msgid "Deceased"
 msgstr "Décédé"
 
-#: resources/views/modules/pedigree-chart/form/details.phtml:23
+#: resources/views/modules/pedigree-chart/form/details.phtml:24
 msgid "Details"
 msgstr ""
 
@@ -117,22 +117,22 @@ msgstr ""
 msgid "Died: %s"
 msgstr "Décès: %s"
 
-#: resources/views/modules/pedigree-chart/form/details.phtml:34
+#: resources/views/modules/pedigree-chart/form/details.phtml:35
 msgid ""
 "Displays a person's alternate name, if available. This simultaneously "
 "enlarges the individuals' respective boxes to create the necessary space for "
 "the display."
 msgstr ""
 
-#: resources/views/modules/components/buttonbar/png-export-button.phtml:18
+#: resources/views/modules/components/buttonbar.phtml:30
 msgid "Export as PNG"
 msgstr "Exporter en PNG"
 
-#: resources/views/modules/components/buttonbar/svg-export-button.phtml:18
+#: resources/views/modules/components/buttonbar.phtml:33
 msgid "Export as SVG"
 msgstr "Exporter en SVG"
 
-#: resources/views/modules/pedigree-chart/config.phtml:51
+#: resources/views/modules/pedigree-chart/config.phtml:52
 msgctxt "webtrees-pedigree-chart"
 msgid "General"
 msgstr ""
@@ -145,11 +145,11 @@ msgstr ""
 msgid "Hide more options"
 msgstr "Masquer plus d’options"
 
-#: resources/views/modules/pedigree-chart/config.phtml:65
+#: resources/views/modules/pedigree-chart/config.phtml:66
 msgid "Hide the PNG export button"
 msgstr "Masquer le bouton d’export PNG"
 
-#: resources/views/modules/pedigree-chart/config.phtml:56
+#: resources/views/modules/pedigree-chart/config.phtml:57
 msgid "Hide the SVG export button"
 msgstr "Masquer le bouton d’export SVG"
 
@@ -157,7 +157,7 @@ msgstr "Masquer le bouton d’export SVG"
 msgid "Individual"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/form/details.phtml:46
+#: resources/views/modules/pedigree-chart/form/details.phtml:47
 msgid ""
 "Inserts the GEDCOM NICK value in quotes between the given names and the "
 "surname (e.g. Martin \"Chalky\" White). Mirrors the legacy webtrees behavior "
@@ -168,11 +168,11 @@ msgstr ""
 "de webtrees pour les arbres qui stockent les surnoms dans le champ GEDCOM "
 "NICK séparé."
 
-#: resources/views/modules/pedigree-chart/form/colors.phtml:43
+#: resources/views/modules/pedigree-chart/form/colors.phtml:44
 msgid "Maternal"
 msgstr "Maternelle"
 
-#: resources/views/modules/pedigree-chart/config.phtml:26
+#: resources/views/modules/pedigree-chart/config.phtml:27
 msgid "Modules"
 msgstr ""
 
@@ -188,7 +188,7 @@ msgstr "Déplacer le diagramme"
 msgid "Move the view with two fingers"
 msgstr "Déplacez la vue avec deux doigts"
 
-#: resources/views/modules/pedigree-chart/config.phtml:87
+#: resources/views/modules/pedigree-chart/config.phtml:88
 msgid "Name abbreviation when space is tight"
 msgstr "Abréviation du nom lorsque l'espace est limité"
 
@@ -196,7 +196,7 @@ msgstr "Abréviation du nom lorsque l'espace est limité"
 msgid "No details are available for this person."
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/form/behavior.phtml:28
+#: resources/views/modules/pedigree-chart/form/behavior.phtml:29
 msgid "Open individual in new browser window/tab"
 msgstr "Ouvrir la personne dans une nouvelle fenêtre/onglet du navigateur"
 
@@ -204,7 +204,7 @@ msgstr "Ouvrir la personne dans une nouvelle fenêtre/onglet du navigateur"
 msgid "Open individual page"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/form/behavior.phtml:34
+#: resources/views/modules/pedigree-chart/form/behavior.phtml:35
 msgid ""
 "Open the current individual's detail page in a new browser window/tab when "
 "it's left-clicked, otherwise the current window/tab is used."
@@ -219,7 +219,7 @@ msgctxt "webtrees-pedigree-chart"
 msgid "Orientation"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/form/colors.phtml:39
+#: resources/views/modules/pedigree-chart/form/colors.phtml:40
 msgid "Paternal"
 msgstr "Paternelle"
 
@@ -232,7 +232,7 @@ msgstr ""
 msgid "Pedigree chart of %s"
 msgstr "Arbre généalogique de %s"
 
-#: resources/views/modules/components/buttonbar/center-button.phtml:18
+#: resources/views/modules/components/buttonbar.phtml:25
 msgid "Re center"
 msgstr "Re centrer"
 
@@ -240,7 +240,7 @@ msgstr "Re centrer"
 msgid "Select a person in the chart to see the details here."
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/form/details.phtml:59
+#: resources/views/modules/pedigree-chart/form/details.phtml:60
 msgid ""
 "Selecting a person shows the birth, the death with places and the facts that "
 "the tree names for the chart box (\"Other facts to show in charts\") in a "
@@ -248,12 +248,12 @@ msgid ""
 "of opening the chart for them, and the panel offers both actions."
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/config.phtml:75
+#: resources/views/modules/pedigree-chart/config.phtml:76
 msgid "Show \"add parent\" placeholders for missing ancestors"
 msgstr ""
 "Afficher les emplacements « ajouter un parent » pour les ancêtres manquants"
 
-#: resources/views/modules/pedigree-chart/form/details.phtml:28
+#: resources/views/modules/pedigree-chart/form/details.phtml:29
 msgid "Show alternative name of individual"
 msgstr "Afficher le nom alternatif de la personne"
 
@@ -263,11 +263,11 @@ msgid ""
 "generation"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/form/details.phtml:53
+#: resources/views/modules/pedigree-chart/form/details.phtml:54
 msgid "Show details panel"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/form/colors.phtml:28
+#: resources/views/modules/pedigree-chart/form/colors.phtml:29
 msgid "Show family colors"
 msgstr "Afficher les couleurs familiales"
 
@@ -279,7 +279,7 @@ msgstr "Afficher l’aide"
 msgid "Show more options"
 msgstr "Afficher plus d’options"
 
-#: resources/views/modules/pedigree-chart/form/details.phtml:40
+#: resources/views/modules/pedigree-chart/form/details.phtml:41
 msgid "Show nicknames in display names"
 msgstr "Afficher les surnoms dans les noms affichés"
 
@@ -304,7 +304,7 @@ msgstr ""
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Utilisez Ctrl + molette pour zoomer dans la vue"
 
-#: resources/views/modules/pedigree-chart/config.phtml:81
+#: resources/views/modules/pedigree-chart/config.phtml:82
 msgid ""
 "When enabled, an empty box with a \"+\" icon is rendered in place of each "
 "missing father or mother. Editors can click it to jump straight to the "
@@ -321,7 +321,7 @@ msgstr ""
 msgid "Zoom in/out"
 msgstr "Zoom avant/arrière"
 
-#: resources/views/modules/pedigree-chart/config.phtml:113
+#: resources/views/modules/pedigree-chart/config.phtml:114
 msgid "cancel"
 msgstr ""
 
@@ -344,7 +344,7 @@ msgctxt "webtrees-pedigree-chart"
 msgid "right"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/config.phtml:108
+#: resources/views/modules/pedigree-chart/config.phtml:109
 msgid "save"
 msgstr ""
 

@@ -43,7 +43,7 @@ msgstr ""
 msgid "Automatic (based on tree's surname tradition)"
 msgstr "自動（根據族譜的姓氏傳統）"
 
-#: resources/views/modules/pedigree-chart/form/behavior.phtml:23
+#: resources/views/modules/pedigree-chart/form/behavior.phtml:24
 msgid "Behavior"
 msgstr "行為"
 
@@ -68,22 +68,22 @@ msgstr "點擊某人"
 msgid "Click or Enter on a person"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/form/colors.phtml:23
+#: resources/views/modules/pedigree-chart/form/colors.phtml:24
 msgid "Colors"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/form/colors.phtml:34
+#: resources/views/modules/pedigree-chart/form/colors.phtml:35
 msgid ""
 "Colors the person boxes by family branch. Each couple shares the same color, "
 "derived from the chosen base colors."
 msgstr ""
 "按家族分支為人物方框著色。每對夫妻共享同一種顏色，顏色由所選基礎顏色衍生。"
 
-#: resources/views/modules/pedigree-chart/config.phtml:26
+#: resources/views/modules/pedigree-chart/config.phtml:27
 msgid "Control panel"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/config.phtml:98
+#: resources/views/modules/pedigree-chart/config.phtml:99
 msgid ""
 "Controls which name part shrinks first when a box is too narrow for the full "
 "name. \"Automatic\" uses the tree's surname tradition (Icelandic abbreviates "
@@ -101,7 +101,7 @@ msgctxt "webtrees-pedigree-chart"
 msgid "Deceased"
 msgstr "已故"
 
-#: resources/views/modules/pedigree-chart/form/details.phtml:23
+#: resources/views/modules/pedigree-chart/form/details.phtml:24
 msgid "Details"
 msgstr ""
 
@@ -114,22 +114,22 @@ msgstr ""
 msgid "Died: %s"
 msgstr "逝於: %s"
 
-#: resources/views/modules/pedigree-chart/form/details.phtml:34
+#: resources/views/modules/pedigree-chart/form/details.phtml:35
 msgid ""
 "Displays a person's alternate name, if available. This simultaneously "
 "enlarges the individuals' respective boxes to create the necessary space for "
 "the display."
 msgstr ""
 
-#: resources/views/modules/components/buttonbar/png-export-button.phtml:18
+#: resources/views/modules/components/buttonbar.phtml:30
 msgid "Export as PNG"
 msgstr "導出為圖片"
 
-#: resources/views/modules/components/buttonbar/svg-export-button.phtml:18
+#: resources/views/modules/components/buttonbar.phtml:33
 msgid "Export as SVG"
 msgstr "導出為SVG"
 
-#: resources/views/modules/pedigree-chart/config.phtml:51
+#: resources/views/modules/pedigree-chart/config.phtml:52
 msgctxt "webtrees-pedigree-chart"
 msgid "General"
 msgstr ""
@@ -142,11 +142,11 @@ msgstr ""
 msgid "Hide more options"
 msgstr "隱藏更多選項"
 
-#: resources/views/modules/pedigree-chart/config.phtml:65
+#: resources/views/modules/pedigree-chart/config.phtml:66
 msgid "Hide the PNG export button"
 msgstr "隱藏 PNG 匯出按鈕"
 
-#: resources/views/modules/pedigree-chart/config.phtml:56
+#: resources/views/modules/pedigree-chart/config.phtml:57
 msgid "Hide the SVG export button"
 msgstr "隱藏 SVG 匯出按鈕"
 
@@ -154,7 +154,7 @@ msgstr "隱藏 SVG 匯出按鈕"
 msgid "Individual"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/form/details.phtml:46
+#: resources/views/modules/pedigree-chart/form/details.phtml:47
 msgid ""
 "Inserts the GEDCOM NICK value in quotes between the given names and the "
 "surname (e.g. Martin \"Chalky\" White). Mirrors the legacy webtrees behavior "
@@ -164,11 +164,11 @@ msgstr ""
 "White）。模擬舊版 webtrees 的行為，適用於在獨立的 GEDCOM NICK 欄位中儲存暱稱"
 "的家譜。"
 
-#: resources/views/modules/pedigree-chart/form/colors.phtml:43
+#: resources/views/modules/pedigree-chart/form/colors.phtml:44
 msgid "Maternal"
 msgstr "母系"
 
-#: resources/views/modules/pedigree-chart/config.phtml:26
+#: resources/views/modules/pedigree-chart/config.phtml:27
 msgid "Modules"
 msgstr ""
 
@@ -184,7 +184,7 @@ msgstr "移動圖表"
 msgid "Move the view with two fingers"
 msgstr "用兩根手指拖動視圖"
 
-#: resources/views/modules/pedigree-chart/config.phtml:87
+#: resources/views/modules/pedigree-chart/config.phtml:88
 msgid "Name abbreviation when space is tight"
 msgstr "空間不足時的姓名縮寫方式"
 
@@ -192,7 +192,7 @@ msgstr "空間不足時的姓名縮寫方式"
 msgid "No details are available for this person."
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/form/behavior.phtml:28
+#: resources/views/modules/pedigree-chart/form/behavior.phtml:29
 msgid "Open individual in new browser window/tab"
 msgstr "在新瀏覽器視窗/分頁中開啟個人"
 
@@ -200,7 +200,7 @@ msgstr "在新瀏覽器視窗/分頁中開啟個人"
 msgid "Open individual page"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/form/behavior.phtml:34
+#: resources/views/modules/pedigree-chart/form/behavior.phtml:35
 msgid ""
 "Open the current individual's detail page in a new browser window/tab when "
 "it's left-clicked, otherwise the current window/tab is used."
@@ -215,7 +215,7 @@ msgctxt "webtrees-pedigree-chart"
 msgid "Orientation"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/form/colors.phtml:39
+#: resources/views/modules/pedigree-chart/form/colors.phtml:40
 msgid "Paternal"
 msgstr "父系"
 
@@ -228,7 +228,7 @@ msgstr ""
 msgid "Pedigree chart of %s"
 msgstr "%s的世系圖"
 
-#: resources/views/modules/components/buttonbar/center-button.phtml:18
+#: resources/views/modules/components/buttonbar.phtml:25
 msgid "Re center"
 msgstr "居中"
 
@@ -236,7 +236,7 @@ msgstr "居中"
 msgid "Select a person in the chart to see the details here."
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/form/details.phtml:59
+#: resources/views/modules/pedigree-chart/form/details.phtml:60
 msgid ""
 "Selecting a person shows the birth, the death with places and the facts that "
 "the tree names for the chart box (\"Other facts to show in charts\") in a "
@@ -244,11 +244,11 @@ msgid ""
 "of opening the chart for them, and the panel offers both actions."
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/config.phtml:75
+#: resources/views/modules/pedigree-chart/config.phtml:76
 msgid "Show \"add parent\" placeholders for missing ancestors"
 msgstr "為缺失的祖先顯示「新增父母」佔位符"
 
-#: resources/views/modules/pedigree-chart/form/details.phtml:28
+#: resources/views/modules/pedigree-chart/form/details.phtml:29
 msgid "Show alternative name of individual"
 msgstr "顯示個人的別名"
 
@@ -258,11 +258,11 @@ msgid ""
 "generation"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/form/details.phtml:53
+#: resources/views/modules/pedigree-chart/form/details.phtml:54
 msgid "Show details panel"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/form/colors.phtml:28
+#: resources/views/modules/pedigree-chart/form/colors.phtml:29
 msgid "Show family colors"
 msgstr "顯示家族顏色"
 
@@ -274,7 +274,7 @@ msgstr "顯示說明"
 msgid "Show more options"
 msgstr "顯示更多選項"
 
-#: resources/views/modules/pedigree-chart/form/details.phtml:40
+#: resources/views/modules/pedigree-chart/form/details.phtml:41
 msgid "Show nicknames in display names"
 msgstr "在顯示名中顯示暱稱"
 
@@ -299,7 +299,7 @@ msgstr ""
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "按住Ctrl和鼠標滾輪放大查看"
 
-#: resources/views/modules/pedigree-chart/config.phtml:81
+#: resources/views/modules/pedigree-chart/config.phtml:82
 msgid ""
 "When enabled, an empty box with a \"+\" icon is rendered in place of each "
 "missing father or mother. Editors can click it to jump straight to the "
@@ -314,7 +314,7 @@ msgstr ""
 msgid "Zoom in/out"
 msgstr "放大/縮小"
 
-#: resources/views/modules/pedigree-chart/config.phtml:113
+#: resources/views/modules/pedigree-chart/config.phtml:114
 msgid "cancel"
 msgstr ""
 
@@ -337,7 +337,7 @@ msgctxt "webtrees-pedigree-chart"
 msgid "right"
 msgstr ""
 
-#: resources/views/modules/pedigree-chart/config.phtml:108
+#: resources/views/modules/pedigree-chart/config.phtml:109
 msgid "save"
 msgstr ""
 
