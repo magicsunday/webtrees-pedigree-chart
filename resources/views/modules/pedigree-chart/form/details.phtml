@@ -10,6 +10,7 @@
 declare(strict_types=1);
 
 use Fisharebest\Webtrees\I18N;
+use MagicSunday\Webtrees\ModuleBase\View\SharedViews;
 use MagicSunday\Webtrees\PedigreeChart\Configuration;
 
 /**
@@ -23,7 +24,7 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
         <?php echo I18N::translate('Details'); ?>
     </div>
     <div class="col-sm-9 wt-page-options-value">
-        <?php echo view($moduleName . '::modules/components/checkbox', [
+        <?php echo view(SharedViews::NAMESPACE . '::checkbox', [
             'name'      => 'showAlternativeName',
             'label'     => I18N::translate('Show alternative name of individual'),
             'checked'   => $configuration->getShowAlternativeName(),
@@ -35,7 +36,7 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
         </small>
 
         <div class="mt-3">
-            <?php echo view($moduleName . '::modules/components/checkbox', [
+            <?php echo view(SharedViews::NAMESPACE . '::checkbox', [
                 'name'      => 'showNicknames',
                 'label'     => I18N::translate('Show nicknames in display names'),
                 'checked'   => $configuration->getShowNicknames(),
@@ -48,7 +49,7 @@ use MagicSunday\Webtrees\PedigreeChart\Configuration;
         </div>
 
         <div class="mt-3">
-            <?php echo view($moduleName . '::modules/components/checkbox', [
+            <?php echo view(SharedViews::NAMESPACE . '::checkbox', [
                 'name'      => 'showDetailPanel',
                 'label'     => I18N::translate('Show details panel'),
                 'checked'   => $configuration->getShowDetailPanel(),
