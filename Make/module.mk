@@ -24,4 +24,4 @@ WEBTREES_CONSTRAINT := ~2.2.0
 CHART_LIB_MARKER := webtrees-chart-lib-infra.es.js
 
 # The shared module-base views that the archive bundles, by file name without the extension.
-SHARED_VIEWS := detail-panel help-popover toolbar-style
+SHARED_VIEWS := center-button checkbox detail-panel help-popover png-export-button svg-export-button toolbar-style
