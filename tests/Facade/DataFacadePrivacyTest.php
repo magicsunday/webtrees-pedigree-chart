@@ -36,6 +36,8 @@ use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
+use function array_fill;
+use function count;
 use function file_get_contents;
 use function file_put_contents;
 use function is_dir;
@@ -95,13 +97,13 @@ use const JSON_UNESCAPED_UNICODE;
 final class DataFacadePrivacyTest extends TestCase
 {
     /**
-     * Values that exist only on the confidential deceased people (I3, and I6 who has no dates), the
-     * living grandfather (I4) and the marriage records that list them. Each is shown to the
-     * administrator and must not reach a visitor.
+     * Values that exist only on the confidential deceased people (I3, and I6 who has no dates) and the
+     * marriage records that list them. Each is shown to the administrator, and a member who is no
+     * editor does not see them either.
      *
      * @var list<string>
      */
-    private const array PRIVATE_TOKENS = [
+    private const array CONFIDENTIAL_TOKENS = [
         'Motherly',
         'Confidentialmother',
         'Мать',
@@ -109,19 +111,38 @@ final class DataFacadePrivacyTest extends TestCase
         'Hiddenmotherplace',
         '1877',
         '1951',
+        'Hiddenmarriageplace',
+        '1896',
+        'Deadone',
+        'Hiddendeadnodates',
+        'Deceased',
+    ];
+
+    /**
+     * Values that exist only on the living grandfather (I4) and the marriage record that lists him.
+     * Each is shown to the administrator and a member, and must not reach a visitor.
+     *
+     * @var list<string>
+     */
+    private const array LIVING_TOKENS = [
         'Grandy',
         'Livingfather',
         'Отец',
         'Скрытыйотец',
         'Hiddenlivingplace',
         '1931',
-        'Hiddenmarriageplace',
-        '1896',
         'Hiddenlivingmarriageplace',
         '1953',
-        'Deadone',
-        'Hiddendeadnodates',
-        'Deceased',
+    ];
+
+    /**
+     * Every value that must not reach a visitor.
+     *
+     * @var list<string>
+     */
+    private const array PRIVATE_TOKENS = [
+        ...self::CONFIDENTIAL_TOKENS,
+        ...self::LIVING_TOKENS,
     ];
 
     /**
@@ -293,11 +314,11 @@ final class DataFacadePrivacyTest extends TestCase
             self::assertTrue(PayloadToken::occursIn($payload, $token), 'The member should see ' . $token);
         }
 
-        foreach (['Motherly', 'Confidentialmother', 'Мать', 'Скрытаямать', 'Hiddenmotherplace', '1877', '1951', 'Hiddenmarriageplace', '1896', 'Deadone', 'Hiddendeadnodates', 'Deceased'] as $token) {
+        foreach (self::CONFIDENTIAL_TOKENS as $token) {
             self::assertFalse(PayloadToken::occursIn($payload, $token), 'The member must not see ' . $token);
         }
 
-        foreach (['Grandy', 'Livingfather', 'Отец', 'Скрытыйотец', 'Hiddenlivingplace', '1931', 'Hiddenlivingmarriageplace', '1953'] as $token) {
+        foreach (self::LIVING_TOKENS as $token) {
             self::assertTrue(PayloadToken::occursIn($payload, $token), 'The member should see ' . $token);
         }
     }
@@ -328,7 +349,15 @@ final class DataFacadePrivacyTest extends TestCase
             self::assertSame('', $this->dataField($tree, 'I3', $field), $field . ' of the stub should be empty');
         }
 
-        self::assertStringContainsString('"facts":[null,null]', $stub);
+        $decoded = json_decode($stub, true, 512, JSON_THROW_ON_ERROR);
+        self::assertIsArray($decoded);
+
+        $data = $decoded['data'] ?? null;
+        self::assertIsArray($data);
+
+        $facts = $data['facts'] ?? null;
+        self::assertIsArray($facts);
+        self::assertSame(array_fill(0, count($facts), null), $facts, 'The stub holds no fact in any slot.');
 
         // A confidential person without dates shows no deceased label either.
         self::assertSame('', $this->dataField($tree, 'I6', 'timespan'));
@@ -359,8 +388,16 @@ final class DataFacadePrivacyTest extends TestCase
         // The living person has no thumbnail, and neither has the public person whose media object
         // is shared with a confidential person, while the public person with an own media object
         // keeps its thumbnail.
-        self::assertStringNotContainsString('media-thumbnail', $this->dataField($tree, 'I4', 'thumbnail'), 'The living person has no thumbnail.');
-        self::assertStringNotContainsString('media-thumbnail', $this->dataField($tree, 'I2', 'thumbnail'), 'The shared media object is hidden.');
+        self::assertStringNotContainsString(
+            'media-thumbnail',
+            $this->dataField($tree, 'I4', 'thumbnail'),
+            'The living person has no thumbnail.',
+        );
+        self::assertStringNotContainsString(
+            'media-thumbnail',
+            $this->dataField($tree, 'I2', 'thumbnail'),
+            'The shared media object is hidden.',
+        );
         self::assertStringContainsString('media-thumbnail', $this->dataField($tree, 'I5', 'thumbnail'));
     }
 
@@ -485,7 +522,10 @@ final class DataFacadePrivacyTest extends TestCase
      */
     private function importTree(): Tree
     {
-        $tree = RealTreeFixture::importGedcom((string) file_get_contents(__DIR__ . '/../Support/fixtures/privacy-ancestry.ged'), 'privacy');
+        $tree = RealTreeFixture::importGedcom(
+            (string) file_get_contents(__DIR__ . '/../Support/fixtures/privacy-ancestry.ged'),
+            'privacy',
+        );
 
         $tree->setPreference('HIDE_LIVE_PEOPLE', '1');
         $tree->setPreference('SHOW_LIVING_NAMES', (string) Auth::PRIV_NONE);
