@@ -24,12 +24,12 @@ use Fisharebest\Webtrees\Session;
 use Fisharebest\Webtrees\Site;
 use Fisharebest\Webtrees\Tree;
 use GuzzleHttp\Psr7\ServerRequest;
+use MagicSunday\Webtrees\ModuleBase\Testing\PayloadToken;
 use MagicSunday\Webtrees\ModuleBase\Testing\RealTreeFixture;
 use MagicSunday\Webtrees\PedigreeChart\Configuration;
 use MagicSunday\Webtrees\PedigreeChart\Facade\DataFacade;
 use MagicSunday\Webtrees\PedigreeChart\Model\Node;
 use MagicSunday\Webtrees\PedigreeChart\Module;
-use MagicSunday\Webtrees\PedigreeChart\Test\Support\PayloadToken;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\UsesClass;
@@ -245,7 +245,7 @@ final class DataFacadePrivacyTest extends TestCase
         $payload = $this->payload($tree, 'I1');
 
         foreach ([...self::PRIVATE_TOKENS, ...self::PUBLIC_TOKENS] as $token) {
-            PayloadToken::assertPresent($this, $token, $payload, 'The administrator should see ' . $token);
+            self::assertTrue(PayloadToken::occursIn($payload, $token), 'The administrator should see ' . $token);
         }
     }
 
@@ -266,11 +266,11 @@ final class DataFacadePrivacyTest extends TestCase
         $payload = $this->payload($tree, 'I1');
 
         foreach (self::PUBLIC_TOKENS as $token) {
-            PayloadToken::assertPresent($this, $token, $payload, 'The visitor should see ' . $token);
+            self::assertTrue(PayloadToken::occursIn($payload, $token), 'The visitor should see ' . $token);
         }
 
         foreach (self::PRIVATE_TOKENS as $token) {
-            PayloadToken::assertAbsent($this, $token, $payload, 'The visitor must not see ' . $token);
+            self::assertFalse(PayloadToken::occursIn($payload, $token), 'The visitor must not see ' . $token);
         }
     }
 
@@ -290,15 +290,15 @@ final class DataFacadePrivacyTest extends TestCase
         $payload = $this->payload($tree, 'I1');
 
         foreach (self::PUBLIC_TOKENS as $token) {
-            PayloadToken::assertPresent($this, $token, $payload, 'The member should see ' . $token);
+            self::assertTrue(PayloadToken::occursIn($payload, $token), 'The member should see ' . $token);
         }
 
         foreach (['Motherly', 'Confidentialmother', 'Мать', 'Скрытаямать', 'Hiddenmotherplace', '1877', '1951', 'Hiddenmarriageplace', '1896', 'Deadone', 'Hiddendeadnodates', 'Deceased'] as $token) {
-            PayloadToken::assertAbsent($this, $token, $payload, 'The member must not see ' . $token);
+            self::assertFalse(PayloadToken::occursIn($payload, $token), 'The member must not see ' . $token);
         }
 
         foreach (['Grandy', 'Livingfather', 'Отец', 'Скрытыйотец', 'Hiddenlivingplace', '1931', 'Hiddenlivingmarriageplace', '1953'] as $token) {
-            PayloadToken::assertPresent($this, $token, $payload, 'The member should see ' . $token);
+            self::assertTrue(PayloadToken::occursIn($payload, $token), 'The member should see ' . $token);
         }
     }
 
@@ -334,7 +334,7 @@ final class DataFacadePrivacyTest extends TestCase
         self::assertSame('', $this->dataField($tree, 'I6', 'timespan'));
 
         foreach (self::PRIVATE_TOKENS as $token) {
-            PayloadToken::assertAbsent($this, $token, $stub, 'The stub must not carry ' . $token);
+            self::assertFalse(PayloadToken::occursIn($stub, $token), 'The stub must not carry ' . $token);
         }
     }
 
