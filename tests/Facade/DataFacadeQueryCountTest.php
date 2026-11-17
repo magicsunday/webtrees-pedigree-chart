@@ -150,23 +150,30 @@ final class DataFacadeQueryCountTest extends TestCase
             Auth::logout();
         }
 
-        $tree->setPreference('SHOW_HIGHLIGHT_IMAGES', '');
-        $without = count($this->statements($tree, self::DEPTH, $detailPanel));
+        // The first request of a run sends a few statements that later requests do not, so one request
+        // goes unmeasured to keep the counts comparable.
+        $this->mediaStatements($tree, self::DEPTH, $detailPanel);
 
-        $tree->setPreference('SHOW_HIGHLIGHT_IMAGES', '1');
-        $with = count($this->statements($tree, self::DEPTH, $detailPanel));
+        $extra = $this->mediaStatements($tree, self::DEPTH, $detailPanel);
+        $fewer = $this->mediaStatements($tree, self::DEPTH - 1, $detailPanel);
 
-        // One media statement of every kind for each chunk of a generation: the media objects, their
-        // pending changes, the links and the records that the links point to.
-        $budget = 0;
+        // The administrator looks up the media objects and their pending changes for each chunk of a
+        // generation. A visitor sees no pending changes but pays for the links and the linked records.
+        $statementsPerChunk = $visitor ? 4 : 2;
 
-        for ($generation = 1; $generation <= self::DEPTH; ++$generation) {
-            $budget += 5 * intdiv((2 ** ($generation - 1)) + MediaPreloader::CHUNK_SIZE - 1, MediaPreloader::CHUNK_SIZE);
-        }
+        self::assertSame($statementsPerChunk * $this->chunks(self::DEPTH), $extra['total']);
+        self::assertSame($statementsPerChunk * $this->chunks(self::DEPTH - 1), $fewer['total']);
 
-        self::assertGreaterThan(0, $with - $without, 'The media of the pedigree are looked up.');
-        self::assertLessThanOrEqual($budget, $with - $without);
-        self::assertLessThan(2 ** self::DEPTH, $with - $without);
+        // One more generation adds the statements of its own chunks and nothing else.
+        self::assertSame(
+            $statementsPerChunk * $this->chunksOfGeneration(self::DEPTH),
+            $extra['total'] - $fewer['total'],
+        );
+
+        // The pending changes are looked up for the administrator only.
+        self::assertSame($visitor ? 0 : $this->chunks(self::DEPTH), $extra['changes']);
+        self::assertSame($visitor ? 0 : $this->chunks(self::DEPTH - 1), $fewer['changes']);
+        self::assertLessThan(2 ** self::DEPTH, $extra['total']);
     }
 
     /**
@@ -550,6 +557,66 @@ final class DataFacadeQueryCountTest extends TestCase
         }
 
         return $statements;
+    }
+
+    /**
+     * Returns the statements that the highlight images add to the request of the given depth, which are the
+     * statements beyond the same request with the highlight images switched off, and how many of them
+     * look up pending changes.
+     *
+     * @param Tree $tree        The imported tree
+     * @param int  $generations The number of ancestor generations
+     * @param bool $detailPanel Whether the detail panel is on
+     *
+     * @return array{total: int, changes: int}
+     */
+    private function mediaStatements(Tree $tree, int $generations, bool $detailPanel): array
+    {
+        $tree->setPreference('SHOW_HIGHLIGHT_IMAGES', '');
+        $without = $this->statements($tree, $generations, $detailPanel);
+
+        $tree->setPreference('SHOW_HIGHLIGHT_IMAGES', '1');
+        $with = $this->statements($tree, $generations, $detailPanel);
+
+        return [
+            'total'   => count($with) - count($without),
+            'changes' => $this->changeStatements($with) - $this->changeStatements($without),
+        ];
+    }
+
+    /**
+     * Counts the statements that read the pending changes.
+     *
+     * @param list<array{query: string, bindings: list<string>}> $statements The statements of a request
+     */
+    private function changeStatements(array $statements): int
+    {
+        return count(array_filter(
+            $statements,
+            static fn (array $statement): bool => str_contains($statement['query'], '"wt_change"'),
+        ));
+    }
+
+    /**
+     * Returns the number of chunks that the generations up to the given one are looked up in.
+     */
+    private function chunks(int $generations): int
+    {
+        $chunks = 0;
+
+        for ($generation = 1; $generation <= $generations; ++$generation) {
+            $chunks += $this->chunksOfGeneration($generation);
+        }
+
+        return $chunks;
+    }
+
+    /**
+     * Returns the number of chunks that one generation of the complete pedigree is looked up in.
+     */
+    private function chunksOfGeneration(int $generation): int
+    {
+        return intdiv((1 << ($generation - 1)) + MediaPreloader::CHUNK_SIZE - 1, MediaPreloader::CHUNK_SIZE);
     }
 
     /**

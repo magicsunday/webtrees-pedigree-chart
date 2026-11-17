@@ -254,7 +254,15 @@ final class ModuleRequestTest extends TestCase
         $response = $this->createModule()->handle($this->chartRequest($this->createIndividual(true), true));
         $body     = (string) $response->getBody();
 
-        self::assertMatchesRegularExpression('/id="webtrees-pedigree-chart-container-[0-9a-f]{13}"/', $body);
+        self::assertSame(
+            1,
+            preg_match('/id="(webtrees-pedigree-chart-container-[0-9a-f]{13})"/', $body, $container),
+        );
+        self::assertStringContainsString(
+            '"#' . $container[1] . '"',
+            $body,
+            'The script selects the container by that id.',
+        );
         self::assertStringContainsString(
             'asset=' . rawurlencode('js/pedigree-chart-' . Module::CUSTOM_VERSION . '.min.js'),
             $body
