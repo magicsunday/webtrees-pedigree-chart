@@ -288,7 +288,7 @@ final class StaleAdvisoryIgnoresTest extends TestCase
         [$status, $output] = $this->check($manifest, $audit);
 
         self::assertSame(1, $status);
-        self::assertStringContainsString('5', $output);
+        self::assertStringContainsString("any more:\n  5\nRemove these entries", $output);
         self::assertStringNotContainsString('PKSA-gcrk-3vtt-1r14', $output);
     }
 
