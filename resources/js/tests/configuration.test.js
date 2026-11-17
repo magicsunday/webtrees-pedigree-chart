@@ -9,7 +9,8 @@ import Configuration from "resources/js/modules/configuration.js";
 
 const labels = { zoom: "Zoom", move: "Move" };
 
-// The switches of the constructor in the order of its parameters, after the labels and the layout.
+// The switches of the constructor in the order of its parameters. The colors and the name abbreviation sit
+// between them in the constructor call.
 const switches = [
     "openNewTabOnClick",
     "showAlternativeName",
@@ -65,6 +66,7 @@ describe("Configuration", () => {
     test("owns no default for an omitted option, PHP is the only source", () => {
         const configuration = new Configuration(labels);
 
+        expect(configuration.treeLayout).toBeUndefined();
         expect(configuration.showAlternativeName).toBeUndefined();
         expect(configuration.showFamilyColors).toBeUndefined();
         expect(configuration.openNewTabOnClick).toBeUndefined();
