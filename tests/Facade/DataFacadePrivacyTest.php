@@ -24,6 +24,7 @@ use Fisharebest\Webtrees\Session;
 use Fisharebest\Webtrees\Site;
 use Fisharebest\Webtrees\Tree;
 use GuzzleHttp\Psr7\ServerRequest;
+use MagicSunday\Webtrees\ModuleBase\Testing\MediaDirectory;
 use MagicSunday\Webtrees\ModuleBase\Testing\PayloadToken;
 use MagicSunday\Webtrees\ModuleBase\Testing\RealTreeFixture;
 use MagicSunday\Webtrees\PedigreeChart\Configuration;
@@ -34,21 +35,12 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
 
 use function array_fill;
 use function count;
 use function file_get_contents;
-use function file_put_contents;
-use function is_dir;
-use function is_file;
 use function json_decode;
 use function json_encode;
-use function mkdir;
-use function rmdir;
-use function sys_get_temp_dir;
-use function uniqid;
-use function unlink;
 
 use const JSON_THROW_ON_ERROR;
 use const JSON_UNESCAPED_UNICODE;
@@ -184,10 +176,9 @@ final class DataFacadePrivacyTest extends TestCase
     private Module $module;
 
     /**
-     * The index directory that holds the media files of the fixture, or an empty string while the
-     * test has none.
+     * The media files of the fixture, in an index directory that the tree reads.
      */
-    private string $indexDirectory = '';
+    private MediaDirectory $mediaDirectory;
 
     /**
      * Boots webtrees, builds a fresh schema in memory and logs in an administrator, the way the
@@ -197,26 +188,17 @@ final class DataFacadePrivacyTest extends TestCase
     {
         parent::setUp();
 
+        $this->mediaDirectory = new MediaDirectory();
+
         RealTreeFixture::boot();
 
         // The media files of the fixture have to exist, because the image of a person is only
         // referenced when its file is there.
-        $indexDirectory = sys_get_temp_dir() . '/pedigree-chart-privacy-' . uniqid('', true) . '/';
-
-        if (
-            !mkdir($indexDirectory . 'media', 0o777, true)
-            && !is_dir($indexDirectory . 'media')
-        ) {
-            throw new RuntimeException('The media directory could not be created.');
-        }
-
-        $this->indexDirectory = $indexDirectory;
+        $this->mediaDirectory->create('pedigree-chart-privacy-');
 
         foreach (self::MEDIA_FILES as $file) {
-            file_put_contents($this->indexDirectory . 'media/' . $file, 'image');
+            $this->mediaDirectory->writeFile($file);
         }
-
-        Site::setPreference('INDEX_DIRECTORY', $this->indexDirectory);
 
         DB::table('module')->insert(['module_name' => 'webtrees-pedigree-chart']);
 
@@ -235,20 +217,7 @@ final class DataFacadePrivacyTest extends TestCase
         Site::$preferences = [];
         Registry::cache(new CacheFactory());
 
-        foreach (self::MEDIA_FILES as $file) {
-            if (is_file($this->indexDirectory . 'media/' . $file)) {
-                unlink($this->indexDirectory . 'media/' . $file);
-            }
-        }
-
-        if (is_dir($this->indexDirectory . 'media')) {
-            rmdir($this->indexDirectory . 'media');
-        }
-
-        if (is_dir($this->indexDirectory)) {
-            rmdir($this->indexDirectory);
-        }
-
+        $this->mediaDirectory->remove();
         RealTreeFixture::restoreMinimalDatabase();
 
         parent::tearDown();
@@ -522,17 +491,16 @@ final class DataFacadePrivacyTest extends TestCase
      */
     private function importTree(): Tree
     {
-        $tree = RealTreeFixture::importGedcom(
+        return RealTreeFixture::importGedcom(
             (string) file_get_contents(__DIR__ . '/../Support/fixtures/privacy-ancestry.ged'),
             'privacy',
+            [
+                'HIDE_LIVE_PEOPLE'           => '1',
+                'SHOW_LIVING_NAMES'          => (string) Auth::PRIV_NONE,
+                'SHOW_DEAD_PEOPLE'           => (string) Auth::PRIV_PRIVATE,
+                'SHOW_HIGHLIGHT_IMAGES'      => '1',
+                'SHOW_PRIVATE_RELATIONSHIPS' => '1',
+            ],
         );
-
-        $tree->setPreference('HIDE_LIVE_PEOPLE', '1');
-        $tree->setPreference('SHOW_LIVING_NAMES', (string) Auth::PRIV_NONE);
-        $tree->setPreference('SHOW_DEAD_PEOPLE', (string) Auth::PRIV_PRIVATE);
-        $tree->setPreference('SHOW_HIGHLIGHT_IMAGES', '1');
-        $tree->setPreference('SHOW_PRIVATE_RELATIONSHIPS', '1');
-
-        return $tree;
     }
 }
