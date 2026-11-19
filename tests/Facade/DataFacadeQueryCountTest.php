@@ -24,7 +24,9 @@ use Fisharebest\Webtrees\Tree;
 use GuzzleHttp\Psr7\ServerRequest;
 use MagicSunday\Webtrees\ModuleBase\Processor\ImageProcessor;
 use MagicSunday\Webtrees\ModuleBase\Support\MediaPreloader;
+use MagicSunday\Webtrees\ModuleBase\Testing\MediaDirectory;
 use MagicSunday\Webtrees\ModuleBase\Testing\RealTreeFixture;
+use MagicSunday\Webtrees\ModuleBase\Testing\StatementLog;
 use MagicSunday\Webtrees\PedigreeChart\Configuration;
 use MagicSunday\Webtrees\PedigreeChart\Facade\DataFacade;
 use MagicSunday\Webtrees\PedigreeChart\Model\Node;
@@ -37,21 +39,12 @@ use PHPUnit\Framework\TestCase;
 
 use function array_filter;
 use function count;
-use function file_put_contents;
-use function glob;
 use function implode;
 use function intdiv;
-use function is_dir;
-use function is_scalar;
 use function json_decode;
 use function json_encode;
 use function max;
-use function mkdir;
-use function rmdir;
 use function str_contains;
-use function sys_get_temp_dir;
-use function uniqid;
-use function unlink;
 
 use const JSON_THROW_ON_ERROR;
 
@@ -93,10 +86,9 @@ final class DataFacadeQueryCountTest extends TestCase
     private Module $module;
 
     /**
-     * The index directory that holds the media files of the pedigree, or an empty string while
-     * the test has none.
+     * The media files of the pedigree, in an index directory that the tree reads.
      */
-    private string $indexDirectory = '';
+    private MediaDirectory $mediaDirectory;
 
     /**
      * Boots webtrees on a real schema and registers the module of the chart with its route.
@@ -104,6 +96,8 @@ final class DataFacadeQueryCountTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->mediaDirectory = new MediaDirectory();
 
         RealTreeFixture::boot();
 
@@ -124,7 +118,7 @@ final class DataFacadeQueryCountTest extends TestCase
         Site::$preferences = [];
         Registry::cache(new CacheFactory());
 
-        $this->removeMediaFiles();
+        $this->mediaDirectory->remove();
         RealTreeFixture::restoreMinimalDatabase();
 
         parent::tearDown();
@@ -249,10 +243,14 @@ final class DataFacadeQueryCountTest extends TestCase
 
         $lines[] = '0 TRLR';
 
-        $tree = RealTreeFixture::importGedcom(implode("\n", $lines), 'gap');
-
-        $tree->setPreference('SHOW_HIGHLIGHT_IMAGES', '1');
-        $tree->setPreference('HIDE_LIVE_PEOPLE', '0');
+        $tree = RealTreeFixture::importGedcom(
+            implode("\n", $lines),
+            'gap',
+            [
+                'SHOW_HIGHLIGHT_IMAGES' => '1',
+                'HIDE_LIVE_PEOPLE'      => '0',
+            ],
+        );
 
         $statements = $this->statements($tree, 3);
 
@@ -306,10 +304,11 @@ final class DataFacadeQueryCountTest extends TestCase
                 '0 TRLR',
             ]),
             'beyond',
+            [
+                'SHOW_HIGHLIGHT_IMAGES' => '1',
+                'HIDE_LIVE_PEOPLE'      => '0',
+            ],
         );
-
-        $tree->setPreference('SHOW_HIGHLIGHT_IMAGES', '1');
-        $tree->setPreference('HIDE_LIVE_PEOPLE', '0');
 
         $bindings = [];
 
@@ -447,14 +446,16 @@ final class DataFacadeQueryCountTest extends TestCase
 
         $lines[] = '0 TRLR';
 
-        $tree = RealTreeFixture::importGedcom(implode("\n", $lines), 'pedigree');
-
-        $tree->setPreference('HIDE_LIVE_PEOPLE', '1');
-        $tree->setPreference('SHOW_LIVING_NAMES', (string) Auth::PRIV_PRIVATE);
-        $tree->setPreference('SHOW_DEAD_PEOPLE', (string) Auth::PRIV_PRIVATE);
-        $tree->setPreference('SHOW_HIGHLIGHT_IMAGES', '1');
-
-        return $tree;
+        return RealTreeFixture::importGedcom(
+            implode("\n", $lines),
+            'pedigree',
+            [
+                'HIDE_LIVE_PEOPLE'      => '1',
+                'SHOW_LIVING_NAMES'     => (string) Auth::PRIV_PRIVATE,
+                'SHOW_DEAD_PEOPLE'      => (string) Auth::PRIV_PRIVATE,
+                'SHOW_HIGHLIGHT_IMAGES' => '1',
+            ],
+        );
     }
 
     /**
@@ -485,38 +486,11 @@ final class DataFacadeQueryCountTest extends TestCase
      */
     private function createMediaFiles(int $people): void
     {
-        $this->indexDirectory = sys_get_temp_dir() . '/pedigree-chart-pedigree-' . uniqid('', true) . '/';
-
-        if (!mkdir($this->indexDirectory . 'media', 0o777, true) && !is_dir($this->indexDirectory . 'media')) {
-            self::fail('The media directory could not be created.');
-        }
+        $this->mediaDirectory->create('pedigree-chart-pedigree-');
 
         for ($person = 1; $person <= $people; $person += 2) {
-            file_put_contents($this->indexDirectory . 'media/person' . $person . '.jpg', 'image');
+            $this->mediaDirectory->writeFile('person' . $person . '.jpg');
         }
-
-        Site::setPreference('INDEX_DIRECTORY', $this->indexDirectory);
-    }
-
-    /**
-     * Removes the media files and the directories of the test.
-     */
-    private function removeMediaFiles(): void
-    {
-        if ($this->indexDirectory === '') {
-            return;
-        }
-
-        $files = glob($this->indexDirectory . 'media/*');
-
-        foreach (($files === false) ? [] : $files as $file) {
-            unlink($file);
-        }
-
-        rmdir($this->indexDirectory . 'media');
-        rmdir($this->indexDirectory);
-
-        $this->indexDirectory = '';
     }
 
     /**
@@ -532,31 +506,9 @@ final class DataFacadeQueryCountTest extends TestCase
     {
         Registry::cache(new CacheFactory());
 
-        $connection = DB::connection();
-        $connection->enableQueryLog();
-        $connection->flushQueryLog();
-
-        $this->nodeTree($tree, $generations, $detailPanel);
-
-        $log = $connection->getQueryLog();
-        $connection->disableQueryLog();
-
-        $statements = [];
-
-        foreach ($log as $entry) {
-            $bindings = [];
-
-            foreach ($entry['bindings'] as $binding) {
-                $bindings[] = is_scalar($binding) ? (string) $binding : '';
-            }
-
-            $statements[] = [
-                'query'    => $entry['query'],
-                'bindings' => $bindings,
-            ];
-        }
-
-        return $statements;
+        return StatementLog::capture(function () use ($tree, $generations, $detailPanel): void {
+            $this->nodeTree($tree, $generations, $detailPanel);
+        });
     }
 
     /**
