@@ -27,6 +27,5 @@
 /resources/js/modules/ export-ignore
 /resources/js/tests/   export-ignore
 /rollup.config.js      export-ignore
-/scripts/              export-ignore
 /tests/                export-ignore
 /tsconfig.json          export-ignore
