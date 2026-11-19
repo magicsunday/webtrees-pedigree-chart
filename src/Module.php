@@ -55,8 +55,14 @@ final class Module extends PedigreeChartModule implements ModuleAssetUrlInterfac
 
     private const string GITHUB_REPO = 'magicsunday/webtrees-pedigree-chart';
 
+    /**
+     * The name of the module author.
+     */
     public const string CUSTOM_AUTHOR = 'Rico Sonntag';
 
+    /**
+     * The version of the module. It names the bundle file of the chart script.
+     */
     public const string CUSTOM_VERSION = '2.9.1-dev';
 
     /**
