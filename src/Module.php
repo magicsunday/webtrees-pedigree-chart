@@ -63,7 +63,7 @@ final class Module extends PedigreeChartModule implements ModuleAssetUrlInterfac
     /**
      * The version of the module. It names the bundle file of the chart script.
      */
-    public const string CUSTOM_VERSION = '2.9.1-dev';
+    public const string CUSTOM_VERSION = '2.9.1';
 
     /**
      * Webtrees renders this URL as the "For more information, see …" link
