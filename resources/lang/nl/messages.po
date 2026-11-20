@@ -5,7 +5,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/magicsunday/webtrees-pedigree-chart/"
 "issues\n"
 "POT-Creation-Date: 1970-01-01 00:00+0000\n"
-"PO-Revision-Date: 2026-10-29 06:22+0100\n"
+"PO-Revision-Date: 2026-11-20 07:48+0100\n"
 "Last-Translator: TheDutchJewel <thedutchjewel@gmail.com>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: src\n"
 "X-Poedit-SearchPath-1: resources/views\n"
 
-#: src/Module.php:138
+#: src/Module.php:132
 msgid "A pedigree chart of an individual’s ancestors."
 msgstr "Een kwartierstaat van de voorouders van een persoon."
 
@@ -66,7 +66,7 @@ msgstr "Klik op een persoon"
 
 #: resources/views/modules/components/buttonbar/help-button.phtml:22
 msgid "Click or Enter on a person"
-msgstr ""
+msgstr "Klik of druk op Enter op een persoon"
 
 #: resources/views/modules/pedigree-chart/form/colors.phtml:24
 msgid "Colors"
@@ -109,7 +109,7 @@ msgstr ""
 
 #: resources/views/modules/components/buttonbar/help-button.phtml:23
 msgid "Details panel"
-msgstr ""
+msgstr "Detailspaneel"
 
 #: src/Facade/DataFacade.php:329
 #, php-format
@@ -180,13 +180,13 @@ msgstr ""
 
 #: resources/views/modules/components/buttonbar/help-button.phtml:21
 msgid "Move between the persons"
-msgstr ""
+msgstr "Tussen de personen wisselen"
 
 #: resources/views/modules/components/buttonbar/help-button.phtml:25
 msgid "Move the chart"
 msgstr "Diagram verplaatsen"
 
-#: src/Module.php:243
+#: src/Module.php:237
 msgid "Move the view with two fingers"
 msgstr "Verplaats de weergave met twee vingers"
 
@@ -217,7 +217,7 @@ msgstr ""
 
 #: resources/views/modules/components/buttonbar/help-button.phtml:23
 msgid "Open the individual page or center the chart on the person"
-msgstr ""
+msgstr "Open de persoonspagina of centreer het diagram op de persoon"
 
 #: resources/views/modules/pedigree-chart/form/orientation.phtml:23
 msgctxt "webtrees-pedigree-chart"
@@ -228,7 +228,7 @@ msgstr ""
 msgid "Paternal"
 msgstr "Vaderlijk"
 
-#: src/Module.php:127 src/Module/ChartTrait.php:63
+#: src/Module.php:121 src/Module/ChartTrait.php:63
 msgid "Pedigree chart"
 msgstr ""
 
@@ -271,6 +271,8 @@ msgid ""
 "Show chart for that person, or open the page of a person of the first "
 "generation"
 msgstr ""
+"Toon diagram voor die persoon of open de pagina van een persoon uit de "
+"eerste generatie"
 
 #: resources/views/modules/pedigree-chart/form/details.phtml:54
 msgid "Show details panel"
@@ -294,7 +296,7 @@ msgstr "Toon bijnamen in weergavenamen"
 
 #: resources/views/modules/components/buttonbar/help-button.phtml:22
 msgid "Show the details of the person in the panel"
-msgstr ""
+msgstr "Toon de details van de persoon in het paneel"
 
 #: resources/views/modules/components/buttonbar/fullscreen-button.phtml:18
 msgid "Switch between full screen mode and normal view"
@@ -302,14 +304,14 @@ msgstr "Schakelen tussen volledig scherm en normale weergave"
 
 #: resources/views/modules/components/buttonbar/help-button.phtml:21
 msgid "Tab key"
-msgstr ""
+msgstr "Tab-toets"
 
 #: src/Module/ConfigTrait.php:117
 #, php-format
 msgid "The preferences for the module “%s” have been updated."
 msgstr ""
 
-#: src/Module.php:242
+#: src/Module.php:236
 msgid "Use Ctrl + scroll to zoom in the view"
 msgstr "Gebruik Ctrl + scroll om in te zoomen op de weergave"
 
