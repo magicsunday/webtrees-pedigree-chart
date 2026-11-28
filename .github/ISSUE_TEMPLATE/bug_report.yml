@@ -119,7 +119,7 @@ body:
         attributes:
             label: Other custom modules
             description: |
-                List all other custom modules that are active, including themes. Modules can affect each other. Each magicsunday chart also ships its own copy of `webtrees-module-base`, so name their versions too.
+                List all other custom modules that are active, including themes. Modules can affect each other. The release ZIP of each magicsunday chart bundles its own copy of `webtrees-module-base`, so name their versions too.
             placeholder: |
                 - Module name and version
         validations:
