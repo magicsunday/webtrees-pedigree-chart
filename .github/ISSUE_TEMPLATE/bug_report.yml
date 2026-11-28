@@ -172,7 +172,6 @@ body:
         id: php-version
         attributes:
             label: PHP version
-            placeholder: "8.3"
         validations:
             required: false
 
@@ -197,7 +196,6 @@ body:
             label: Database version
             description: |
                 Server version string — e.g. the output of `SELECT VERSION();` or what your hoster shows in its control panel.
-            placeholder: "MariaDB 10.11.6 / MySQL 8.0.36 / SQLite 3.45"
         validations:
             required: false
 
